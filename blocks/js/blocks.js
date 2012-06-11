@@ -60,6 +60,7 @@ EightShapes.Blocks = {
     projects : true,
     // Does a prototype Blocks homepage exist, and if so, default to it?
     homepage : false,
+		homelinks : "notes",
 		startpage : "page",
     // Default sizing for Grid items
     aspectratio : 1.25,
@@ -279,7 +280,11 @@ EightShapes.Blocks = {
 		})
     // Grid/Thumbnail/List View: Click Page Title > Go To Page Notes
     $(document).on('click','#esb > section.pages > article > header > h2', function() {
-      $.bbq.pushState({view:"page", id:$(this).closest('article').attr('data-id')});
+			if(($.bbq.getState( "view" ) === "home") && (EightShapes.Blocks.display.homelinks === "fullscreen")) {
+      	$.bbq.pushState({view:"fullscreen", id:$(this).closest('article').attr('data-id')});
+			} else {
+      	$.bbq.pushState({view:"page", id:$(this).closest('article').attr('data-id')});
+			}
     });
     // Notes View: Component List Hovers
     $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li',function() {
@@ -1274,6 +1279,9 @@ EightShapes.Blocks = {
 
     if($(XMLconfig).find('display > property[name="componentcontainer"]')) {
       EightShapes.Blocks.display.componentcontainer = $(XMLconfig).find('display > property[name="componentcontainer"]').attr('value');
+    }
+    if($(XMLconfig).find('display > property[name="homelinks"]')) {
+      EightShapes.Blocks.display.homelinks = $(XMLconfig).find('display > property[name="homelinks"]').attr('value');
     }
     if(($(XMLconfig).find('display > property[name="markers"]').attr('value') === "true") || ($(XMLconfig).find('display > property[name="markers"]').attr('value') === "on")) {
 			EightShapes.Blocks.display.markers = "on";
