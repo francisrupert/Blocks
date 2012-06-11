@@ -339,6 +339,7 @@ EightShapes.Blocks = {
       $.ajax( {
 	      type: 'GET',
 	      url: EightShapes.Blocks.sourceURL(component.source)+id+".html",
+        cache: false,
 	      dataType: 'html',
 	      success: function(results) {
 	        results = "<div>" + results + "</div>";
@@ -383,6 +384,7 @@ EightShapes.Blocks = {
             css_request = $.ajax({
               type: 'HEAD',
               url: css_resource_uri,
+              cache: false,
               success: function() {
                 // Note: Content-Length isn't present when Blocks is loaded via file://
                 // and responseText isn't present when Blocks is loaded via http://.
@@ -434,6 +436,7 @@ EightShapes.Blocks = {
       $.ajax({
 				type: 'GET',
 				url: page.pagefilename+".html", 
+        cache: false,
 				dataType: 'html',
 				success: function(results) {
 	        results = "<div>" + results + "</div>";
@@ -936,6 +939,7 @@ EightShapes.Blocks = {
     $.ajax({
       type: 'GET',
       url: EightShapes.Blocks.sourceURL(component.source) + "js/" + component.id + ".js",
+      cache: false,
       dataType: 'script',
 			complete: function(data) {
         EightShapes.Blocks.addComponent(component.locationsToAddIt);
