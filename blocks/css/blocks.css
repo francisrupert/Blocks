@@ -76,13 +76,17 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb > header {
 	display: block;
 	background-color: #222;
-	min-height: 50px;
+	height: 50px;
 	padding: 0px;
 	border-top: 5px solid #eb6621;
 	top: 0;
 	width: 100%;
 	margin: 0;
 	z-index: 999;
+}
+#esb.esb-home > header {
+	min-height: 50px;
+	height: auto;
 }
 #esb > header > h1 {
 	font: normal 17px 'Museo Slab', Arial;
@@ -189,7 +193,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb.esb-home > header > nav.primary {
     position: absolute;
     right: 0px;
-    bottom: -75px;
+    bottom: -95px;
 }
 #esb.esb-home > header > nav.primary > ul > li {
     width: 170px;
@@ -206,7 +210,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb.esb-home > section.components {
 	background-color: rgba(0, 0, 0, 0.1);
 	left: 50%;
-	margin-top: 75px;
+	margin-top: 95px;
 	padding: 10px;
 	position: relative;
 	width: 181px;
