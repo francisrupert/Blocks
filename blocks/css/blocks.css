@@ -1323,6 +1323,9 @@ html #esb.fullscreen > section > menu:hover {
 	transform: scale(0.75);
 	transform-origin: right top;
 }
+#esb > section.components > article > header > button {
+	display: none;
+}
 #esb > section.notes      > article > header > menu {
 	color: white;
 	float: right;

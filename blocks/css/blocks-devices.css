@@ -42,9 +42,6 @@
 ------------------------------------------------------------ */
 
 /* Default (includes Portrait) */ 
-#esb.fullscreen.ipad > section.pages > article {
-	outline: 3px solid #444;
-}
 #esb.ipad > section.pages > article > section.viewport {
 	height: 1024px;
 	width: 768px;
@@ -159,9 +156,6 @@ margin-top: 0;
 ------------------------------------------------------------ */
 
 /* Default (includes Portrait) */ 
-#esb.fullscreen.iphone > section.pages > article {
-	outline: 3px solid #444;
-}
 #esb.iphone > section.pages > article > section.viewport {
 	height: 480px;
 	width: 320px;
