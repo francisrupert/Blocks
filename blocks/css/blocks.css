@@ -404,6 +404,10 @@ html #esb.fullscreen > section > menu:hover {
 	position: relative;
 	top: 1px;
 }
+#esb > section.components > menu > div.deviceorientation,
+#esb > section.components > menu > div.deviceprofiles {
+	display: none;
+}
 #esb > section > menu > div.dropdown > button.selectionCurrent {
 	background: none repeat scroll 0 0 #444;
 	font: normal normal 15px 'News Gothic MT',Arial;
