@@ -131,6 +131,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	list-style: none;
 	padding-top: 0px;
 	white-space: nowrap;
+	margin-bottom: 0;
 }
 #esb > header > nav.primary > ul > li {
 	display: inline-block;
@@ -193,7 +194,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb.esb-home > header > nav.primary {
     position: absolute;
     right: 0px;
-    bottom: -95px;
+    bottom: -75px;
 }
 #esb.esb-home > header > nav.primary > ul > li {
     width: 170px;
@@ -210,7 +211,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 #esb.esb-home > section.components {
 	background-color: rgba(0, 0, 0, 0.1);
 	left: 50%;
-	margin-top: 95px;
+	margin-top: 75px;
 	padding: 10px;
 	position: relative;
 	width: 181px;
@@ -443,6 +444,11 @@ html #esb.fullscreen > section > menu:hover {
 	list-style: none;
 	text-align: left;
 }
+#esb.fullscreen > section > menu.bottomleft > div.dropdown > ul,
+#esb.fullscreen > section > menu.bottomright > div.dropdown > ul {
+	bottom: 15px;
+	top: auto;
+}
 #esb > section > menu > div.dropdown > ul > li {
 	border: 0;
 	padding: 8px 20px;
@@ -453,6 +459,7 @@ html #esb.fullscreen > section > menu:hover {
 	border-bottom: solid 1px #222;
 	font: normal normal 15px 'News Gothic MT',Arial;
 	white-space: nowrap;
+	margin-bottom: 0;
 }
 #esb > section > menu > div.dropdown > ul > li:hover {
 	background-color: #888;
