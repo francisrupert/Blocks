@@ -1240,6 +1240,7 @@ html #esb.fullscreen > section > menu:hover {
 	margin-bottom: 20px;
 	overflow: hidden;
 	width: 250px;
+	vertical-align: top;
 }
 #esb > section.components.grid > article > section.variation {
     display: none;
