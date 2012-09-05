@@ -57,6 +57,9 @@ EightShapes.Blocks = {
     ids : "off",
     // (pending idea) Does a related library exist? (and thus, expand Blocks views for accessing library assets)
     library : false,
+		// Display component and variation ids when they exist?
+		componentids: "off",
+		// (what does "projects" below actually do?)
     projects : true,
     // Does a prototype Blocks homepage exist, and if so, default to it?
     homepage : false,
@@ -362,6 +365,7 @@ EightShapes.Blocks = {
 	          $(component.html).children('section[data-variation]').each( function(index,element) {
 	            var variationid = $(this).attr('data-variation');
 	            var variationtitle = $(this).attr('title');
+
 							EightShapes.Blocks.c[id].variations[variationid] = new EightShapes.Blocks.ComponentVariation(variationid);
 							EightShapes.Blocks.c[id].variations[variationid].id = variationid;
 							EightShapes.Blocks.c[id].variations[variationid].title = variationtitle;
@@ -369,8 +373,9 @@ EightShapes.Blocks = {
 							EightShapes.Blocks.c[id].variations[variationid].classes = $(this).attr('class');
 							EightShapes.Blocks.c[id].variations[variationid].container = $(this).attr('data-container');
 	            $('#esb > section.components > article[data-id="' + id + '"]')
-	              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id,variationid) + '" data-id="' + variationid + '" ><header><h3>' + variationtitle + '</h3></header>' + 
-	                 '<section class="viewport ' + component.classes + '">' + $(this).html() + '</section></section>')
+
+	              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id,variationid) + '" data-id="' + variationid + '" ><header><h3>' + EightShapes.Blocks.displayTitle(variationid,variationtitle) + '</h3></header>' + 
+	                 '<section class="viewport ' + component.classes + ' ' + EightShapes.Blocks.c[id].variations[variationid].classes + '">' + $(this).html() + '</section></section>')
 	              .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');
 	          })
 	        }
@@ -703,7 +708,7 @@ EightShapes.Blocks = {
       }
 
       // Article Header 
-      var articleHeader = '<header><button class="esb remove"></button><h2 class="' + EightShapes.Blocks.c[id].doneness + '">' + EightShapes.Blocks.c[id].title + '</h2><span class="description">' + EightShapes.Blocks.c[id].description + '</span></header>';
+      var articleHeader = '<header><button class="esb remove"></button><h2 class="' + EightShapes.Blocks.c[id].doneness + '">' + EightShapes.Blocks.displayTitle(id,EightShapes.Blocks.c[id].title) + '</h2><span class="description">' + EightShapes.Blocks.c[id].description + '</span></header>';
 
       // Article Notes Default
       var articleNotes = '<h3 class="collapsible">Variations</h3><ul class="variationlist itemstack"></ul>';      
@@ -1287,6 +1292,9 @@ EightShapes.Blocks = {
     if($(XMLconfig).find('display > property[name="homelinks"]')) {
       EightShapes.Blocks.display.homelinks = $(XMLconfig).find('display > property[name="homelinks"]').attr('value');
     }
+    if($(XMLconfig).find('display > property[name="componentids"]').attr('value') === "on") {
+			EightShapes.Blocks.display.componentids = "on";
+    }
     if(($(XMLconfig).find('display > property[name="markers"]').attr('value') === "true") || ($(XMLconfig).find('display > property[name="markers"]').attr('value') === "on")) {
 			EightShapes.Blocks.display.markers = "on";
 		} else {
@@ -1376,6 +1384,22 @@ EightShapes.Blocks = {
     }
     
   },
+	displayTitle : function(id,title) {
+		var displaytitle = "";
+		if (EightShapes.Blocks.display.componentids === "on") {
+			displaytitle = "<i>" + id + "</i> ";
+			if (title) {
+				displaytitle += title;
+			} 
+		} else {
+			if (title) {
+				displaytitle = title;
+			} else {
+				displaytitle = "Untitled";
+			}
+		}
+		return displaytitle;
+	},
   sourceURL : function(type) {
     switch(type) {
     case "library":
