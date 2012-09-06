@@ -59,6 +59,8 @@ EightShapes.Blocks = {
     library : false,
 		// Display component and variation ids when they exist?
 		componentids: "off",
+		// Extension used for the component file names
+		componentextension: "html",
 		// (what does "projects" below actually do?)
     projects : true,
     // Does a prototype Blocks homepage exist, and if so, default to it?
@@ -341,7 +343,7 @@ EightShapes.Blocks = {
 
       $.ajax( {
 	      type: 'GET',
-	      url: EightShapes.Blocks.sourceURL(component.source)+id+".html",
+	      url: EightShapes.Blocks.sourceURL(component.source)+id+"."+EightShapes.Blocks.display.componentextension,
         cache: false,
 	      dataType: 'html',
 	      success: function(results) {
@@ -1302,6 +1304,9 @@ EightShapes.Blocks = {
     }
     if($(XMLconfig).find('display > property[name="homelinks"]')) {
       EightShapes.Blocks.display.homelinks = $(XMLconfig).find('display > property[name="homelinks"]').attr('value');
+    }
+    if($(XMLconfig).find('display > property[name="componentextension"]').attr('value')) {
+      EightShapes.Blocks.display.componentextension = $(XMLconfig).find('display > property[name="componentextension"]').attr('value');
     }
     if($(XMLconfig).find('display > property[name="componentids"]').attr('value') === "on") {
 			EightShapes.Blocks.display.componentids = "on";
