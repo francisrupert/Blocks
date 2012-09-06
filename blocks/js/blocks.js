@@ -849,7 +849,11 @@ EightShapes.Blocks = {
         componentname = "[Untitled]",
         variationHTML = null,
         variationTitle = "Default";
-      
+				variationID = $(element).attr('data-variation');
+				if (variationID === "undefined") {
+					variationID = " ";
+				} 
+
       if ($(element).attr('data-component')) {
         componentid = $(element).attr('data-component');
       }
@@ -858,11 +862,18 @@ EightShapes.Blocks = {
         componentname = $(element).attr('title');
       } else if (EightShapes.Blocks.c[componentid]) {
         if (EightShapes.Blocks.c[componentid].title !== "") {
-          componentname = EightShapes.Blocks.c[componentid].title;
+         	componentname = EightShapes.Blocks.c[componentid].title;
         } 
       }
+			if (EightShapes.Blocks.display.componentids === "on") {
+				if (variationID) {
+         	componentname = componentid + variationID + " " + componentname;
+				} else {
+         	componentname = componentid + " " + componentname;
+				}
+			}
 
-      if ($(element).attr('data-variation')) {
+      if (variationID) {
         variationHTML = $(EightShapes.Blocks.c[componentid].html)
                           .find('[data-variation='+$(element)
                           .attr('data-variation')+']');
@@ -1257,8 +1268,8 @@ EightShapes.Blocks = {
         $('body > section.components > article[data-id="' + id + '"]').addClass('active')
           .children('section.variation').each( function(i,element) {
             $(element).css('width','').css('height','')
-            $(element).css('width',($(element).find('section.viewport').width()/1.25+10)+'px');
-            $(element).css('height',($(element).find('section.viewport').height()/1.25+60)+'px');
+//            $(element).css('width',($(element).find('section.viewport').width()/1.25+10)+'px');
+//            $(element).css('height',($(element).find('section.viewport').height()/1.25+60)+'px');
           });
         EightShapes.Blocks.display.lastView = "component";
         EightShapes.Blocks.display.lastViewID = id;
