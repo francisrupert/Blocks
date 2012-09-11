@@ -140,7 +140,7 @@ EightShapes.Blocks = {
         // Configure experience based on project-specific preferences 
         EightShapes.Blocks.setDisplayPreferences(XMLconfig);
         EightShapes.Blocks.setPrototypeMetadata(XMLconfig);
-        
+
         // Identify and ID Current Page's Article
         var hrefsplit = window.location.href.split('/');
 //RM        EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].substr(0,hrefsplit[hrefsplit.length-1].length-5);
@@ -163,19 +163,16 @@ EightShapes.Blocks = {
         EightShapes.Blocks.registerSet($(XMLconfig).find('sets > set'));
 				EightShapes.Blocks.registerDeviceProfiles($(XMLconfig).find('deviceprofiles > profile'));
         EightShapes.Blocks.registerMap($(XMLconfig).find('maps > map'));
-
+      },
+      error: function() {
+        console.log('WARNING: _config.xml was not found in your prototype root directory.')
+      },
+			complete: function() {
         // Mark Embedded Components in Current Page
         EightShapes.Blocks.markComponent($('#esb > section.pages > article.active > section.viewport *.component'));
         // Load and Add Linked Components in Current Page
         EightShapes.Blocks.addComponentsToBlock($('#esb > section.pages > article.active > section.viewport'));
-      },
-      error: function() {
-        console.log('WARNING: _config.xml was not found in your prototype root directory.')
-        // Remove the Toolbar
-        $('body#esb > section.pages > menu').remove();
-        // Load and Add Linked Components in Current Page
-        EightShapes.Blocks.addComponentsToBlock($('#esb > section.pages > article.active > section.viewport'));
-      }
+			}
     });
 
     //======================================================================================================
