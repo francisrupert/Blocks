@@ -1555,22 +1555,6 @@ vertical-align: middle;
 */
 
 
-.esbmarker {
-	-moz-border-radius: 5px 5px 5px 5px;
-	left: -5px !important;
-	margin: 0 !important;
-	padding: 5px !important;
-	position: relative !important;
-	display: block !important;
-	text-align: left !important;
-	vertical-align: middle !important;
-	width: 309px;
-	color: white;
-	font-size: 13px;
-	line-height: 1.2em;
-	background: none repeat scroll 0 0 transparent;
-	cursor: pointer;
-}
 #esb > section.pages > article > section.viewport .component > .esbmarker-wrapper {
 	position: relative;
 	z-index: 887; 
@@ -1590,7 +1574,12 @@ vertical-align: middle;
 	outline: solid 5px #EB6721; 
 }
 #esb > section.pages > article > section.viewport .component > .esbmarker-wrapper > .esbmarker {
+	margin: 0 !important;
+	cursor: pointer;
 	background-color: rgba(235, 103, 33, 0.9);
+	color: white;
+	font-size: 13px;
+	line-height: 1.2em;
 	width: -moz-fit-content !important;
 	position: absolute !important;
 	top: 0;
@@ -1598,6 +1587,9 @@ vertical-align: middle;
 	padding: 5px 10px;
 	background-color: rgba(235,103,33,0.9);
 	white-space: nowrap;
+	border-radius: 5px 5px 5px 5px;
+	display: block;
+	text-align: left;
 }
 #esb > section.pages.notes > article > section.viewport .component > .esbmarker-wrapper .esbmarker {
 	-moz-transform: scale(1.5);
