@@ -54,7 +54,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	display: none;
 }
 
-#esb {
+#esb:not(.fullscreen) {
 	background: url('../images/noise.png') repeat scroll 0 0 white;
 	margin: 0;
 	padding: 0;
@@ -1416,9 +1416,6 @@ html #esb.fullscreen > section > menu:hover {
 
 /* Fullscreen */
 
-#esb.fullscreen {
-	background: none;
-}
 #esb.fullscreen > header ,
 #esb.fullscreen > section > header,
 #esb.fullscreen > section > article > header,
