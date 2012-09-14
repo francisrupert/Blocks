@@ -503,7 +503,7 @@ EightShapes.Blocks = {
 			EightShapes.Blocks.home.loaded = true;
 			EightShapes.Blocks.home.wrap();
       $('body')
-				.append('<section class="pages active" data-section="pages"><article class="page active"></article></section>')
+				.append('<section class="pages active" data-section="pages"></section>')
 
 		// Else Return Failed Load
 		} else {
@@ -633,7 +633,7 @@ EightShapes.Blocks = {
 
       // Section > Article exist?
       if ($('#esb > section.pages > article[data-id="' + id + '"]').length === 0) {
-        if (reachedLoadedPageYet) {
+        if (reachedLoadedPageYet || (EightShapes.Blocks.display.startpage === "home")) {
           $('#esb > section.pages').append('<article data-id="' + id + '" class="page"></article>');
         } else {
           $('#esb > section.pages > article.active').before('<article data-id="' + id + '" class="page"></article>');
