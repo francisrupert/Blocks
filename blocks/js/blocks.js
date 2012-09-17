@@ -921,8 +921,14 @@ EightShapes.Blocks = {
 			if (EightShapes.Blocks.display.markeractions) {
 				$(noteElement).find('div').prepend('<button class="esb remove"></button><button class="esb showhide"></button>')
 			}
+			// Add the Required/Recommended/Optional tag if present
 			if ($(element).attr('data-requirement')) {
 				$(noteElement).find('div').prepend('<span class="requirement">' + $(element).attr('data-requirement') + '</span>')
+			}
+			// If to be hidden by default, hide it
+			if ($(element).attr('data-display') === "hidden") {
+				$(noteElement).addClass('hidden');
+				$(element).hide();
 			}
       $(noteElement).find('button.remove').click( function(event) { 
         EightShapes.Blocks.removeComponent(event) 
