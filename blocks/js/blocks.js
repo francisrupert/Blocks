@@ -153,6 +153,7 @@ EightShapes.Blocks = {
         	$('#esb > section.pages > article').attr('data-id',EightShapes.Blocks.metadata.currentpageid);
         	EightShapes.Blocks.registerPage($('#esb > section.pages > article.active'));
 				} else {
+        	$.bbq.pushState({view:"reloadhome", id:""});
         	$.bbq.pushState({view:"home", id:""});
 				}
 
