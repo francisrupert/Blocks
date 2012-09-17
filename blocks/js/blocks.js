@@ -134,7 +134,7 @@ EightShapes.Blocks = {
     //   If failure -> remove Toolbar, still try to load page components into "standalone page"
     $.ajax({
       type: 'GET',
-      url: '_config.xml',
+      url: '_config.xml?random='+Math.random(), // random number added for cache busting
       dataType: 'xml',
       success: function(XMLconfig) {
         // Configure experience based on project-specific preferences 
