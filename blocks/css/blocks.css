@@ -1192,6 +1192,17 @@ html #esb.fullscreen > section > menu:hover {
 	border: 2px solid gray;
 	margin-bottom: 10px;
 }
+#esb > section.pages > article.page > aside.notes > ul.componentlist > li.esbmarker > div > span.requirement {
+	float: right;
+	font-size: 10px;
+	text-shadow: black;
+	background-color: rgba(256,256,256,0.1);
+	padding: 1px 6px;
+	border-radius: 2px;
+}
+#esb > section.pages > article.page > aside.notes > ul.componentlist > li.esbmarker:hover > div > span.requirement {
+	display: none;
+}
 
 
 

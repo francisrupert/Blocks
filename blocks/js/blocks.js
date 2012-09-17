@@ -917,7 +917,13 @@ EightShapes.Blocks = {
         .append('<li class="esbmarker" data-marker="' + marker + '" data-id="' + componentid + '"></li>')
         .find('li:last-child');
 
-      $(noteElement).append('<div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div>')
+     	$(noteElement).append('<div>' + componentname + '</div>');
+			if (EightShapes.Blocks.display.markeractions) {
+				$(noteElement).find('div').prepend('<button class="esb remove"></button><button class="esb showhide"></button>')
+			}
+			if ($(element).attr('data-requirement')) {
+				$(noteElement).find('div').prepend('<span class="requirement">' + $(element).attr('data-requirement') + '</span>')
+			}
       $(noteElement).find('button.remove').click( function(event) { 
         EightShapes.Blocks.removeComponent(event) 
       });
