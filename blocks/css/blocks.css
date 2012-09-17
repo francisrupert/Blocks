@@ -1061,6 +1061,9 @@ html #esb.fullscreen > section > menu:hover {
 	line-height: 1.4em;
 	padding-bottom: 3px;
 }
+#esb > section.notes > article > aside.notes a {
+	color: #EB6621;
+}
 #esb > section.notes > article > aside.notes ul {
 	list-style: disc outside none;
 	margin-left: 0px; 
