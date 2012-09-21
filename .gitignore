@@ -1,2 +1,5 @@
 *.swp
 .DS_Store
+blocks/.sass-cache/
+blocks/compass_app_log.txt
+.gitignore
