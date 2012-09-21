@@ -24,6 +24,8 @@
  *
  * ©Copyright 2012 Eight Shapes LLC
  *
+ * Version 2.0 September 21, 2012
+ *
  * Terms of Use: http://unify.eightshapes.com/about-the-system/terms-of-use/
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,15 +70,15 @@ EightShapes.Blocks = {
 		homelinks : "notes",
 		startpage : "page",
     // Default sizing for Grid items
-    aspectratio : 1.25,
-    galleryscale : 0.28,
+    aspectratio : 1,
+    galleryscale : 0.275,
     // Default component container
     componentcontainer : "",
     // Default page viewed when you exit full screen
-    lastView : "pages", // or "pages","components","activepage","activecomponent"
+    lastView : "page", // or "pages","components","page","component"
     lastViewID : "",
 		currentDisplayMode: "grid",
-		deviceprofiles : []
+		responsiveviewer : "on"
   },
 
   p : {},              // Pages  
@@ -127,6 +129,9 @@ EightShapes.Blocks = {
     // $('head').append('<link rel="stylesheet" href="blocks/css/ui-lightness/jquery-ui-1.8.6.custom.css" />');
 
     // Error Check Markup and Setup Overall DOM
+		if ($.bbq.getState( "toolbar" )) {
+			EightShapes.Blocks.display.toolbar = $.bbq.getState( "toolbar" );
+		}
     if (!EightShapes.Blocks.markupCore()) return false;
 
     // Attempt to Load _config.xml
@@ -146,6 +151,7 @@ EightShapes.Blocks = {
 //RM        EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].substr(0,hrefsplit[hrefsplit.length-1].length-5);
         // hrefsplit[hrefsplit.length-1].length-5
         EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].split('.html')[0];
+				EightShapes.Blocks.display.lastViewID = EightShapes.Blocks.metadata.currentpageid;
 
         // Reset hash upon page refresh, since it may contain irrelevant hash values
 				if (EightShapes.Blocks.display.startpage === "page") {
@@ -161,9 +167,6 @@ EightShapes.Blocks = {
         // EightShapes.Blocks.c, and EightShapes.Blocks.s
         EightShapes.Blocks.registerPage($(XMLconfig).find('pages > page'));
         EightShapes.Blocks.registerComponent($(XMLconfig).find('components > component'));
-        EightShapes.Blocks.registerSet($(XMLconfig).find('sets > set'));
-				EightShapes.Blocks.registerDeviceProfiles($(XMLconfig).find('deviceprofiles > profile'));
-        EightShapes.Blocks.registerMap($(XMLconfig).find('maps > map'));
       },
       error: function() {
         console.log('WARNING: _config.xml was not found in your prototype root directory.')
@@ -180,15 +183,22 @@ EightShapes.Blocks = {
     // Blocks Toolbar & Menu Events
 
     // Exit Full Screen
-    $('#esb > section > menu').on('click','button.exitfullscreen', function() {
-			if(EightShapes.Blocks.pc === 1) {
-				$.bbq.pushState({view:"page", id:$('body > section.pages > article').attr('data-id')});
+    $('#esb > menu').on('click','button.fullscreen', function() {
+    	var currentid = $.bbq.getState( "id" );
+			if($('#esb').hasClass('fullscreen')) {
+				if((EightShapes.Blocks.pc === 1)) {
+					$.bbq.pushState({view:"page", id:$('body > section.pages > article').attr('data-id')});
+				} else {
+		      $.bbq.pushState({ view : EightShapes.Blocks.display.lastView, id : EightShapes.Blocks.display.lastViewID });
+					EightShapes.Blocks.display.lastViewID = currentid;
+				}
 			} else {
-	      $.bbq.pushState({ view : EightShapes.Blocks.display.lastView, id : EightShapes.Blocks.display.lastViewID });
+	      $.bbq.pushState({ view : "fullscreen", id : EightShapes.Blocks.display.lastViewID });
 			}
+			return false;
     });
     // Go From Article to Article
-    $('#esb > section > menu').on('click','button.next', function() {
+    $('#esb > menu').on('click','a.next', function() {
       var currentPage = $('#esb > section.pages > article.page.active');
       if($(currentPage).next().is('article')) {
         if($('#esb').hasClass('fullscreen')) {
@@ -197,8 +207,9 @@ EightShapes.Blocks = {
           $.bbq.pushState({id:$(currentPage).next().attr('data-id')});
         }
       }
+			return false;
     });
-    $('#esb > section > menu').on('click','button.previous', function() {
+    $('#esb > menu').on('click','a.previous', function() {
       var currentPage = $('#esb > section.pages > article.page.active');
       if($(currentPage).prev().is('article')) {
 				if($('#esb').hasClass('fullscreen')) {
@@ -207,10 +218,17 @@ EightShapes.Blocks = {
 	        $.bbq.pushState({view:"page", id:$(currentPage).prev().attr('data-id')});
 				}
       }
+			return false;
     });
     // Toggle Markers On/Off
-    $('#esb > section > menu').on('click','button.markers', function() {
+    $('#esb > menu').on('click','button.markers', function() {
+			$(this).toggleClass('active');
       ($('body').hasClass('markers')) ? $('body').removeClass('markers') : $('body').addClass('markers');
+			if ($(this).hasClass('active')) {
+				$('div.responsiveframe > iframe').contents().find('#esb').addClass('markers');
+			} else {
+				$('div.responsiveframe > iframe').contents().find('#esb').removeClass('markers');
+			}
     });
     // Toggle Grid/Thumbnail/List view mode for Pages and Components
     $('#esb > section > menu').on('click','span.viewas > button', function() {
@@ -277,6 +295,7 @@ EightShapes.Blocks = {
 			for (var page in EightShapes.Blocks.p) {
 				if ($(this).attr('href').split(".html")[0] === page) {
       		$.bbq.pushState({view:"fullscreen", id:page});
+					EightShapes.Blocks.display.lastViewID = id;
 					return false;
 				}
 			}
@@ -496,7 +515,7 @@ EightShapes.Blocks = {
 			EightShapes.Blocks.display.startpage = "page";
       $('body')
 				.addClass('fullscreen')
-				.wrapInner('<section class="pages active" data-section="pages"><article class="page active"></article></section>');
+				.wrapInner('<section class="pages active" data-section="pages"><article class="page active currentpage"></article></section>');
 
 		// If Home, then Setup Home Start Page
 		} else if ($('body > section.home').length === 1) {
@@ -512,62 +531,137 @@ EightShapes.Blocks = {
       return false;
 		}
 
-		// Add Empty Components Element
-    $('body').append('<section class="components" data-section="components"><header><h2>Components</h2></header></section>');
-
-    // Pages Menu Bar
-    $('#esb > section.pages').prepend('<menu><span class="controlset  viewas"><button class="list">List</button><button class="thumbnail">Thumbnail</button><button class="grid active">Grid</button></span><button class="exitfullscreen">Exit Full Screen</button><button class="markers">Markers</button><button class="previous">Previous</button><button class="next">Next</button></menu>');
-
-		 // Sliders HTML <span class="controlset sizeslider"><h3>Size</h3><span class="icon small"></span><div class="esbgallerysize" style="width: 100px;"></div><span class="icon large"></span></span><span class="controlset heightslider"><h3>Height</h3><span class="icon short"></span><div class="esbgalleryaspectratio" style="width: 100px;"></div><span class="icon tall"></span></span>
-
-    // Components Menu Bar
-    $('#esb > section.components').prepend('<menu></menu>');
-		
-    // Grid's Page Sizing
-    // $('body > section > menu > span.sizeslider > div.esbgallerysize').slider({
-    //   value: 0.28,
-    //   min: 0.15,
-    //   max: 0.4,
-    //   step: 0.01,
-    //   slide: function(event,ui) {
-    //     EightShapes.Blocks.display.galleryscale = ui.value;
-    // 
-    //     $('#esb > section.pages > article')
-    //       .css('width',1000*EightShapes.Blocks.display.galleryscale)
-    //       .css('height',1000*EightShapes.Blocks.display.aspectratio*EightShapes.Blocks.display.galleryscale+50);
-    // 
-    //     $('#esb > section.pages > article > section.viewport')
-    //       .css('-moz-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
-    //       .css('-webkit-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
-    //       .css('height',960*EightShapes.Blocks.display.aspectratio);
-    //   }
-    // });
-    // $('body > section > menu > span.heightslider > div.esbgalleryaspectratio').slider({
-    //   value:1.25,
-    //   min:0.6,
-    //   max:2.0,
-    //   step:0.05,
-    //   slide: function(event,ui) {
-    //     EightShapes.Blocks.display.aspectratio = ui.value;
-    //     $('#esb > section.pages > article')
-    //       .css('width',1000*EightShapes.Blocks.display.galleryscale)
-    //       .css('height',1000*EightShapes.Blocks.display.aspectratio*EightShapes.Blocks.display.galleryscale+50);
-    //     $('#esb > section.pages > article > section.viewport')
-    //       .css('-moz-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
-    //       .css('-webkit-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
-    //       .css('height',960*EightShapes.Blocks.display.aspectratio);
-    //   }
-    // });
-
+		// Header
     $('body').prepend('<header><nav class="primary"><ul></ul></nav></header>');
     $('body > header > nav > ul')
       .append('<li class="pages" data-view="pages">Pages</a></li>')
       .append('<li class="components" data-view="components">Components</a></li>');
-
     $('body > header > nav.primary > ul > li').live('click', function() {
       $.bbq.pushState({view:$(this).attr("data-view"),id:"n/a"});
       return false;
     });
+
+		// Components
+    $('body').append('<section class="components" data-section="components"></section>');
+
+    // Menu Toolbar
+		if (EightShapes.Blocks.display.toolbar === "on") {
+			$('#esb > header').after('<menu class="toolbar"><form action="#"></form></menu>');
+			$('#esb > menu > form')
+				.append('<fieldset class="basic"><button class="fullscreen">Full Screen</button><button class="markers">Markers</button></fieldset>')
+				.append('<fieldset class="lists"><button data-menu="lists-scale" class="lists-scale setting">Scale</button><button data-menu="lists-height" class="lists-height setting">Height</button><button data-menu="viewas" class="viewas setting">View As</button></fieldset>')
+			$('#esb > menu fieldset.lists')
+				.append('<menu class="setting lists-scale"><button data-value="0.2">Small</button><button data-value="0.275" class="active">Medium</button><button data-value="0.35">Large</button></menu>')
+				.append('<menu class="setting lists-height"><button data-value="0.5">Short</button><button data-value="1" class="active">Normal</button><button data-value="1.5">Tall</button><button data-value="2">Very Tall</button></menu>')
+				.append('<menu class="setting viewas"><button data-value="grid" class="active">Grid</button><button data-value="thumbnail">Thumbnails</button><button data-value="list">List</button></menu>')
+		}
+		// Menu Toolbar: Toggle Menu Panels
+		$('#esb > menu').on('click','button.setting', function() {
+			var toolbar = $(this).closest('menu.toolbar'),
+					active = $(this).hasClass('active'),
+					selectedMenu = $(this).attr('data-menu');
+
+			$(toolbar).find('menu').removeClass('active');
+			$(toolbar).find('button.setting').removeClass('active')
+			if(!active) {
+				$(this).addClass('active');
+				$(toolbar).find('menu.'+selectedMenu).addClass('active');
+			}
+			return false;
+		});
+		$('#esb > menu').on('click','menu.setting > button', function() {
+			var responsiveframes = $('article.page.active > section.responsiveframes > div.responsiveframe'),
+					iframes = $(responsiveframes).children('iframe'),
+					value = $(this).attr('data-value');
+
+			if ($(this).hasClass('active')) {
+				return false;
+			} else {
+				$(this).addClass('active').siblings().removeClass('active');
+				if($(this).parent().hasClass('scale')) {
+					$(responsiveframes).each( function() {
+						$(this).css('width',$(this).attr('data-width') * value)
+						$(this).css('-moz-transform','scale(' + value + ')')
+						$(this).css('-webkit-transform','scale(' + value + ')')
+					})
+				} else if($(this).parent().hasClass('height')) {
+					if (value > 0) {
+						$(iframes).each( function() {
+							$(this).attr('height',value);
+						})
+					} else {
+						$(iframes).each( function() {
+							$(this).attr('height',$(this).attr('data-original-height'));
+						})
+					}
+				} else if($(this).parent().hasClass('viewas')) {
+					EightShapes.Blocks.clearGridScale();
+					$('#esb section.pages').removeClass('grid list thumbnail').addClass(value);
+					if (value === "grid") {
+						EightShapes.Blocks.setGridScale();
+						$('#esb > menu fieldset.lists').addClass('grid');
+					} else {
+						$('#esb > menu fieldset.lists').removeClass('grid');
+					}
+				} else if($(this).parent().hasClass('lists-scale')) {
+					EightShapes.Blocks.display.galleryscale = value;
+					EightShapes.Blocks.setGridScale();
+				} else if($(this).parent().hasClass('lists-height')) {
+					EightShapes.Blocks.display.aspectratio = value;
+					EightShapes.Blocks.setGridScale();
+				}
+			}
+			return false;
+		})
+
+		// Menu Toolbar: Responsive Viewer
+		if (EightShapes.Blocks.display.responsiveviewer === "on") {
+			$('#esb > menu > form')
+				.append('<fieldset class="responsive"><button data-menu="scale" class="scale setting">Scale</button><button data-menu="height" class="height setting">Height</button></fieldset>');
+			$('#esb > menu > form > fieldset.responsive')
+        .prepend('<button title="iPad Landscape" data-height="768" data-width="1024" class="ipad landscape">iPad Landscape</button>')
+        .prepend('<button title="iPad Portrait" data-height="1024" data-width="768" class="ipad portrait">iPad Portrait</button>')
+        .prepend('<button title="Kindle Fire Landscape" data-height="600" data-width="1024" class="kindlefire landscape">Kindle Landscape</button>')
+        .prepend('<button title="Kindle Fire Portrait" data-height="1024" data-width="600" class="kindlefire portrait">Kindle Portrait</button>')
+        .prepend('<button title="iPhone Landscape" data-height="320" data-width="480" class="iphone landscape">iPhone Landscape</button>')
+				.prepend('<button title="iPhone Portrait" data-height="480" data-width="320" class="iphone portrait">iPhone Portrait</button>')
+				.append('<menu class="setting scale"><button data-value="0.33">33%</button><button data-value="0.5">50%</button><button class="active" data-value="0.67">67%</button><button data-value="1">100%</button></menu>')
+				.append('<menu class="setting height"><button data-value="original" class="active">Original</button><button data-value="1200">Fixed at 1200px</button></menu>');
+
+			$('#esb > menu fieldset.responsive > button:not(.setting)').on('click', function() {
+				var width = $(this).attr('data-width'),
+						height = $(this).attr('data-height'),
+						originalheight = height,
+						fieldset = $(this).closest('fieldset.responsive'),
+						article = $('#esb > section.pages > article.page.active'),
+						scale = $(fieldset).find('menu.scale > button.active').attr('data-value'),
+						title = width + "x" + height + $(this).html(),
+						titlemarkup = width + "x" + height + " <i>" + $(this).html() + "</i>";
+
+				if ($('#esb > menu menu.height > button.active').attr('data-value') > 0) {
+					height = $('#esb > menu menu.height > button.active').attr('data-value');
+				}
+
+				$(this).toggleClass('active');
+				if($(this).hasClass('active')) {
+					if($(article).children('section.responsiveframes').length < 1) {
+						$(article).append('<section class="responsiveframes"></section>');
+					}
+					$(article).children('section.responsiveframes')
+						.append('<div class="responsiveframe" data-width="' + width + '" data-frame="' + title + '" style="width: ' + width*scale + 'px; -moz-transform: scale(' + scale + '); -webkit-transform: scale(' + scale + '); "><h2>' + titlemarkup + '</h2><iframe src="' + $(article).attr('data-id') + '.html#toolbar=off" frameborder="0" width="' + width + '" height="' + height + '" data-original-height="' + originalheight + '" sandbox="allow-same-origin allow-forms allow-scripts" seamless></iframe></div>');
+				} else {
+					$(article).find('section.responsiveframes').children('.responsiveframe[data-frame="' + title + '"]').remove();
+				}
+
+				if ($(fieldset).children('button.active').length > 0) {
+					$('#esb').addClass('responsiveviewer');
+				} else {
+					$('#esb').removeClass('responsiveviewer');
+					$(article).children('section.responsiveframes').remove();
+				}
+			})	
+
+		}
 
     return true;
   },
@@ -1070,138 +1164,6 @@ EightShapes.Blocks = {
   },
 
   //======================================================================================================
-  // Sets "Stuff"
-
-  Set : function(element) {
-    this.pages = [];
-    this.title = ($(element).attr('title')) ? $(element).attr('title') : '[Untitled]';
-    this.type = ($(element).attr('type')) ? $(element).attr('type') : 'basic';
-    this.version = ($(element).attr('version')) ? $(element).attr('version') : '';
-    this.description = ($(element).attr('description')) ? $(element).attr('description') : '';
-    this.doneness = ($(element).attr('doneness')) ? $(element).attr('doneness') : 'notyetstarted';
-    this.loaded = false;
-  },
-  loadSet : function(setID) {
-
-    // Summary: Loads a set into BODY>SECTION.sets>SECTION.set by cloning from BODY>SECTION.pages>ARTICLE>section.viewport(s)
-    // Status: Worked in previous versions, not currently functional
-
-    if (EightShapes.Blocks.s[setID].pages.length > 1 && !EightShapes.Blocks.s[setID].loaded) {
-      $('#esb > section.sets > section[data-id="set' + setID + '"] > header > h2').append(' <span class="count">(' + EightShapes.Blocks.s[setID].pages.length + ')</span>');
-    }
-
-    for(pagecount=0;pagecount<EightShapes.Blocks.s[setID].pages.length;pagecount++) {
-      $('#esb > section.sets > section[data-id="set' + setID + '"] > article[data-id="' + EightShapes.Blocks.s[setID].pages[pagecount] + '"]')
-        .append($('#esb > section.pages > article[data-id="' + EightShapes.Blocks.s[setID].pages[pagecount] + '"]').clone(true).children('section.viewport,header'));
-    }
-    EightShapes.Blocks.s[setID].loaded = true;
-  },
-  registerSet : function(elements) {
-    elements.each(function (i,element) {
-
-      EightShapes.Blocks.s[i] = new EightShapes.Blocks.Set(element);
-      if ($(element).attr('pages')) {
-        EightShapes.Blocks.s[i].pages = $(element).attr('pages').split(',');
-      } else if ($(element).children('page').length > 0) {
-        $(element).children('page').each( function(pageindex,pageelement) {
-          EightShapes.Blocks.s[i].pages[pageindex] = $(pageelement).attr('id');
-        });
-      } else {
-        // What happens if no pages exist?
-      }
-
-      $('#esb > section.sets').append('<section data-id="set' + i + '" class="set"><header></header></section>')
-//      $('#esb > section.sets > section[data-id="set' + i + '"] > header').html(EightShapes.Blocks.articleHeader(EightShapes.Blocks.s[i])).after(EightShapes.Blocks.asideToolbarMarkup());
-
-      for(pagecount=0;pagecount<EightShapes.Blocks.s[i].pages.length;pagecount++) {
-        $('#esb > section.sets > section[data-id="set' + i + '"]')
-          .append('<article class="page" data-id="' + EightShapes.Blocks.s[i].pages[pagecount] + '"></article>');
-        EightShapes.Blocks.registerPage($('#esb > section.sets > section[data-id="set' + i + '"] > article.page:last-child'),i);
-      }
-      
-    })
-  },
-
-  //======================================================================================================
-	// Device Profiles
-
-	registerDeviceProfiles : function(profiles) {
-		
-		// Summary: Register zero or more device profiles from XML into the toolbar and default to the first device/orientation
-		
-    $('head').append('<link rel="stylesheet" href="blocks/css/blocks-devices.css"></link>');
-		profiles.each( function(i,profile) {
-			if (i === 0) {
-				EightShapes.Blocks.deviceMenuMarkup(profile);
-			}
-			var newDevice = $('#esb > section.pages > menu > div.deviceprofiles > ul').append('<li>' + $(profile).attr('name') + '</li>').children().last();
-			$(newDevice).attr('data-value',$(profile).attr('value'));
-			if ($(profile).attr('orientationToggle') === "on") {
-				$(newDevice).attr('data-orientationToggle','on');
-				if ($(profile).attr('orientationDefault') === "landscape") {
-					$(newDevice).attr('data-currentOrientation','landscape');
-				} else {
-					$(newDevice).attr('data-currentOrientation','portrait');
-				}
-			} else {
-				$(newDevice).attr('data-orientationToggle','off');
-			};
-			if (i === 0) {
-				EightShapes.Blocks.setDeviceProfile(newDevice);
-			}
-		});
-	},
-	deviceMenuMarkup : function(profile) {
-  
-		// Summary: Generate the markup for the device and orientation menus
-  
-		$('#esb > section > menu')
-		  .append('<div class="deviceprofiles dropdown"><button class="selectionCurrent">' + $(profile).attr('name') + '</button><ul></ul></div>')
-		  .append('<div class="deviceorientation dropdown"><button class="selectionCurrent">Portrait</button><ul><li data-value="Portrait">Portrait</li><li data-value="Landscape">Landscape</li></ul></div>')
-		$('#esb > section.pages > menu > div.deviceprofiles').after('<span class="controlset orientationtoggle"><button class="portrait active">Portrait</button><button class="landscape">Landscape</button></span>');
-  },
-	setDeviceProfile : function(option) {
-		$('#esb > section.pages > menu > div.deviceprofiles > ul > li').each( function(i,profile) {
-			$('body#esb').removeClass($(profile).attr('data-value'));
-		})
-		$('body#esb').addClass($(option).attr('data-value'));
-		if ($(option).attr('data-orientationToggle') === "on") {
-			EightShapes.Blocks.setDeviceOrientation($(option).attr('data-currentOrientation'))
-			$('#esb > section.pages > menu > div.deviceorientation').show();
-		} else {
-			$('#esb').removeClass('portrait landscape').find('section.pages > menu > div.deviceorientation').hide();
-		}
-		
-	},
-	setDeviceOrientation : function(orientation) {
-		if (orientation === "landscape") { 
-			$('#esb > section.pages > menu > div.deviceorientation > button.selectionCurrent').html('Landscape');
-		} else {
-			$('#esb > section.pages > menu > div.deviceorientation > button.selectionCurrent').html('Portrait');
-		}
-		$('#esb').removeClass('portrait landscape').addClass(orientation.toLowerCase());
-	},
-
-  //======================================================================================================
-	// Maps
-
-	registerMap : function(maps) {
-	  if(($('#esb > section.maps').length === 0) && ($(maps).length > 0)) {
-	    $('#esb').append('<section class="maps" data-section="maps"><header><h2>Maps</h2></header></section>');
-	    $('#esb > section.maps').append('<menu><button class="addmap">Add Map</button></menu>');
-//	    $('body > header > nav > ul').prepend('<li class="maps" data-view="maps">Maps</a></li>')
-	  }
-	},
-	displayMap : function() {
-	},
-	newMap : function() {
-	},
-	generateMapXML : function() {
-	},
-	zoomMap : function() {
-	},
-	
-  //======================================================================================================
   // Utilities
 
   view : function() {
@@ -1222,11 +1184,17 @@ EightShapes.Blocks = {
       return false;
     }
     
-    // Flush View Classes
-    $('body').removeClass('fullscreen esb-home');
+    // Flush View Classes & Styling
+    $('body').removeClass('fullscreen esb-home responsiveviewer');
     $('body > header > nav > ul > li').removeClass('active');
     $('body > section').removeClass('active notes grid list thumbnail').attr('style','');
     $('body > section > article').removeClass('active list thumbnail grid inlineflow').attr('style','').children('section.viewport').attr('style','');
+		EightShapes.Blocks.clearGridScale();
+
+		// Flush Menuing & Responsive Viewers
+		$('body > menu fieldset.lists').hide();
+		$('body > menu fieldset.responsive').hide().children('button').removeClass('active');
+		$('body > section.pages > article > section.responsiveframes').remove();
 
     // Set View Classes for Current View
     switch (view) {
@@ -1243,20 +1211,29 @@ EightShapes.Blocks = {
 				break;
       case "pages":
         $('body > header > nav > ul > li.pages').addClass('active');
+				$('body > menu fieldset.lists').show();
 				$('body > section.pages').addClass('active');
 				$('body > section.pages').addClass(EightShapes.Blocks.display.currentDisplayMode);
         EightShapes.Blocks.display.lastView = "pages";
-        EightShapes.Blocks.display.lastViewID = "";
 	      for(pageid in EightShapes.Blocks.p) {
 	        if(!EightShapes.Blocks.p[pageid].loaded) {
 	          EightShapes.Blocks.p[pageid].load();
 	        }
 	      }
+				if (EightShapes.Blocks.display.currentDisplayMode === "grid") {
+					EightShapes.Blocks.setGridScale();
+					$('#esb > menu fieldset.lists').addClass('grid');
+				} else {
+					$('#esb > menu fieldset.lists').removeClass('grid');
+				}
         break;
       case "page":
         $('body > header > nav > ul > li.pages').addClass('active');
         $('body > section.pages').addClass('active notes');
-        $('body > section.pages > article[data-id="' + id + '"]').addClass('active')
+        $('body > section.pages > article[data-id="' + id + '"]').addClass('active');
+				if ((EightShapes.Blocks.display.responsiveviewer === "on") && !($('#esb > section.pages > article.active').hasClass('currentpage'))) {
+					$('#esb > menu fieldset.responsive').show();
+				}
         EightShapes.Blocks.display.lastView = "page";
         EightShapes.Blocks.display.lastViewID = id;
         if(!EightShapes.Blocks.p[id].loaded) {
@@ -1383,6 +1360,19 @@ EightShapes.Blocks = {
       .append('<dt>on</dt> <dd>' + EightShapes.Blocks.metadata.versiondate + '</dd> ')
       .append('<dt>for</dt> <dd>' + EightShapes.Blocks.metadata.client + '</dd> ')
   },
+	setGridScale : function() {
+		$('#esb > section.pages > article')
+		  .css('width',1000*EightShapes.Blocks.display.galleryscale)
+		  .css('height',1000*EightShapes.Blocks.display.aspectratio*EightShapes.Blocks.display.galleryscale+50);
+ 		$('#esb > section.pages > article > section.viewport')
+ 		  .css('-moz-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
+ 		  .css('-webkit-transform','scale('+EightShapes.Blocks.display.galleryscale+')')
+ 		  .css('height',960*EightShapes.Blocks.display.aspectratio);
+	},
+	clearGridScale : function() {
+		$('#esb > section.pages > article').css('width','').css('height','');
+ 		$('#esb > section.pages > article > section.viewport').css('-moz-transform','').css('-webkit-transform','').css('height','');
+	},
   menuMarkup : function(blocksSection) {
 
     // Summary: Centralize the markup added for toolbar sliders, buttons, etc
