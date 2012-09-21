@@ -78,7 +78,7 @@ EightShapes.Blocks = {
     lastView : "page", // or "pages","components","page","component"
     lastViewID : "",
 		currentDisplayMode: "grid",
-		responsiveviewer : "on"
+		responsiveviewer : "off"
   },
 
   p : {},              // Pages  
@@ -615,53 +615,50 @@ EightShapes.Blocks = {
 		})
 
 		// Menu Toolbar: Responsive Viewer
-		if (EightShapes.Blocks.display.responsiveviewer === "on") {
-			$('#esb > menu > form')
-				.append('<fieldset class="responsive"><button data-menu="scale" class="scale setting">Scale</button><button data-menu="height" class="height setting">Height</button></fieldset>');
-			$('#esb > menu > form > fieldset.responsive')
-        .prepend('<button title="iPad Landscape" data-height="768" data-width="1024" class="ipad landscape">iPad Landscape</button>')
-        .prepend('<button title="iPad Portrait" data-height="1024" data-width="768" class="ipad portrait">iPad Portrait</button>')
-        .prepend('<button title="Kindle Fire Landscape" data-height="600" data-width="1024" class="kindlefire landscape">Kindle Landscape</button>')
-        .prepend('<button title="Kindle Fire Portrait" data-height="1024" data-width="600" class="kindlefire portrait">Kindle Portrait</button>')
-        .prepend('<button title="iPhone Landscape" data-height="320" data-width="480" class="iphone landscape">iPhone Landscape</button>')
-				.prepend('<button title="iPhone Portrait" data-height="480" data-width="320" class="iphone portrait">iPhone Portrait</button>')
-				.append('<menu class="setting scale"><button data-value="0.33">33%</button><button data-value="0.5">50%</button><button class="active" data-value="0.67">67%</button><button data-value="1">100%</button></menu>')
-				.append('<menu class="setting height"><button data-value="original" class="active">Original</button><button data-value="1200">Fixed at 1200px</button></menu>');
+		$('#esb > menu > form')
+			.append('<fieldset class="responsive"><button data-menu="scale" class="scale setting">Scale</button><button data-menu="height" class="height setting">Height</button></fieldset>');
+		$('#esb > menu > form > fieldset.responsive')
+       .prepend('<button title="iPad Landscape" data-height="768" data-width="1024" class="ipad landscape">iPad Landscape</button>')
+       .prepend('<button title="iPad Portrait" data-height="1024" data-width="768" class="ipad portrait">iPad Portrait</button>')
+       .prepend('<button title="Kindle Fire Landscape" data-height="600" data-width="1024" class="kindlefire landscape">Kindle Landscape</button>')
+       .prepend('<button title="Kindle Fire Portrait" data-height="1024" data-width="600" class="kindlefire portrait">Kindle Portrait</button>')
+       .prepend('<button title="iPhone Landscape" data-height="320" data-width="480" class="iphone landscape">iPhone Landscape</button>')
+			.prepend('<button title="iPhone Portrait" data-height="480" data-width="320" class="iphone portrait">iPhone Portrait</button>')
+			.append('<menu class="setting scale"><button data-value="0.33">33%</button><button data-value="0.5">50%</button><button class="active" data-value="0.67">67%</button><button data-value="1">100%</button></menu>')
+			.append('<menu class="setting height"><button data-value="original" class="active">Original</button><button data-value="1200">Fixed at 1200px</button></menu>');
 
-			$('#esb > menu fieldset.responsive > button:not(.setting)').on('click', function() {
-				var width = $(this).attr('data-width'),
-						height = $(this).attr('data-height'),
-						originalheight = height,
-						fieldset = $(this).closest('fieldset.responsive'),
-						article = $('#esb > section.pages > article.page.active'),
-						scale = $(fieldset).find('menu.scale > button.active').attr('data-value'),
-						title = width + "x" + height + $(this).html(),
-						titlemarkup = width + "x" + height + " <i>" + $(this).html() + "</i>";
+		$('#esb > menu fieldset.responsive > button:not(.setting)').on('click', function() {
+			var width = $(this).attr('data-width'),
+					height = $(this).attr('data-height'),
+					originalheight = height,
+					fieldset = $(this).closest('fieldset.responsive'),
+					article = $('#esb > section.pages > article.page.active'),
+					scale = $(fieldset).find('menu.scale > button.active').attr('data-value'),
+					title = width + "x" + height + $(this).html(),
+					titlemarkup = width + "x" + height + " <i>" + $(this).html() + "</i>";
 
-				if ($('#esb > menu menu.height > button.active').attr('data-value') > 0) {
-					height = $('#esb > menu menu.height > button.active').attr('data-value');
+			if ($('#esb > menu menu.height > button.active').attr('data-value') > 0) {
+				height = $('#esb > menu menu.height > button.active').attr('data-value');
+			}
+
+			$(this).toggleClass('active');
+			if($(this).hasClass('active')) {
+				if($(article).children('section.responsiveframes').length < 1) {
+					$(article).append('<section class="responsiveframes"></section>');
 				}
+				$(article).children('section.responsiveframes')
+					.append('<div class="responsiveframe" data-width="' + width + '" data-frame="' + title + '" style="width: ' + width*scale + 'px; -moz-transform: scale(' + scale + '); -webkit-transform: scale(' + scale + '); "><h2>' + titlemarkup + '</h2><iframe src="' + $(article).attr('data-id') + '.html#toolbar=off" frameborder="0" width="' + width + '" height="' + height + '" data-original-height="' + originalheight + '" sandbox="allow-same-origin allow-forms allow-scripts" seamless></iframe></div>');
+			} else {
+				$(article).find('section.responsiveframes').children('.responsiveframe[data-frame="' + title + '"]').remove();
+			}
 
-				$(this).toggleClass('active');
-				if($(this).hasClass('active')) {
-					if($(article).children('section.responsiveframes').length < 1) {
-						$(article).append('<section class="responsiveframes"></section>');
-					}
-					$(article).children('section.responsiveframes')
-						.append('<div class="responsiveframe" data-width="' + width + '" data-frame="' + title + '" style="width: ' + width*scale + 'px; -moz-transform: scale(' + scale + '); -webkit-transform: scale(' + scale + '); "><h2>' + titlemarkup + '</h2><iframe src="' + $(article).attr('data-id') + '.html#toolbar=off" frameborder="0" width="' + width + '" height="' + height + '" data-original-height="' + originalheight + '" sandbox="allow-same-origin allow-forms allow-scripts" seamless></iframe></div>');
-				} else {
-					$(article).find('section.responsiveframes').children('.responsiveframe[data-frame="' + title + '"]').remove();
-				}
-
-				if ($(fieldset).children('button.active').length > 0) {
-					$('#esb').addClass('responsiveviewer');
-				} else {
-					$('#esb').removeClass('responsiveviewer');
-					$(article).children('section.responsiveframes').remove();
-				}
-			})	
-
-		}
+			if ($(fieldset).children('button.active').length > 0) {
+				$('#esb').addClass('responsiveviewer');
+			} else {
+				$('#esb').removeClass('responsiveviewer');
+				$(article).children('section.responsiveframes').remove();
+			}
+		})	
 
     return true;
   },
@@ -1297,6 +1294,11 @@ EightShapes.Blocks = {
     }
     if($(XMLconfig).find('display > property[name="componentids"]').attr('value') === "on") {
 			EightShapes.Blocks.display.componentids = "on";
+		}
+    if($(XMLconfig).find('display > property[name="responsiveviewer"]').attr('value') === "on") {
+			EightShapes.Blocks.display.responsiveviewer = "on";
+    } else {
+			$('#esb > menu.toolbar fieldset.responsive').remove();
     }
     if(($(XMLconfig).find('display > property[name="markers"]').attr('value') === "true") || ($(XMLconfig).find('display > property[name="markers"]').attr('value') === "on")) {
 			EightShapes.Blocks.display.markers = "on";
