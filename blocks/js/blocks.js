@@ -1039,10 +1039,12 @@ EightShapes.Blocks = {
 			// Notes: Remove Component from Layout, Notes List
       $(noteElement).find('button.remove').click( function(event) { 
         EightShapes.Blocks.removeComponent(event) 
+				event.stopPropogation();
       });
 			// Notes: Toggle Component Hidden or Displayed
       $(noteElement).find('button.showhide').click( function(event) { 
         EightShapes.Blocks.toggleComponentDisplay(event) 
+				event.stopPropogation();
       });
 			// Notes: Navigate to Component
       $(noteElement).click( function() {
@@ -1060,11 +1062,13 @@ EightShapes.Blocks = {
           .after('<button class="esb next"></button><button class="esb previous"></button>');
 
         $(noteElement).find('button.previous').click(function(event) { 
-          EightShapes.Blocks.previousComponent(event) 
+          EightShapes.Blocks.previousComponent(event);
+					event.stopPropogation();
         });
 
         $(noteElement).find('button.next').click(function(event) { 
           EightShapes.Blocks.nextComponent(event) 
+					event.stopPropogation();
         });
       }
 
