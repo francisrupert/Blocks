@@ -641,12 +641,14 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 		left: 0;
 		bottom: 0;
 		right: auto;
+		position: fixed;
 	}
 	> menu.toolbar.bottomright {
 		top: auto;
 		left: auto;
 		bottom: 0;
 		right: 0;
+		position: fixed;
 	}
 }
 

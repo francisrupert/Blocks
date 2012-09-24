@@ -1347,19 +1347,19 @@ EightShapes.Blocks = {
     if($(XMLconfig).find('display > property[name="toolbarlocation"]').attr('value')) {
 			switch ($(XMLconfig).find('display > property[name="toolbarlocation"]').attr('value')) {
 				case "topleft":
-					$('body#esb > section.pages > menu').attr('class','topleft');
+					$('body#esb > menu').addClass('topleft');
 					break;
 				case "topright":
-					$('body#esb > section.pages > menu').attr('class','topright');
+					$('body#esb > menu').addClass('topright');
 					break;
 				case "bottomleft":
-					$('body#esb > section.pages > menu').attr('class','bottomleft');
+					$('body#esb > menu').addClass('bottomleft');
 					break;
 				case "bottomright":
-					$('body#esb > section.pages > menu').attr('class','bottomright');
+					$('body#esb > menu').addClass('bottomright');
 					break;
 				default:
-					$('body#esb > section.pages > menu').attr('class','topright');
+					$('body#esb > menu').addClass('topright');
 					break;
 			}
 		}
