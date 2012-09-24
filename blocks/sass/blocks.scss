@@ -1019,6 +1019,7 @@ html #esb.fullscreen > section > menu:hover {
 		margin: 0 0 0 15px;
 		padding: 3px 0 3px 0px;
 		line-height: 1.2em;
+		list-style: disc outside none;
 	}
 	ul.itemstack {
 		list-style: none;
@@ -1027,6 +1028,7 @@ html #esb.fullscreen > section > menu:hover {
 	ul.itemstack > li {
 		margin: 0;
 		color: #fff;
+		list-style-type: none;
 	}
 	ul li.esbmarker.hidden {
 		text-decoration: line-through;
@@ -1078,6 +1080,25 @@ html #esb.fullscreen > section > menu:hover {
 	}
 	ul > li.style {
 	
+	}
+	ul > li.dont, ul > li.do {
+		list-style-type: none;
+		position: relative;
+	}
+	ul > li.dont:before, ul > li.do:before {
+		background-image: url("../images/icons.png");
+		background-repeat: no-repeat;
+		background-position: -120px -00px;
+		content: " ";
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		display: block;
+		top: 0;
+		left: -20px;
+	}
+	ul > li.dont:before {
+		background-position: -140px -00px;
 	}
 	> h3 {
 		cursor: pointer;
