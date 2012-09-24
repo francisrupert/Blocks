@@ -1119,10 +1119,12 @@ html #esb.fullscreen > section > menu:hover {
 		background-position: -120px -40px;
 	}
 	> h3.collapsible + ul,
+	> h3.collapsible + p,
 	> h3.collapsible + div.drawer {
 
 	}
 	> h3.collapsible.collapsed + ul,
+	> h3.collapsible.collapsed + p,
 	> h3.collapsible.collapsed + div.drawer {
 		display: none;
 	}
