@@ -172,10 +172,14 @@ EightShapes.Blocks = {
         console.log('WARNING: _config.xml was not found in your prototype root directory.')
       },
 			complete: function() {
-        // Mark Embedded Components in Current Page
-        EightShapes.Blocks.markComponent($('#esb > section.pages > article.active > section.viewport *.component'));
+				var targetpage = $('#esb > section.pages > article.active');
+
+ 			 // Initialize Components List
+				EightShapes.Blocks.registerComponentMarkers($(targetpage));
+       // Mark Embedded Components in Current Page
+        EightShapes.Blocks.markComponent($(targetpage).find('section.viewport *.component'));
         // Load and Add Linked Components in Current Page
-        EightShapes.Blocks.addComponentsToBlock($('#esb > section.pages > article.active > section.viewport'));
+        EightShapes.Blocks.addComponentsToBlock($(targetpage).find('section.viewport'));
 			}
     });
 
@@ -463,24 +467,28 @@ EightShapes.Blocks = {
         cache: false,
 				dataType: 'html',
 				success: function(results) {
+					var targetpage = $('#esb > section.pages > article[data-id="' + page.id + '"]');
 	        results = "<div>" + results + "</div>";
 	        page.html = results;
 	        page.design = $(results).children('section.viewport').children();
 	        page.embeddedclasses = $(results).children('section.viewport').attr('class');
 	        page.notes = $(results).children('aside.notes').children();
 	        page.loaded = true;
-	        $('#esb > section.pages > article[data-id="' + page.id + '"] > section.viewport')
+	        $(targetpage).children('section.viewport')
 	          .append($(page.design))
 						.addClass(page.configclasses)
 	          .addClass(page.embeddedclasses);
-	        $('#esb > section.pages > article[data-id="' + page.id + '"] > aside.notes')
+	        $(targetpage).children('aside.notes')
 	          .append($(page.notes));
-        
+
+	 			 // Initialize Components List
+					EightShapes.Blocks.registerComponentMarkers($(targetpage));
+
 	        // Mark all components embedded in the loaded page classed with "component" 
-	        EightShapes.Blocks.markComponent($('#esb > section.pages > article[data-id="' + page.id + '"] > section.viewport > *.component'));
+	        EightShapes.Blocks.markComponent($(targetpage).children('section.viewport').find('*.component'));
         
 	        // Load all components into the page that contain data-component attribute
-	        EightShapes.Blocks.addComponentsToBlock($('#esb > section.pages > article[data-id="' + page.id + '"] > section.viewport'));
+	        EightShapes.Blocks.addComponentsToBlock($(targetpage).children('section.viewport'));
 				}	// end success
 
       }); // end ajax
@@ -843,6 +851,18 @@ EightShapes.Blocks = {
       EightShapes.Blocks.c[id].registered = true;
     });
   },
+	registerComponentMarkers : function(page) {
+		$(page).find('*[data-component] , *.component').each( function() {
+      var marker = EightShapes.Blocks.m++,
+					componentid = "";
+      if ($(this).attr('data-component')) {
+        componentid = $(this).attr('data-component');
+      }
+			$(this).attr('data-marker', marker);
+			$(page).find('aside.notes > ul.componentlist')
+				.append('<li class="esbmarker" data-marker="' + marker + '" data-id="' + componentid + '"></li>');
+		});
+	},
   addComponentsToBlock : function(blockElement) {
 
     // Summary: Traverses a portion of a DOM and loads & adds all not-yet-loaded components
@@ -934,21 +954,22 @@ EightShapes.Blocks = {
     //    show/hide, remove) and notations (notes available? variation id, etc)
 
     $(componentElements).each(function (i, element) {
-      var marker = EightShapes.Blocks.m++,
-      // Default values
-        componentid = "",
+
+      // Establish Variables (with defaults)
+      var marker = $(element).attr('data-marker');
+ 				componentid = "",
         componentname = "[Untitled]",
         variationHTML = null,
-        variationTitle = "Default";
+        variationTitle = "Default",
 				variationID = $(element).attr('data-variation');
-				if (variationID === "undefined") {
-					variationID = " ";
-				} 
 
+			// Initialize Variables
+			if (variationID === "undefined") {
+				variationID = " ";
+			} 
       if ($(element).attr('data-component')) {
         componentid = $(element).attr('data-component');
       }
-
       if ($(element).attr('title')) {
         componentname = $(element).attr('title');
       } else if (EightShapes.Blocks.c[componentid]) {
@@ -963,7 +984,6 @@ EightShapes.Blocks = {
          	componentname = componentid + " " + componentname;
 				}
 			}
-
       if (variationID) {
         variationHTML = $(EightShapes.Blocks.c[componentid].html)
                           .find('[data-variation='+$(element)
@@ -971,45 +991,39 @@ EightShapes.Blocks = {
         variationTitle = ($(variationHTML).attr('title')) ? $(variationHTML).attr('title') : $(variationHTML).attr('data-variation');
       }
       
+
       // Ensure Component has Component Class
       $(element).addClass('component');
-      $(element).attr('data-marker', marker);
 
-      // Add Marker to Design
+      // Design
       if (EightShapes.Blocks.display.markers === "on") {
         $(element).prepend(' <div class="esbmarker-wrapper"><section class="esbmarker" data-marker="' + marker + '"><div><button class="esb remove"></button><button class="esb showhide"></button>' + componentname + '</div></section></div>');
 
-        // Notes
+        // Notes Icon within Design Marker
         if (EightShapes.Blocks.c[componentid] && 
             (EightShapes.Blocks.c[componentid].hasNotes || 
              EightShapes.Blocks.c[componentid].variationCount > 1)) {
           $(element).find('section.esbmarker > div:first-child').append('<button class="esb notes"></button>');
         }
-        /* 
-        $(element).find('section.esbmarker').click( function() {
-          $('#esb > section').removeClass('active');
-          $('#esb > section.components').addClass('active').addClass('notes');
-        });
-        */
+				// Design: Toggle Component Hidden or Displayed
         $(element).find('section.esbmarker button.showhide').click( function(event) { 
           EightShapes.Blocks.toggleComponentDisplay(event); 
           event.stopPropagation(); 
         });
+				// Design: Remove Component from Layout, Notes List
         $(element).find('section.esbmarker button.remove').click( function(event) { 
           EightShapes.Blocks.removeComponent(event); 
           event.stopPropagation(); 
         });
       }
-      
-      // Add Marker to Notes
-      var noteElement = $(element)
-        .closest('article.page')
-        .children('aside.notes')
-        .find('ul.componentlist')
-        .append('<li class="esbmarker" data-marker="' + marker + '" data-id="' + componentid + '"></li>')
-        .find('li:last-child');
 
-     	$(noteElement).append('<div>' + componentname + '</div>');
+      // Notes
+			var noteElement = $(element).closest('article.page')
+				.children('aside.notes')
+				.find('ul.componentlist li[data-marker="' + marker + '"]')
+				.append('<div>' + componentname + '</div>');
+
+			// Add Notes Marker Remove, Show & Hide
 			if (EightShapes.Blocks.display.markeractions) {
 				$(noteElement).find('div').prepend('<button class="esb remove"></button><button class="esb showhide"></button>')
 			}
@@ -1022,16 +1036,18 @@ EightShapes.Blocks = {
 				$(noteElement).addClass('hidden');
 				$(element).hide();
 			}
+			// Notes: Remove Component from Layout, Notes List
       $(noteElement).find('button.remove').click( function(event) { 
         EightShapes.Blocks.removeComponent(event) 
       });
+			// Notes: Toggle Component Hidden or Displayed
       $(noteElement).find('button.showhide').click( function(event) { 
         EightShapes.Blocks.toggleComponentDisplay(event) 
       });
+			// Notes: Navigate to Component
       $(noteElement).click( function() {
         if ($(this).attr('data-id') !== "") {
-//	Function call needs to be revised based on state-machine	
-//         EightShapes.Blocks.gtC($(this).attr('data-id'));
+					$.bbq.pushState({view:"component", id:$(this).attr('data-id')});
         }
       });
 
