@@ -532,6 +532,10 @@ EightShapes.Blocks = {
 			EightShapes.Blocks.home.wrap();
       $('body')
 				.append('<section class="pages active" data-section="pages"></section>')
+			$('body > section.home aside.notes').on('click','a', function(event) {
+				EightShapes.Blocks.navigateAnchor(this);
+				event.stopPropagation();
+			});
 
 		// Else Return Failed Load
 		} else {
@@ -765,6 +769,11 @@ EightShapes.Blocks = {
       } else if ($(currentArticle).children('aside.notes').children('ul.componentlist').length === 0) {
         $(currentArticle).children('aside.notes').prepend(articleComponentsList)
       }
+
+			$(currentArticle).children('aside.notes').on('click','a', function(event) {
+				EightShapes.Blocks.navigateAnchor(this);
+				event.stopPropagation();
+			})
 
       if(setid !== undefined) {
         if($(currentArticle).children('aside.notes').children('ul.appearsinlist').length === 0) {
@@ -1292,14 +1301,24 @@ EightShapes.Blocks = {
           EightShapes.Blocks.p[id].load();
         }
         break;
-			case "maps":
-				$('body > header > nav > ul > li.maps').addClass('active');
-				$('body > section.maps').addClass('active');
-				EightShapes.Blocks.display.lastView = "maps";
-				EightShapes.Blocks.display.lastViewID = "";
-				break;
     }
   },
+	navigateAnchor : function(anchor) {
+		var dataview = $(anchor).attr('data-view'),
+				dataid = $(anchor).attr('data-id');
+		 
+		if (dataview && dataid) {
+      $.bbq.pushState({ view : dataview, id : dataid });
+		} else if (!dataview) {
+			console.log('Your anchor tag has an ID, but lack the data-view attribute.');
+		} else if (!dataid && ( (dataview==="page") || (dataview==="component") || (dataview==="fullscreen") )) {
+			console.log('To display a ' + dataview + ', a data-id attribute is required.');
+		} else if (!dataid && !dataview) {
+			window.location = $(anchor).attr('href');
+		} else {
+      $.bbq.pushState({ view : dataview, id : "" });
+		}
+	},
   setDisplayPreferences : function(XMLconfig) {
 
     // Summary: Read the XML and update any preferences based on what's included
