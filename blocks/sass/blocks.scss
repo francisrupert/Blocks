@@ -127,6 +127,9 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	position: relative;
 	margin: 0;
 	z-index: 999;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 
 	> nav.primary {
 		display: block;
@@ -141,9 +144,12 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 		margin-bottom: 0;
 	}
 	> nav.primary > ul > li {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
 		@include bg-gradient-top(rgb(55,55,55),rgb(22,22,22));
 		display: inline-block;
-		height: 20px;
+		height: 45px;
 		padding: 12px 15px 18px;
 		margin: 0px;
 		border-right: 1px solid #444;
@@ -155,15 +161,15 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	}
 	> nav.primary > ul > li.home {
 		background-image: url("../images/icons.png");
-		background-position: -116px -97px;
+		background-position: -116px -100px;
 		background-repeat: no-repeat;
 		border-right: 0 none;
 		float: left;
-		height: 35px;
+		height: 28px;
 		margin: 7px;
 		opacity: 0.4;
-		padding: 0 10px;
-		width: 20px;
+		padding: 0 20px;
+		width: 30px;
 	}
 	> nav.primary > ul > li.home:hover {
 		opacity: 0.6;
@@ -182,13 +188,13 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 		border-width: 0px;
 		padding: 0;
 		margin: 0;
-	  margin-top: 12px;
+	  margin-top: 8px;
 	}
 	> dl {
 		display: block;
 		font-family: 'News Gothic MT',Arial;
 		font-weight: normal;
-		margin: 0px 0px 5px 20px;
+		margin: -3px 0px 5px 20px;
 		white-space: nowrap;
 		overflow: hidden;
 	}
@@ -862,6 +868,9 @@ html #esb.fullscreen > section > menu:hover {
 		display: none;
 	}
 	> article > section.viewport {
+		-moz-box-sizing: content-box;
+		-webkit-box-sizing: content-box;
+		box-sizing: content-box;
 		position: absolute;
 		height: 1000px;
 		overflow: hidden;
@@ -947,6 +956,7 @@ html #esb.fullscreen > section > menu:hover {
 	}
 	> section.viewport {
 		background-color: white;
+		background-image: url('/');
 	  padding: 10px;
 		box-shadow: 10px 10px 10px rgba(0,0,0,0.5);
 		-moz-transform: scale(0.6);
