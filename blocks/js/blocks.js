@@ -201,29 +201,6 @@ EightShapes.Blocks = {
 			}
 			return false;
     });
-    // Go From Article to Article
-    $('#esb > menu').on('click','a.next', function() {
-      var currentPage = $('#esb > section.pages > article.page.active');
-      if($(currentPage).next().is('article')) {
-        if($('#esb').hasClass('fullscreen')) {
-          $.bbq.pushState({view:"fullscreen",id:$(currentPage).next().attr('data-id')});
-        } else {
-          $.bbq.pushState({id:$(currentPage).next().attr('data-id')});
-        }
-      }
-			return false;
-    });
-    $('#esb > menu').on('click','a.previous', function() {
-      var currentPage = $('#esb > section.pages > article.page.active');
-      if($(currentPage).prev().is('article')) {
-				if($('#esb').hasClass('fullscreen')) {
-          $.bbq.pushState({view:"fullscreen",id:$(currentPage).prev().attr('data-id')});
-				} else {
-	        $.bbq.pushState({view:"page", id:$(currentPage).prev().attr('data-id')});
-				}
-      }
-			return false;
-    });
     // Toggle Markers On/Off
     $('#esb > menu').on('click','button.markers', function() {
 			$(this).toggleClass('active');
@@ -560,7 +537,7 @@ EightShapes.Blocks = {
 		if (EightShapes.Blocks.display.toolbar === "on") {
 			$('#esb > header').after('<menu class="toolbar"><form action="#"></form></menu>');
 			$('#esb > menu > form')
-				.append('<fieldset class="basic"><button class="fullscreen">Full Screen</button><button class="markers">Markers</button></fieldset>')
+				.append('<fieldset class="basic"><button class="fullscreen">Full Screen</button><button class="markers">Markers</button></fieldset><fieldset class="pagination"><button class="previous">Previous Page</button><button class="next">Next Page</button></fieldset>')
 				.append('<fieldset class="lists"><button data-menu="lists-scale" class="lists-scale setting">Scale</button><button data-menu="lists-height" class="lists-height setting">Height</button><button data-menu="viewas" class="viewas setting">View As</button></fieldset>')
 			$('#esb > menu fieldset.lists')
 				.append('<menu class="setting lists-scale"><button data-value="0.2">Small</button><button data-value="0.275" class="active">Medium</button><button data-value="0.35">Large</button></menu>')
@@ -568,6 +545,22 @@ EightShapes.Blocks = {
 				.append('<menu class="setting viewas"><button data-value="grid" class="active">Grid</button><button data-value="thumbnail">Thumbnails</button><button data-value="list">List</button></menu>')
 		}
 		// Menu Toolbar: Toggle Menu Panels
+    // Go From Article to Article
+    $('#esb > menu').on('click','button.previous, button.next', function(event) {
+      var currentPage = $('#esb > section.pages > article.page.active');
+			var newPageID;
+			if($(currentPage).prev().is('article') && $(this).hasClass('previous')) {
+				newPageID = $(currentPage).prev().attr('data-id');
+			} else if ($(this).hasClass('previous')){
+				newPageID = $('#esb > section.pages > article').last().attr('data-id');
+			} else if ($(currentPage).next().is('article')) {
+				newPageID = $(currentPage).next().attr('data-id');
+			} else {
+				newPageID = $('#esb > section.pages > article').first().attr('data-id');
+			}
+      $.bbq.pushState({id:newPageID});
+			return false;
+    });
 		$('#esb > menu').on('click','button.setting', function() {
 			var toolbar = $(this).closest('menu.toolbar'),
 					active = $(this).hasClass('active'),
@@ -1219,6 +1212,7 @@ EightShapes.Blocks = {
 		EightShapes.Blocks.clearGridScale();
 
 		// Flush Menuing & Responsive Viewers
+		$('body > menu fieldset.pagination').hide();
 		$('body > menu fieldset.lists').hide();
 		$('body > menu fieldset.responsive').hide().children('button').removeClass('active');
 		$('body > section.pages > article > section.responsiveframes').remove();
@@ -1256,6 +1250,7 @@ EightShapes.Blocks = {
         break;
       case "page":
         $('body > header > nav > ul > li.pages').addClass('active');
+				$('body > menu fieldset.pagination').show();
         $('body > section.pages').addClass('active notes');
         $('body > section.pages > article[data-id="' + id + '"]').addClass('active');
 				if ((EightShapes.Blocks.display.responsiveviewer === "on") && !($('#esb > section.pages > article.active').hasClass('currentpage'))) {
@@ -1295,8 +1290,10 @@ EightShapes.Blocks = {
         break;
       case "fullscreen":
         $('body').addClass('fullscreen');
-        $('body > section.pages').addClass('active');
+ 				$('body > menu fieldset.pagination').show();
+      	$('body > section.pages').addClass('active');
         $('body > section.pages > article[data-id="' + id + '"]').addClass('active');
+        EightShapes.Blocks.display.lastViewID = id;
         if(!EightShapes.Blocks.p[id].loaded) {
           EightShapes.Blocks.p[id].load();
         }

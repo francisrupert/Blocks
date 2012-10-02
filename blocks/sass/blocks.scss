@@ -425,6 +425,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 		width: 60px;
 		position: relative;
 	}
+	fieldset.pagination,
 	fieldset.responsive,
 	fieldset.lists {
 		display: none;
@@ -451,7 +452,9 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 		z-index: 2;
 	}
 	button.markers:before,
-	button.fullscreen:before {
+	button.fullscreen:before,
+	button.previous:before,
+	button.next:before {
 		width: 50px;
 		height: 50px;
 		position: absolute;
@@ -470,6 +473,33 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	}
 	button.markers.active:before {
 		background-position: 0px -410px;
+	}
+	fieldset.pagination > button {
+		border-bottom: 0;
+		border-top: 0;
+	}
+	button.previous, button.next {
+		width: 50%;
+		height: 35px;
+		text-indent: -8888px;
+	}
+	button.previous:before, button.next:before {
+		width: 25px;
+		height: 25px;
+		top: 0px;
+		right: 5px;
+	}
+	button.previous:before {
+		background-position: -30px -468px;
+	}
+	button.previous:hover:before {
+		background-position: -0px -468px;
+	}
+	button.next:before {
+		background-position: -90px -468px;
+	}
+	button.next:hover:before {
+		background-position: -60px -468px;
 	}
 	fieldset.responsive {
 		> button:not(.setting) {
