@@ -139,7 +139,7 @@ EightShapes.Blocks = {
     //   If failure -> remove Toolbar, still try to load page components into "standalone page"
     $.ajax({
       type: 'GET',
-      url: '_config.xml?random='+Math.random(), // random number added for cache busting
+      url: '_config.xml?random='+Math.random(),  // random number added for cache busting
       dataType: 'xml',
       success: function(XMLconfig) {
         // Configure experience based on project-specific preferences 
@@ -154,13 +154,17 @@ EightShapes.Blocks = {
 				EightShapes.Blocks.display.lastViewID = EightShapes.Blocks.metadata.currentpageid;
 
         // Reset hash upon page refresh, since it may contain irrelevant hash values
-				if (EightShapes.Blocks.display.startpage === "page") {
-        	$.bbq.pushState({view:"fullscreen", id:EightShapes.Blocks.metadata.currentpageid});
-        	$('#esb > section.pages > article').attr('data-id',EightShapes.Blocks.metadata.currentpageid);
-        	EightShapes.Blocks.registerPage($('#esb > section.pages > article.active'));
+				if (top == self) {
+					if (EightShapes.Blocks.display.startpage === "page") {
+	        	$.bbq.pushState({view:"fullscreen", id:EightShapes.Blocks.metadata.currentpageid});
+	        	$('#esb > section.pages > article').attr('data-id',EightShapes.Blocks.metadata.currentpageid);
+	        	EightShapes.Blocks.registerPage($('#esb > section.pages > article.active'));
+					} else {
+	        	$.bbq.pushState({view:"reloadhome", id:""});
+	        	$.bbq.pushState({view:"home", id:""});
+					}
 				} else {
-        	$.bbq.pushState({view:"reloadhome", id:""});
-        	$.bbq.pushState({view:"home", id:""});
+					$('body > header, body > menu').remove();
 				}
 
         // Register Pages, Components, and Sets from Config XML to EightShapes.Blocks.p, 
@@ -445,6 +449,7 @@ EightShapes.Blocks = {
 				dataType: 'html',
 				success: function(results) {
 					var targetpage = $('#esb > section.pages > article[data-id="' + page.id + '"]');
+					page.rawhtml = results;
 	        results = "<div>" + results + "</div>";
 	        page.html = results;
 	        page.design = $(results).children('section.viewport').children();
@@ -641,6 +646,7 @@ EightShapes.Blocks = {
 					scale = $(fieldset).find('menu.scale > button.active').attr('data-value'),
 					title = width + "x" + height + $(this).html(),
 					titlemarkup = width + "x" + height + " <i>" + $(this).html() + "</i>";
+			var newiframe;
 
 			if ($('#esb > menu menu.height > button.active').attr('data-value') > 0) {
 				height = $('#esb > menu menu.height > button.active').attr('data-value');
@@ -652,7 +658,13 @@ EightShapes.Blocks = {
 					$(article).append('<section class="responsiveframes"></section>');
 				}
 				$(article).children('section.responsiveframes')
-					.append('<div class="responsiveframe" data-width="' + width + '" data-frame="' + title + '" style="width: ' + width*scale + 'px; -moz-transform: scale(' + scale + '); -webkit-transform: scale(' + scale + '); "><h2>' + titlemarkup + '</h2><iframe src="' + $(article).attr('data-id') + '.html#toolbar=off" frameborder="0" width="' + width + '" height="' + height + '" data-original-height="' + originalheight + '" sandbox="allow-same-origin allow-forms allow-scripts" seamless></iframe></div>');
+					.append('<div class="responsiveframe" data-width="' + width + '" data-frame="' + title + '" style="width: ' + width*scale + 'px; -moz-transform: scale(' + scale + '); -webkit-transform: scale(' + scale + '); "><h2>' + titlemarkup + '</h2><iframe frameborder="0" width="' + width + '" height="' + height + '" data-original-height="' + originalheight + '" sandbox="allow-same-origin allow-forms allow-scripts" seamless></iframe></div>');
+
+				// With iFrame now in DOM, take the loaded page within the page object and replace iFrame contents
+				newiframe = $(article).find('iframe').last()[0].contentWindow;
+				newiframe.document.open('text/html', 'replace');
+				newiframe.document.write(EightShapes.Blocks.p[$(article).attr('data-id')].rawhtml);
+				newiframe.document.close();
 			} else {
 				$(article).find('section.responsiveframes').children('.responsiveframe[data-frame="' + title + '"]').remove();
 			}
@@ -663,6 +675,7 @@ EightShapes.Blocks = {
 				$('#esb').removeClass('responsiveviewer');
 				$(article).children('section.responsiveframes').remove();
 			}
+			return false;
 		})	
 
     return true;
@@ -1200,6 +1213,7 @@ EightShapes.Blocks = {
     // Discard links within prototype pages 
     // (links containing a hash tag will tigger hashchange).
     // https://github.com/EightShapes/Blocks/issues/7
+
     if (view == undefined && id == undefined) {
       return false;
     }
@@ -1253,7 +1267,7 @@ EightShapes.Blocks = {
 				$('body > menu fieldset.pagination').show();
         $('body > section.pages').addClass('active notes');
         $('body > section.pages > article[data-id="' + id + '"]').addClass('active');
-				if ((EightShapes.Blocks.display.responsiveviewer === "on") && !($('#esb > section.pages > article.active').hasClass('currentpage'))) {
+				if (EightShapes.Blocks.display.responsiveviewer === "on") {
 					$('#esb > menu fieldset.responsive').show();
 				}
         EightShapes.Blocks.display.lastView = "page";
