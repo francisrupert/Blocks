@@ -425,6 +425,7 @@ EightShapes.Blocks = {
   Page : function(id) {
     this.id = id;
     this.loaded = false;
+		this.rawhtml = "";
     this.html = "";
     this.embeddedclasses = "";
 		this.configclasses = "";
@@ -712,13 +713,14 @@ EightShapes.Blocks = {
 				id = id + "_" + $(element).attr('variation');
 			}
 
-      if (id === loadedPageID) {
-        reachedLoadedPageYet = true;
-      }
-
       // ESB Page exist?
       if (!EightShapes.Blocks.p[id]) {
         EightShapes.Blocks.p[id] = new EightShapes.Blocks.Page(id);
+      }
+
+      if (id === loadedPageID) {
+        reachedLoadedPageYet = true;
+				EightShapes.Blocks.p[id].rawhtml = $('html').html();
       }
 
       // Update with Properties from Element Provided

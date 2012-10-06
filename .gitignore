@@ -1,6 +1,6 @@
 *.swp
 .DS_Store
-blocks/config.rb
+config.rb
 blocks/.sass-cache/
 blocks/compass_app_log.txt
 .gitignore
