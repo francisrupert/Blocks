@@ -1371,7 +1371,7 @@ EightShapes.Blocks = {
 			EightShapes.Blocks.display.toolbar = "on";		
 		} else {
 			EightShapes.Blocks.display.toolbar = "off";
-			$('body#esb > section.pages > menu').hide();
+			$('body#esb > menu').hide();
 			if (EightShapes.Blocks.display.markers === "on") {
 				$('body').addClass('markers');
 			}
