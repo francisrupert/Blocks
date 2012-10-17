@@ -598,7 +598,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 		z-index: 1;
 		position: absolute;
 		bottom: 0;
-		height: 30px;
+		height: 40px;
 		width: 250px;
 		margin: 0;
 		padding: 5px 10px;
@@ -616,11 +616,11 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	fieldset.lists.grid > button.setting.lists-height {
 		display: block;
 	}	
-	menu.setting.lists-scale {
+	menu.setting.active.lists-scale {
 		bottom: 80px;
 	}
-	menu.setting.lists-height,
-	menu.setting.scale {
+	menu.setting.active.lists-height,
+	menu.setting.active.scale {
 		bottom: 40px;
 	}
 	menu.setting.height > button {
@@ -633,6 +633,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	menu.setting.active {
 		display: block;
 		right: 60px;
+		bottom: 0px;
 	}
 	menu.setting > button {
 		font-size: 11px;
@@ -646,6 +647,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 		border-right: 1px solid black;
 		border-bottom: 1px solid black;
 		text-indent: 0;
+		vertical-align: middle;
 	}
 	menu.setting > button:first-child {
 		border-left: 1px solid black;
