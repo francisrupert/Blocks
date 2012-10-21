@@ -134,26 +134,6 @@ EightShapes.Blocks = {
 		}
     if (!EightShapes.Blocks.markupCore()) return false;
 
-    // Identify and ID Current Page's Article
-    var hrefsplit = window.location.href.split('/');
-    EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].split('.html')[0];
-		EightShapes.Blocks.display.lastViewID = EightShapes.Blocks.metadata.currentpageid;
-
-    // Reset hash upon page refresh, since it may contain irrelevant hash values
-		if (top == self) {
-			if (EightShapes.Blocks.display.startpage === "page") {
-      	$.bbq.pushState({view:"fullscreen", id:EightShapes.Blocks.metadata.currentpageid});
-      	$('#esb > section.pages > article').attr('data-id',EightShapes.Blocks.metadata.currentpageid);
-      	EightShapes.Blocks.registerPage($('#esb > section.pages > article.active'));
-			} else {
-      	$.bbq.pushState({view:"reloadhome", id:""});
-      	$.bbq.pushState({view:"home", id:""});
-			}
-		} else {
-			$('body > header, body > menu').remove();
-		}
-
-
     // Attempt to Load _config.xml
     //   If successful -> invoke Blocks
     //   If failure -> remove Toolbar, still try to load page components into "standalone page"
@@ -165,6 +145,27 @@ EightShapes.Blocks = {
         // Configure experience based on project-specific preferences 
         EightShapes.Blocks.setDisplayPreferences(XMLconfig);
         EightShapes.Blocks.setPrototypeMetadata(XMLconfig);
+
+        // Identify and ID Current Page's Article
+        var hrefsplit = window.location.href.split('/');
+//RM        EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].substr(0,hrefsplit[hrefsplit.length-1].length-5);
+        // hrefsplit[hrefsplit.length-1].length-5
+        EightShapes.Blocks.metadata.currentpageid = hrefsplit[hrefsplit.length-1].split('.html')[0];
+				EightShapes.Blocks.display.lastViewID = EightShapes.Blocks.metadata.currentpageid;
+
+        // Reset hash upon page refresh, since it may contain irrelevant hash values
+				if (top == self) {
+					if (EightShapes.Blocks.display.startpage === "page") {
+	        	$.bbq.pushState({view:"fullscreen", id:EightShapes.Blocks.metadata.currentpageid});
+	        	$('#esb > section.pages > article').attr('data-id',EightShapes.Blocks.metadata.currentpageid);
+	        	EightShapes.Blocks.registerPage($('#esb > section.pages > article.active'));
+					} else {
+	        	$.bbq.pushState({view:"reloadhome", id:""});
+	        	$.bbq.pushState({view:"home", id:""});
+					}
+				} else {
+					$('body > header, body > menu').remove();
+				}
 
         // Register Pages, Components, and Sets from Config XML to EightShapes.Blocks.p, 
         // EightShapes.Blocks.c, and EightShapes.Blocks.s
