@@ -42,6 +42,12 @@ li{margin-left:30px}
 
 button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;font:14px/18px 'News Gothic MT','Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif}
 
+* {
+ 	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 @font-face {
     font-family: 'MuseoSlab500';
     src: url('fonts/museoslab/museo_slab_500-webfont.eot');
