@@ -259,7 +259,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	    bottom: -75px;
 	}
 	nav.primary > ul > li {
-	    width: 201px;
+	    width: 221px;
 			height: 55px;
 	    margin-left: 20px;
 	    text-align: left;
@@ -267,6 +267,7 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	    @include bg-gradient-top(rgba(0,0,0,0.3),rgba(0,0,0,0.3));
 	    border-top: 5px solid $orange;
 		color: #888;
+		padding-top: 15px;
 	}
 	nav.primary > ul > li:hover {
 		color: #ddd;
@@ -286,13 +287,13 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 		margin-top: 75px;
 		padding: 10px;
 		position: relative;
-		width: 181px;
+		width: 221px;
 		float: left;
 		margin-left: 0;
 		min-height: 325px;
 	}
 	> section.pages {
-		margin-left: 59px;
+		margin-left: 19px;
 	}
 	> section.pages > menu,
 	> section.components > menu {
