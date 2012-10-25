@@ -1516,7 +1516,7 @@ EightShapes.Blocks = {
     // Summary: Adds a class to component variations for "customizeable width displays" 
     // within Component Grids and Notes
 		if (variationid && EightShapes.Blocks.c[id].variations[variationid].container) {
-			return EightShapes.Blocks.c[id].variations[variationid].container;
+			return EightShapes.Blocks.c[id].container + " " + EightShapes.Blocks.c[id].variations[variationid].container;
 		} else if (EightShapes.Blocks.c[id].container) {
 			return EightShapes.Blocks.c[id].container;
 		} else {
