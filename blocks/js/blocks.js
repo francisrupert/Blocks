@@ -449,7 +449,7 @@ EightShapes.Blocks = {
 				dataType: 'html',
 				success: function(results) {
 					var targetpage = $('#esb > section.pages > article[data-id="' + page.id + '"]');
-					page.rawhtml = results.replace(/viewport/g,"viewport " + page.configclasses);
+					page.rawhtml = results;
 	        results = "<div>" + results + "</div>";
 	        page.html = results;
 	        page.design = $(results).children('section.viewport').children();
@@ -468,7 +468,7 @@ EightShapes.Blocks = {
 
 	        // Mark all components embedded in the loaded page classed with "component" 
 	        EightShapes.Blocks.markComponent($(targetpage).children('section.viewport').find('*.component'));
-        
+
 	        // Load all components into the page that contain data-component attribute
 	        EightShapes.Blocks.addComponentsToBlock($(targetpage).children('section.viewport'));
 				}	// end success
@@ -665,6 +665,7 @@ EightShapes.Blocks = {
 				newiframe.document.open('text/html', 'replace');
 				newiframe.document.write(EightShapes.Blocks.p[$(article).attr('data-id')].rawhtml);
 				newiframe.document.close();
+				setTimeout(function() {$('div.responsiveframe > iframe').contents().find('section.viewport').addClass(EightShapes.Blocks.p[$(article).attr('data-id')].configclasses);},500);
 			} else {
 				$(article).find('section.responsiveframes').children('.responsiveframe[data-frame="' + title + '"]').remove();
 			}
