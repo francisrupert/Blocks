@@ -435,9 +435,9 @@ EightShapes.Blocks = {
     this.description = "";
 		this.pagefilename = id;
     this.index = EightShapes.Blocks.pc++;
-    
+
     // Load page from a file in the project root directory into EightShapes.Blocks and the section.pages>article
-    
+
     this.load = function() {
       var page = EightShapes.Blocks.p[id];
       var pageArticle = $('body > section.pages > article[data-id="' + page.id + '"]').append('<section class="viewport"></section>');
@@ -449,7 +449,7 @@ EightShapes.Blocks = {
 				dataType: 'html',
 				success: function(results) {
 					var targetpage = $('#esb > section.pages > article[data-id="' + page.id + '"]');
-					page.rawhtml = results;
+					page.rawhtml = results.replace(/viewport/g,"viewport " + page.configclasses);
 	        results = "<div>" + results + "</div>";
 	        page.html = results;
 	        page.design = $(results).children('section.viewport').children();
