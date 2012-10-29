@@ -376,7 +376,7 @@ EightShapes.Blocks = {
               // For wrapping variations within the Components section layouts
               // If there's a wrapper element (and, optionally, classes too),
               // then don't class the viewport
-	            var nonWrapperViewportClasses = component.classes,
+	            var nonWrapperViewportClasses = component.classes + ' ' + EightShapes.Blocks.c[id].variations[variationid].classes,
 	                wrapperStart = '',
 	                wrapperEnd = '';
               if(component.wrapper) {
@@ -394,7 +394,7 @@ EightShapes.Blocks = {
 	            $('#esb > section.components > article[data-id="' + id + '"]')
 
 	              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id,variationid) + '" data-id="' + variationid + '" ><header><h3>' + EightShapes.Blocks.displayTitle(variationid,variationtitle) + '</h3></header>' + 
-	                 '<section class="viewport ' + nonWrapperViewportClasses + ' ' + EightShapes.Blocks.c[id].variations[variationid].classes + '">' + wrapperStart + $(this).html() + wrapperEnd + '</section></section>')
+	                 '<section class="viewport ' + nonWrapperViewportClasses + '">' + wrapperStart + $(this).html() + wrapperEnd + '</section></section>')
 	              .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');
 	          })
 	        }
