@@ -42,12 +42,6 @@ li{margin-left:30px}
 
 button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;font:14px/18px 'News Gothic MT','Helvetica Neue',Arial,'Liberation Sans',FreeSans,sans-serif}
 
-* {
- 	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
 @font-face {
     font-family: 'MuseoSlab500';
     src: url('fonts/museoslab/museo_slab_500-webfont.eot');
@@ -137,6 +131,11 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 
+  * {
+   	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  }
 	> nav.primary {
 		display: block;
 		text-align: center;
@@ -419,6 +418,12 @@ button.esb {margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:
 	border-right: 1px solid #222;
 	@include box-shadow(-3px 5px 5px rgba(0, 0, 0, 0.3));
 	background-color: rgba(68,68,68,0.95);
+
+  * {
+   	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  }
 
 	form {
 		margin: 0;
@@ -712,6 +717,11 @@ html #esb.fullscreen > section > menu:hover {
 #esb > section > article > header {
 	display: block;
 
+  * {
+   	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  }
 	> button {
 		background: url("../images/icons.png") no-repeat scroll 2px -98px #666666;
 		border: 0 none;
@@ -1027,6 +1037,11 @@ html #esb.fullscreen > section > menu:hover {
 	width: 310px;
 	top: 60px;
 
+  * {
+   	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+  }
 	h3,
 	h4 {
 		font-family: 'MuseoSlab500', Arial;
