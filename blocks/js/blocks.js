@@ -330,10 +330,12 @@ EightShapes.Blocks = {
     this.notesLoaded = false;
     this.registered = false;
     this.doneness = "";
+    this.wrapper = "";
+    this.wrapperClasses = "";
 		this.description = "";
 		this.classes = "";
     this.container = "";					// Customizable container for Components section Notes view, at component level (not variation)
-    
+
     // Load the component (all variations) from a file
     this.load = function() {
       var component = EightShapes.Blocks.c[id];
@@ -354,6 +356,8 @@ EightShapes.Blocks = {
 	        component.notes           = $(results).children('aside.notes').html();
 	        component.title           = $(results).children('header').attr('title');
 	        component.classes         = $(results).children('header').attr('class');
+	        component.wrapper         = $(results).children('header').attr('wrapper');
+	        component.wrapperClasses  = $(results).children('header').attr('wrapperclass');
 	        component.container       = $(results).children('header').attr('data-container');
 	        component.hasNotes        = ($(results).children('aside.notes').length > 0);
 	        component.variationCount  = $(results).children('article#variations').children().length;
@@ -369,6 +373,18 @@ EightShapes.Blocks = {
 	            var variationid = $(this).attr('data-variation');
 	            var variationtitle = $(this).attr('title');
 
+              // For wrapping variations within the Components section layouts
+              // If there's a wrapper element (and, optionally, classes too),
+              // then don't class the viewport
+	            var nonWrapperViewportClasses = component.classes,
+	                wrapperStart = '',
+	                wrapperEnd = '';
+              if(component.wrapper) {
+                nonWrapperViewportClasses = '';
+                wrapperStart = "<"+component.wrapper+" class=" + component.wrapperClasses + ">";
+                wrapperEnd = "</"+component.wrapper+">";
+              }
+
 							EightShapes.Blocks.c[id].variations[variationid] = new EightShapes.Blocks.ComponentVariation(variationid);
 							EightShapes.Blocks.c[id].variations[variationid].id = variationid;
 							EightShapes.Blocks.c[id].variations[variationid].title = variationtitle;
@@ -378,7 +394,7 @@ EightShapes.Blocks = {
 	            $('#esb > section.components > article[data-id="' + id + '"]')
 
 	              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id,variationid) + '" data-id="' + variationid + '" ><header><h3>' + EightShapes.Blocks.displayTitle(variationid,variationtitle) + '</h3></header>' + 
-	                 '<section class="viewport ' + component.classes + ' ' + EightShapes.Blocks.c[id].variations[variationid].classes + '">' + $(this).html() + '</section></section>')
+	                 '<section class="viewport ' + nonWrapperViewportClasses + ' ' + EightShapes.Blocks.c[id].variations[variationid].classes + '">' + wrapperStart + $(this).html() + wrapperEnd + '</section></section>')
 	              .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');
 	          })
 	        }
@@ -909,7 +925,7 @@ EightShapes.Blocks = {
     });
   },
   addComponent : function(elements) {
-    
+
     // Summary: Clone 1+ component variations from BODY>SECTION.components into a BODY>SECTION.pages>ARTICLE layout
     // Parameter: 1+ elements within BODY>SECTION.pages>ARTICLE layouts 
     // Called by: 
@@ -924,16 +940,21 @@ EightShapes.Blocks = {
 			var variationid = $(element).attr('data-variation');
 
       // Clone the Component
-      if (variationid) {
-        clonedComponent = $('#esb > section.components > article[data-id="' + id + '"]').find('section[data-id="' + $(element).attr('data-variation') + '"] > section.viewport').clone(true);
-
-        // Need to add an ELSE IF for if variation can't be found
-        // then append first, and if not
-        // then append entire c[].html
-      
+      // If component is wrapped, then cloned the children of the wrapper. Otherwise, cloned the direct children of the viewport.
+      if (EightShapes.Blocks.c[id].wrapper) {
+        if (variationid) {
+          clonedComponent = $('#esb > section.components > article[data-id="' + id + '"]').find('section[data-id="' + $(element).attr('data-variation') + '"] > section.viewport').children().clone(true);
+        } else {
+  				variationid = $('#esb > section.components > article[data-id="' + id + '"]').find('section:nth-child(3)').attr('data-id');
+          clonedComponent = $('#esb > section.components > article[data-id="' + id + '"]').find('section:nth-child(3) > section.viewport').children().clone(true);
+        }
       } else {
-				variationid = $('#esb > section.components > article[data-id="' + id + '"]').find('section:nth-child(3)').attr('data-id');
-        clonedComponent = $('#esb > section.components > article[data-id="' + id + '"]').find('section:nth-child(3) > section.viewport').clone(true);
+        if (variationid) {
+          clonedComponent = $('#esb > section.components > article[data-id="' + id + '"]').find('section[data-id="' + $(element).attr('data-variation') + '"] > section.viewport').clone(true);
+        } else {
+  				variationid = $('#esb > section.components > article[data-id="' + id + '"]').find('section:nth-child(3)').attr('data-id');
+          clonedComponent = $('#esb > section.components > article[data-id="' + id + '"]').find('section:nth-child(3) > section.viewport').clone(true);
+        }
       }
 
 			// Remove descendent component markers and style
@@ -943,15 +964,15 @@ EightShapes.Blocks = {
       $(element).append($(clonedComponent).children())
 				.addClass(EightShapes.Blocks.c[id].classes)														// Component class
 				.addClass('loaded');																									// Designate as loaded
-				
+
 			if(EightShapes.Blocks.c[id].variations[variationid]) {
 				$(element).addClass(EightShapes.Blocks.c[id].variations[variationid].classes) // Component variation class
 			}
-      
+
 			// Check if its a decendant component
 			containingComponentArticle = $(element).closest('#esb > section.components > article.component');
 			if (containingComponentArticle && containingComponentArticle.length > 0) {
-				
+
 				// Check to see if any descendents still need to be loaded for the parent, and if not, finish the loading process for the parent
 				if ($(containingComponentArticle).find('*[data-component]:not(.loaded)').length === 0) {
 					EightShapes.Blocks.loadComponentJSandAddToLocations(EightShapes.Blocks.c[$(containingComponentArticle).attr('data-id')]);
