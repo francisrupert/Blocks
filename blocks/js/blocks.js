@@ -373,10 +373,17 @@ EightShapes.Blocks = {
 	            var variationid = $(this).attr('data-variation');
 	            var variationtitle = $(this).attr('title');
 
+							EightShapes.Blocks.c[id].variations[variationid] = new EightShapes.Blocks.ComponentVariation(variationid);
+							EightShapes.Blocks.c[id].variations[variationid].id = variationid;
+							EightShapes.Blocks.c[id].variations[variationid].title = variationtitle;
+							EightShapes.Blocks.c[id].variations[variationid].html = $(this).html();
+							EightShapes.Blocks.c[id].variations[variationid].classes = $(this).attr('class');
+							EightShapes.Blocks.c[id].variations[variationid].container = $(this).attr('data-container');
+
               // For wrapping variations within the Components section layouts
               // If there's a wrapper element (and, optionally, classes too),
               // then don't class the viewport
-	            var nonWrapperViewportClasses = component.classes,
+	            var nonWrapperViewportClasses = component.classes + ' ' + EightShapes.Blocks.c[id].variations[variationid].classes,
 	                wrapperStart = '',
 	                wrapperEnd = '';
               if(component.wrapper) {
@@ -385,16 +392,10 @@ EightShapes.Blocks = {
                 wrapperEnd = "</"+component.wrapper+">";
               }
 
-							EightShapes.Blocks.c[id].variations[variationid] = new EightShapes.Blocks.ComponentVariation(variationid);
-							EightShapes.Blocks.c[id].variations[variationid].id = variationid;
-							EightShapes.Blocks.c[id].variations[variationid].title = variationtitle;
-							EightShapes.Blocks.c[id].variations[variationid].html = $(this).html();
-							EightShapes.Blocks.c[id].variations[variationid].classes = $(this).attr('class');
-							EightShapes.Blocks.c[id].variations[variationid].container = $(this).attr('data-container');
 	            $('#esb > section.components > article[data-id="' + id + '"]')
 
 	              .append('<section class="variation ' + EightShapes.Blocks.containComponent(id,variationid) + '" data-id="' + variationid + '" ><header><h3>' + EightShapes.Blocks.displayTitle(variationid,variationtitle) + '</h3></header>' + 
-	                 '<section class="viewport ' + nonWrapperViewportClasses + ' ' + EightShapes.Blocks.c[id].variations[variationid].classes + '">' + wrapperStart + $(this).html() + wrapperEnd + '</section></section>')
+	                 '<section class="viewport ' + nonWrapperViewportClasses + '">' + wrapperStart + $(this).html() + wrapperEnd + '</section></section>')
 	              .children('aside.notes').find('ul.variationlist').append('<li data-variationid="' + variationid + '">' + variationtitle + '</li>');
 	          })
 	        }
