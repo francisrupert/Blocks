@@ -387,9 +387,9 @@ EightShapes.Blocks = {
 	                wrapperStart = '',
 	                wrapperEnd = '';
               if(component.wrapper) {
+                wrapperStart = '<' + component.wrapper+' class="' + nonWrapperViewportClasses + ' ' + component.wrapperClasses + '">';
+                wrapperEnd = '</' + component.wrapper + '>';
                 nonWrapperViewportClasses = '';
-                wrapperStart = "<"+component.wrapper+" class=" + component.wrapperClasses + ">";
-                wrapperEnd = "</"+component.wrapper+">";
               }
 
 	            $('#esb > section.components > article[data-id="' + id + '"]')
