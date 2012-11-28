@@ -3,11 +3,6 @@ $font-small: 11px/14px 'News Gothic MT', Arial;
 
 
 
-@mixin box-sizing() {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
 @mixin bg-gradient-top($from: white, $to: black, $fromstop: 0%, $tostop: 100%, $fallback: none) {
     background: $fallback;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
