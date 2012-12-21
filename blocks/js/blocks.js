@@ -46,6 +46,7 @@ EightShapes.Blocks = {
 
   //======================================================================================================
   // Default Blocks Collections
+
   display : {
     // Show toolbar at all in the initial layout? Values: on, off
     toolbar : "on",
@@ -285,12 +286,15 @@ EightShapes.Blocks = {
 			}
 		})
     // Grid/Thumbnail/List View: Click Page Title > Go To Page Notes
-    $(document).on('click','#esb > section.pages > article > header > h2', function() {
+    $(document).on('click','#esb > section.pages > article > header > a', function(e) {
+      $(this).blur();
 			if(($.bbq.getState( "view" ) === "home") && (EightShapes.Blocks.display.homelinks === "fullscreen")) {
       	$.bbq.pushState({view:"fullscreen", id:$(this).closest('article').attr('data-id')});
 			} else {
       	$.bbq.pushState({view:"page", id:$(this).closest('article').attr('data-id')});
 			}
+      e.stopPropagation();
+      return false;
     });
     // Notes View: Component List Hovers
     $(document).on('mouseover','#esb > section.pages > article.page > aside.notes ul.componentlist li',function() {
@@ -300,11 +304,14 @@ EightShapes.Blocks = {
       $(this).closest('article.page').find('.component[data-marker='+$(this).attr('data-marker')+']').removeClass('highlight');
     });
     // Grid/Thumbnail/List View: Click Component Title > Go To Component Notes
-    $(document).on('click','#esb > section.components > article > header > h2', function() {
+    $(document).on('click','#esb > section.components > article > header > a', function(e) {
+      $(this).blur();
       $.bbq.pushState({view:"component", id:$(this).closest('article').attr('data-id')});
+      e.stopPropagation();
+      return false;
     });
     // Go From Article (Page, Component) to Main Section (Pages, Components)
-    $(document).on('click','#esb > section.active.selected > header > h2, #esb > section.active.notes > header > h2', function() {
+    $(document).on('click','#esb > section.active.selected > header > a, #esb > section.active.notes > header > a', function() {
       $('#esb > header > nav.primary > ul > li.' + $(this).children('h2').html().toLowerCase()).click();
     });
 		$(document).on('click','#esb > section.notes > article > aside.notes > h3.collapsible', function() {
@@ -314,6 +321,7 @@ EightShapes.Blocks = {
 
   //======================================================================================================
   // Constructors
+
   Component : function(id) {
     this.id = id;
     this.source = "project";
@@ -504,6 +512,7 @@ EightShapes.Blocks = {
 
   //======================================================================================================
   // Markup & Modular Loading, Adding & Marking
+
   markupCore : function() {
 
     // Summary: Wraps markup of current page with the core DOM element structure, sets up some live events
@@ -545,10 +554,12 @@ EightShapes.Blocks = {
 		// Header
     $('body').prepend('<header><nav class="primary"><ul></ul></nav></header>');
     $('body > header > nav > ul')
-      .append('<li class="pages" data-view="pages">Pages</a></li>')
-      .append('<li class="components" data-view="components">Components</a></li>');
-    $('body > header > nav.primary > ul > li').live('click', function() {
-      $.bbq.pushState({view:$(this).attr("data-view"),id:"n/a"});
+      .append('<li class="pages" data-view="pages"><a href="#nowhere">Pages</a></li>')
+      .append('<li class="components" data-view="components"><a href="#nowhere">Components</a></li>');
+    $('body > header > nav.primary > ul > li a').live('click', function(e) {
+      $(this).blur();
+      $.bbq.pushState({view:$(this).parent().attr("data-view"),id:"n/a"});
+      e.stopPropagation();
       return false;
     });
 
@@ -841,7 +852,7 @@ EightShapes.Blocks = {
       }
 
       // Article Header 
-      var articleHeader = '<header><button class="esb remove"></button><h2 class="' + EightShapes.Blocks.c[id].doneness + '">' + EightShapes.Blocks.displayTitle(id,EightShapes.Blocks.c[id].title) + '</h2><span class="description">' + EightShapes.Blocks.c[id].description + '</span></header>';
+      var articleHeader = '<header><button class="esb remove"></button><a href="#nowhere"><h2 class="' + EightShapes.Blocks.c[id].doneness + '">' + EightShapes.Blocks.displayTitle(id,EightShapes.Blocks.c[id].title) + '</h2></a><span class="description">' + EightShapes.Blocks.c[id].description + '</span></header>';
 
       // Article Notes Default
       var articleNotes = '<h3 class="collapsible">Variations</h3><ul class="variationlist itemstack"></ul>';      
@@ -1029,7 +1040,6 @@ EightShapes.Blocks = {
                           .attr('data-variation')+']');
         variationTitle = ($(variationHTML).attr('title')) ? $(variationHTML).attr('title') : $(variationHTML).attr('data-variation');
       }
-      
 
       // Ensure Component has Component Class
       $(element).addClass('component');
@@ -1060,7 +1070,7 @@ EightShapes.Blocks = {
 			var noteElement = $(element).closest('article.page')
 				.children('aside.notes')
 				.find('ul.componentlist li[data-marker="' + marker + '"]')
-				.append('<div>' + componentname + '</div>');
+				.append('<div>' + componentname + " (" + variationTitle + ')</div>');
 
 			// Add Notes Marker Remove, Show & Hide
 			if (EightShapes.Blocks.display.markeractions) {
@@ -1187,7 +1197,6 @@ EightShapes.Blocks = {
     $(designItem)
       .append($(previousVariation).children())
       .attr('data-variation',$(previousVariation).attr('data-variation'))
- 
   },
   nextComponent : function(event) {
 
@@ -1217,7 +1226,6 @@ EightShapes.Blocks = {
     $(designItem)
       .append($(nextVariation).children())
       .attr('data-variation',$(nextVariation).attr('data-variation'))
- 
   },
 
   //======================================================================================================
@@ -1384,7 +1392,7 @@ EightShapes.Blocks = {
     if(($(XMLconfig).find('display > property[name="homepage"]').attr('value') === "on") || (EightShapes.Blocks.display.homepage === "on")) {
 			EightShapes.Blocks.display.homepage = "on";
 			$('body#esb > header > nav.primary > ul')
-				.prepend('<li class="home" data-view="home"></li>');
+				.prepend('<li class="home" data-view="home"><a href="#nowhere"></a></li>');
 			if($('body').children('section.home').length === 0) {
 				$('body').append('<section class="home"></section>');
 			}
@@ -1461,7 +1469,6 @@ EightShapes.Blocks = {
 		}
 
 		// Sliders HTML <span class="controlset sizeslider"><h3>Size</h3><span class="icon small"></span><div class="esbgallerysize" style="width: 100px;"></div><span class="icon large"></span></span><span class="controlset heightslider"><h3>Height</h3><span class="icon short"></span><div class="esbgalleryaspectratio" style="width: 100px;"></div><span class="icon tall"></span></span>
-
   },
   articleHeader : function(item) {
 
@@ -1471,11 +1478,10 @@ EightShapes.Blocks = {
     // Preconditions: ARTICLE>HEADER exists
 
     if (EightShapes.Blocks.display.toolbar) {
-      return '<button class="fullscreen"></button><h2 class="' + item.doneness + '" data-view="' + item.id + '">' + item.title + '</h2><span class="version">' + item.version + '</span><span class="description">' + item.description + '</span>';
+      return '<button class="fullscreen"></button><a href="#nowhere"><h2 class="' + item.doneness + '" data-view="' + item.id + '">' + item.title + '</h2></a><span class="version">' + item.version + '</span><span class="description">' + item.description + '</span>';
     } else {
       return '';
     }
-    
   },
 	displayTitle : function(id,title) {
 		var displaytitle = "";
