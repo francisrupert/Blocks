@@ -1,6 +1,7 @@
 *.swp
+*-ck.js
 .DS_Store
-config.rb
-blocks/.sass-cache/
-blocks/compass_app_log.txt
-.gitignore
+.sass-cache
+.bundle
+compass_app_log.txt
+*.sublime-*
