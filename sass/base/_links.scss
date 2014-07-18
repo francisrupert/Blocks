@@ -1,0 +1,30 @@
+@import "base/functions";
+@import "base/typography";
+@import "base/colors";
+
+a {
+  color: $linkcolor;
+  text-decoration: none;
+
+  &:hover,
+  &.hover,
+  &:focus,
+  &.focus {
+    color: tint($linkcolor, 30%);
+    text-decoration: underline;
+  }
+  &:active,
+  &.active,
+  &.click {
+    color: shade($linkcolor, 20%);
+    text-decoration: underline;
+  }
+
+  &.show-more {
+    font-family: $font-stack-bold;
+  }
+}
+
+.show-more-text {
+  display: none;
+}

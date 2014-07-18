@@ -1,0 +1,62 @@
+@import "compass/css3";
+@import "base/globals";
+@import "base/grid";
+
+// ---------------------------------------------------------------------------
+// Breakpoint Container Baseline Calculations
+
+.b-container {
+	@include container;
+	position: relative;
+}
+@include breakpoint(XS) {
+	.b-container {
+		@include container;
+	}
+}
+@include breakpoint(SM) {
+	.b-container {
+		@include container;
+	}
+}
+@include breakpoint(M) {
+	.b-container {
+		@include container;
+	}
+}
+@include breakpoint(MML) {
+	.b-container {
+		@include container;
+	}
+}
+@include breakpoint(MML) {
+	.b-container {
+		@include container;
+	}
+}
+@include breakpoint(MLL) {
+	.b-container {
+		@include container;
+	}
+}
+@include breakpoint(L) {
+	.b-container {
+		@include container;
+	}
+}
+@include breakpoint(XL) {
+	.b-container {
+		@include container;
+	}
+}
+@include breakpoint(XXL) {
+	.b-container {
+		@include container;
+	}
+}
+@include breakpoint(XXXL) {
+	.b-container {
+		@include container;
+	}
+}
+

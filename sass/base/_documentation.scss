@@ -1,0 +1,116 @@
+// Blocks documentation layout and core components
+@import "base/typography";
+@import "base/colors";
+@import "base/grid";
+
+// Header
+.b-header {
+	@include clear();
+	padding: 14px 12px;
+	background-color: $orange;
+	color: $white;
+
+	.b-doc-title {
+		display: block;
+		@include type-ML();
+		margin-bottom: 8px;
+		color: $white;
+
+		&:hover,
+		&:active {
+			text-decoration: none;
+		}
+	}
+
+	.b-version,
+	.b-date {
+		display: block;
+		float: left;
+		@include type-SM();
+		color: $white;
+	}
+	.b-date {
+		margin-left: .5rem;
+	}
+}
+
+.b-page-title {
+	display: block;
+}
+
+// Tabs
+.b-tabs {
+	list-style: none;
+	margin: 26px 0 0 0;
+	padding: 0;
+	border-top: 1px solid $tab-border-color;
+	border-bottom: 1px solid $tab-border-color;
+	@include full-bleed();
+	@include clear();
+
+	> li {
+		display: block;
+		position: relative;
+		float: left;
+		margin: 0 0 -1px 0;
+		padding: 0;
+		text-indent: 0;
+		border: 1px solid $tab-border-color;
+		border-top: 0;
+
+		&:first-child {
+			border-left: 0;
+			border-right: 0;
+		}
+
+		&[data-state="is-active"] {
+			background-color: $lightgray;
+			cursor: default;
+			border-bottom-color: transparent;
+		}
+
+		a {
+			display: block;
+			position: relative;
+			padding: 14px 12px 10px;
+			text-transform: uppercase;
+			line-height: 18px;
+		}
+	}
+}
+.b-tab-pane {
+	display: none;
+	@include bleed();
+	padding-top: 15px;
+
+	&[data-state="is-active"] {
+		display: inherit;
+		background-color: $lightgray;
+	}
+	&[data-state="is-inactive"] {
+		display: none;
+	}
+
+	> h2:first-child,
+	> h3:first-child {
+		margin-top: 0;
+	}
+}
+
+.b-footer {
+	clear: both;
+	background-color: $orange;
+	padding: .5rem 1rem;
+
+	.b-info {
+		@include type-S();
+		color: $white;
+		margin-bottom: 0;
+	}
+}
+
+@include breakpoint(L) {
+	.b-tabs {
+		margin-top: 35px;
+	}
+}
