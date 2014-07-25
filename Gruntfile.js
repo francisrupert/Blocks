@@ -12,10 +12,6 @@ module.exports = function(grunt) {
         src: 'js/jquery.8SblocksViewer.js',
         dest: 'dist/jquery.8SblocksViewer-<%= pkg.blocksVersion.viewer %>.min.js'
       },
-      handlebars: {
-        src: 'js/libs/handlebars/handlebars.js',
-        dest: 'dist/handlebars.min.js'
-      },
       underscore: {
         src: 'bower_components/underscore/underscore.js',
         dest: 'js/libs/underscore/underscore.min.js'
