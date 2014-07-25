@@ -1,6 +1,25 @@
 /*jslint browser: true, eqeq: true, nomen: true, plusplus: true, maxerr: 50, indent: 2, white: false */
 /*global document, _, window */
-
+/*!
+ * EightShapes Blocks framework
+ * https://github.com/EightShapes/Blocks
+ *
+ * ©Copyright 2014 Eight Shapes LLC
+ *
+ * Terms of Use: http://unify.eightshapes.com/about-the-system/terms-of-use/
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 (function ($, console, document) {
   "use strict";
 
@@ -164,7 +183,7 @@
     _setupAutoZoom: function () {
       var self = this,
         $iframe = $("#" + self.id);
-      
+
       if (self.frame_properties.zoomable == 'auto') {
         $iframe.attr("data-presentation-frame-width", self.width).addClass("auto-zoom").parent(".b-frame_container").css("width", "auto"); //remove fixed width on parent container
       }
@@ -484,7 +503,7 @@
     if ($iframe.attr("data-zoomable-annotation") === "true") {
       $iframe.parent().siblings(".b-figure").html("Displayed in viewport <span class='auto-zoom-width'>" + presentation_width + "px wide</span> @ <span class='auto-zoom-percentage'>" + Math.round(scale * 100) + "%</span> scale");
     }
-    
+
     autoAdjustHeight(iframe_id);
   }
 
@@ -499,7 +518,7 @@
     $iframe.css("height", content_height + "px");
     // get true height of scaled iframe
     var scaled_iframe_height = $iframe[0].getBoundingClientRect().height;
-    // set iframe wrapper height to true height of scaled iframe    
+    // set iframe wrapper height to true height of scaled iframe
     $iframe.parent().css({"height": scaled_iframe_height + "px"});
   }
 

@@ -1,7 +1,5 @@
 module.exports = function(grunt) {
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -17,6 +15,10 @@ module.exports = function(grunt) {
       handlebars: {
         src: 'js/libs/handlebars/handlebars.js',
         dest: 'dist/handlebars.min.js'
+      },
+      underscore: {
+        src: 'bower_components/underscore/underscore.js',
+        dest: 'js/libs/underscore/underscore.min.js'
       }
     },
     concat: {
@@ -26,16 +28,16 @@ module.exports = function(grunt) {
       },
       loader: {
         src: [
-          'js/libs/jquery/jquery.min.js',
+          'bower_components/jquery/dist/jquery.min.js',
           'js/libs/underscore/underscore.min.js',
-          'js/libs/handlebars/handlebars.min.js',
+          'bower_components/handlebars/handlebars.min.js',
           'dist/jquery.8SblocksLoader-<%= pkg.blocksVersion.loader %>.min.js'
         ],
         dest: 'dist/blocks-loader-<%= pkg.blocksVersion.loader %>.min.js'
       },
       viewer: {
         src: [
-          'js/libs/jquery/jquery.min.js',
+          'bower_components/jquery/dist/jquery.min.js',
           'js/libs/jquery/jquery-ui.min.js',
           'js/libs/underscore/underscore.min.js',
           'dist/jquery.8SblocksViewer-<%= pkg.blocksVersion.viewer %>.min.js'
@@ -44,10 +46,10 @@ module.exports = function(grunt) {
       },
       all: {
         src: [
-          'js/libs/jquery/jquery.min.js',
+          'bower_components/jquery/dist/jquery.min.js',
           'js/libs/jquery/jquery-ui.min.js',
           'js/libs/underscore/underscore.min.js',
-          'js/libs/handlebars/handlebars.min.js',
+          'bower_components/handlebars/handlebars.min.js',
           'dist/jquery.8SblocksLoader-<%= pkg.blocksVersion.loader %>.min.js',
           'dist/jquery.8SblocksViewer-<%= pkg.blocksVersion.viewer %>.min.js'
         ],
@@ -55,13 +57,13 @@ module.exports = function(grunt) {
       },
       debug: {
         src: [
-          'js/libs/jquery/jquery.min.js',
+          'bower_components/jquery/dist/jquery.min.js',
           'js/libs/underscore/underscore.min.js',
-          'js/libs/handlebars/handlebars.min.js',
+          'bower_components/handlebars/handlebars.min.js',
           'js/jquery.8SblocksLoader.js'
         ],
         dest: 'dist/blocks-loader-debug.js'
-      }
+      },
     },
     cssmin: {
       minify: {
@@ -73,9 +75,9 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['uglify:loader', 'uglify:viewer', 'concat:loader', 'concat:viewer', 'concat:all', 'cssmin']);
-  grunt.registerTask('loader', ['uglify:loader', 'concat:loader']);
-  grunt.registerTask('viewer', ['uglify:viewer', 'concat:viewer']);
+  grunt.registerTask('default', ['uglify:underscore', 'uglify:loader', 'uglify:viewer', 'concat:loader', 'concat:viewer', 'concat:all', 'cssmin']);
+  grunt.registerTask('loader', ['uglify:underscore', 'uglify:loader', 'concat:loader']);
+  grunt.registerTask('viewer', ['uglify:underscore', 'uglify:viewer', 'concat:viewer']);
   grunt.registerTask('css', ['cssmin']);
-  grunt.registerTask('debug', ['concat:debug']);
+  grunt.registerTask('debug', ['uglify:underscore', 'concat:debug']);
 };
