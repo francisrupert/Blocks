@@ -20,6 +20,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+// Utility function - isJson
+function isJson(str) {
+    try {
+        $.parseJSON(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 (function ($, console, document) {
   "use strict";
 
@@ -627,9 +638,15 @@
         };
 
 
-      if (self.config.template_data !== undefined && self.config.template_data !== '') {
+      if (content !== undefined && isJson(content)) {
+         // Raw JSON passed in as the data-content-param
+         tmpl_data = $.parseJSON(content);
+         self.content = content;
+      }
+      else if (self.config.template_data !== undefined && self.config.template_data !== '') {   
         if (content !== undefined) {
           tmpl_data = getTemplateData(content, self.config.template_data);
+          self.content = content;
         }
       }
 
@@ -841,8 +858,15 @@
 
     childDoneRendering: function (child) {
       var self = this,
-        $root = self.$el,
-        $page_component = $root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"]');
+        $root = self.$el;
+
+
+      if (child.content !== undefined) {
+        var $page_component = $root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"][data-content=\'' + child.content + '\']');
+      }
+      else {
+        var $page_component = $root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"]').not('[data-content]');
+      }
 
       self.children_rendered++;
 
