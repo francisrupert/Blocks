@@ -249,8 +249,8 @@
     _setFrameProperties: function () {
       var self = this,
         properties = {
-          "width": "100%",
-          "height": "100%",
+          "width": "auto",
+          "height": "auto",
           "resizable": false,
           "scale": "",
           "scrollable": false,
@@ -306,28 +306,50 @@
       }
     },
 
-    _setHeightAndWidth: function () {
+    _autoSizeHeight: function () {
       var self = this;
+
       // This is a hack, waiting until content is at rendered height and width. Not sure if this delay
       // is needed due to CSS not loading completely or not
       setTimeout( function() {
         self.$frame.css("height", "0");
         // get scroll height of iFrame contents
         var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
+        // set height of iFrame to actual height of contents
+        self.$frame.css("height", content_height + "px");        
+      }, 500);
+    },
+
+    _autoSizeWidth: function () {
+      var self = this;
+
+      // This is a hack, waiting until content is at rendered height and width. Not sure if this delay
+      // is needed due to CSS not loading completely or not
+      setTimeout( function() {
+        self.$frame.css("width", "0");
+        // get scroll width of iFrame contents
         var content_width = self.$frame[0].contentWindow.document.documentElement.scrollWidth;
         // set height of iFrame to actual height of contents
-          // console.log(content_height);
-          window.debug.debug("CONTENT HEIGHT " + content_height);
-        self.$frame.css("height", content_height + "px");
-        self.$frame.css("width", content_width + "px");
-        // get true height of scaled iframe
-        // if ($iframe.hasClass("auto-zoom")) {
-        //   var scaled_iframe_height = $iframe[0].getBoundingClientRect().height;
-        //   // set iframe wrapper height to true height of scaled iframe
-        //   $iframe.parent().css({"height": scaled_iframe_height + "px"});
-        // }
-        
+        self.$frame.css("width", content_width + "px");        
       }, 500);
+    },
+
+    _setHeightAndWidth: function () {
+      var self = this;
+
+      if (self.frame_properties.height !== "auto") {
+        self.$frame.css("height", self.frame_properties.height);
+      }
+      else {
+        self._autoSizeHeight();
+      }
+
+      if (self.frame_properties.width !== "auto") {
+        self.$frame.css("width", self.frame_properties.width);
+      }
+      else {
+        self._autoSizeWidth();
+      }
     }
   };
 
