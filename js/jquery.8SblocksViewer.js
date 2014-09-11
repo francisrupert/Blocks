@@ -83,34 +83,39 @@
       self._createFrameComponents();
       self._createFrame();
       self._wrapFrame();
+      self._replaceComponentReferenceWithFrame();
       self._makeFrameResizable();
-      self._attachFrame();
       self._setupAutoZoom();
       autoZoomFrame(self.id);
+      self._addBasicStyling();
     },
 
-    // The responsize selector is the only Frame Component at the moment
+    // The responsive selector is the only Frame Component at the moment
     // These will all eventually be distinct templates in Backbone.js
     _createFrameComponents: function () {
-      var self = this,
-        $selector = $('<span data-object="blocks-doc-component-responsive_selector"></span>'),
-        $select = $('<select></select>'),
-        $option;
+      var self = this;
 
-      _.each(self.page.RESPONSIVE_SIZES, function (rsp_size) {
-        $option = $('<option></option>');
-        $option
-          .attr('value', rsp_size)
-          .text(rsp_size);
+      if (self.frame_properties.resizable === true) {
+        // Create a resizable select box for the component if resizing is enabled
+        var $selector = $('<span data-object="blocks-doc-component-responsive_selector"></span>'),
+          $select = $('<select></select>'),
+          $option;
 
-        $select.append($option);
-      });
+        _.each(self.page.RESPONSIVE_SIZES, function (rsp_size) {
+          $option = $('<option></option>');
+          $option
+            .attr('value', rsp_size)
+            .text(rsp_size);
 
-      $selector
-        .addClass('b-responsive_sizes')
-        .append($select);
+          $select.append($option);
+        });
 
-      self.$responsive_selector = $selector;
+        $selector
+          .addClass('b-responsive_sizes')
+          .append($select);
+
+        self.$responsive_selector = $selector;
+      }
     },
 
     _createFrame: function () {
@@ -125,14 +130,6 @@
       self.$frame.attr('scrolling', self.frame_properties.scrollable);
       self.$frame.css("width", '100%');
       self.$frame.css("height", '100%');
-
-      self.$frame.bind('load', function () {
-        setTimeout(function () {
-          // Blocks has to be instantiated in the iframe
-          // The code in the plugin tries to fire Blocks on $(window) and not window
-          window.document.getElementById(self.id).contentWindow.$('body').BlocksLoader();
-        }, 800);
-      });
     },
 
     _wrapFrame: function () {
@@ -143,27 +140,57 @@
         $viewerContainer = $('<div></div>'),
         $figure = $('<p></p>');
 
-      // Replace our corresponding component with an iframe
-      self.$component.wrap(self.$frame);
-
       // Wrap the iframe in a div container set to the frame's height and width
-      $frameContainer.css('height', frame_container_height);
-      $frameContainer.css('width', frame_container_width);
+      // $frameContainer.css('height', frame_container_height);
+      // $frameContainer.css('width', frame_container_width);
       $frameContainer.addClass('b-frame_container');
       $frameContainer.attr('id', self.frame_container_ID);
-      $('#' + self.id).wrap($frameContainer);
+      $frameContainer.append(self.$frame);
 
       // Add a figure, add the responsive selector to the figure,
-      //  then wrap both the figure and
-      // frame_container in a viewer container
-      $viewerContainer.addClass('b-viewer_container');
-      $figure
-        .addClass('b-figure')
-        .text(self.figure)
-        .append(self.$responsive_selector);
+      $figure.addClass('b-figure').text(self.figure);
+      if (typeof self.$responsive_selector == 'object') {
+        $figure.append(self.$responsive_selector); 
+      }
 
-      $('#' + self.frame_container_ID).wrap($viewerContainer);
-      $('#' + self.frame_container_ID).parent().prepend($figure);
+      $viewerContainer.addClass('b-viewer_container');
+      $viewerContainer.append($figure);
+      $viewerContainer.append($frameContainer);
+      self.$viewerContainer = $viewerContainer;
+    },
+
+    _replaceComponentReferenceWithFrame: function () {
+      var self = this;
+
+      self.$frame.bind('load', function () {
+        // Once the viewer template has loaded, inject the component into the frame, otherwise the template html would stomp the component html
+        self._injectComponentInFrame();
+      });
+      self.$component.replaceWith(self.$viewerContainer);
+    },
+
+    _injectComponentInFrame: function () {
+      var self = this,
+        iframeDoc,
+        revised_component = self._cleanComponent();
+
+      iframeDoc = window.document.getElementById(self.id).contentWindow.document;
+      self.$iframe = $('html', iframeDoc);
+      self.$iframe.find('body').append(revised_component);
+
+      var script = iframeDoc.createElement("script");
+      script.src = self.config.blocks_loader;
+      iframeDoc.head.appendChild(script);
+
+      // Blocks has to be instantiated in the iframe
+      // The code in the plugin tries to fire Blocks on $(window) and not window
+      var iframeBlocksLoadedInterval = setInterval(function () {
+        if (typeof window.document.getElementById(self.id).contentWindow.$ == 'function' && typeof window.document.getElementById(self.id).contentWindow.$('body').BlocksLoader == 'function') {
+          // Jquery has been loaded, now see if the component is in the iFrame's dom yet?
+          clearInterval(iframeBlocksLoadedInterval);
+          window.document.getElementById(self.id).contentWindow.$('body').BlocksLoader();
+        }
+      }, 500);
     },
 
     _makeFrameResizable: function () {
@@ -172,11 +199,6 @@
       if (self.frame_properties.resizable !== 'false') {
         // Make the frame container resizable
         $('#' + self.frame_container_ID).resizable().parent().addClass('is-resizable');
-      } else {
-        // Remove the responsive selector component
-        $('#' + self.frame_container_ID)
-          .parent().find('[data-variation="component-responsive_selector"]')
-          .append('<span class="b-non_responsize_sizes">' + self.width + 'x' + self.height + '</span>');
       }
     },
 
@@ -192,23 +214,6 @@
       }
     },
 
-    _attachFrame: function () {
-      var self = this,
-        iframeDoc,
-        revised_component = self._cleanComponent();
-
-      setTimeout(function () {
-        // We MUST control the order otherwise blocksLoader loads before the component is present
-        iframeDoc = window.document.getElementById(self.id).contentWindow.document;
-        self.$iframe = $('html', iframeDoc);
-        self.$iframe.find('body').append(revised_component);
-
-        var script = iframeDoc.createElement("script");
-        script.src = self.config.blocks_loader;
-        iframeDoc.head.appendChild(script);
-      }, 500);
-    },
-
     _cleanComponent: function () {
       var self = this,
         component = self.$component.clone(),
@@ -218,10 +223,6 @@
       component.removeAttr('data-frame-component');
       component.removeAttr('data-frame-width');
       component.removeAttr('data-frame-height');
-
-      if (component.attr('data-frame-variation') === undefined) {
-        component.attr('data-frame-variation', 'default');
-      }
 
       return component;
     },
@@ -282,20 +283,8 @@
       self.figure = self.$component.attr('data-figure');
     },
 
-    _wrapComponent: function () {
-      var self = this,
-        component_html = self.$component.html(),
-        $component_html;
-
-      // If the component contains markup, use it to wrap the component
-      if (component_html !== undefined && component_html.length > 0) {
-        $component_html = $(component_html);
-
-        self.$revised_component.empty();
-        $component_html.find('.place-component-here').replaceWith(self.$revised_component.clone());
-
-        self.$revised_component = $component_html;
-      }
+    _addBasicStyling: function () {
+      
     }
   };
 
