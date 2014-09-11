@@ -265,9 +265,17 @@
       _.each(properties, function (default_value, prop) {
         prop_name = 'data-frame-' + prop;
 
-        if (self.$component.attr(prop_name) !== undefined &&
-            self.$component.attr(prop_name) !== '') {
-          self.frame_properties[prop] = self.$component.attr(prop_name);
+        if (self.$component.attr(prop_name) !== undefined && self.$component.attr(prop_name) !== '') {
+          // Ensure that "true" and "false" strings are converted to boolean equivalents
+          var value = self.$component.attr(prop_name);
+          if (value === "true") {
+            value = true;
+          }
+          else if (value === "false") {
+            value = false;
+          }
+          self.frame_properties[prop] = value;
+
         } else if (self.config.frame !== undefined) {
           if (self.config.frame[prop] !== undefined) {
             self.frame_properties[prop] = self.config.frame[prop];
@@ -277,6 +285,7 @@
         }
       });
 
+      // Convert scrollable setting from boolean to html attr value of "yes" or "no"
       if (self.frame_properties["scrollable"] == true) {
         self.frame_properties["scrollable"] = "yes";
       }
@@ -306,6 +315,19 @@
       }
     },
 
+    _updateResizableValues: function () {
+      var self = this;
+
+      if (self.frame_properties.resizable === true) {
+        var height = self.$frame.css("height");
+        var width = self.$frame.css("width");
+        var selector_value = width.replace("px", "") + "x" + height.replace("px","");
+        if (self.$responsive_selector.find("select").find("option[value='" + selector_value + "']").length == 0) {
+          self.$responsive_selector.find("select").prepend("<option value='" + selector_value + "' selected>" + selector_value + "</option>");
+        }
+      }
+    },
+
     _autoSizeHeight: function () {
       var self = this;
 
@@ -316,7 +338,9 @@
         // get scroll height of iFrame contents
         var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
         // set height of iFrame to actual height of contents
-        self.$frame.css("height", content_height + "px");        
+        self.$viewerContainer.find(".b-frame_container").css("height", content_height + "px");
+        self.$frame.css("height", "100%");
+        self._updateResizableValues();      
       }, 500);
     },
 
@@ -330,22 +354,25 @@
         // get scroll width of iFrame contents
         var content_width = self.$frame[0].contentWindow.document.documentElement.scrollWidth;
         // set height of iFrame to actual height of contents
-        self.$frame.css("width", content_width + "px");        
+        self.$viewerContainer.find(".b-frame_container").css("width", content_width + "px");
+        self.$frame.css("width", "100%");
+        self._updateResizableValues();      
       }, 500);
     },
 
     _setHeightAndWidth: function () {
       var self = this;
+      self.$frame.css({"height":"100%", "width":"100%"});
 
       if (self.frame_properties.height !== "auto") {
-        self.$frame.css("height", self.frame_properties.height);
+        self.$viewerContainer.find(".b-frame_container").css("height", self.frame_properties.height);
       }
       else {
         self._autoSizeHeight();
       }
 
       if (self.frame_properties.width !== "auto") {
-        self.$frame.css("width", self.frame_properties.width);
+        self.$viewerContainer.find(".b-frame_container").css("width", self.frame_properties.width);
       }
       else {
         self._autoSizeWidth();
