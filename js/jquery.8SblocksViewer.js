@@ -85,8 +85,7 @@
       self._wrapFrame();
       self._replaceComponentReferenceWithFrame();
       self._makeFrameResizable();
-      self._setupAutoZoom();
-      autoZoomFrame(self.id);
+      // autoZoomFrame(self.id);
       self._addBasicStyling();
     },
 
@@ -187,7 +186,8 @@
 
           // Listens for when Blocks is done inside the iFrame so the height and width of the frame can be adjusted
           window.document.getElementById(self.id).contentWindow.$('body').on("blocks-done", function(){
-            self._setHeightAndWidth()
+            self._setHeightAndWidth();
+            self._setupAutoZoom();
           });
           window.document.getElementById(self.id).contentWindow.$('body').BlocksLoader();
         }
@@ -199,19 +199,24 @@
 
       if (self.frame_properties.resizable === true) {
         // Make the frame container resizable
-        $('#' + self.frame_container_ID).resizable().parent().addClass('is-resizable');
-      }
-    },
+        // The functions on the start and stop events cause a temporary div overlay to appear over the component
+        // This div prevents the resizable method from losing focus if the mouse slips on top of the iframe
+        $('#' + self.frame_container_ID).resizable({
+          start: function(){
+            var ifr = $(this).find("iframe"),
+                d = $('<div></div>');
 
-    _setupAutoZoom: function () {
-      var self = this,
-        $iframe = $("#" + self.id);
-
-      if (self.frame_properties.zoomable == 'auto') {
-        $iframe.attr("data-presentation-frame-width", self.width).addClass("auto-zoom").parent(".b-frame_container").css("width", "auto"); //remove fixed width on parent container
-      }
-      if (self.frame_properties["zoomable-annotation"] === true) {
-        $iframe.attr("data-zoomable-annotation", "true");
+            self.$viewerContainer.append(d[0]);
+            d[0].id = 'temp_div';
+            d.css({position:'absolute'});
+            d.css({top: ifr.position().top, left:0});
+            d.height(ifr.height());
+            d.width('100%');
+          },
+          stop: function(){
+            $('#temp_div').remove();
+          }
+        }).parent().addClass('is-resizable');
       }
     },
 
@@ -268,6 +273,7 @@
         if (self.$component.attr(prop_name) !== undefined && self.$component.attr(prop_name) !== '') {
           // Ensure that "true" and "false" strings are converted to boolean equivalents
           var value = self.$component.attr(prop_name);
+          window.debug.debug(value);
           if (value === "true") {
             value = true;
           }
@@ -292,6 +298,14 @@
       else {
         self.frame_properties["scrollable"] = "no";
       }
+
+      // If zoomable is set to "auto" the frame cannot be manually resized
+
+      if (self.frame_properties.zoomable == 'auto') {
+        self.frame_properties.resizable = false;
+      }
+
+      window.debug.debug(self.frame_properties);
     },
 
     _setFigure: function () {
@@ -305,7 +319,10 @@
       if (typeof self.config.use_blocks_viewer_default_styles == 'undefined' || self.config.use_blocks_viewer_default_styles == true) {
         self.$viewerContainer.css({"background":"lightblue", "padding":"10px"});
         self.$viewerContainer.find(".b-figure").css({"padding":"0", "margin":"0"});
-        self.$viewerContainer.find(".b-frame_container").css({"display":"inline-block", "border":"solid 1px black", "margin":"0", "padding":"0"});
+        self.$viewerContainer.find(".b-frame_container").css({"display":"inline-block", "border":"solid 1px black", "margin":"0", "padding":"0", "position":"relative"});
+        self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-e").css({"position":"absolute", "top":"0", "width":"7px", "height":"100%", "background":"red", "display":"block", "right":"-7px", "cursor":"e-resize"});
+        self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-s").css({"position":"absolute", "bottom":"-7px", "height":"7px", "width":"100%", "background":"red", "display":"block", "left":"0", "cursor":"s-resize"});
+        self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-se").css({"position":"absolute", "bottom":"-7px", "height":"7px", "width":"7px", "background":"green", "display":"block", "right":"-7px", "cursor":"se-resize"});
 
         // Append a warning to the page stating that the default Blocks Viewer styles are being used
         if ($(".viewer-style-warning").length == 0) {
@@ -372,10 +389,32 @@
       }
 
       if (self.frame_properties.width !== "auto") {
+        window.debug.debug("Set container Width: " + self.frame_properties.width);
         self.$viewerContainer.find(".b-frame_container").css("width", self.frame_properties.width);
       }
       else {
         self._autoSizeWidth();
+      }
+    },
+    
+    _setupAutoZoom: function () {
+      var self = this;
+      if (self.frame_properties.zoomable == "auto") {
+        setTimeout(function() {
+          self.$frame.parent().css({"width":"100%", "max-width": self.frame_properties.width + "px"});
+          var available_width = self.$viewerContainer.find(".b-frame_container").width();
+          // self.$frame.css("width", "0");
+          // var content_width = self.$frame[0].contentWindow.document.documentElement.scrollWidth;
+          // self.$frame.css("width", "100%");
+          var scale = Math.min((available_width / self.frame_properties.width), 1); //Don't scale above 100%
+          self.$frame.css({"width":self.frame_properties.width + "px", "-webkit-transform-origin": "0 0", "-webkit-transform": "scale(" + scale + ")", "transform-origin": "0 0", "transform": "scale(" + scale + ")"})    
+          
+          // Now that the content has scaled down based on available width, the height needs to be scaled down to match
+          var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
+          var scaled_height = content_height * scale;
+          self.$frame.parent().css({"height": scaled_height + "px"});
+          self.$frame.css({"height": content_height + "px"});
+        }, 500);
       }
     }
   };
