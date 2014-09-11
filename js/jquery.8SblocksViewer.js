@@ -87,6 +87,7 @@
       self._makeFrameResizable();
       // autoZoomFrame(self.id);
       self._addBasicStyling();
+      self._autoZoomOnResize();
     },
 
     // The responsive selector is the only Frame Component at the moment
@@ -187,7 +188,6 @@
           // Listens for when Blocks is done inside the iFrame so the height and width of the frame can be adjusted
           window.document.getElementById(self.id).contentWindow.$('body').on("blocks-done", function(){
             self._setHeightAndWidth();
-            self._setupAutoZoom();
           });
           window.document.getElementById(self.id).contentWindow.$('body').BlocksLoader();
         }
@@ -395,10 +395,15 @@
       else {
         self._autoSizeWidth();
       }
+
+      setInterval(function () {
+        self._setupAutoZoom();
+      }, 500);
     },
     
-    _setupAutoZoom: function () {
+    _setupAutoZoom: function (delay) {
       var self = this;
+      var delay = typeof delay == undefined ? 500 : delay;
       if (self.frame_properties.zoomable == "auto") {
         setTimeout(function() {
           self.$frame.parent().css({"width":"100%", "max-width": self.frame_properties.width + "px"});
@@ -413,8 +418,20 @@
           var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
           var scaled_height = content_height * scale;
           self.$frame.parent().css({"height": scaled_height + "px"});
+          // Must set the viewer container to the scaled_height as well or the space leftover from the transform will be visible
+          self.$viewerContainer.css({"height": scaled_height + "px"});
           self.$frame.css({"height": content_height + "px"});
-        }, 500);
+
+        }, delay);
+      }
+    },
+
+    _autoZoomOnResize: function () {
+      var self = this;
+      if (self.frame_properties.zoomable == "auto") {
+        $(window).on('resize', function () {
+          self._setupAutoZoom(0);
+        });
       }
     }
   };
