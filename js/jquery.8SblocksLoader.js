@@ -836,6 +836,7 @@ function isJson(str) {
           window.debug.debug('TRIGGERING blocks-done on parent body from within iFrame');
           parent.$('body').trigger('blocks-done');
           parent.$('body').trigger('blocks-done-inside-viewer', {"iframe_id": window.frameElement.id});
+          $('body').trigger('blocks-done');
         }
         else {
           window.debug.debug('TRIGGERING blocks-done');

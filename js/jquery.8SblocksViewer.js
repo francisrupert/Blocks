@@ -135,14 +135,10 @@
     _wrapFrame: function () {
       var self = this,
         $frameContainer = $('<div></div>'),
-        frame_container_height = parseInt(self.page.FRAME_CONTAINER_PADDING + self.height, 10),
-        frame_container_width = parseInt(self.page.FRAME_CONTAINER_PADDING + self.width, 10),
         $viewerContainer = $('<div></div>'),
         $figure = $('<p></p>');
 
       // Wrap the iframe in a div container set to the frame's height and width
-      // $frameContainer.css('height', frame_container_height);
-      // $frameContainer.css('width', frame_container_width);
       $frameContainer.addClass('b-frame_container');
       $frameContainer.attr('id', self.frame_container_ID);
       $frameContainer.append(self.$frame);
@@ -188,6 +184,11 @@
         if (typeof window.document.getElementById(self.id).contentWindow.$ == 'function' && typeof window.document.getElementById(self.id).contentWindow.$('body').BlocksLoader == 'function') {
           // Jquery has been loaded, now see if the component is in the iFrame's dom yet?
           clearInterval(iframeBlocksLoadedInterval);
+
+          // Listens for when Blocks is done inside the iFrame so the height and width of the frame can be adjusted
+          window.document.getElementById(self.id).contentWindow.$('body').on("blocks-done", function(){
+            self._setHeightAndWidth()
+          });
           window.document.getElementById(self.id).contentWindow.$('body').BlocksLoader();
         }
       }, 500);
@@ -196,7 +197,7 @@
     _makeFrameResizable: function () {
       var self = this;
 
-      if (self.frame_properties.resizable !== 'false') {
+      if (self.frame_properties.resizable === true) {
         // Make the frame container resizable
         $('#' + self.frame_container_ID).resizable().parent().addClass('is-resizable');
       }
@@ -209,7 +210,7 @@
       if (self.frame_properties.zoomable == 'auto') {
         $iframe.attr("data-presentation-frame-width", self.width).addClass("auto-zoom").parent(".b-frame_container").css("width", "auto"); //remove fixed width on parent container
       }
-      if (self.frame_properties["zoomable-annotation"] === "true") {
+      if (self.frame_properties["zoomable-annotation"] === true) {
         $iframe.attr("data-zoomable-annotation", "true");
       }
     },
@@ -250,11 +251,11 @@
         properties = {
           "width": "100%",
           "height": "100%",
-          "resizable": true,
+          "resizable": false,
           "scale": "",
-          "scrollable": "no",
-          "zoomable": "true",
-          "zoomable-annotation": "true",
+          "scrollable": false,
+          "zoomable": false,
+          "zoomable-annotation": false,
           "zoom-levels": [1, 0.66, 0.5, 0.33]
         },
         prop_name;
@@ -275,6 +276,13 @@
           self.frame_properties[prop] = default_value;
         }
       });
+
+      if (self.frame_properties["scrollable"] == true) {
+        self.frame_properties["scrollable"] = "yes";
+      }
+      else {
+        self.frame_properties["scrollable"] = "no";
+      }
     },
 
     _setFigure: function () {
@@ -284,7 +292,42 @@
     },
 
     _addBasicStyling: function () {
-      
+      var self = this;
+      if (typeof self.config.use_blocks_viewer_default_styles == 'undefined' || self.config.use_blocks_viewer_default_styles == true) {
+        self.$viewerContainer.css({"background":"lightblue", "padding":"10px"});
+        self.$viewerContainer.find(".b-figure").css({"padding":"0", "margin":"0"});
+        self.$viewerContainer.find(".b-frame_container").css({"display":"inline-block", "border":"solid 1px black", "margin":"0", "padding":"0"});
+
+        // Append a warning to the page stating that the default Blocks Viewer styles are being used
+        if ($(".viewer-style-warning").length == 0) {
+          $('body').prepend("<div class='viewer-style-warning'>The Default Blocks Styles are Being used. To override and use your own Blocks Viewer Styles, set 'use_blocks_viewer_default_styles' to false in your Blocks config.json)</div>");
+          $(".viewer-style-warning").css({"position":"fixed", "top":0, "width":"100%", "background":"red", "padding":"10px", "color":"white", "font-family":"sans-serif"})
+        }
+      }
+    },
+
+    _setHeightAndWidth: function () {
+      var self = this;
+      // This is a hack, waiting until content is at rendered height and width. Not sure if this delay
+      // is needed due to CSS not loading completely or not
+      setTimeout( function() {
+        self.$frame.css("height", "0");
+        // get scroll height of iFrame contents
+        var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
+        var content_width = self.$frame[0].contentWindow.document.documentElement.scrollWidth;
+        // set height of iFrame to actual height of contents
+          // console.log(content_height);
+          window.debug.debug("CONTENT HEIGHT " + content_height);
+        self.$frame.css("height", content_height + "px");
+        self.$frame.css("width", content_width + "px");
+        // get true height of scaled iframe
+        // if ($iframe.hasClass("auto-zoom")) {
+        //   var scaled_iframe_height = $iframe[0].getBoundingClientRect().height;
+        //   // set iframe wrapper height to true height of scaled iframe
+        //   $iframe.parent().css({"height": scaled_iframe_height + "px"});
+        // }
+        
+      }, 500);
     }
   };
 
@@ -504,11 +547,14 @@
     // get scroll height of iFrame contents
     var content_height = $iframe[0].contentWindow.document.documentElement.scrollHeight;
     // set height of iFrame to actual height of contents
+      console.log(content_height);
     $iframe.css("height", content_height + "px");
     // get true height of scaled iframe
-    var scaled_iframe_height = $iframe[0].getBoundingClientRect().height;
-    // set iframe wrapper height to true height of scaled iframe
-    $iframe.parent().css({"height": scaled_iframe_height + "px"});
+    if ($iframe.hasClass("auto-zoom")) {
+      var scaled_iframe_height = $iframe[0].getBoundingClientRect().height;
+      // set iframe wrapper height to true height of scaled iframe
+      $iframe.parent().css({"height": scaled_iframe_height + "px"});
+    }
   }
 
   function autoZoomAllFrames() {
@@ -572,13 +618,13 @@
     $('body').BlocksViewer();
   });
 
-  $(window).on('resize', function () {
-    throttle(autoZoomAllFrames(), 1000);
-  });
+  // $(window).on('resize', function () {
+  //   throttle(autoZoomAllFrames(), 1000);
+  // });
 
-  $(document).on('blocks-done-inside-viewer', function (event, data) {
-    var iframe_id = data.iframe_id;
-    autoAdjustHeight(iframe_id);
-  });
+  // $(document).on('blocks-done-inside-viewer', function (event, data) {
+  //   var iframe_id = data.iframe_id;
+  //   autoAdjustHeight(iframe_id);
+  // });
 
 })(window.jQuery, window.console, document);
