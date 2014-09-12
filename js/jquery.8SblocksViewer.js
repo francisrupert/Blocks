@@ -316,17 +316,18 @@
     _addBasicStyling: function () {
       var self = this;
       if (typeof self.config.use_blocks_viewer_default_styles == 'undefined' || self.config.use_blocks_viewer_default_styles == true) {
-        self.$viewerContainer.css({"background":"lightblue", "padding":"10px"});
+        self.$viewerContainer.css({"margin-bottom":"20px"});
         self.$viewerContainer.find(".b-figure").css({"padding":"0", "margin":"0"});
-        self.$viewerContainer.find(".b-frame_container").css({"display":"inline-block", "border":"solid 1px black", "margin":"0", "padding":"0", "position":"relative"});
-        self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-e").css({"position":"absolute", "top":"0", "width":"7px", "height":"100%", "background":"red", "display":"block", "right":"-7px", "cursor":"e-resize"});
-        self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-s").css({"position":"absolute", "bottom":"-7px", "height":"7px", "width":"100%", "background":"red", "display":"block", "left":"0", "cursor":"s-resize"});
-        self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-se").css({"position":"absolute", "bottom":"-7px", "height":"7px", "width":"7px", "background":"green", "display":"block", "right":"-7px", "cursor":"se-resize"});
+        self.$viewerContainer.find(".b-frame_container").css({"overflow":"hidden", "display":"inline-block", "margin":"0", "position":"relative", "box-shadow":"0 1px 3px rgba(0,0,0,0.4)", "background":"white", "box-sizing":"border-box"});
+        self.$viewerContainer.find(".b-frame_container.ui-resizable").css({"padding":"10px"});
+        self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-e").css({"position":"absolute", "top":"0", "width":"10px", "height":"100%", "display":"block", "right":"0", "cursor":"e-resize", "background-position":"center", "background-repeat":"no-repeat", "background-image":"url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAQCAYAAADedLXNAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpGNzdGMTE3NDA3MjA2ODExODhDNkNGREE2RDZEQjExNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMkRBNUI3RTJEMEUxMUUzQTk1M0M2Qjc0NUZFM0Q5NCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMkRBNUI3RDJEMEUxMUUzQTk1M0M2Qjc0NUZFM0Q5NCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QkE2RDEyMjI0QzIwNjgxMTgyMkFCQzQ3NkE4MUE1NDQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMTg4QzZDRkRBNkQ2REIxMTUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7ef1xfAAAAH0lEQVR42mJctWrVfwYGBkYghtNMDFjAqCAxggABBgB6ygUdVDDbYwAAAABJRU5ErkJggg==)"});
+        self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-s").css({"position":"absolute", "bottom":"0", "height":"10px", "width":"100%", "display":"block", "left":"0", "cursor":"s-resize", "background-repeat":"no-repeat", "background-position":"center", "background-image":"url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAFCAYAAABM6GxJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpGNzdGMTE3NDA3MjA2ODExODhDNkNGREE2RDZEQjExNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFMkRBNUI3QTJEMEUxMUUzQTk1M0M2Qjc0NUZFM0Q5NCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFMkRBNUI3OTJEMEUxMUUzQTk1M0M2Qjc0NUZFM0Q5NCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QkE2RDEyMjI0QzIwNjgxMTgyMkFCQzQ3NkE4MUE1NDQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMTg4QzZDRkRBNkQ2REIxMTUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4YWppYAAAAHElEQVR42mJctWrVfwYKAAsQM1JqwBB3AUCAAQDMqQUPSylTPQAAAABJRU5ErkJggg==)"});
+        self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-se").css({"position":"absolute", "bottom":"0", "height":"10px", "width":"10px", "display":"block", "right":"0", "cursor":"se-resize", "background-repeat":"no-repeat", "background-position":"center", "background-image":"url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpGNzdGMTE3NDA3MjA2ODExODhDNkNGREE2RDZEQjExNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo4MUI2M0Q3QTJBMTkxMUUzOEEyOEMzODZDMUFEQjBCQyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4MUI2M0Q3OTJBMTkxMUUzOEEyOEMzODZDMUFEQjBCQyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QkE2RDEyMjI0QzIwNjgxMTgyMkFCQzQ3NkE4MUE1NDQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMTg4QzZDRkRBNkQ2REIxMTUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5VzKS8AAAATklEQVR42ozOQQ7AIAhEUUqPw83hkKNsTGxBh8Q4i7f4AkCY5+5QIS4iML9HWZhbWTivz/jCNqOCZUYHfxknuGXc4MpgYO7XzCiYewgwALXpTHwh3IAvAAAAAElFTkSuQmCC)"});
 
         // Append a warning to the page stating that the default Blocks Viewer styles are being used
         if ($(".viewer-style-warning").length == 0) {
           $('body').prepend("<div class='viewer-style-warning'>The Default Blocks Styles are Being used. To override and use your own Blocks Viewer Styles, set 'use_blocks_viewer_default_styles' to false in your Blocks config.json)</div>");
-          $(".viewer-style-warning").css({"position":"fixed", "top":0, "width":"100%", "background":"red", "padding":"10px", "color":"white", "font-family":"sans-serif"})
+          $(".viewer-style-warning").css({"position":"fixed", "top":0, "width":"100%", "background":"red", "padding":"10px", "color":"white", "font-family":"sans-serif", "z-index":"999"})
         }
       }
     },
@@ -423,15 +424,16 @@
           self.$frame.css({"width":self.frame_properties.width + "px", "-webkit-transform-origin": "0 0", "-webkit-transform": "scale(" + scale + ")", "transform-origin": "0 0", "transform": "scale(" + scale + ")"})    
           
           // Now that the content has scaled down based on available width, the height needs to be scaled down to match
+          var frame_container_vertical_padding = self.$frame.parent().outerHeight() - self.$frame.parent().height();
           var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
-          var scaled_height = content_height * scale;
+          var scaled_height = (content_height * scale) + frame_container_vertical_padding;
           self.$frame.parent().css({"height": scaled_height + "px"});
 
           // Must set the viewer container to the scaled_height as well or the space leftover from the transform will be visible
           self.$frame.css({"height": content_height + "px"});
 
-          var viewer_container_height = self.$viewerContainer.height() - content_height - scale_height;
-          self.$viewerContainer.css({"height": viewer_container_height + "px"});
+          // var viewer_container_height = self.$viewerContainer.height() - (content_height - scaled_height);
+          // self.$viewerContainer.css({"height": viewer_container_height + "px"});
 
         }, delay);
       }
