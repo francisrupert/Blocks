@@ -85,7 +85,6 @@
       self._wrapFrame();
       self._replaceComponentReferenceWithFrame();
       self._makeFrameResizable();
-      // autoZoomFrame(self.id);
       self._addBasicStyling();
       self._autoZoomOnResize();
     },
@@ -206,7 +205,7 @@
             var ifr = $(this).find("iframe"),
                 d = $('<div></div>');
 
-            self.$viewerContainer.append(d[0]);
+            self.$viewerContainer.find(".b-frame_container").append(d[0]);
             d[0].id = 'temp_div';
             d.css({position:'absolute'});
             d.css({top: ifr.position().top, left:0});
@@ -408,19 +407,31 @@
         setTimeout(function() {
           self.$frame.parent().css({"width":"100%", "max-width": self.frame_properties.width + "px"});
           var available_width = self.$viewerContainer.find(".b-frame_container").width();
-          // self.$frame.css("width", "0");
-          // var content_width = self.$frame[0].contentWindow.document.documentElement.scrollWidth;
-          // self.$frame.css("width", "100%");
           var scale = Math.min((available_width / self.frame_properties.width), 1); //Don't scale above 100%
+
+          // Update zoomable annotation before height calculations are done
+          if (self.frame_properties["zoomable-annotation"] == true) {
+            var $zoomableAnnotation = self.$viewerContainer.find(".b-zoomable-annotation");
+            if ($zoomableAnnotation.length == 0) {
+              $zoomableAnnotation = $("<p class='b-zoomable-annotation'></p>");
+              self.$viewerContainer.find(".b-figure").after($zoomableAnnotation);
+            }
+
+            $zoomableAnnotation.html("Displayed in viewport <span class='auto-zoom-width'>" + self.frame_properties.width + "px wide</span> @ <span class='auto-zoom-percentage'>" + Math.round(scale * 100) + "%</span> scale");
+          }
+
           self.$frame.css({"width":self.frame_properties.width + "px", "-webkit-transform-origin": "0 0", "-webkit-transform": "scale(" + scale + ")", "transform-origin": "0 0", "transform": "scale(" + scale + ")"})    
           
           // Now that the content has scaled down based on available width, the height needs to be scaled down to match
           var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
           var scaled_height = content_height * scale;
           self.$frame.parent().css({"height": scaled_height + "px"});
+
           // Must set the viewer container to the scaled_height as well or the space leftover from the transform will be visible
-          self.$viewerContainer.css({"height": scaled_height + "px"});
           self.$frame.css({"height": content_height + "px"});
+
+          var viewer_container_height = self.$viewerContainer.height() - content_height - scale_height;
+          self.$viewerContainer.css({"height": viewer_container_height + "px"});
 
         }, delay);
       }
@@ -629,107 +640,8 @@
     return this;
   };
 
-  function autoZoomFrame(iframe_id) {
-    var $iframe = $("#" + iframe_id);
-    $iframe.css("width", "100%");
-    var actual_width = $iframe.width(),
-      presentation_width = $iframe.attr("data-presentation-frame-width"),
-      scale = Math.min((actual_width / presentation_width), 1); //Don't scale above 100%
-    $iframe.css({"width": presentation_width + "px", "-webkit-transform-origin": "0 0", "-webkit-transform": "scale(" + scale + ")", "transform-origin": "0 0", "transform": "scale(" + scale + ")"});
-    // update annotation
-    if ($iframe.attr("data-zoomable-annotation") === "true") {
-      $iframe.parent().siblings(".b-figure").html("Displayed in viewport <span class='auto-zoom-width'>" + presentation_width + "px wide</span> @ <span class='auto-zoom-percentage'>" + Math.round(scale * 100) + "%</span> scale");
-    }
-
-    autoAdjustHeight(iframe_id);
-  }
-
-// The initial time this is run it needs to happen after blocks has finished loading - figure out how to bind to the iframe documents "blocks-done" event
-  function autoAdjustHeight(iframe_id) {
-    // set iframe height to 0
-    var $iframe = $("#" + iframe_id);
-    $iframe.css("height", "0");
-    // get scroll height of iFrame contents
-    var content_height = $iframe[0].contentWindow.document.documentElement.scrollHeight;
-    // set height of iFrame to actual height of contents
-      console.log(content_height);
-    $iframe.css("height", content_height + "px");
-    // get true height of scaled iframe
-    if ($iframe.hasClass("auto-zoom")) {
-      var scaled_iframe_height = $iframe[0].getBoundingClientRect().height;
-      // set iframe wrapper height to true height of scaled iframe
-      $iframe.parent().css({"height": scaled_iframe_height + "px"});
-    }
-  }
-
-  function autoZoomAllFrames() {
-    $("iframe.auto-zoom").each(function () {
-      autoZoomFrame($(this).attr("id"));
-    });
-  }
-
-  // Two functions copied from underscore.js
-  //     Underscore.js 1.3.1
-  //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
-  //     Underscore is freely distributable under the MIT license.
-  //     Portions of Underscore are inspired or borrowed from Prototype,
-  //     Oliver Steele's Functional, and John Resig's Micro-Templating.
-  //     For all details and documentation:
-  //     http://documentcloud.github.com/underscore
-  // Returns a function, that, when invoked, will only be triggered at most once
-  // during a given window of time.
-  function throttle(func, wait) {
-    var context, args, timeout, throttling, more;
-    var whenDone = debounce(function () { more = throttling = false; }, wait);
-    return function () {
-      context = this;
-      args = arguments;
-      var later = function () {
-        timeout = null;
-        if (more) {
-          func.apply(context, args);
-        }
-        whenDone();
-      };
-      if (!timeout) {
-        timeout = setTimeout(later, wait);
-      }
-      if (throttling) {
-        more = true;
-      } else {
-        func.apply(context, args);
-      }
-      whenDone();
-      throttling = true;
-    };
-  }
-  // Returns a function, that, as long as it continues to be invoked, will not
-  // be triggered. The function will be called after it stops being called for
-  // N milliseconds.
-  function debounce(func, wait) {
-    var timeout;
-    return function () {
-      var context = this, args = arguments;
-      var later = function () {
-        timeout = null;
-        func.apply(context, args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
-
   $(window).on('load', function () {
     $('body').BlocksViewer();
   });
-
-  // $(window).on('resize', function () {
-  //   throttle(autoZoomAllFrames(), 1000);
-  // });
-
-  // $(document).on('blocks-done-inside-viewer', function (event, data) {
-  //   var iframe_id = data.iframe_id;
-  //   autoAdjustHeight(iframe_id);
-  // });
 
 })(window.jQuery, window.console, document);
