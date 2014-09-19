@@ -354,8 +354,9 @@
         self.$frame.css("height", "0");
         // get scroll height of iFrame contents
         var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
+        var frame_container_vertical_padding = self.$frame.parent().outerHeight() - self.$frame.parent().height();
         // set height of iFrame to actual height of contents
-        self.$viewerContainer.find(".b-frame_container").css("height", content_height + "px");
+        self.$viewerContainer.find(".b-frame_container").css("height", (content_height + frame_container_vertical_padding) + "px");
         self.$frame.css("height", "100%");
         self._updateResizableValues();      
       }, 500);
