@@ -65,8 +65,6 @@
       self.$component = $component;
       self.$revised_component = ''; // place holder for cleaned and wrapped component
       self.template = self.$component.html();
-      self.width = parseInt(self.$component.attr('data-frame-width'), 10);
-      self.height = parseInt(self.$component.attr('data-frame-height'), 10);
 
       self._setFrameName();
       self._setFrameID();
@@ -167,19 +165,21 @@
     _injectComponentInFrame: function () {
       var self = this,
         iframeDoc,
-        revised_component = self._cleanComponent();
+        revised_component = self._cleanComponent(),
+        script,
+        iframeBlocksLoadedInterval;
 
       iframeDoc = window.document.getElementById(self.id).contentWindow.document;
       self.$iframe = $('html', iframeDoc);
       self.$iframe.find('body').append(revised_component);
 
-      var script = iframeDoc.createElement("script");
+      script = iframeDoc.createElement("script");
       script.src = self.config.blocks_loader;
       iframeDoc.head.appendChild(script);
 
       // Blocks has to be instantiated in the iframe
       // The code in the plugin tries to fire Blocks on $(window) and not window
-      var iframeBlocksLoadedInterval = setInterval(function () {
+      iframeBlocksLoadedInterval = setInterval(function () {
         if (typeof window.document.getElementById(self.id).contentWindow.$ == 'function' && typeof window.document.getElementById(self.id).contentWindow.$('body').BlocksLoader == 'function') {
           // Jquery has been loaded, now see if the component is in the iFrame's dom yet?
           clearInterval(iframeBlocksLoadedInterval);
@@ -272,7 +272,6 @@
         if (self.$component.attr(prop_name) !== undefined && self.$component.attr(prop_name) !== '') {
           // Ensure that "true" and "false" strings are converted to boolean equivalents
           var value = self.$component.attr(prop_name);
-          window.debug.debug(value);
           if (value === "true") {
             value = true;
           }
@@ -291,11 +290,11 @@
       });
 
       // Convert scrollable setting from boolean to html attr value of "yes" or "no"
-      if (self.frame_properties["scrollable"] == true) {
-        self.frame_properties["scrollable"] = "yes";
+      if (self.frame_properties.scrollable === true) {
+        self.frame_properties.scrollable = "yes";
       }
       else {
-        self.frame_properties["scrollable"] = "no";
+        self.frame_properties.scrollable = "no";
       }
 
       // If zoomable is set to "auto" the frame cannot be manually resized
@@ -303,8 +302,6 @@
       if (self.frame_properties.zoomable == 'auto') {
         self.frame_properties.resizable = false;
       }
-
-      window.debug.debug(self.frame_properties);
     },
 
     _setFigure: function () {
@@ -315,7 +312,7 @@
 
     _addBasicStyling: function () {
       var self = this;
-      if (typeof self.config.use_blocks_viewer_default_styles == 'undefined' || self.config.use_blocks_viewer_default_styles == true) {
+      if (typeof self.config.use_blocks_viewer_default_styles == 'undefined' || self.config.use_blocks_viewer_default_styles === true) {
         self.$viewerContainer.css({"margin-bottom":"20px"});
         self.$viewerContainer.find(".b-figure").css({"padding":"0", "margin":"0"});
         self.$viewerContainer.find(".b-frame_container").css({"overflow":"hidden", "display":"inline-block", "margin":"0", "position":"relative", "box-shadow":"0 1px 3px rgba(0,0,0,0.4)", "background":"white", "box-sizing":"border-box"});
@@ -325,36 +322,41 @@
         self.$viewerContainer.find(".ui-resizable-handle.ui-resizable-se").css({"position":"absolute", "bottom":"0", "height":"10px", "width":"10px", "display":"block", "right":"0", "cursor":"se-resize", "background-repeat":"no-repeat", "background-position":"center", "background-image":"url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpGNzdGMTE3NDA3MjA2ODExODhDNkNGREE2RDZEQjExNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo4MUI2M0Q3QTJBMTkxMUUzOEEyOEMzODZDMUFEQjBCQyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4MUI2M0Q3OTJBMTkxMUUzOEEyOEMzODZDMUFEQjBCQyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QkE2RDEyMjI0QzIwNjgxMTgyMkFCQzQ3NkE4MUE1NDQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMTg4QzZDRkRBNkQ2REIxMTUiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5VzKS8AAAATklEQVR42ozOQQ7AIAhEUUqPw83hkKNsTGxBh8Q4i7f4AkCY5+5QIS4iML9HWZhbWTivz/jCNqOCZUYHfxknuGXc4MpgYO7XzCiYewgwALXpTHwh3IAvAAAAAElFTkSuQmCC)"});
 
         // Append a warning to the page stating that the default Blocks Viewer styles are being used
-        if ($(".viewer-style-warning").length == 0) {
-          $('body').prepend("<div class='viewer-style-warning'>The Default Blocks Styles are Being used. To override and use your own Blocks Viewer Styles, set 'use_blocks_viewer_default_styles' to false in your Blocks config.json)</div>");
-          $(".viewer-style-warning").css({"position":"fixed", "top":0, "width":"100%", "background":"red", "padding":"10px", "color":"white", "font-family":"sans-serif", "z-index":"999"})
+        if ($(".viewer-style-warning").length === 0) {
+          window.debug.debug("NOTICE: The Default Blocks Styles are Being used. To prevent the injection of the default styles, set 'use_blocks_viewer_default_styles' to false in your Blocks config.json");
+          $(".viewer-style-warning").css({"position":"fixed", "top":0, "width":"100%", "background":"red", "padding":"10px", "color":"white", "font-family":"sans-serif", "z-index":"999"});
         }
       }
     },
 
     _updateResizableValues: function () {
-      var self = this;
+      var self = this,
+        height,
+        width,
+        selector_value;
 
       if (self.frame_properties.resizable === true) {
-        var height = self.$frame.css("height");
-        var width = self.$frame.css("width");
-        var selector_value = width.replace("px", "") + "x" + height.replace("px","");
-        if (self.$responsive_selector.find("select").find("option[value='" + selector_value + "']").length == 0) {
+        height = self.$frame.css("height");
+        width = self.$frame.css("width");
+        selector_value = width.replace("px", "") + "x" + height.replace("px","");
+        if (self.$responsive_selector.find("select").find("option[value='" + selector_value + "']").length === 0) {
           self.$responsive_selector.find("select").prepend("<option value='" + selector_value + "' selected>" + selector_value + "</option>");
         }
       }
     },
 
     _autoSizeHeight: function () {
-      var self = this;
+      var self = this,
+        content_height,
+        frame_container_vertical_padding;
 
       // This is a hack, waiting until content is at rendered height and width. Not sure if this delay
       // is needed due to CSS not loading completely or not
       setTimeout( function() {
         self.$frame.css("height", "0");
         // get scroll height of iFrame contents
-        var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
-        var frame_container_vertical_padding = self.$frame.parent().outerHeight() - self.$frame.parent().height();
+        content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
+        frame_container_vertical_padding = self.$frame.parent().outerHeight() - self.$frame.parent().height();
         // set height of iFrame to actual height of contents
         self.$viewerContainer.find(".b-frame_container").css("height", (content_height + frame_container_vertical_padding) + "px");
         self.$frame.css("height", "100%");
@@ -363,14 +365,15 @@
     },
 
     _autoSizeWidth: function () {
-      var self = this;
+      var self = this,
+        content_width;
 
       // This is a hack, waiting until content is at rendered height and width. Not sure if this delay
       // is needed due to CSS not loading completely or not
       setTimeout( function() {
         self.$frame.css("width", "0");
         // get scroll width of iFrame contents
-        var content_width = self.$frame[0].contentWindow.document.documentElement.scrollWidth;
+        content_width = self.$frame[0].contentWindow.document.documentElement.scrollWidth;
         // set height of iFrame to actual height of contents
         self.$viewerContainer.find(".b-frame_container").css("width", content_width + "px");
         self.$frame.css("width", "100%");
@@ -390,7 +393,6 @@
       }
 
       if (self.frame_properties.width !== "auto") {
-        window.debug.debug("Set container Width: " + self.frame_properties.width);
         self.$viewerContainer.find(".b-frame_container").css("width", self.frame_properties.width);
       }
       else {
@@ -403,18 +405,24 @@
     },
     
     _setupAutoZoom: function (delay) {
-      var self = this;
-      var delay = typeof delay == undefined ? 500 : delay;
+      var self = this,
+        available_width,
+        scale,
+        frame_container_vertical_padding,
+        content_height,
+        scaled_height,
+        $zoomableAnnotation;
+      delay = typeof delay === undefined ? 500 : delay;
       if (self.frame_properties.zoomable == "auto") {
         setTimeout(function() {
           self.$frame.parent().css({"width":"100%", "max-width": self.frame_properties.width + "px"});
-          var available_width = self.$viewerContainer.find(".b-frame_container").width();
-          var scale = Math.min((available_width / self.frame_properties.width), 1); //Don't scale above 100%
+          available_width = self.$viewerContainer.find(".b-frame_container").width();
+          scale = Math.min((available_width / self.frame_properties.width), 1); //Don't scale above 100%
 
           // Update zoomable annotation before height calculations are done
-          if (self.frame_properties["zoomable-annotation"] == true) {
-            var $zoomableAnnotation = self.$viewerContainer.find(".b-zoomable-annotation");
-            if ($zoomableAnnotation.length == 0) {
+          if (self.frame_properties["zoomable-annotation"] === true) {
+            $zoomableAnnotation = self.$viewerContainer.find(".b-zoomable-annotation");
+            if ($zoomableAnnotation.length === 0) {
               $zoomableAnnotation = $("<p class='b-zoomable-annotation'></p>");
               self.$viewerContainer.find(".b-figure").after($zoomableAnnotation);
             }
@@ -422,12 +430,12 @@
             $zoomableAnnotation.html("Displayed in viewport <span class='auto-zoom-width'>" + self.frame_properties.width + "px wide</span> @ <span class='auto-zoom-percentage'>" + Math.round(scale * 100) + "%</span> scale");
           }
 
-          self.$frame.css({"width":self.frame_properties.width + "px", "-webkit-transform-origin": "0 0", "-webkit-transform": "scale(" + scale + ")", "transform-origin": "0 0", "transform": "scale(" + scale + ")"})    
+          self.$frame.css({"width":self.frame_properties.width + "px", "-webkit-transform-origin": "0 0", "-webkit-transform": "scale(" + scale + ")", "transform-origin": "0 0", "transform": "scale(" + scale + ")"});    
           
           // Now that the content has scaled down based on available width, the height needs to be scaled down to match
-          var frame_container_vertical_padding = self.$frame.parent().outerHeight() - self.$frame.parent().height();
-          var content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
-          var scaled_height = (content_height * scale) + frame_container_vertical_padding;
+          frame_container_vertical_padding = self.$frame.parent().outerHeight() - self.$frame.parent().height();
+          content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
+          scaled_height = (content_height * scale) + frame_container_vertical_padding;
           self.$frame.parent().css({"height": scaled_height + "px"});
 
           // Must set the viewer container to the scaled_height as well or the space leftover from the transform will be visible

@@ -200,6 +200,7 @@ function isJson(str) {
           type: 'GET',
           url: uri,
           dataType: 'html',
+          cache: false,
           timeout: 15000
         },
         promise;
@@ -454,7 +455,8 @@ function isJson(str) {
         fetch_config = {
           type: 'HEAD',
           url: uri,
-          dataType: 'html'
+          dataType: 'html',
+          cache: false
         },
         promise;
 
@@ -755,6 +757,7 @@ function isJson(str) {
           type: 'GET',
           dataType: 'json',
           async: false, // We want this to block and go first
+          cache: false,
           url: uri,
           timeout: 30000,
           success: function (data) {
