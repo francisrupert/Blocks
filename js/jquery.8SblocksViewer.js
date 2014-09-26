@@ -420,10 +420,6 @@
 
           // Must set the viewer container to the scaled_height as well or the space leftover from the transform will be visible
           self.$frame.css({"height": content_height + "px"});
-
-          // var viewer_container_height = self.$viewerContainer.height() - (content_height - scaled_height);
-          // self.$viewerContainer.css({"height": viewer_container_height + "px"});
-
         }, delay);
       }
     },
