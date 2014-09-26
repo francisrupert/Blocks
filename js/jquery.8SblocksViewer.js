@@ -451,10 +451,8 @@
     _autoZoomOnResize: function () {
       var self = this;
       if (self.frame_properties.zoomable == "auto") {
-        $(window).on('resize', function () {
-          self._setupAutoZoom(0);
-        });
-      }
+        _.throttle(self._setupAutoZoom(0), 1000);
+      };
     }
   };
 
