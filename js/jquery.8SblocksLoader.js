@@ -833,11 +833,18 @@ function isJson(str) {
 
       if (self.child_count_js === self.child_js_injected) {
         if (window.self !== window.top) {
+          // If blocks is being run inside an iFrame (Blocks Viewer)
           window.debug.debug('TRIGGERING blocks-done on parent body from within iFrame');
           parent.$('body').trigger('blocks-done');
+          
+          window.debug.debug('TRIGGERING blocks-done-inside-viewer on parent body from within iFrame');
           parent.$('body').trigger('blocks-done-inside-viewer', {"iframe_id": window.frameElement.id});
+          
+          // This triggers blocks-done within the iFrame itself. BlocksViewer has a listener for this event so the height and width of the iframe can be dynamically set after BlocksLoader has finished
+          $('body').trigger('blocks-done');
         }
         else {
+          // Blocks loader is being used without BlocksViewer
           window.debug.debug('TRIGGERING blocks-done');
           $(document).trigger('blocks-done');
         }
