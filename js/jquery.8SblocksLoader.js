@@ -1001,7 +1001,7 @@ function isJson(str) {
   };
 
   $.fn.BlocksLoader.defaults = {
-    backward_compatible: true,
+    backward_compatible: false,
     config_path: '',
     components: {
       source: 'components/'
