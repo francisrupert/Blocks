@@ -411,7 +411,9 @@ function isJson(str) {
           self.$el = $(rendered_tmpl);
         }
 
-        wrapWithComments();
+        if (self.config.components.wrap_with_comments === undefined || self.config.components.wrap_with_comments === true) {
+          wrapWithComments();
+        }
 
       } else {
 
@@ -496,21 +498,45 @@ function isJson(str) {
           window.debug.debug('Triggering ' + event_name);
           $(document).trigger(event_name);
           page.childDoneInjectingJS();
-        };
+        },
+        $head = $('head'),
+        fetch_config = {
+          type: 'HEAD',
+          url: uri,
+          dataType: 'html',
+          cache: false,
+          complete: function() {
+            triggerCallback();
+          }
+        },
+        promise;
 
-      // getScript automatically injects the JS
-      // into the global context with global eval
-      $.getScript(uri)
-        .done(function () {
-          // Returns: src, textStatus, self
-          window.debug.debug('Injected ' + uri);
-          triggerCallback();
-        })
-        .fail(function () {
-          // Returns: jqxhr, settings, exception, self
-          window.debug.debug('No JS file found at ' + uri);
-          triggerCallback();
-        });
+      promise = $.ajax(fetch_config);
+
+      promise.done(function () {
+        // Note: Content-Length isn't present when Blocks is loaded via file://
+        // and responseText isn't present when Blocks is loaded via http://.
+
+        /*
+        The Content-Encoding check should not be needed, however prototypes.marriottdigital.com
+        is not reliably sending the Content-Length header when serving our prototype's css files
+        as of 1/10/14, compare the following two files:
+        (no Content-Length header) http://prototypes.marriottdigital.com/stitch/Shop_and_Book/library/components/css/photo_gallery.css?_=1389367304587
+        (Content-Length header, same directory) http://prototypes.marriottdigital.com/stitch/Shop_and_Book/library/components/css/mainmenu.css?_=1389367304587
+        */
+        if (promise.getResponseHeader('Content-Length') > 0 ||
+            promise.responseText.length > 0 ||
+            promise.getResponseHeader('Content-Encoding') === 'gzip') {
+            $('head').append('<script src="' + uri + '"></script>'); //The JS is already loaded, but adding the <script> tag will make flattening the page work
+        } else {
+          window.debug.warn('JS resource is empty: ' + uri);
+        }
+      });
+
+      promise.fail(function () {
+        // Returns: jqXHR, textStatus, error
+        window.debug.debug('JS resource is missing: ' + uri);
+      });
     },
 
     /*
@@ -848,6 +874,8 @@ function isJson(str) {
           window.debug.debug('TRIGGERING blocks-done');
           $(document).trigger('blocks-done');
         }
+
+        window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
       }
     },
 
@@ -988,8 +1016,20 @@ function isJson(str) {
     return this;
   };
 
-  $(window).on('load', function () {
-    $('body').BlocksLoader();
-  });
+  var $blocksScript = $("script[data-blocks='true']");
+  var autoload = true;
+  if ($blocksScript.length > 0) {
+    if ($blocksScript.attr("data-autoload") == "false") {
+      autoload = false;
+    }
+  }
+
+  if (autoload === true) {
+    $(window).on('load', function () {
+      $('body').BlocksLoader();
+    });
+  }
+
+  window.blocks_done = false; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
 
 })(window.jQuery, window.debug, document);

@@ -366,20 +366,34 @@
       self.$frame.css({"height":"100%", "width":"100%"});
 
       if (self.frame_properties.height !== "auto") {
-        self.$viewerContainer.find(".b-frame_container").css("height", self.frame_properties.height);
+        if (self.frame_properties.height.indexOf("%") != -1) {
+          // desired height is a percentage, use css height property
+          self.$viewerContainer.find(".b-frame_container").css("height", self.frame_properties.height);
+        }
+        else {
+          //  desired height is not a percentage use jquery height() which handles box-sizing correctly: http://blog.jquery.com/2012/08/16/jquery-1-8-box-sizing-width-csswidth-and-outerwidth/
+          self.$viewerContainer.find(".b-frame_container").height(self.frame_properties.height);
+        }
       }
       else {
         self._autoSizeHeight();
       }
 
       if (self.frame_properties.width !== "auto") {
-        self.$viewerContainer.find(".b-frame_container").css("width", self.frame_properties.width);
+        if (self.frame_properties.width.indexOf("%") != -1) {
+          // desired width is a percentage, use css width property
+          self.$viewerContainer.find(".b-frame_container").css("width", self.frame_properties.width);
+        }
+        else {
+          //  desired width is not a percentage use jquery width() which handles box-sizing correctly: http://blog.jquery.com/2012/08/16/jquery-1-8-box-sizing-width-csswidth-and-outerwidth/
+          self.$viewerContainer.find(".b-frame_container").width(self.frame_properties.width);
+        }
       }
       else {
         self._autoSizeWidth();
       }
 
-      setInterval(function () {
+      setTimeout(function () {
         self._setupAutoZoom();
       }, 500);
     },
@@ -625,8 +639,18 @@
     return this;
   };
 
-  $(window).on('load', function () {
-    $('body').BlocksViewer();
-  });
+  var $blocksScript = $("script[data-blocks='true']");
+  var autoload = true;
+  if ($blocksScript.length > 0) {
+    if ($blocksScript.attr("data-autoload") == "false") {
+      autoload = false;
+    }
+  }
+
+  if (autoload === true) {
+    $(window).on('load', function () {
+      $('body').BlocksViewer();
+    });
+  }
 
 })(window.jQuery, window.console, document);
