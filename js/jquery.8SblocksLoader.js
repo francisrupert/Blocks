@@ -411,7 +411,9 @@ function isJson(str) {
           self.$el = $(rendered_tmpl);
         }
 
-        wrapWithComments();
+        if (self.config.components.wrap_with_comments === undefined || self.config.components.wrap_with_comments === true) {
+          wrapWithComments();
+        }
 
       } else {
 
@@ -502,7 +504,10 @@ function isJson(str) {
           type: 'HEAD',
           url: uri,
           dataType: 'html',
-          cache: false
+          cache: false,
+          complete: function() {
+            triggerCallback();
+          }
         },
         promise;
 
@@ -869,6 +874,8 @@ function isJson(str) {
           window.debug.debug('TRIGGERING blocks-done');
           $(document).trigger('blocks-done');
         }
+
+        window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
       }
     },
 
@@ -1009,8 +1016,20 @@ function isJson(str) {
     return this;
   };
 
-  $(window).on('load', function () {
-    $('body').BlocksLoader();
-  });
+  var $blocksScript = $("script[data-blocks='true']");
+  var autoload = true;
+  if ($blocksScript.length > 0) {
+    if ($blocksScript.attr("data-autoload") == "false") {
+      autoload = false;
+    }
+  }
+
+  if (autoload === true) {
+    $(window).on('load', function () {
+      $('body').BlocksLoader();
+    });
+  }
+
+  window.blocks_done = false; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
 
 })(window.jQuery, window.debug, document);

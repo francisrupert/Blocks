@@ -56,9 +56,10 @@ module.exports = function(grunt) {
           'bower_components/jquery/dist/jquery.min.js',
           'js/libs/underscore/underscore.min.js',
           'bower_components/handlebars/handlebars.min.js',
-          'js/jquery.8SblocksLoader.js'
+          'js/jquery.8SblocksLoader.js',
+          'js/jquery.8SblocksViewer.js'
         ],
-        dest: 'dist/blocks-loader-debug.js'
+        dest: 'dist/blocks-debug.js'
       },
     },
     cssmin: {
