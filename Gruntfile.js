@@ -93,7 +93,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['uglify:underscore', 'uglify:loader', 'uglify:viewer', 'concat:loader', 'concat:viewer', 'concat:all', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'uglify:underscore', 'uglify:loader', 'uglify:viewer', 'concat:loader', 'concat:viewer', 'concat:all', 'cssmin']);
   grunt.registerTask('loader', ['uglify:underscore', 'uglify:loader', 'concat:loader']);
   grunt.registerTask('viewer', ['uglify:underscore', 'uglify:viewer', 'concat:viewer']);
   grunt.registerTask('css', ['cssmin']);
