@@ -1,20 +1,21 @@
 {
   "name": "Blocks",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/EightShapes/Blocks.git"
   },
   "blocksVersion": {
-    "blocks": "2.4.2",
-    "loader": "2.3.1",
-    "viewer": "2.0.0"
+    "blocks": "2.4.3",
+    "loader": "2.3.2",
+    "viewer": "2.0.1"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-concat": "~0.4.0",
-    "grunt-contrib-uglify": "~0.5.0",
     "grunt-contrib-cssmin": "~0.10.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "~0.5.0",
     "load-grunt-tasks": "~0.6.0"
   }
 }

@@ -669,7 +669,7 @@ function isJson(str) {
          tmpl_data = $.parseJSON(content);
          self.content = content;
       }
-      else if (self.config.template_data !== undefined && self.config.template_data !== '') {   
+      else if (self.config.template_data !== undefined && self.config.template_data !== '') {
         if (content !== undefined) {
           tmpl_data = getTemplateData(content, self.config.template_data);
           self.content = content;
@@ -791,7 +791,7 @@ function isJson(str) {
           },
           error: function (err) {
             // NOTE: Logging isn't setup until we fetch the config thus window.debug doesn't yet exist
-            window.console.error('FAILED TO FETCH CONFIG: ' + uri + ' returned ' + JSON.stringify(err));
+            debug.error('FAILED TO FETCH CONFIG: ' + uri + ' returned ' + JSON.stringify(err));
             self.config = opts;
           }
         };
@@ -862,10 +862,10 @@ function isJson(str) {
           // If blocks is being run inside an iFrame (Blocks Viewer)
           window.debug.debug('TRIGGERING blocks-done on parent body from within iFrame');
           parent.$('body').trigger('blocks-done');
-          
+
           window.debug.debug('TRIGGERING blocks-done-inside-viewer on parent body from within iFrame');
           parent.$('body').trigger('blocks-done-inside-viewer', {"iframe_id": window.frameElement.id});
-          
+
           // This triggers blocks-done within the iFrame itself. BlocksViewer has a listener for this event so the height and width of the iframe can be dynamically set after BlocksLoader has finished
           $('body').trigger('blocks-done');
         }
@@ -893,14 +893,15 @@ function isJson(str) {
 
     childDoneRendering: function (child) {
       var self = this,
-        $root = self.$el;
+        $root = self.$el,
+        $page_component;
 
 
       if (child.content !== undefined) {
-        var $page_component = $root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"][data-content=\'' + child.content + '\']');
+        $page_component = $root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"][data-content=\'' + child.content + '\']');
       }
       else {
-        var $page_component = $root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"]').not('[data-content]');
+        $page_component = $root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"]').not('[data-content]');
       }
 
       self.children_rendered++;
@@ -949,24 +950,11 @@ function isJson(str) {
     _setupLogging: function () {
       var self = this,
         console,
-        logging = self.config.logging !== undefined ? self.config.logging : self.logging,
-        methods = [ 'error', 'warn', 'info', 'debug', 'log' ];
+        logging = self.config.logging !== undefined ? self.config.logging : self.logging;
 
-      window.debug = {};
-
-      if (typeof(window.console) === undefined) {
-        window.console = {};
+      if (logging !== true) {
+        debug.setLevel(0);
       }
-
-      console = window.console;
-
-      _.each(methods, function (method) {
-        window.debug[method] = function () {
-          if (logging === true) {
-            console[method].apply(console, arguments);
-          }
-        };
-      });
     },
 
     _wrapPage: function () {

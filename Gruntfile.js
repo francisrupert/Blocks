@@ -27,6 +27,7 @@ module.exports = function(grunt) {
           'bower_components/jquery/dist/jquery.min.js',
           'js/libs/underscore/underscore.min.js',
           'bower_components/handlebars/handlebars.min.js',
+          'bower_components/javascript-debug/ba-debug.min.js',
           'dist/jquery.8SblocksLoader-<%= pkg.blocksVersion.loader %>.min.js'
         ],
         dest: 'dist/blocks-loader-<%= pkg.blocksVersion.loader %>.min.js'
@@ -36,6 +37,7 @@ module.exports = function(grunt) {
           'bower_components/jquery/dist/jquery.min.js',
           'js/libs/jquery/jquery-ui.min.js',
           'js/libs/underscore/underscore.min.js',
+          'bower_components/javascript-debug/ba-debug.min.js',
           'dist/jquery.8SblocksViewer-<%= pkg.blocksVersion.viewer %>.min.js'
         ],
         dest: 'dist/blocks-viewer-<%= pkg.blocksVersion.viewer %>.min.js'
@@ -46,6 +48,7 @@ module.exports = function(grunt) {
           'js/libs/jquery/jquery-ui.min.js',
           'js/libs/underscore/underscore.min.js',
           'bower_components/handlebars/handlebars.min.js',
+          'bower_components/javascript-debug/ba-debug.min.js',
           'dist/jquery.8SblocksLoader-<%= pkg.blocksVersion.loader %>.min.js',
           'dist/jquery.8SblocksViewer-<%= pkg.blocksVersion.viewer %>.min.js'
         ],
@@ -56,6 +59,7 @@ module.exports = function(grunt) {
           'bower_components/jquery/dist/jquery.min.js',
           'js/libs/underscore/underscore.min.js',
           'bower_components/handlebars/handlebars.min.js',
+          'bower_components/javascript-debug/ba-debug.min.js',
           'js/jquery.8SblocksLoader.js',
           'js/jquery.8SblocksViewer.js'
         ],
@@ -69,6 +73,23 @@ module.exports = function(grunt) {
         ],
         dest: 'dist/blocks-viewer-<%= pkg.blocksVersion.viewer %>.min.css'
       }
+    },
+    jshint: {
+      options: {
+        curly: true,
+        eqeqeq: true,
+        eqnull: true,
+        browser: false,
+        globals: {
+          jQuery: true
+        }
+      },
+      all: [
+        'Gruntfile.js',
+        'js/jquery.8SblocksLoader.js',
+        'js/jquery.8SblocksViewer.js'
+      ],
+      gruntfile: 'Gruntfile.js'
     }
   });
 

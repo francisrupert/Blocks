@@ -142,7 +142,7 @@
       // Add a figure, add the responsive selector to the figure,
       $figure.addClass('b-figure').text(self.figure);
       if (typeof self.$responsive_selector == 'object') {
-        $figure.append(self.$responsive_selector); 
+        $figure.append(self.$responsive_selector);
       }
 
       $viewerContainer.addClass('b-viewer_container');
@@ -340,7 +340,7 @@
         // set height of iFrame to actual height of contents
         self.$viewerContainer.find(".b-frame_container").css("height", (content_height + frame_container_vertical_padding) + "px");
         self.$frame.css("height", "100%");
-        self._updateResizableValues();      
+        self._updateResizableValues();
       }, 500);
     },
 
@@ -357,7 +357,7 @@
         // set height of iFrame to actual height of contents
         self.$viewerContainer.find(".b-frame_container").css("width", content_width + "px");
         self.$frame.css("width", "100%");
-        self._updateResizableValues();      
+        self._updateResizableValues();
       }, 500);
     },
 
@@ -397,7 +397,7 @@
         self._setupAutoZoom();
       }, 500);
     },
-    
+
     _setupAutoZoom: function (delay) {
       var self = this,
         available_width,
@@ -424,8 +424,8 @@
             $zoomableAnnotation.html("Displayed in viewport <span class='auto-zoom-width'>" + self.frame_properties.width + "px wide</span> @ <span class='auto-zoom-percentage'>" + Math.round(scale * 100) + "%</span> scale");
           }
 
-          self.$frame.css({"width":self.frame_properties.width + "px", "-webkit-transform-origin": "0 0", "-webkit-transform": "scale(" + scale + ")", "transform-origin": "0 0", "transform": "scale(" + scale + ")"});    
-          
+          self.$frame.css({"width":self.frame_properties.width + "px", "-webkit-transform-origin": "0 0", "-webkit-transform": "scale(" + scale + ")", "transform-origin": "0 0", "transform": "scale(" + scale + ")"});
+
           // Now that the content has scaled down based on available width, the height needs to be scaled down to match
           frame_container_vertical_padding = self.$frame.parent().outerHeight() - self.$frame.parent().height();
           content_height = self.$frame[0].contentWindow.document.documentElement.scrollHeight;
@@ -442,7 +442,7 @@
       var self = this;
       if (self.frame_properties.zoomable == "auto") {
         _.throttle(self._setupAutoZoom(0), 1000);
-      };
+      }
     }
   };
 
