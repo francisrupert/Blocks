@@ -107,7 +107,7 @@ function isJson(str) {
         tmpl;
 
       if (variation_html !== undefined && variation_html.length > 0) {
-        tmpl = variation_html.trim().replace(/\n\s*/g, '');
+        tmpl = $.trim(variation_html).replace(/\n\s*/g, '');
 
         if (!self.template) {
           self.template = Handlebars.compile(tmpl);

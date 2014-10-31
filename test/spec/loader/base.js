@@ -8,9 +8,9 @@ describe("Blocks2 loader by default", function() {
     jasmine.getFixtures().fixturesPath = 'fixtures/';
   });
 
-  it("does not alter or remove elements a page", function() {
+  it("does not alter or remove elements on a page", function() {
     // loadFixtures('base.html');
-    expect($('#base header')).toBeInDOM();
+    expect($('#base .initial-class')).toBeInDOM();
   });
 });
 
@@ -25,9 +25,9 @@ describe("Blocks loader asynchronously", function() {
   });
 
   it("loads a component", function(done) {
-    expect($('#base header figure')).toBeInDOM();
-    expect($('#base header.with-content')).toBeInDOM();
-    expect($('#base header.with-content .name')).toHaveText('Nathan Curtis');
+    expect($('#base .l-header figure')).toBeInDOM();
+    expect($('#base .l-header.with-content')).toBeInDOM();
+    expect($('#base .l-header.with-content .name')).toHaveText('Nathan Curtis');
     done();
   });
 });
