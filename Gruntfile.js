@@ -24,7 +24,7 @@ module.exports = function(grunt) {
       },
       loader: {
         src: [
-          'bower_components/jquery/dist/jquery.min.js',
+          'bower_components/jquery-modern/dist/jquery.min.js',
           'js/libs/underscore/underscore.min.js',
           'bower_components/handlebars/handlebars.min.js',
           'bower_components/javascript-debug/ba-debug.min.js',
@@ -32,9 +32,19 @@ module.exports = function(grunt) {
         ],
         dest: 'dist/blocks-loader-<%= pkg.blocksVersion.loader %>.min.js'
       },
+      loader_legacy: {
+        src: [
+          'bower_components/jquery-legacy/dist/jquery.min.js',
+          'js/libs/underscore/underscore.min.js',
+          'bower_components/handlebars/handlebars.min.js',
+          'bower_components/javascript-debug/ba-debug.min.js',
+          'dist/jquery.8SblocksLoader-<%= pkg.blocksVersion.loader %>.min.js'
+        ],
+        dest: 'dist/blocks-loader-legacy-<%= pkg.blocksVersion.loader %>.min.js'
+      },
       viewer: {
         src: [
-          'bower_components/jquery/dist/jquery.min.js',
+          'bower_components/jquery-modern/dist/jquery.min.js',
           'js/libs/jquery/jquery-ui.min.js',
           'js/libs/underscore/underscore.min.js',
           'bower_components/javascript-debug/ba-debug.min.js',
@@ -44,7 +54,7 @@ module.exports = function(grunt) {
       },
       all: {
         src: [
-          'bower_components/jquery/dist/jquery.min.js',
+          'bower_components/jquery-modern/dist/jquery.min.js',
           'js/libs/jquery/jquery-ui.min.js',
           'js/libs/underscore/underscore.min.js',
           'bower_components/handlebars/handlebars.min.js',
@@ -56,7 +66,7 @@ module.exports = function(grunt) {
       },
       debug: {
         src: [
-          'bower_components/jquery/dist/jquery.min.js',
+          'bower_components/jquery-modern/dist/jquery.min.js',
           'js/libs/underscore/underscore.min.js',
           'bower_components/handlebars/handlebars.min.js',
           'bower_components/javascript-debug/ba-debug.min.js',
@@ -93,8 +103,9 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['jshint', 'uglify:underscore', 'uglify:loader', 'uglify:viewer', 'concat:loader', 'concat:viewer', 'concat:all', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'uglify:underscore', 'uglify:loader', 'uglify:viewer', 'concat:loader', 'concat:viewer', 'concat:loader_legacy', 'concat:all', 'cssmin']);
   grunt.registerTask('loader', ['uglify:underscore', 'uglify:loader', 'concat:loader']);
+  grunt.registerTask('loader-legacy', ['uglify:underscore', 'uglify:loader', 'concat:loader_legacy']);
   grunt.registerTask('viewer', ['uglify:underscore', 'uglify:viewer', 'concat:viewer']);
   grunt.registerTask('css', ['cssmin']);
   grunt.registerTask('debug', ['uglify:underscore', 'concat:debug']);
