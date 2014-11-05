@@ -527,7 +527,11 @@ function isJson(str) {
         if (promise.getResponseHeader('Content-Length') > 0 ||
             promise.responseText.length > 0 ||
             promise.getResponseHeader('Content-Encoding') === 'gzip') {
-            $('head').append('<script src="' + uri + '"></script>'); //The JS is already loaded, but adding the <script> tag will make flattening the page work
+            if (self.config.wrap_injected_js_with_comments) {
+              $('head').append('<!--<script data-blocks-injected-js="true" src="' + uri + '"></script>-->'); //config option will wrap injected scripts inside a comment preventing them from executing. Useful when using blocks with other processing tools that can later uncomment the scripts
+            } else {
+              $('head').append('<script src="' + uri + '"></script>');
+            }
         } else {
           window.debug.warn('JS resource is empty: ' + uri);
         }
