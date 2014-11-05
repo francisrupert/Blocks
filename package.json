@@ -1,13 +1,13 @@
 {
   "name": "Blocks",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/EightShapes/Blocks.git"
   },
   "blocksVersion": {
-    "blocks": "2.4.4",
-    "loader": "2.3.3",
+    "blocks": "2.4.5",
+    "loader": "2.3.4",
     "viewer": "2.0.1"
   },
   "devDependencies": {
