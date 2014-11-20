@@ -1,6 +1,6 @@
 {
   "name": "EightShapes-Blocks",
-  "version": "2.3.8",
+  "version": "2.4.5",
   "homepage": "https://github.com/EightShapes/Blocks",
   "authors": [
     "Nathan Curtis <nathan@eightshapes.com>",
@@ -25,10 +25,16 @@
   "license": "http://unify.eightshapes.com/about-the-system/terms-of-use/",
   "ignore": [
     "**/.*",
-    "node_modules",
+    "Gruntfile.js",
+    "archive",
+    "bower.json",
     "bower_components",
-    "test",
-    "tests"
+    "config.rb",
+    "js",
+    "node_modules",
+    "package.json",
+    "sass",
+    "test"
   ],
   "dependencies": {
     "jquery": "~2.1.1",
