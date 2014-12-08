@@ -288,7 +288,6 @@
 
 .t-withsymbol.t-nav {
   .t-collapsible.home > *::before {
-    @include social-marriottblog-ondark-icon();
     left: -13px;
     top: -2px;
   }
@@ -300,7 +299,6 @@
 }
 .t-withsymbol.t-nav.t-light {
   .t-collapsible.home > *::before {
-    @include social-marriottblog-onlight-icon();
   }
 }
 
@@ -446,9 +444,6 @@
     .t-tertiary {
       margin-top: 14px;
     }
-    .marriott-for {
-      clear: left;
-    }
     .utilities {
       margin-top: 27px;
     }
@@ -461,14 +456,10 @@
       display: block;
       left: -8px;
       top: 2px;
-//      left: 155px;
-//      top: -23px;
       background-size: 75%;
     }
-    .marriott-for,
     .news,
-    .local-utilities,
-    .about-marriott {
+    .local-utilities {
       ul {
         display: block;
       }
@@ -486,9 +477,7 @@
     .local-utilities li:last-child::after {
       content: "";
     }
-    .marriott-for,
-    .news,
-    .about-marriott {
+    .news {
       ul {
       }
       li {
@@ -500,11 +489,6 @@
       li:last-child::after {
         content: "";
       }
-    }
-    .l-actions {
-      //note: l-actions is display: none in the mobile-first code;
-      // it may need to be display: something-other-than-none here
-      // to make it appear at the proper moment.
     }
   }
 }

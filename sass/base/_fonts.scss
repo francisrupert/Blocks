@@ -2,17 +2,6 @@
 // Font faces are separated from typography to avoid referencing AND
 // thus fetching the font files multiple times.
 
-@font-face {
-	font-family: 'marriott-icons';
-	src:url('fonts/marriott-icons.eot');
-	src:url('fonts/marriott-icons.eot?#iefix') format('embedded-opentype'),
-	url('fonts/marriott-icons.woff') format('woff'),
-	url('fonts/marriott-icons.ttf') format('truetype'),
-	url('fonts/marriott-icons.svg#marriott-icons') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
 // ProximaNova
 @font-face {
     font-family: 'ProximaNovaBold';
