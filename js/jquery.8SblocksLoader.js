@@ -21,16 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Utility function - isJson
-function isJson(str) {
-    try {
-        $.parseJSON(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
-
 (function ($, console, document) {
   "use strict";
 
@@ -40,13 +30,13 @@ function isJson(str) {
     this.components = [];
     this.component_variations = {};
     this.cache = {};
-
-    this.loadConfig(opts);
-
+    this.bus = {};
     this.logging = true;
-    this._setupLogging();
+    this.time_start = performance.now();
+    this.time_duration = null;
 
-    this.init();
+    this.prepare();
+    this.loadConfig(opts);
   };
 
   var Component = function (opts) {
@@ -494,20 +484,28 @@ function isJson(str) {
       var self = this,
         uri = self.js_uri(),
         event_name = self.template_name(),
+        ref = window.document.getElementsByTagName('script')[0],
+        script,
+        $head = $('head'),
         triggerCallback = function () {
           window.debug.debug('Triggering ' + event_name);
           $(document).trigger(event_name);
+        },
+        appendScript = function (uri) {
+          script = window.document.createElement( "script" );
+          script.src = uri;
+          ref.parentNode.appendChild( script, ref );
+          triggerCallback();
+          notifyParent();
+        },
+        notifyParent = function () {
           page.childDoneInjectingJS();
         },
-        $head = $('head'),
         fetch_config = {
           type: 'HEAD',
           url: uri,
-          dataType: 'html',
-          cache: false,
-          complete: function() {
-            triggerCallback();
-          }
+          dataType: 'script',
+          cache: false
         },
         promise;
 
@@ -530,7 +528,7 @@ function isJson(str) {
             if (self.config.wrap_injected_js_with_comments) {
               $('head').append('<!--<script data-blocks-injected-js="true" src="' + uri + '"></script>-->'); //config option will wrap injected scripts inside a comment preventing them from executing. Useful when using blocks with other processing tools that can later uncomment the scripts
             } else {
-              $('head').append('<script src="' + uri + '"></script>');
+              appendScript(uri);
             }
         } else {
           window.debug.warn('JS resource is empty: ' + uri);
@@ -540,6 +538,7 @@ function isJson(str) {
       promise.fail(function () {
         // Returns: jqXHR, textStatus, error
         window.debug.debug('JS resource is missing: ' + uri);
+        notifyParent();
       });
     },
 
@@ -667,13 +666,11 @@ function isJson(str) {
           return data;
         };
 
-
-      if (content !== undefined && isJson(content)) {
+      if (content !== undefined && self._isJSON(content)) {
          // Raw JSON passed in as the data-content-param
          tmpl_data = $.parseJSON(content);
          self.content = content;
-      }
-      else if (self.config.template_data !== undefined && self.config.template_data !== '') {
+      } else if (self.config.template_data !== undefined && self.config.template_data !== '') {
         if (content !== undefined) {
           tmpl_data = getTemplateData(content, self.config.template_data);
           self.content = content;
@@ -774,11 +771,34 @@ function isJson(str) {
       } else {
         window.debug.error('FAILED to render template: ' + tmpl_name + ' NAME: ' + e.name + ' MSG: ' + e.message);
       }
+    },
+    // "PRIVATE" methods (we jam econo)
+    /**
+     * @method: _isJSON
+     *
+     * Wraps a call to parseJSON
+     */
+    _isJSON: function (str) {
+      try {
+        $.parseJSON(str);
+      } catch (e) {
+        return false;
+      }
+      return true;
     }
   };
 
   BlocksLoader.prototype = {
     constructor: BlocksLoader,
+
+    prepare: function () {
+      var self = this;
+
+      $(self.bus).on('config_loaded', function () {
+        // We've got a config. Let's start
+        self.init();
+      });
+    },
 
     loadConfig: function (opts) {
       var self = this,
@@ -786,17 +806,18 @@ function isJson(str) {
         fetch_config = {
           type: 'GET',
           dataType: 'json',
-          async: false, // We want this to block and go first
           cache: false,
           url: uri,
           timeout: 30000,
           success: function (data) {
             self.config = $.extend(opts, data);
+            $(self.bus).trigger('config_loaded');
           },
           error: function (err) {
             // NOTE: Logging isn't setup until we fetch the config thus window.debug doesn't yet exist
             debug.error('FAILED TO FETCH CONFIG: ' + uri + ' returned ' + JSON.stringify(err));
             self.config = opts;
+            self.trigger('config_loaded'); // We continue on with default options
           }
         };
 
@@ -814,8 +835,7 @@ function isJson(str) {
         $root = self.$el,
         queued_components = [];
 
-      // For logging
-      self.name = $(document).find('head title').text();
+      self._setupLogging();
 
       // page cache of components
       self.components = {};
@@ -880,6 +900,9 @@ function isJson(str) {
         }
 
         window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
+
+        self.time_duration = performance.now() - self.time_start;
+        window.debug.debug('TOTAL DURATION: ' + self.time_duration);
       }
     },
 
@@ -955,6 +978,8 @@ function isJson(str) {
       var self = this,
         console,
         logging = self.config.logging !== undefined ? self.config.logging : self.logging;
+
+      self.name = $(document).find('head title').text();
 
       if (logging !== true) {
         debug.setLevel(0);
