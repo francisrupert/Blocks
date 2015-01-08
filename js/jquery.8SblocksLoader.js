@@ -50,11 +50,13 @@
     init: function ($component) {
       var self = this;
 
+      self.setID($component);
+
       self.$el = $component;
       self.name = $component.attr('data-component');
       self.source = $component.attr('data-source');
 
-      self.setComponentPath($component);
+      self.setComponentPath();
       self.setVariationName($component);
       self.setTemplateData($component);
       self.setWrappingMarkup($component);
@@ -115,7 +117,8 @@
 
       window.debug.debug('CHILD LOADED: ' + child.template_name());
       self.children_loaded++;
-      self.children[child.template_name()] = child;
+
+      self.children[child.uuid] = child;
 
       if (self.child_count === self.children_loaded) {
         if (self.parent !== undefined) {
@@ -168,6 +171,10 @@
       tmpl_name = self.sanitizeVariationName(tmpl_name);
 
       return [$component.attr('data-component'), tmpl_name].join('_');
+    },
+
+    getIDFromVariation: function ($component) {
+      return $component.attr('data-blocks-uuid');
     },
 
     updateImgSrcPath: function () {
@@ -256,7 +263,6 @@
       self.classes.push($header.attr('class'));
 
       // The not() here is to avoid finding nested component varations
-      // TODO: Would children() be more approriate here?
       self.$variation = $component_html.find('[data-variation="' + self.variation_name + '"]').not('[data-component]');
 
       // Collect variation classes for component
@@ -281,16 +287,18 @@
         self.updateImgSrcPath();
       }
 
-      self.addTemplate(self.$variation);
-
       $nested_components = self.$variation.find('*[data-component]');
 
       if ($nested_components !== undefined && $nested_components.length > 0) {
         $nested_components.each(function (idx, nested_component) {
-          var $nested_component = $(nested_component);
+          var $nested_component = $(nested_component),
+            nested_component_id = self.parent.generateUUID();
 
           window.debug.debug('FOUND nested component: ' + $nested_component.attr('data-component'));
           self.child_count++;
+
+          // Assign a UUID to find the component in the DOM later
+          $nested_component.attr('data-blocks-uuid', nested_component_id);
 
           // MUST queue the components to get an accurate child count
           // Otherwise a race condition is created where the child count doesn't
@@ -300,8 +308,13 @@
         });
       } else {
         self.no_children = true;
+      }
 
-        // Resolve the parsing promise
+      // Render our template now that the UUIDs have been set on the nested components
+      self.addTemplate(self.$variation);
+
+      // If we've got no children then we can resolve the parsing promise
+      if (self.no_children === true) {
         self.parse_deferred.resolve();
       }
 
@@ -354,7 +367,8 @@
         self.$el.find('[data-component]').each(function (idx, nested_component) {
           var $nested_component = $(nested_component),
             tmpl_name = self.getTemplateNameFromVariation($nested_component),
-            target_child = self.children[tmpl_name];
+            uuid = self.getIDFromVariation($nested_component),
+            target_child = self.children[uuid];
 
           $(nested_component).replaceWith(target_child.$el);
         });
@@ -539,7 +553,6 @@
 
     /*
      * @method: setComponentPath
-     * @param: {Object}
      *
      * Uses the data-source attribute or components.source from
      * the config to obtain the path to the component template files.
@@ -599,6 +612,12 @@
     hasDocumentation: function () {
       var self = this;
       return (self.$documentation !== undefined && self.$documentation.length > 0);
+    },
+
+    setID: function ($el) {
+      var self = this;
+
+      self.uuid = $el.attr('data-blocks-uuid');
     },
 
     /*
@@ -767,6 +786,7 @@
         window.debug.error('FAILED to render template: ' + tmpl_name + ' NAME: ' + e.name + ' MSG: ' + e.message);
       }
     },
+
     // "PRIVATE" methods (we jam econo)
     /**
      * @method: _isJSON
@@ -828,6 +848,7 @@
     init: function () {
       var self = this,
         $root = self.$el,
+        component_id,
         queued_components = [];
 
       self._setupLogging();
@@ -849,6 +870,8 @@
 
       $root.find('*[data-component]').each(function () {
         self.child_count++;
+
+        $(this).attr('data-blocks-uuid', self.generateUUID());
 
         // MUST queue the components to get an accurate child count
         queued_components.push({ page: self, component: $(this) });
@@ -944,6 +967,20 @@
       // Exposing just the page level component variations
       // to pages using Blocks
       self.component_variations[child.template_name()] = child;
+    },
+    /**
+     * @method: generateUUID
+     *
+     * Generates a reasonable enough UUID. We only need it to be unique for a load of the page.
+     * Copied from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript/2117523#2117523
+     */
+    generateUUID: function() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16|0,
+          v = c == 'x' ? r : (r&0x3|0x8);
+
+        return v.toString(16);
+      });
     },
 
     injectComponentJS: function  () {
