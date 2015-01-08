@@ -459,11 +459,9 @@
         // and responseText isn't present when Blocks is loaded via http://.
 
         /*
-        The Content-Encoding check should not be needed, however prototypes.marriottdigital.com
-        is not reliably sending the Content-Length header when serving our prototype's css files
-        as of 1/10/14, compare the following two files:
-        (no Content-Length header) http://prototypes.marriottdigital.com/stitch/Shop_and_Book/library/components/css/photo_gallery.css?_=1389367304587
-        (Content-Length header, same directory) http://prototypes.marriottdigital.com/stitch/Shop_and_Book/library/components/css/mainmenu.css?_=1389367304587
+        The Content-Encoding check should not be needed, however some servers
+        are not reliably sending the Content-Length header when serving our prototype's css files
+        as of 1/10/14
         */
         if (promise.getResponseHeader('Content-Length') > 0 ||
             promise.responseText.length > 0 ||
@@ -516,11 +514,8 @@
         // and responseText isn't present when Blocks is loaded via http://.
 
         /*
-        The Content-Encoding check should not be needed, however prototypes.marriottdigital.com
-        is not reliably sending the Content-Length header when serving our prototype's css files
-        as of 1/10/14, compare the following two files:
-        (no Content-Length header) http://prototypes.marriottdigital.com/stitch/Shop_and_Book/library/components/css/photo_gallery.css?_=1389367304587
-        (Content-Length header, same directory) http://prototypes.marriottdigital.com/stitch/Shop_and_Book/library/components/css/mainmenu.css?_=1389367304587
+        The Content-Encoding check should not be needed, however some servers are not reliably sending the Content-Length header when serving our prototype's css files
+        as of 1/10/14
         */
         if (promise.getResponseHeader('Content-Length') > 0 ||
             promise.responseText.length > 0 ||
