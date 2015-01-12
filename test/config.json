@@ -1,5 +1,6 @@
 {
   "logging": true,
+  "blocks_loader": "../dist/blocks-loader-2.3.6.min.js",
   "template_data": {
     "base": {
       "user": {
