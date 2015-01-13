@@ -3,7 +3,9 @@
 
 var $component = $('[data-object="header"]');
 
+$component.toggleClass('js-loaded');
 window.console.log('HEADER component is ' + $component.height() + 'px tall');
+debugger;
 
 $(document).on('header_with_content', function () {
   window.console.log('HEADER component detected component JS trigger event');

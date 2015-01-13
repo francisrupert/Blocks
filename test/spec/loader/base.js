@@ -55,6 +55,19 @@ describe("Blocks loader renders nested components", function() {
   });
 });
 
+describe("Blocks loader adds a component JS file", function() {
+  beforeEach(function(done) {
+    setTimeout(function () {
+      done();
+    }, 300);
+  });
+
+  it("only once if present", function (done) {
+    expect($('#base .l-header.js-loaded')).toBeInDOM();
+    done();
+  });
+});
+
 describe('Blocks loader replaces components with their contents when data-place="replace"', function() {
   beforeEach(function(done) {
     setTimeout(function () {

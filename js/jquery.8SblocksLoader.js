@@ -496,19 +496,9 @@
       var self = this,
         uri = self.js_uri(),
         event_name = self.template_name(),
-        ref = window.document.getElementsByTagName('script')[0],
-        script,
-        $head = $('head'),
         triggerCallback = function () {
           window.debug.debug('Triggering ' + event_name);
           $(document).trigger(event_name);
-        },
-        appendScript = function (uri) {
-          script = window.document.createElement( "script" );
-          script.src = uri;
-          ref.parentNode.appendChild( script, ref );
-          triggerCallback();
-          notifyParent();
         },
         notifyParent = function () {
           page.childDoneInjectingJS();
@@ -516,7 +506,7 @@
         fetch_config = {
           type: 'HEAD',
           url: uri,
-          dataType: 'script',
+          dataType: 'html', // DO NOT set to 'script'. jQuery will use $.getScript() which automatically inserts the JS into the DOM thus all component JS will execute twice
           cache: false
         },
         promise;
@@ -527,21 +517,22 @@
         // Note: Content-Length isn't present when Blocks is loaded via file://
         // and responseText isn't present when Blocks is loaded via http://.
 
-        /*
-        The Content-Encoding check should not be needed, however some servers are not reliably sending the Content-Length header when serving our prototype's css files
-        as of 1/10/14
-        */
+        // The Content-Encoding check should not be needed, however some servers are not
+        // reliably sending the Content-Length header when serving our prototype's css files as of 1/10/14
         if (promise.getResponseHeader('Content-Length') > 0 ||
             promise.responseText.length > 0 ||
             promise.getResponseHeader('Content-Encoding') === 'gzip') {
             if (self.config.wrap_injected_js_with_comments) {
               $('head').append('<!--<script data-blocks-injected-js="true" src="' + uri + '"></script>-->'); //config option will wrap injected scripts inside a comment preventing them from executing. Useful when using blocks with other processing tools that can later uncomment the scripts
             } else {
-              appendScript(uri);
+              $('head').append('<script src="' + uri + '"></script>');
+              triggerCallback();
             }
         } else {
           window.debug.warn('JS resource is empty: ' + uri);
         }
+
+        notifyParent();
       });
 
       promise.fail(function () {
