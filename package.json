@@ -17,5 +17,15 @@
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "~0.5.0",
     "load-grunt-tasks": "~0.6.0"
+  },
+  "jspm": {
+    "directories": {
+      "lib": "src"
+    },
+    "dependencies": {
+      "browser-log": "npm:browser-log@^0.0.2",
+      "handlebars": "npm:handlebars@^2.0.0",
+      "jquery": "^2.1.3"
+    }
   }
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Blocks Loader Dev page</title>
+  <script src="jspm_packages/system.js"></script>
+  <script src="config.js"></script>
+  <script>
+    System.import('src/blocks-loader');
+  </script>
+</head>
+
+<body>
+  <div id="base">
+    <header data-component="header" data-variation="base" class="initial-class"></header>
+    <header data-component="header" data-variation="with-content" class="json-from-config" data-content="base.user.one"></header>
+    <header data-component="header" data-variation="with-content" class="json-raw" data-content='{"name": "Ziggy Ignots"}'></header>
+
+    <!-- This tests two identical nested children -->
+    <div data-component="parent" data-variation="v01"></div>
+    <div data-component="parent" data-variation="v02"></div>
+
+    <!-- This tests that data-place works as expected -->
+    <div data-component="child" data-variation="v02" data-place="replace" class="i-should-not-appear" data-object="child"></div>
+
+    <div data-component="library" data-variation="v01" data-source="test-source/components/"></div>
+
+    <!-- Exploring issue #92 -->
+    <table>
+      <tr>
+        <div data-component="table" data-variation="row"></div>
+      </tr>
+    </table>
+
+    <footer data-component="footer" data-variation="v01"></footer>
+  </div>
+</body>
+</html>
