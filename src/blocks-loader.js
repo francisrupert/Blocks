@@ -1,13 +1,10 @@
-import log from 'browser-log'
 import BlocksConfig from './blocks-config'
 import BlocksPage from './blocks-page'
 
-let state = "compiled and loaded";
-window.console.debug(`I am a ${state} loader.js`);
-
+// It would probably be better to listen for a Signal here?
 $(document).on('blocks-config_loaded', function () {
   window.console.debug('Config loaded');
-  BlocksPage.parse();
+  BlocksPage.display();
 });
 
 BlocksConfig.load();

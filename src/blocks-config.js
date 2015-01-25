@@ -50,7 +50,7 @@ class BlocksConfig {
     let defaults = new Map();
     let components = new Map();
 
-    components.set('source', 'components/');
+    components.set('source', 'test/components/');
 
     // Defaults
     defaults.set('backward_compatible', false);
