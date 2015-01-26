@@ -2,7 +2,7 @@ import $ from 'jquery'
 
 class BlocksConfig {
   constructor() {
-    this.url = 'test/config.json';
+    this.url = 'config.json';
     this.bus = {};
 
     this.setDefaults();
@@ -50,7 +50,7 @@ class BlocksConfig {
     let defaults = new Map();
     let components = new Map();
 
-    components.set('source', 'test/components/');
+    components.set('source', 'components/');
 
     // Defaults
     defaults.set('backward_compatible', false);

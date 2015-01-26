@@ -12,7 +12,7 @@ export class BlocksComponent {
     self.has_nested = false;
 
     // Kids!
-    self.children = {};
+    self.children = new Map;
 
     // This is irritating but, we need to track the header classes for
     // nested components for when it comes time to render
@@ -222,6 +222,12 @@ export class BlocksComponent {
           component: queued_component.component,
           page: queued_component.parent.page
         });
+
+        // This is new and probably not the desired behavior. The BlocksPage.display() loads each
+        // page-level component whereas before we just autoloaded each component.
+        // But now we would need to rip apart load and rely on BlocksPage to do all of that.
+        // Circumnavigating this for now.
+        component.load();
       });
     }
 
@@ -234,7 +240,7 @@ export class BlocksComponent {
     window.console.debug('CHILD LOADED: ' + child.template_name());
     self.children_loaded++;
 
-    self.children[child.uuid] = child;
+    self.children.set(child.uuid, child);
 
     if (self.child_count === self.children_loaded) {
       if (self.parent !== undefined) {
@@ -255,9 +261,8 @@ export class BlocksComponent {
       // Update your DOM with your kids' rendered templates
       self.$el.find('[data-component]').each(function (idx, nested_component) {
         var $nested_component = $(nested_component),
-          tmpl_name = self.getTemplateNameFromVariation($nested_component),
-          uuid = self.getIDFromVariation($nested_component),
-          target_child = self.children[uuid];
+          uuid = self._getIDFromVariation($nested_component),
+          target_child = self.children.get(uuid);
 
         $(nested_component).replaceWith(target_child.$el);
       });
@@ -279,7 +284,7 @@ export class BlocksComponent {
       }
     } else {
       // Render each child down the tree
-      _.each(self.children, function (child) {
+      self.children.forEach(function (child) {
         child.render();
       });
     }
@@ -289,12 +294,13 @@ export class BlocksComponent {
     var self = this,
       rendered_tmpl = self.template(self.template_data),
       addClasses = function () {
+        // Sets must have unique keys thus this can replace _.uniq()
         self.$el.attr('class', [...new Set(self.classes)].join(' '));
       },
       setAttributes = function () {
-        Array.from(self.attributes).forEach(function (attribute) {
-          self.$el.attr(attribute.name, attribute.value);
-        });
+        for (let attribute in self.attributes) {
+          self.$el.attr(attribute, self.attributes[attribute]);
+        }
       },
       wrapWithComments = function () {
         self.$el.prepend(self.comment_start);
@@ -390,6 +396,56 @@ export class BlocksComponent {
     return (variation_name !== undefined && variation_name.length > 0);
   }
 
+  injectJS(page) {
+    var self = this,
+      uri = self.js_uri(),
+      event_name = self.template_name(),
+      triggerCallback = function () {
+        window.console.debug('Triggering ' + event_name);
+        $(document).trigger(event_name);
+      },
+      notifyParent = function () {
+        page.childDoneInjectingJS();
+      },
+      fetch_config = {
+        type: 'HEAD',
+        url: uri,
+        dataType: 'html', // DO NOT set to 'script'. jQuery will use $.getScript() which automatically inserts the JS into the DOM thus all component JS will execute twice
+        cache: false
+      },
+      promise;
+
+    promise = $.ajax(fetch_config);
+
+    promise.done(function () {
+      // Note: Content-Length isn't present when Blocks is loaded via file://
+      // and responseText isn't present when Blocks is loaded via http://.
+
+      // The Content-Encoding check should not be needed, however some servers are not
+      // reliably sending the Content-Length header when serving our prototype's css files as of 1/10/14
+      if (promise.getResponseHeader('Content-Length') > 0 ||
+          promise.responseText.length > 0 ||
+          promise.getResponseHeader('Content-Encoding') === 'gzip') {
+          if (self.config.get('wrap_injected_js_with_comments')) {
+            $('head').append('<!--<script data-blocks-injected-js="true" src="' + uri + '"></script>-->'); //config option will wrap injected scripts inside a comment preventing them from executing. Useful when using blocks with other processing tools that can later uncomment the scripts
+          } else {
+            $('head').append('<script src="' + uri + '"></script>');
+            triggerCallback();
+          }
+      } else {
+        window.debug.warn('JS resource is empty: ' + uri);
+      }
+
+      notifyParent();
+    });
+
+    promise.fail(function () {
+      // Returns: jqXHR, textStatus, error
+      window.console.debug('JS resource is missing: ' + uri);
+      notifyParent();
+    });
+  }
+
   js_uri() {
     return this.component_path + "js/" + this.name + ".js";
   }
@@ -411,6 +467,10 @@ export class BlocksComponent {
   // "PRIVATE" methods
   _constructVariationName(name) {
     return name !== undefined ? name : 'default';
+  }
+
+  _getIDFromVariation($component) {
+    return $component.attr('data-blocks-uuid');
   }
 
   /**
@@ -578,9 +638,9 @@ export class BlocksComponent {
        // Raw JSON passed in as the data-content-param
        tmpl_data = $.parseJSON(content);
        self.content = content;
-    } else if (self.config.template_data !== undefined && self.config.template_data !== '') {
+    } else if (self.config.has('template_data')) {
       if (content !== undefined) {
-        tmpl_data = getTemplateData(content, self.config.template_data);
+        tmpl_data = getTemplateData(content, self.config.get('template_data'));
         self.content = content;
       }
     }

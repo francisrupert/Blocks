@@ -69,13 +69,8 @@ class BlocksPage {
 
     window.console.debug('PAGE ' + self.name + ' has ' + self.child_count + ' children');
 
-    // for (let idx in queued_components) {
-    Array.from(queued_components).forEach(function (queued_component) {
-      var component;
-
-      // let queued_component = queued_components[idx];
-
-      component = new BlocksComponent({
+    queued_components.forEach(function (queued_component) {
+      let component = new BlocksComponent({
         page: queued_component.page,
         parent: queued_component.page, // This component's parent is this page
         component: queued_component.component
@@ -165,6 +160,46 @@ class BlocksPage {
 
       return v.toString(16);
     });
+  }
+
+  injectComponentJS() {
+    var self = this;
+
+    for (let name in self.components) {
+      let component = self.components[name];
+      component.injectJS(self);
+      self.child_count_js++;
+    }
+  }
+
+  childDoneInjectingJS() {
+    var self = this;
+
+    self.child_js_injected++;
+
+    if (self.child_count_js === self.child_js_injected) {
+      if (window.self !== window.top) {
+        // If blocks is being run inside an iFrame (Blocks Viewer)
+        window.console.debug('TRIGGERING blocks-done on parent body from within iFrame');
+        parent.$('body').trigger('blocks-done');
+
+        window.console.debug('TRIGGERING blocks-done-inside-viewer on parent body from within iFrame');
+        parent.$('body').trigger('blocks-done-inside-viewer', {"iframe_id": window.frameElement.id});
+
+        // This triggers blocks-done within the iFrame itself. BlocksViewer has a listener for this event so the height and width of the iframe can be dynamically set after BlocksLoader has finished
+        $('body').trigger('blocks-done');
+      }
+      else {
+        // Blocks loader is being used without BlocksViewer
+        window.console.debug('TRIGGERING blocks-done');
+        $(document).trigger('blocks-done');
+      }
+
+      window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
+
+      self.time_duration = performance.now() - self.time_start;
+      window.console.debug('TOTAL DURATION: ' + self.time_duration);
+    }
   }
 }
 

@@ -37,6 +37,19 @@ describe("Blocks loader merges classes", function() {
   });
 });
 
+describe("Blocks loader merges attributes", function() {
+  beforeEach(function(done) {
+    setTimeout(function () {
+      done();
+    }, 300);
+  });
+
+  it("with attributes placed on the variation", function (done) {
+    expect($('#base .l-header.base[data-object="header"]')).toBeInDOM();
+    done();
+  });
+});
+
 describe("Blocks loader renders nested components", function() {
   beforeEach(function(done) {
     setTimeout(function () {
