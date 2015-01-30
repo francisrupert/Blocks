@@ -13,9 +13,9 @@ class BlocksConfig {
     return this.config;
   }
 
-  load() {
+  load(url) {
     var self = this,
-      uri = self.url,
+      uri = url || self.url,
       fetch_config = {
         type: 'GET',
         dataType: 'json',
@@ -40,7 +40,15 @@ class BlocksConfig {
     var self = this;
 
     for (let key in data) {
-      self.config.set(key, data[key]);
+      if (typeof data[key] === "object" && key !== 'template_data') {
+        let key_map = new Map();
+        for (let data_key in data[key]) {
+          key_map.set(data_key, data[key][data_key]);
+        }
+        self.config.set(key, key_map);
+      } else {
+        self.config.set(key, data[key]);
+      }
     }
   }
 

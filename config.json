@@ -1,0 +1,18 @@
+{
+  "logging": true,
+  "components": {
+    "source": "test/components/"
+  },
+  "template_data": {
+    "base": {
+      "user": {
+        "one": {
+          "name": "Nathan Curtis",
+          "title": "Founder",
+          "email": "nathan@eightshapes.com",
+          "username": "nathan"
+        }
+      }
+    }
+  }
+}
