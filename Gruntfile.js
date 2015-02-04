@@ -3,85 +3,15 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    uglify: {
-      loader: {
-        src: 'js/jquery.8SblocksLoader.js',
-        dest: 'dist/jquery.8SblocksLoader-<%= pkg.blocksVersion.loader %>.min.js'
-      },
-      viewer: {
-        src: 'js/jquery.8SblocksViewer.js',
-        dest: 'dist/jquery.8SblocksViewer-<%= pkg.blocksVersion.viewer %>.min.js'
-      },
-      underscore: {
-        src: 'bower_components/underscore/underscore.js',
-        dest: 'js/libs/underscore/underscore.min.js'
-      }
-    },
-    concat: {
-      options: {
-        banner: '/*! <%= pkg.name %> - v<%= pkg.blocksVersion.blocks %> - ' +
-        '<%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      loader: {
-        src: [
-          'bower_components/jquery-modern/dist/jquery.min.js',
-          'js/libs/underscore/underscore.min.js',
-          'bower_components/handlebars/handlebars.min.js',
-          'bower_components/javascript-debug/ba-debug.min.js',
-          'dist/jquery.8SblocksLoader-<%= pkg.blocksVersion.loader %>.min.js'
-        ],
-        dest: 'dist/blocks-loader-<%= pkg.blocksVersion.loader %>.min.js'
-      },
-      loader_legacy: {
-        src: [
-          'bower_components/jquery-legacy/dist/jquery.min.js',
-          'js/libs/underscore/underscore.min.js',
-          'bower_components/handlebars/handlebars.min.js',
-          'bower_components/javascript-debug/ba-debug.min.js',
-          'dist/jquery.8SblocksLoader-<%= pkg.blocksVersion.loader %>.min.js'
-        ],
-        dest: 'dist/blocks-loader-legacy-<%= pkg.blocksVersion.loader %>.min.js'
-      },
-      viewer: {
-        src: [
-          'bower_components/jquery-modern/dist/jquery.min.js',
-          'js/libs/jquery/jquery-ui.min.js',
-          'js/libs/underscore/underscore.min.js',
-          'bower_components/javascript-debug/ba-debug.min.js',
-          'dist/jquery.8SblocksViewer-<%= pkg.blocksVersion.viewer %>.min.js'
-        ],
-        dest: 'dist/blocks-viewer-<%= pkg.blocksVersion.viewer %>.min.js'
-      },
-      all: {
-        src: [
-          'bower_components/jquery-modern/dist/jquery.min.js',
-          'js/libs/jquery/jquery-ui.min.js',
-          'js/libs/underscore/underscore.min.js',
-          'bower_components/handlebars/handlebars.min.js',
-          'bower_components/javascript-debug/ba-debug.min.js',
-          'dist/jquery.8SblocksLoader-<%= pkg.blocksVersion.loader %>.min.js',
-          'dist/jquery.8SblocksViewer-<%= pkg.blocksVersion.viewer %>.min.js'
-        ],
-        dest: 'dist/blocks-<%= pkg.blocksVersion.blocks %>.min.js'
-      },
-      debug: {
-        src: [
-          'bower_components/jquery-modern/dist/jquery.min.js',
-          'js/libs/underscore/underscore.min.js',
-          'bower_components/handlebars/handlebars.min.js',
-          'bower_components/javascript-debug/ba-debug.min.js',
-          'js/jquery.8SblocksLoader.js',
-          'js/jquery.8SblocksViewer.js'
-        ],
-        dest: 'dist/blocks-debug.js'
-      },
+    exec: {
+      jspm_build: '/usr/local/bin/jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js'
     },
     cssmin: {
       minify: {
         src: [
           'css/blocks-viewer.css'
         ],
-        dest: 'dist/blocks-viewer-<%= pkg.blocksVersion.viewer %>.min.css'
+        dest: 'dist/blocks-viewer.min.css'
       }
     },
     jshint: {
@@ -96,17 +26,16 @@ module.exports = function(grunt) {
       },
       all: [
         'Gruntfile.js',
-        'js/jquery.8SblocksLoader.js',
-        'js/jquery.8SblocksViewer.js'
+        'src/blocks-component.js',
+        'src/blocks-config.js',
+        'src/blocks-loader.js',
+        'src/blocks-page.js'
       ],
       gruntfile: 'Gruntfile.js'
     }
   });
 
-  grunt.registerTask('default', ['jshint', 'uglify:underscore', 'uglify:loader', 'uglify:viewer', 'concat:loader', 'concat:viewer', 'concat:loader_legacy', 'concat:all', 'cssmin']);
-  grunt.registerTask('loader', ['uglify:underscore', 'uglify:loader', 'concat:loader']);
-  grunt.registerTask('loader-legacy', ['uglify:underscore', 'uglify:loader', 'concat:loader_legacy']);
-  grunt.registerTask('viewer', ['uglify:underscore', 'uglify:viewer', 'concat:viewer']);
+  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('build', ['exec']);
   grunt.registerTask('css', ['cssmin']);
-  grunt.registerTask('debug', ['uglify:underscore', 'concat:debug']);
 };
