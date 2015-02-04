@@ -1,4 +1,4 @@
-import $ from 'jquery'
+import $ from 'jquery';
 
 class BlocksConfig {
   constructor() {
@@ -69,4 +69,4 @@ class BlocksConfig {
   }
 }
 
-export default new BlocksConfig()
+export default new BlocksConfig();

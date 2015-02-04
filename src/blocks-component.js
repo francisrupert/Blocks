@@ -1,6 +1,6 @@
-import $ from 'jquery'
-import handlebars from 'handlebars'
-import BlocksConfig from './blocks-config'
+import $ from 'jquery';
+import handlebars from 'handlebars';
+import BlocksConfig from './blocks-config';
 
 export class BlocksComponent {
   constructor(opts) {
@@ -12,7 +12,7 @@ export class BlocksComponent {
     self.has_nested = false;
 
     // Kids!
-    self.children = new Map;
+    self.children = new Map();
 
     // This is irritating but, we need to track the header classes for
     // nested components for when it comes time to render
