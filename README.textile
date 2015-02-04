@@ -1,6 +1,6 @@
 h1. EightShapes Blocks
 
-EightShapes Blocks is a toolkit to organize, annotate, and modularize HTML prototypes created by <a href="http://eightshapes.com">EightShapes, LLC (http://www.eightshapes.com)</a>.
+EightShapes Blocks is a toolkit to organize, annotate, and modularize HTML prototypes created by <a href="http://eightshapes.com">EightShapes, LLC</a>.
 
 h2. Quickstart
 
@@ -13,10 +13,9 @@ h2. Documentation
 
 The functionality of Blocks is documented in the <a href="https://github.com/EightShapes/Blocks/wiki">wiki</a> of this repository.
 
+h2. Terms of Use
 
 ©Copyright 2014 Eight Shapes LLC
-
-h3. Terms of Use
 
 Terms of Use: http://unify.eightshapes.com/about-the-system/terms-of-use/
 
