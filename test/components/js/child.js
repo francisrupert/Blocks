@@ -9,4 +9,12 @@ $(document).on('child_v01', function () {
 
 $(document).on('blocks-done', function () {
   window.console.log('CHILD component detected that blocks finished loading');
+
+  // Confirm that we can get at config data. Not sure how to turn this into a test
+  var config = $('body').data('config'),
+    user2 = config.template_data.base.user.two;
+
+  if (user2.name !== undefined && user2.name.length > 0) {
+    window.console.log('Obtained config values');
+  }
 });

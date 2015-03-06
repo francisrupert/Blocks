@@ -39,6 +39,12 @@
     <!-- This tests that data-place works as expected -->
     <div data-component="child" data-variation="v02" data-place="replace" class="i-should-not-appear" data-object="child"></div>
 
+    <!-- This tests nested children with replace -->
+    <div data-component="parent" data-variation="v03" data-place="replace" class="i-also-should-not-appear"></div>
+
+    <!-- This tests nested children with replace that refer to dynamic variations within their own file -->
+    <div data-component="parent" data-variation="v04" data-place="replace"></div>
+
     <div data-component="library" data-variation="v01" data-source="test-source/components/"></div>
 
     <!-- Exploring issue #92 -->

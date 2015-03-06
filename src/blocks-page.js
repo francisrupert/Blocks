@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import BlocksConfig from './blocks-config';
+import BlocksUtil from './blocks-util';
 import { BlocksComponent } from './blocks-component';
 
 class BlocksPage {
@@ -54,14 +55,10 @@ class BlocksPage {
     self.name  = $(document).find('head title').text();
     self.$root = $('body');
 
-    if (this.config.get('logging')) {
-      window.console.debug('and page has a config!');
-    }
-
     self.$root.find('*[data-component]').each(function () {
       self.child_count++;
 
-      $(this).attr('data-blocks-uuid', self.generateUUID());
+      $(this).attr('data-blocks-uuid', BlocksUtil.generateUUID());
 
       // MUST queue the components to get an accurate child count
       queued_components.push({ page: self, component: $(this) });
@@ -147,25 +144,10 @@ class BlocksPage {
     return $component.attr('data-blocks-uuid');
   }
 
-  /**
-   * @method: generateUUID
-   *
-   * Generates a reasonable enough UUID. We only need it to be unique for a load of the page.
-   * Copied from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript/2117523#2117523
-   */
-  generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16|0,
-        v = c === 'x' ? r : (r&0x3|0x8);
-
-      return v.toString(16);
-    });
-  }
-
   injectComponentJS() {
     var self = this;
 
-    for (let name in self.components) {
+    for (var name in self.components) {
       let component = self.components[name];
       component.injectJS(self);
       self.child_count_js++;
@@ -184,7 +166,7 @@ class BlocksPage {
         parent.$('body').trigger('blocks-done');
 
         window.console.debug('TRIGGERING blocks-done-inside-viewer on parent body from within iFrame');
-        parent.$('body').trigger('blocks-done-inside-viewer', {"iframe_id": window.frameElement.id});
+        parent.$('body').trigger('blocks-done-inside-viewer', {'iframe_id': window.frameElement.id});
 
         // This triggers blocks-done within the iFrame itself. BlocksViewer has a listener for this event so the height and width of the iframe can be dynamically set after BlocksLoader has finished
         $('body').trigger('blocks-done');

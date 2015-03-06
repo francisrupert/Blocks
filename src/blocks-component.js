@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import handlebars from 'handlebars';
 import BlocksConfig from './blocks-config';
+import BlocksUtil from './blocks-util';
 
 export class BlocksComponent {
   constructor(opts) {
@@ -141,7 +142,7 @@ export class BlocksComponent {
     window.console.debug('PARSING ' + self.template_uri());
 
     // Yes, it needs to be wrapped.
-    results = "<div>" + results + "</div>";
+    results = '<div>' + results + '</div>';
 
     // Split the file by variation
     $component_html = $($(results).children('#variations'));
@@ -185,7 +186,7 @@ export class BlocksComponent {
     if ($nested_components !== undefined && $nested_components.length > 0) {
       $nested_components.each(function (idx, nested_component) {
         var $nested_component = $(nested_component),
-          nested_component_id = self.parent.generateUUID();
+          nested_component_id = BlocksUtil.generateUUID();
 
         window.console.debug('FOUND nested component: ' + $nested_component.attr('data-component'));
         self.child_count++;
@@ -250,7 +251,29 @@ export class BlocksComponent {
   }
 
   childDoneRendering(child) {
-    var self = this;
+    var self = this,
+      child_components,
+      replaceWithChild = function (nested_component) {
+        var $nested_component = $(nested_component),
+          uuid = self._getIDFromVariation($nested_component),
+          target_child = self.children.get(uuid);
+
+        self.$el = target_child.$el;
+      },
+      returnChildElement = function (nested_component) {
+        var $nested_component = $(nested_component),
+          uuid = self._getIDFromVariation($nested_component),
+          target_child = self.children.get(uuid);
+
+        return target_child.$el[0];
+      },
+      updateChild = function (nested_component) {
+        var $nested_component = $(nested_component),
+          uuid = self._getIDFromVariation($nested_component),
+          target_child = self.children.get(uuid);
+
+        $(nested_component).replaceWith(target_child.$el);
+      };
 
     self.children_rendered++;
 
@@ -259,13 +282,33 @@ export class BlocksComponent {
       window.console.debug('CHILD RENDERED: ' + child.template_name());
 
       // Update your DOM with your kids' rendered templates
-      self.$el.find('[data-component]').each(function (idx, nested_component) {
-        var $nested_component = $(nested_component),
-          uuid = self._getIDFromVariation($nested_component),
-          target_child = self.children.get(uuid);
+      child_components = self.$el.find('[data-component]');
 
-        $(nested_component).replaceWith(target_child.$el);
-      });
+      if (child_components !== undefined && child_components.length > 0) {
+        child_components.each(function (idx, nested_component) {
+          updateChild(nested_component);
+        });
+      } else {
+        // If we didn't find any child components we might be a
+        // parent that should be replaced by a single child
+        if (self.$el.length === 1) {
+          if (self.$el[0].hasAttribute('data-component')) {
+            if (self.replace_reference) {
+              replaceWithChild(self.$el[0]);
+            } else {
+              updateChild(self.$el[0]);
+            }
+          }
+        } else if (self.$el.length > 1) {
+          // Our child is replaced and thus has no wrapper around the elements therein.
+          // Therefore this an array of elements
+          $.each(self.$el, function (idx, el) {
+            if ($(el)[0].hasAttribute('data-component')) {
+              self.$el[idx] = returnChildElement($(el));
+            }
+          });
+        }
+      }
 
       self.parent.childDoneRendering(self);
     }
@@ -366,7 +409,7 @@ export class BlocksComponent {
   }
 
   css_uri() {
-    return this.component_path + "css/" + this.name + ".css";
+    return this.component_path + 'css/' + this.name + '.css';
   }
 
   documentationFrame() {
@@ -447,7 +490,7 @@ export class BlocksComponent {
   }
 
   js_uri() {
-    return this.component_path + "js/" + this.name + ".js";
+    return this.component_path + 'js/' + this.name + '.js';
   }
 
   /**
@@ -461,7 +504,7 @@ export class BlocksComponent {
   }
 
   template_uri() {
-    return this.component_path + this.name + ".html";
+    return this.component_path + this.name + '.html';
   }
 
   // "PRIVATE" methods
@@ -600,8 +643,8 @@ export class BlocksComponent {
     }
 
     if (self.replace_reference === true) {
-      self.comment_start = '<!-- #block data-component="' + self.name + ' data-variation="' + self.variation_name + '" -->';
-      self.comment_end = '<!-- /block data-component="' + self.name + ' data-variation="' + self.variation_name + '" -->';
+      self.comment_start = '<!-- #block data-component="' + self.name + '" data-variation="' + self.variation_name + '" -->';
+      self.comment_end = '<!-- /block data-component="' + self.name + '" data-variation="' + self.variation_name + '" -->';
     }
   }
 
@@ -664,7 +707,7 @@ export class BlocksComponent {
    * to generate markup that will wrap the component.
    *
    */
-  _setWrappingMarkup($el) {
+  _setWrappingMarkup() {
     // This is just a no-op for now. Pretty sure no one uses this functionality.
   }
 }

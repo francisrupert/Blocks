@@ -92,6 +92,20 @@ describe('Blocks loader replaces components with their contents when data-place=
     expect($('#base .i-should-not-appear')).not.toBeInDOM();
     done();
   });
+
+  it('including nested child templates', function(done) {
+    expect($('#base .i-also-should-not-appear')).not.toBeInDOM();
+    expect($('#base .l-child .v03')).toBeInDOM();
+    done();
+  });
+
+  it('including nested child variations to refer to a variation in their own file', function(done) {
+    expect($('#base .child.v04.user1')).toBeInDOM();
+    expect($('#base .child.v04.user2')).toBeInDOM();
+    expect($('#base .child.v04.user1 .name')).not.toBeEmpty();
+    expect($('#base .child.v04.user2 .name')).not.toBeEmpty();
+    done();
+  });
 });
 
 describe('Blocks loader finds components based on data-source', function() {

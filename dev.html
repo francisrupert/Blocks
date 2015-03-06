@@ -12,26 +12,26 @@
 
 <body>
   <div id="base">
-    <header data-component="header" data-variation="base" class="initial-class"></header>
+    <!-- header data-component="header" data-variation="base" class="initial-class"></header>
     <header data-component="header" data-variation="with-content" class="json-from-config" data-content="base.user.one"></header>
-    <header data-component="header" data-variation="with-content" class="json-raw" data-content='{"name": "Ziggy Ignots"}'></header>
+    <header data-component="header" data-variation="with-content" class="json-raw" data-content='{"name": "Ziggy Ignots"}'></header -->
 
     <!-- This tests two identical nested children -->
-    <div data-component="parent" data-variation="v01"></div>
-    <div data-component="parent" data-variation="v02"></div>
+    <!-- div data-component="parent" data-variation="v01"></div>
+    <div data-component="parent" data-variation="v02"></div -->
 
     <!-- This tests that data-place works as expected -->
-    <div data-component="child" data-variation="v02" data-place="replace" class="i-should-not-appear" data-object="child"></div>
+    <!-- div data-component="child" data-variation="v02" data-place="replace" class="i-should-not-appear" data-object="child"></div -->
 
-    <div data-component="library" data-variation="v01" data-source="test/test-source/components/"></div>
+    <!-- This tests nested children with replace -->
+    <div data-component="parent" data-variation="v03" data-place="replace" class="i-also-should-not-appear"></div>
 
-    <table>
-      <tr>
-        <div data-component="table" data-variation="row"></div>
-      </tr>
-    </table>
+    <!-- This tests nested children with replace -->
+    <div data-component="parent" data-variation="v04"></div>
 
-    <footer data-component="footer" data-variation="v01"></footer>
+    <!-- div data-component="library" data-variation="v01" data-source="test/test-source/components/"></div -->
+
+    <!-- footer data-component="footer" data-variation="v01"></footer -->
   </div>
 </body>
 </html>

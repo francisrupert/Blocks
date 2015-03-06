@@ -37,6 +37,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['jshint']);
-  grunt.registerTask('build', ['exec']);
+  grunt.registerTask('build', ['jshint', 'exec']);
   grunt.registerTask('css', ['cssmin']);
 };

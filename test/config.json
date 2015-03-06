@@ -9,6 +9,12 @@
           "title": "Founder",
           "email": "nathan@eightshapes.com",
           "username": "nathan"
+        },
+        "two": {
+          "name": "Dan Brown",
+          "title": "Founder",
+          "email": "dan@eightshapes.com",
+          "username": "dan"
         }
       }
     }

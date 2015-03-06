@@ -3,13 +3,11 @@ import $ from 'jquery';
 class BlocksConfig {
   constructor() {
     this.url = 'config.json';
-    this.bus = {};
-
     this.setDefaults();
   }
 
   getConfig() {
-    // We're not picky about how can have our data
+    // We're not picky about who can have our data
     return this.config;
   }
 
@@ -24,6 +22,7 @@ class BlocksConfig {
         timeout: 30000,
         success: function (data) {
           self.merge(data);
+          self.makeAvailable(data);
           $(document).trigger('blocks-config_loaded');
         },
         error: function (err) {
@@ -36,11 +35,15 @@ class BlocksConfig {
     $.ajax(fetch_config);
   }
 
+  makeAvailable(data) {
+    $.data(document.body, 'config', data);
+  }
+
   merge(data) {
     var self = this;
 
     for (let key in data) {
-      if (typeof data[key] === "object" && key !== 'template_data') {
+      if (typeof data[key] === 'object' && key !== 'template_data') {
         let key_map = new Map();
         for (let data_key in data[key]) {
           key_map.set(data_key, data[key][data_key]);

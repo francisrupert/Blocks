@@ -8,7 +8,7 @@ export class Playable {
 
     play() {
         this.log.unshift('Playing: ' + this.title);
-        console.log('TITLE: ' + this.title);
+        window.console.log('TITLE: ' + this.title);
     }
 }
 
