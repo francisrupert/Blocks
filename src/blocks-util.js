@@ -1,5 +1,33 @@
+import BlocksConfig from './blocks-config';
+
 class BlocksUtil {
   constructor() {
+    var self = this;
+  }
+
+  logger(level, message) {
+    var self = this,
+      levels = ['debug', 'info', 'warn', 'error', 'none'],
+      logging_level = BlocksConfig.getConfig().get('logging_level'),
+      level_text;
+
+    logging_level === undefined ? 'info' : logging_level;
+
+    if (levels.indexOf(level) >= levels.indexOf(logging_level)) {
+      if (typeof message !== 'string') {
+        message = JSON.stringify(message);
+      };
+
+      if (level === 'error') {
+        level_text = 'ERROR';
+      } else if (level === 'warn') {
+        level_text = 'WARN';
+      } else {
+        level_text = level[0].toUpperCase() + level.slice(1);
+      }
+
+      console[level](level_text + ': '+ message);
+    }
   }
 
   /**

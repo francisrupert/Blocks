@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import BlocksConfig from './blocks-config';
 import BlocksUtil from './blocks-util';
 import { BlocksComponent } from './blocks-component';
 
@@ -7,7 +6,7 @@ class BlocksPage {
   constructor() {
     var self = this;
 
-    self.config = BlocksConfig.getConfig();
+    self.logger = BlocksUtil.logger;
 
     // page cache of components
     self.components = {};
@@ -64,7 +63,7 @@ class BlocksPage {
       queued_components.push({ page: self, component: $(this) });
     });
 
-    window.console.debug('PAGE ' + self.name + ' has ' + self.child_count + ' children');
+    self.logger('info', 'PAGE ' + self.name + ' has ' + self.child_count + ' children');
 
     queued_components.forEach(function (queued_component) {
       let component = new BlocksComponent({
@@ -94,7 +93,7 @@ class BlocksPage {
 
     self.children_loaded++;
 
-    window.console.debug('READY TO RENDER PAGE LEVEL CHILDREN: ' + child.template_name());
+    self.logger('debug', 'READY TO RENDER PAGE LEVEL CHILDREN: ' + child.template_name());
 
     child.render();
   }
@@ -122,7 +121,7 @@ class BlocksPage {
 
     self.children_rendered++;
 
-    window.console.debug('READY TO RENDER PAGE LEVEL Component: ' + child.template_name());
+    self.logger('debug', 'READY TO RENDER PAGE LEVEL Component: ' + child.template_name());
 
     if (child.replace_reference || child.frame_with_documentation) {
       $page_component.replaceWith(child.$el);
@@ -162,10 +161,10 @@ class BlocksPage {
     if (self.child_count_js === self.child_js_injected) {
       if (window.self !== window.top) {
         // If blocks is being run inside an iFrame (Blocks Viewer)
-        window.console.debug('TRIGGERING blocks-done on parent body from within iFrame');
+        self.logger('debug', 'TRIGGERING blocks-done on parent body from within iFrame');
         parent.$('body').trigger('blocks-done');
 
-        window.console.debug('TRIGGERING blocks-done-inside-viewer on parent body from within iFrame');
+        self.logger('debug', 'TRIGGERING blocks-done-inside-viewer on parent body from within iFrame');
         parent.$('body').trigger('blocks-done-inside-viewer', {'iframe_id': window.frameElement.id});
 
         // This triggers blocks-done within the iFrame itself. BlocksViewer has a listener for this event so the height and width of the iframe can be dynamically set after BlocksLoader has finished
@@ -173,14 +172,14 @@ class BlocksPage {
       }
       else {
         // Blocks loader is being used without BlocksViewer
-        window.console.debug('TRIGGERING blocks-done');
+        self.logger('info', 'TRIGGERING blocks-done');
         $(document).trigger('blocks-done');
       }
 
       window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
 
       self.time_duration = performance.now() - self.time_start;
-      window.console.debug('TOTAL DURATION: ' + self.time_duration);
+      self.logger('info', 'TOTAL DURATION: ' + self.time_duration);
     }
   }
 }

@@ -22,6 +22,7 @@ class BlocksConfig {
         timeout: 30000,
         success: function (data) {
           self.merge(data);
+          self.setLoggingLevel();
           self.makeAvailable(data);
           $(document).trigger('blocks-config_loaded');
         },
@@ -69,6 +70,26 @@ class BlocksConfig {
     defaults.set('components', components);
 
     self.config = defaults;
+  }
+
+  setLoggingLevel() {
+    var self = this,
+      logging_level,
+      config_logging = self.config.get('logging');
+
+    if (config_logging !== undefined) {
+      if (config_logging === true) {
+        logging_level = 'warn';
+      } else if (config_logging === false) {
+        logging_level = 'none';
+      } else {
+        logging_level = config_logging;
+      }
+    } else {
+      logging_level = 'warn';
+    }
+
+    self.config.set('logging_level', logging_level);
   }
 }
 

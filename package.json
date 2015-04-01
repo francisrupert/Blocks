@@ -32,6 +32,7 @@
     },
     "dependencies": {
       "browser-log": "npm:browser-log@^0.0.2",
+      "chalk": "npm:chalk@^1.0.0",
       "handlebars": "npm:handlebars@^2.0.0",
       "jquery": "^2.1.3"
     }

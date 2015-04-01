@@ -1,5 +1,5 @@
 {
-  "logging": true,
+  "logging": "warn",
   "components": {
     "source": "test/components/",
     "replace_reference": true

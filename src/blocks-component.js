@@ -7,6 +7,8 @@ export class BlocksComponent {
   constructor(opts) {
     var self = this;
 
+    self.logger = BlocksUtil.logger;
+
     self.has_nested = false;
     self.classes = [];
     self.attributes = {};
@@ -75,12 +77,10 @@ export class BlocksComponent {
 
       if (!self.template) {
         self.template = handlebars.compile(tmpl);
-        window.console.debug('Added fetched template: ' + self.template_name());
+        self.logger('debug', 'Added fetched template: ' + self.template_name());
       }
     } else {
-      window.console.error('FAILED TO FIND VARIATION: ' + self.variation_name + ' in ' + self.name);
-      // TODO: Fail fast here and stop loading the page
-      window.alert('FAILED TO FIND VARIATION: ' + self.variation_name + ' in ' + self.name);
+      self.logger('error', 'FAILED TO FIND VARIATION: ' + self.variation_name + ' in ' + self.name);
     }
   }
 
@@ -102,7 +102,7 @@ export class BlocksComponent {
     if (promise === undefined) {
       promise = $.ajax(fetch_opts);
       self.page.cache[self.name] = promise;
-      window.console.debug('Queued component template: ' + self.name);
+      self.logger('debug', 'Queued component template: ' + self.name);
 
       self._injectCSS();
     }
@@ -115,15 +115,13 @@ export class BlocksComponent {
         // Used to inject JS once all page components are fully loaded
         self.page.components[self.name] = self;
 
-        window.console.debug('Returned component template: ' + self.name);
+        self.logger('debug', 'Returned component template: ' + self.name);
       }
     });
 
     promise.fail(function () {
       // Returns: jqXHR, textStatus, error
-      window.console.error('FAILED TO FETCH TEMPLATE: ' + self.name);
-      // TODO: Create a shared Error object so that errors can be displayed
-      window.alert('FAILED TO FETCH TEMPLATE: ' + self.name);
+      self.logger('error', 'FAILED TO FETCH TEMPLATE: ' + self.name);
     });
 
     return promise;
@@ -139,7 +137,7 @@ export class BlocksComponent {
 
     self.parse_deferred = new $.Deferred();
 
-    window.console.debug('PARSING ' + self.template_uri());
+    self.logger('debug', 'PARSING ' + self.template_uri());
 
     // Yes, it needs to be wrapped.
     results = '<div>' + results + '</div>';
@@ -188,7 +186,7 @@ export class BlocksComponent {
         var $nested_component = $(nested_component),
           nested_component_id = BlocksUtil.generateUUID();
 
-        window.console.debug('FOUND nested component: ' + $nested_component.attr('data-component'));
+        self.logger('debug', 'FOUND nested component: ' + $nested_component.attr('data-component'));
         self.child_count++;
 
         // Assign a UUID to find the component in the DOM later
@@ -213,7 +211,7 @@ export class BlocksComponent {
     }
 
     if (self.child_count > 0) {
-      window.console.debug('TMPL ' + self.template_name() + ' has ' + self.child_count + ' children');
+      self.logger('debug', 'TMPL ' + self.template_name() + ' has ' + self.child_count + ' children');
 
       Array.from(queued_components).forEach(function (queued_component) {
         var component;
@@ -238,7 +236,7 @@ export class BlocksComponent {
   childDoneLoading(child) {
     var self = this;
 
-    window.console.debug('CHILD LOADED: ' + child.template_name());
+    self.logger('debug', 'CHILD LOADED: ' + child.template_name());
     self.children_loaded++;
 
     self.children.set(child.uuid, child);
@@ -279,7 +277,7 @@ export class BlocksComponent {
 
     if (self.child_count === self.children_rendered) {
       self.renderTemplate();
-      window.console.debug('CHILD RENDERED: ' + child.template_name());
+      self.logger('debug', 'CHILD RENDERED: ' + child.template_name());
 
       // Update your DOM with your kids' rendered templates
       child_components = self.$el.find('[data-component]');
@@ -444,7 +442,7 @@ export class BlocksComponent {
       uri = self.js_uri(),
       event_name = self.template_name(),
       triggerCallback = function () {
-        window.console.debug('Triggering ' + event_name);
+        self.logger('debug', 'Triggering ' + event_name);
         $(document).trigger(event_name);
       },
       notifyParent = function () {
@@ -484,7 +482,7 @@ export class BlocksComponent {
 
     promise.fail(function () {
       // Returns: jqXHR, textStatus, error
-      window.console.debug('JS resource is missing: ' + uri);
+      self.logger('debug', 'JS resource is missing: ' + uri);
       notifyParent();
     });
   }
@@ -562,13 +560,13 @@ export class BlocksComponent {
           promise.getResponseHeader('Content-Encoding') === 'gzip') {
         $head.append('<link rel="stylesheet" href="' + uri + '" />');
       } else {
-        window.console.warn('CSS resource is empty: ' + uri);
+        self.logger('warn', 'CSS resource is empty: ' + uri);
       }
     });
 
     promise.fail(function () {
       // Returns: jqXHR, textStatus, error
-      window.console.debug('CSS resource is missing: ' + uri);
+      self.logger('debug', 'CSS resource is missing: ' + uri);
     });
   }
 
@@ -595,7 +593,7 @@ export class BlocksComponent {
         path = self.config.get('components').get('source');
       }
     } else {
-      window.console.error('Could not determine path to components.');
+      self.logger('error', 'Could not determine path to components.');
     }
 
     if (self.parent !== undefined && self.parent.type !== 'page') {
