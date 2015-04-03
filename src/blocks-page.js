@@ -7,12 +7,13 @@ class BlocksPage {
     var self = this;
 
     self.logger = BlocksUtil.logger;
+    self.timer = BlocksUtil.timer();
 
     // page cache of components
     self.components = {};
     self.component_variations = {};
     self.cache = {};
-    self.time_start = performance.now();
+    self.time_start = self.timer();
     self.time_duration = null;
 
     // Keep track of kids purely to know when the page is finished rendering
@@ -178,7 +179,7 @@ class BlocksPage {
 
       window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
 
-      self.time_duration = performance.now() - self.time_start;
+      self.time_duration = self.timer() - self.time_start;
       self.logger('info', 'TOTAL DURATION: ' + self.time_duration);
     }
   }

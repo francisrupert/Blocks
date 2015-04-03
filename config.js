@@ -13,6 +13,7 @@ System.config({
     "chalk": "npm:chalk@1.0.0",
     "handlebars": "npm:handlebars@2.0.0",
     "jquery": "github:components/jquery@2.1.3",
+    "opener": "npm:opener@1.4.1",
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.1.2"
     },
@@ -77,6 +78,10 @@ System.config({
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:opener@1.4.1": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:optimist@0.3.7": {
       "path": "github:jspm/nodelibs-path@0.1.0",

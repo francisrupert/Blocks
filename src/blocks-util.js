@@ -2,21 +2,21 @@ import BlocksConfig from './blocks-config';
 
 class BlocksUtil {
   constructor() {
-    var self = this;
   }
 
   logger(level, message) {
-    var self = this,
-      levels = ['debug', 'info', 'warn', 'error', 'none'],
+    var levels = ['debug', 'info', 'warn', 'error', 'none'],
       logging_level = BlocksConfig.getConfig().get('logging_level'),
       level_text;
 
-    logging_level === undefined ? 'info' : logging_level;
+    if (logging_level === undefined) {
+      logging_level = 'info';
+    }
 
     if (levels.indexOf(level) >= levels.indexOf(logging_level)) {
       if (typeof message !== 'string') {
         message = JSON.stringify(message);
-      };
+      }
 
       if (level === 'error') {
         level_text = 'ERROR';
@@ -26,7 +26,7 @@ class BlocksUtil {
         level_text = level[0].toUpperCase() + level.slice(1);
       }
 
-      console[level](level_text + ': '+ message);
+      window.console[level](level_text + ': '+ message);
     }
   }
 
@@ -43,6 +43,13 @@ class BlocksUtil {
 
       return v.toString(16);
     });
+  }
+
+  timer() {
+    var perf = window.performance || {},
+      fn = perf.now || perf.mozNow || perf.webkitNow || perf.msNow || perf.oNow;
+
+    return fn ? fn.bind(perf) : function() { return new Date().getTime(); };
   }
 }
 
