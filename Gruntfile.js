@@ -70,8 +70,7 @@ module.exports = function(grunt) {
           'js/libs/underscore/underscore.min.js',
           'bower_components/handlebars/handlebars.min.js',
           'bower_components/javascript-debug/ba-debug.min.js',
-          'js/jquery.8SblocksLoader.js',
-          'js/jquery.8SblocksViewer.js'
+          'js/jquery.8SblocksLoader.js'
         ],
         dest: 'dist/blocks-debug.js'
       },
