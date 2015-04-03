@@ -32,7 +32,6 @@
     this.cache = {};
     this.bus = {};
     this.logging = true;
-    this.time_start = performance.now();
     this.time_duration = null;
 
     this.prepare();
@@ -909,9 +908,6 @@
         }
 
         window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
-
-        self.time_duration = performance.now() - self.time_start;
-        window.debug.debug('TOTAL DURATION: ' + self.time_duration);
       }
     },
 
