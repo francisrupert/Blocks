@@ -80,11 +80,11 @@
     "tarball": "http://registry.npmjs.org/handlebars/-/handlebars-2.0.0.tgz"
   },
   "jspm": {},
-  "registry": "npm",
   "format": "cjs",
   "ignore": [
     "node_modules"
   ],
+  "registry": "npm",
   "dependencies": {
     "optimist": "optimist@~0.3",
     "uglify-js": "uglify-js@~2.3",

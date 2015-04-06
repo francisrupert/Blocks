@@ -10,7 +10,7 @@
     module.exports.cli = function(opts) {
       if (opts.version) {
         console.log(Handlebars.VERSION);
-        return;
+        return ;
       }
       var template = [0];
       if (!opts.templates.length) {

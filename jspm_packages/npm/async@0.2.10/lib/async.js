@@ -367,7 +367,7 @@
         for (var i = 0; i < listeners.length; i += 1) {
           if (listeners[i] === fn) {
             listeners.splice(i, 1);
-            return;
+            return ;
           }
         }
       };
@@ -698,11 +698,11 @@
         },
         process: function process() {
           if (working)
-            return;
+            return ;
           if (tasks.length === 0) {
             if (cargo.drain)
               cargo.drain();
-            return;
+            return ;
           }
           var ts = typeof payload === 'number' ? tasks.splice(0, payload) : tasks.splice(0);
           var ds = _map(ts, function(task) {

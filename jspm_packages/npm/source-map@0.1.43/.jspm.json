@@ -176,11 +176,11 @@
     "tarball": "http://registry.npmjs.org/source-map/-/source-map-0.1.43.tgz"
   },
   "jspm": {},
-  "registry": "npm",
   "format": "cjs",
   "ignore": [
     "node_modules"
   ],
+  "registry": "npm",
   "dependencies": {
     "amdefine": "amdefine@*",
     "path": "github:jspm/nodelibs-path@^0.1.0",

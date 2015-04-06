@@ -1,8 +1,5 @@
 /* */ 
-#!/usr/bin/env node
-var argv = require('optimist')
-    .boolean('v')
-    .argv
+var argv = require("../index").boolean('v').argv;
 ;
 console.dir(argv.v);
 console.dir(argv._);

@@ -1,3 +1,2 @@
 /* */ 
-#!/usr/bin/env node
-console.dir(require('optimist').argv);
+console.dir(require("../index").argv);

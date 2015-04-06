@@ -50,11 +50,11 @@
     }
   ],
   "jspm": {},
-  "registry": "npm",
   "format": "cjs",
   "ignore": [
     "node_modules"
   ],
+  "registry": "npm",
   "dependencies": {
     "wordwrap": "wordwrap@~0.0.2",
     "path": "github:jspm/nodelibs-path@^0.1.0",

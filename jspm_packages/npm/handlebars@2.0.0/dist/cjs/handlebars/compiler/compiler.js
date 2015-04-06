@@ -236,7 +236,7 @@ Compiler.prototype = {
   },
   addDepth: function(depth) {
     if (depth === 0) {
-      return;
+      return ;
     }
     if (!this.depths[depth]) {
       this.depths[depth] = true;

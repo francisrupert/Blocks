@@ -117,7 +117,7 @@ function isNextWhitespace(statements, i, isRoot) {
 function omitRight(statements, i, multiple) {
   var current = statements[i == null ? 0 : i + 1];
   if (!current || current.type !== 'content' || (!multiple && current.rightStripped)) {
-    return;
+    return ;
   }
   var original = current.string;
   current.string = current.string.replace(multiple ? (/^\s+/) : (/^[ \t]*\r?\n?/), '');
@@ -126,7 +126,7 @@ function omitRight(statements, i, multiple) {
 function omitLeft(statements, i, multiple) {
   var current = statements[i == null ? statements.length - 1 : i - 1];
   if (!current || current.type !== 'content' || (!multiple && current.leftStripped)) {
-    return;
+    return ;
   }
   var original = current.string;
   current.string = current.string.replace(multiple ? (/\s+$/) : (/[ \t]+$/), '');

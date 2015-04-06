@@ -1,6 +1,6 @@
 /* */ 
 var inserted,
-    Module = require("../../../../../../Library/WebServer/Documents/prototypes/Blocks/src/module"),
+    Module = require("module"),
     fs = require("fs"),
     existingExtFn = Module._extensions['.js'],
     amdefineRegExp = /amdefine\.js/;

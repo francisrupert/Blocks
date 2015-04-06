@@ -1,6 +1,6 @@
 /* */ 
 var assert = require("assert");
-var wordwrap = require("wordwrap");
+var wordwrap = require("../index");
 var fs = require("fs");
 var idleness = fs.readFileSync(__dirname + '/idleness.txt', 'utf8');
 exports.stop80 = function() {

@@ -25,8 +25,6 @@
     "url": "http://substack.net"
   },
   "license": "MIT",
-  "readme": "# path-browserify\n\nthe path module from node core for browsers\n",
-  "readmeFilename": "readme.markdown",
   "bugs": {
     "url": "https://github.com/substack/path-browserify/issues"
   },
@@ -48,11 +46,11 @@
     }
   ],
   "jspm": {},
-  "registry": "npm",
   "format": "cjs",
   "ignore": [
     "node_modules"
   ],
+  "registry": "npm",
   "dependencies": {
     "process": "github:jspm/nodelibs-process@^0.1.0"
   }

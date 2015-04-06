@@ -1,5 +1,5 @@
 /* */ 
-var argv = require("optimist").usage('Count the lines in a file.\nUsage: $0').demand('f').alias('f', 'file').describe('f', 'Load a file').argv;
+var argv = require("../index").usage('Count the lines in a file.\nUsage: $0').demand('f').alias('f', 'file').describe('f', 'Load a file').argv;
 ;
 var fs = require("fs");
 var s = fs.createReadStream(argv.file);

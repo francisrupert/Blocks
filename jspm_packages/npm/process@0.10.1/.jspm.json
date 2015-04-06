@@ -48,10 +48,10 @@
     "tarball": "http://registry.npmjs.org/process/-/process-0.10.1.tgz"
   },
   "jspm": {},
-  "registry": "npm",
   "format": "cjs",
   "ignore": [
     "node_modules"
   ],
+  "registry": "npm",
   "dependencies": {}
 }

@@ -1,5 +1,5 @@
 /* */ 
-var argv = require("optimist").usage('Count the lines in a file.\nUsage: $0').options({
+var argv = require("../index").usage('Count the lines in a file.\nUsage: $0').options({
   file: {
     demand: true,
     alias: 'f',

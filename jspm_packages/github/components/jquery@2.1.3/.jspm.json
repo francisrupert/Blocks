@@ -32,5 +32,6 @@
   "jspm": {
     "main": "jquery"
   },
-  "main": "jquery"
+  "main": "jquery",
+  "registry": "github"
 }
