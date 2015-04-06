@@ -30,7 +30,6 @@
       "lib": "src"
     },
     "dependencies": {
-      "browser-log": "npm:browser-log@^0.0.2",
       "handlebars": "npm:handlebars@^2.0.0",
       "jquery": "^2.1.3",
       "opener": "npm:opener@^1.4.1"

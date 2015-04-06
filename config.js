@@ -9,13 +9,9 @@ System.config({
 
 System.config({
   "map": {
-    "browser-log": "npm:browser-log@0.0.2",
     "handlebars": "npm:handlebars@2.0.0",
     "jquery": "github:components/jquery@2.1.3",
     "opener": "npm:opener@1.4.1",
-    "github:jspm/nodelibs-events@0.1.0": {
-      "events-browserify": "npm:events-browserify@0.0.1"
-    },
     "github:jspm/nodelibs-path@0.1.0": {
       "path-browserify": "npm:path-browserify@0.0.0"
     },
@@ -34,12 +30,6 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:async@0.2.10": {
-      "process": "github:jspm/nodelibs-process@0.1.1"
-    },
-    "npm:browser-log@0.0.2": {
-      "events": "github:jspm/nodelibs-events@0.1.0"
-    },
-    "npm:events-browserify@0.0.1": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:handlebars@2.0.0": {
