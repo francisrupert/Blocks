@@ -1,0 +1,1 @@
+module.exports = require("npm:browser-log@0.0.2/index");

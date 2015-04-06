@@ -6,4 +6,25 @@
   <section data-variation="v02" class="child-v02">
     <h4>Child Two</h4>
   </section>
+  <section data-variation="v03">
+    <div class="v03">
+      <!-- child.v03 -->
+      <h4>Child Three</h4>
+      <p>I'm the third child variation.</p>
+      <!-- /child.v03 -->
+    </div>
+  </section>
+  <section data-variation="v04-dynamic" class="v04">
+    <p class="name">{{name}} ({{email}})</p>
+  </section>
+  <section data-variation="v04-1">
+    <div class="child v04 user1">
+      <div data-component="child" data-variation="v04-dynamic" data-content="base.user.one"></div>
+    </div>
+  </section>
+  <section data-variation="v04-2">
+    <div class="child v04 user2">
+      <div data-component="child" data-variation="v04-dynamic" data-content="base.user.two"></div>
+    </div>
+  </section>
 </article>

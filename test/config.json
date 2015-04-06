@@ -1,5 +1,5 @@
 {
-  "logging": true,
+  "logging": "debug",
   "blocks_loader": "../dist/blocks-loader-2.3.6.min.js",
   "template_data": {
     "base": {
@@ -9,6 +9,12 @@
           "title": "Founder",
           "email": "nathan@eightshapes.com",
           "username": "nathan"
+        },
+        "two": {
+          "name": "Dan Brown",
+          "title": "Founder",
+          "email": "dan@eightshapes.com",
+          "username": "dan"
         }
       }
     }

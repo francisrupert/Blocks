@@ -1,0 +1,17 @@
+{
+  "browser": true,
+  "curly": true,
+  "esnext": true,
+  "eqeqeq": true,
+  "globals": {
+    "performance": false
+  },
+  "globalstrict": true,
+  "indent": 2,
+  "nomen": true,
+  "quotmark": true,
+  "strict": false,
+  "undef": true,
+  "unused": true,
+  "white": false
+}

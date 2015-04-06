@@ -37,6 +37,19 @@ describe("Blocks loader merges classes", function() {
   });
 });
 
+describe("Blocks loader merges attributes", function() {
+  beforeEach(function(done) {
+    setTimeout(function () {
+      done();
+    }, 300);
+  });
+
+  it("with attributes placed on the variation", function (done) {
+    expect($('#base .l-header.base[data-object="header"]')).toBeInDOM();
+    done();
+  });
+});
+
 describe("Blocks loader renders nested components", function() {
   beforeEach(function(done) {
     setTimeout(function () {
@@ -77,6 +90,20 @@ describe('Blocks loader replaces components with their contents when data-place=
 
   it('and the component markup is not present', function(done) {
     expect($('#base .i-should-not-appear')).not.toBeInDOM();
+    done();
+  });
+
+  it('including nested child templates', function(done) {
+    expect($('#base .i-also-should-not-appear')).not.toBeInDOM();
+    expect($('#base .l-child .v03')).toBeInDOM();
+    done();
+  });
+
+  it('including nested child variations to refer to a variation in their own file', function(done) {
+    expect($('#base .child.v04.user1')).toBeInDOM();
+    expect($('#base .child.v04.user2')).toBeInDOM();
+    expect($('#base .child.v04.user1 .name')).not.toBeEmpty();
+    expect($('#base .child.v04.user2 .name')).not.toBeEmpty();
     done();
   });
 });

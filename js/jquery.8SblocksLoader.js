@@ -838,7 +838,6 @@
     init: function () {
       var self = this,
         $root = self.$el,
-        component_id,
         queued_components = [];
 
       self._setupLogging();

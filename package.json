@@ -1,6 +1,7 @@
 {
   "name": "Blocks",
   "version": "2.4.9",
+  "description": "EightShapes Blocks is a toolkit to organize, annotate, and modularize HTML prototypes created by EightShapes, LLC (http://www.eightshapes.com).",
   "repository": {
     "type": "git",
     "url": "https://github.com/EightShapes/Blocks.git"
@@ -10,12 +11,36 @@
     "loader": "2.3.8",
     "viewer": "2.0.1"
   },
+  "scripts": {
+    "lint": "jshint src/*.js",
+    "test": "",
+    "build": "/usr/local/bin/jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js",
+    "prebuild": "npm run test",
+    "pretest": "npm run lint",
+    "sass": "node-sass sass/blocks-viewer.scss dist/css/blocks-viewer.css",
+    "dev": "npm run lint && npm run sass",
+    "watch": "watch 'npm run dev'"
+  },
   "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-concat": "~0.4.0",
-    "grunt-contrib-cssmin": "~0.10.0",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-uglify": "~0.5.0",
-    "load-grunt-tasks": "~0.6.0"
-  }
+    "jshint": "latest",
+    "node-sass": "^2.0.1"
+  },
+  "jspm": {
+    "directories": {
+      "lib": "src"
+    },
+    "dependencies": {
+      "browser-log": "npm:browser-log@^0.0.2",
+      "chalk": "npm:chalk@^1.0.0",
+      "handlebars": "npm:handlebars@^2.0.0",
+      "jquery": "^2.1.3",
+      "opener": "npm:opener@^1.4.1"
+    }
+  },
+  "licenses": [
+    {
+      "type": "GNU",
+      "url": "http://unify.eightshapes.com/about-the-system/terms-of-use/"
+    }
+  ]
 }
