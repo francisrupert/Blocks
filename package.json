@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "jshint src/*.js",
     "test": "",
-    "build": "/usr/local/bin/jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js",
+    "build": "node_modules/.bin/jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js",
     "prebuild": "npm run test",
     "pretest": "npm run lint",
     "sass": "node-sass sass/blocks-viewer.scss dist/css/blocks-viewer.css",
@@ -37,6 +37,7 @@
     "karma-jasmine": "^0.3.5",
     "karma-jshint": "^0.1.0",
     "karma-jspm": "^1.1.4",
+    "jspm": "0.15.5",
     "karma-safari-launcher": "^0.1.1",
     "load-grunt-tasks": "^3.1.0",
     "node-sass": "^2.0.1"

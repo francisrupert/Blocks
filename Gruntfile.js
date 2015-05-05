@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     exec: {
-      jspm_build: '/usr/local/bin/jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js'
+      jspm_build: 'node_modules/.bin/jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js'
     },
     cssmin: {
       minify: {
