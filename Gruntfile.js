@@ -1,13 +1,11 @@
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
-  grunt.loadNpmTasks('grunt-contrib-jasmine');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     exec: {
-      jspm_build: '/usr/local/bin/jspm bundle-sfx src/esb dist/esb.js',
-      test_build: '/usr/local/bin/jspm bundle-sfx src/esb-test dist/esb-test.js'
+      jspm_build: '/usr/local/bin/jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js'
     },
     cssmin: {
       minify: {
@@ -37,23 +35,15 @@ module.exports = function(grunt) {
       ],
       gruntfile: 'Gruntfile.js'
     },
-    jasmine: {
-      src: ['dist/esb-test.js'],
-      options: {
-        keepRunner: true,
-        specs: 'spec/**/*-spec.js'
-      }
-    },
-    watch: {
-      scripts: {
-        files: ['**/*.js'],
-        tasks: ['test']
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
       }
     }
   });
 
   grunt.registerTask('default', ['jshint']);
   grunt.registerTask('build', ['jshint', 'exec']);
-  grunt.registerTask('test', ['build', 'jasmine']);
+  grunt.registerTask('test', ['karma']);
   grunt.registerTask('css', ['cssmin']);
 };
