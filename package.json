@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "jshint src/*.js",
     "test": "",
-    "build": "/usr/local/bin/jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js",
+    "build": "jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js",
     "prebuild": "npm run test",
     "pretest": "npm run lint",
     "sass": "node-sass sass/blocks-viewer.scss dist/css/blocks-viewer.css",
@@ -29,6 +29,7 @@
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-exec": "^0.4.6",
     "jshint": "latest",
+    "jspm": "0.15.5",
     "load-grunt-tasks": "^3.1.0",
     "node-sass": "^2.0.1"
   },
