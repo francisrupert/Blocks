@@ -358,7 +358,7 @@
   System.register(...);
 }); */
 
-(['src/esb'], function(System) {
+(['src/esb-test'], function(System) {
 
 System.register("npm:core-js@0.9.6/library/modules/$.fw", [], true, function(require, exports, module) {
   var global = System.global,
@@ -7665,56 +7665,25 @@ System.register('src/blocks-config', ['npm:babel-runtime@5.2.9/helpers/create-cl
     }
   };
 });
-System.register('src/blocks-page-viewer', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'src/blocks-config'], function (_export) {
-	var _createClass, _classCallCheck, BlocksConfig, BlocksPageViewer;
-
-	return {
-		setters: [function (_npmBabelRuntime529HelpersCreateClass) {
-			_createClass = _npmBabelRuntime529HelpersCreateClass['default'];
-		}, function (_npmBabelRuntime529HelpersClassCallCheck) {
-			_classCallCheck = _npmBabelRuntime529HelpersClassCallCheck['default'];
-		}, function (_srcBlocksConfig) {
-			BlocksConfig = _srcBlocksConfig['default'];
-		}],
-		execute: function () {
-			'use strict';
-
-			BlocksPageViewer = (function () {
-				function BlocksPageViewer() {
-					_classCallCheck(this, BlocksPageViewer);
-
-					this.config = BlocksConfig.getConfig();
-				}
-
-				_createClass(BlocksPageViewer, [{
-					key: 'do_stuff',
-					value: function do_stuff() {
-						return 3 + 2;
-					}
-				}, {
-					key: 'new_method',
-					value: function new_method() {}
-				}]);
-
-				return BlocksPageViewer;
-			})();
-
-			_export('default', BlocksPageViewer);
-		}
-	};
-});
-System.register('src/esb', ['src/blocks-page-viewer'], function (_export) {
-  var BlocksPageViewer;
+System.register('src/esb-test', ['src/blocks-config'], function (_export) {
+  var BlocksConfigClass;
   return {
-    setters: [function (_srcBlocksPageViewer) {
-      BlocksPageViewer = _srcBlocksPageViewer['default'];
+    setters: [function (_srcBlocksConfig) {
+      BlocksConfigClass = _srcBlocksConfig['default'];
     }],
     execute: function () {
       'use strict';
 
-      window.BlocksPageViewer = BlocksPageViewer;
+      window.BlocksConfig = BlocksConfigClass.instance;
+
+      BlocksConfig.load('spec/_esb-test-config.json');
+
+      // import BlocksPageViewer from './blocks-page-viewer';
+
+      // // Add BlocksPageViewer to globally accessible scope so it can be unit tested
+      // window.BlocksPageViewer = BlocksPageViewer;
     }
   };
 });
 });
-//# sourceMappingURL=esb.js.map
+//# sourceMappingURL=esb-test.js.map

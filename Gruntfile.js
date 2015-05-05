@@ -6,7 +6,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     exec: {
-      jspm_build: '/usr/local/bin/jspm bundle-sfx src/esb dist/esb.js'
+      jspm_build: '/usr/local/bin/jspm bundle-sfx src/esb dist/esb.js',
+      test_build: '/usr/local/bin/jspm bundle-sfx src/esb-test dist/esb-test.js'
     },
     cssmin: {
       minify: {
@@ -37,7 +38,7 @@ module.exports = function(grunt) {
       gruntfile: 'Gruntfile.js'
     },
     jasmine: {
-      src: ['dist/esb.js'],
+      src: ['dist/esb-test.js'],
       options: {
         keepRunner: true,
         specs: 'spec/**/*-spec.js'
@@ -53,6 +54,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['jshint']);
   grunt.registerTask('build', ['jshint', 'exec']);
-  grunt.registerTask('css', ['cssmin']);
   grunt.registerTask('test', ['build', 'jasmine']);
+  grunt.registerTask('css', ['cssmin']);
 };

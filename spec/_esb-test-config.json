@@ -1,0 +1,22 @@
+{
+  "logging": "debug",
+  "blocks_loader": "../dist/blocks-loader-2.3.6.min.js",
+  "template_data": {
+    "base": {
+      "user": {
+        "one": {
+          "name": "Nathan Curtis",
+          "title": "Founder",
+          "email": "nathan@eightshapes.com",
+          "username": "nathan"
+        },
+        "two": {
+          "name": "Dan Brown",
+          "title": "Founder",
+          "email": "dan@eightshapes.com",
+          "username": "dan"
+        }
+      }
+    }
+  }
+}

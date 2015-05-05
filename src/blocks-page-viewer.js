@@ -1,7 +1,5 @@
 import BlocksConfig from './blocks-config';
 
-BlocksConfig.load();
-
 class BlocksPageViewer {
 	constructor() {
 		this.config = BlocksConfig.getConfig();
@@ -16,4 +14,4 @@ class BlocksPageViewer {
 	}
 }
 
-export default new BlocksPageViewer();
+export default BlocksPageViewer;
