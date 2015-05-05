@@ -121,6 +121,12 @@ export class BlocksComponent {
 
     promise.fail(function () {
       // Returns: jqXHR, textStatus, error
+      // var error_message = document.createElement('div');
+      var body = document.querySelectorAll('body')[0],
+      el = document.createElement('div');
+      el.textContent = 'Blocks Error - Component template not found: ' + self.name;
+      el.classList.add("esb-component-loading-error");
+      body.insertBefore(el, body.firstChild);
       self.logger('error', 'FAILED TO FETCH TEMPLATE: ' + self.name);
     });
 
