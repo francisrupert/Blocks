@@ -18,24 +18,8 @@ module.exports = function(config) {
         "src/**/*.js": ['jshint']
     },
 
-    jshint: {
-        options: {
-            "browser": true,
-            "curly": true,
-            "esnext": true,
-            "eqeqeq": true,
-            "globals": {
-                "performance": false
-            },
-            "globalstrict": true,
-            "indent": 2,
-            "nomen": true,
-            "quotmark": true,
-            "strict": false,
-            "undef": true,
-            "unused": true,
-            "white": false
-        }
+    jshintPreprocessor: {
+        jshintrc: '.jshintrc'
     },
 
     // list of files / patterns to load in the browser
