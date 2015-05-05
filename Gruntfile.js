@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -33,10 +34,16 @@ module.exports = function(grunt) {
         'src/blocks-page.js'
       ],
       gruntfile: 'Gruntfile.js'
+    },
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
     }
   });
 
   grunt.registerTask('default', ['jshint']);
   grunt.registerTask('build', ['jshint', 'exec']);
+  grunt.registerTask('test', ['karma']);
   grunt.registerTask('css', ['cssmin']);
 };
