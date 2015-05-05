@@ -1566,7 +1566,7 @@ function logloads(loads) {
               // store the deps as load.deps
               load.declare = declare;
               load.depsList = deps;
-            }            
+            }
             __eval(transpiled, __global, load);
             curSystem.register = curRegister;
           });
@@ -1818,10 +1818,11 @@ function logloads(loads) {
   function linkSetFailed(linkSet, load, exc) {
     var loader = linkSet.loader;
 
-    if (linkSet.loads[0].name != load.name)
+    if (load && linkSet.loads[0].name != load.name)
       exc = addToError(exc, 'Error loading "' + load.name + '" from "' + linkSet.loads[0].name + '" at ' + (linkSet.loads[0].address || '<unknown>') + '\n');
 
-    exc = addToError(exc, 'Error loading "' + load.name + '" at ' + (load.address || '<unknown>') + '\n');
+    if (load)
+      exc = addToError(exc, 'Error loading "' + load.name + '" at ' + (load.address || '<unknown>') + '\n');
 
     var loads = linkSet.loads.concat([]);
     for (var i = 0, l = loads.length; i < l; i++) {
@@ -2324,17 +2325,25 @@ function logloads(loads) {
       // by doing m instanceof Module
       var m = new Module();
 
-      for (var key in obj) {
-        (function (key) {
-          defineProperty(m, key, {
-            configurable: false,
-            enumerable: true,
-            get: function () {
-              return obj[key];
-            }
-          });
-        })(key);
+      var pNames;
+      if (Object.getOwnPropertyNames && obj != null) {
+        pNames = Object.getOwnPropertyNames(obj);
       }
+      else {
+        pNames = [];
+        for (var key in obj)
+          pNames.push(key);
+      }
+
+      for (var i = 0; i < pNames.length; i++) (function(key) {
+        defineProperty(m, key, {
+          configurable: false,
+          enumerable: true,
+          get: function () {
+            return obj[key];
+          }
+        });
+      })(pNames[i]);
 
       if (Object.preventExtensions)
         Object.preventExtensions(m);
@@ -2395,8 +2404,6 @@ function logloads(loads) {
   function getTranspilerModule(loader, globalName) {
     return loader.newModule({ 'default': g[globalName], __useDefault: true });
   }
-  // NB this does not support sub-classing well
-  var firstRun = true;
 
   // use Traceur by default
   Loader.prototype.transpiler = 'traceur';
@@ -2405,12 +2412,12 @@ function logloads(loads) {
     var self = this;
 
     // pick up Transpiler modules from existing globals on first run if set
-    if (firstRun) {
+    if (!self.transpilerHasRun) {
       if (g.traceur && !self.has('traceur'))
         self.set('traceur', getTranspilerModule(self, 'traceur'));
       if (g.babel && !self.has('babel'))
         self.set('babel', getTranspilerModule(self, 'babel'));
-      firstRun = false;
+      self.transpilerHasRun = true;
     }
     
     return self['import'](self.transpiler).then(function(transpiler) {
@@ -2456,9 +2463,7 @@ function logloads(loads) {
 
     // add "!eval" to end of Traceur sourceURL
     // I believe this does something?
-    source += '!eval';
-
-    return source;
+    return source + '\n//# sourceURL=' + load.address + '!eval';
   }
   function doTraceurCompile(source, compiler, filename) {
     try {
@@ -2489,7 +2494,8 @@ function logloads(loads) {
   }
 
 
-})(__global.LoaderPolyfill);/*
+})(__global.LoaderPolyfill);
+/*
 *********************************************************************************************
 
   System Loader Implementation
@@ -2504,8 +2510,7 @@ function logloads(loads) {
 
 
 (function() {
-  var isWorker = typeof self !== 'undefined' && typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope;
-  var isBrowser = typeof window != 'undefined' && !isWorker;
+  var isBrowser = typeof window != 'undefined' && typeof document != 'undefined';
   var isWindows = typeof process != 'undefined' && !!process.platform.match(/^win/);
   var Promise = __global.Promise || require('when/es6-shim/Promise');
 
@@ -2657,7 +2662,7 @@ function logloads(loads) {
 
     $__Object$defineProperty(SystemLoader.prototype, "global", {
       get: function() {
-        return isBrowser ? window : (isWorker ? self : __global);
+        return __global;
       },
 
       enumerable: false
@@ -2802,7 +2807,7 @@ function logloads(loads) {
 
   // <script type="module"> support
   // allow a data-init function callback once loaded
-  if (isBrowser && typeof document.getElementsByTagName != 'undefined') {
+  if (isBrowser && document.getElementsByTagName) {
     var curScript = document.getElementsByTagName('script');
     curScript = curScript[curScript.length - 1];
 
@@ -2855,5 +2860,4 @@ function __eval(__source, __global, __load) {
   }
 }
 
-})(typeof window != 'undefined' ? window : (typeof WorkerGlobalScope != 'undefined' ?
-                                           self : global));
+})(typeof window != 'undefined' ? window : (typeof global != 'undefined' ? global : self));

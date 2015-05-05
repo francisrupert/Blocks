@@ -1,4 +1,10 @@
 System.config({
+  "transpiler": "babel",
+  "babelOptions": {
+    "optional": [
+      "runtime"
+    ]
+  },
   "paths": {
     "*": "*.js",
     "Blocks/*": "src/*.js",
@@ -9,6 +15,9 @@ System.config({
 
 System.config({
   "map": {
+    "babel": "npm:babel-core@5.2.9",
+    "babel-runtime": "npm:babel-runtime@5.2.9",
+    "core-js": "npm:core-js@0.9.6",
     "handlebars": "npm:handlebars@2.0.0",
     "jquery": "github:components/jquery@2.1.3",
     "opener": "npm:opener@1.4.1",
@@ -33,6 +42,12 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:async@0.2.10": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:core-js@0.8.4": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:core-js@0.9.6": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:handlebars@2.0.0": {

@@ -1,10 +1,11 @@
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     exec: {
-      jspm_build: '/usr/local/bin/jspm bundle-sfx --minify src/blocks-loader dist/blocks-loader.min.js'
+      jspm_build: '/usr/local/bin/jspm bundle-sfx src/esb dist/esb.js'
     },
     cssmin: {
       minify: {
@@ -33,10 +34,18 @@ module.exports = function(grunt) {
         'src/blocks-page.js'
       ],
       gruntfile: 'Gruntfile.js'
+    },
+    jasmine: {
+      src: ['dist/esb.js'],
+      options: {
+        keepRunner: true,
+        specs: 'spec/**/*Spec.js'
+      }
     }
   });
 
   grunt.registerTask('default', ['jshint']);
   grunt.registerTask('build', ['jshint', 'exec']);
   grunt.registerTask('css', ['cssmin']);
+  grunt.registerTask('test', ['build', 'jasmine']);
 };
