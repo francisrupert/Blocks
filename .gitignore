@@ -7,4 +7,5 @@ compass_app_log.txt
 *.sublime-*
 npm-debug.log
 node_modules
+jspm_packages
 bower_components
