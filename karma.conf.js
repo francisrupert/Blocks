@@ -24,11 +24,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        {pattern: 'spec/esb-test-config.json', watched: true, included: false, served: true}
+        {pattern: 'spec/helpers/esb-test-config.json', watched: true, included: false, served: true}
     ],
 
     jspm: {
-        loadFiles: ['src/blocks-config.js', 'spec/**/*.js']
+        loadFiles: ['src/blocks-config.js', 'src/blocks-page.js', 'src/blocks-util.js', 'src/blocks-component.js', 'spec/**/*.js']
         // serveFiles: ['spec/_esb-test-config.json']
     },
 

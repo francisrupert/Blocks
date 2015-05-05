@@ -52,8 +52,8 @@ class BlocksPage {
       queued_components = [],
       components = [];
 
-    self.name  = $(document).find('head title').text();
-    self.$root = $('body');
+    self.name  = self.retrieve_page_title();
+    self.$root = self.retrieve_root_element();
 
     self.$root.find('*[data-component]').each(function () {
       self.child_count++;
@@ -77,6 +77,14 @@ class BlocksPage {
     });
 
     return components;
+  }
+
+  retrieve_page_title() {
+    return $(document).find('head title').text();
+  }
+
+  retrieve_root_element() {
+    return $('body');
   }
 
   /**
