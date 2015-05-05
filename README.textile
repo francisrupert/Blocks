@@ -1,3 +1,5 @@
+"!https://codeship.com/projects/8a24c330-d593-0132-e559-26dfd4cc1a97/status?branch=master!":https://codeship.com/projects/78122
+
 h1. EightShapes Blocks
 
 EightShapes Blocks is a toolkit to organize, annotate, and modularize HTML prototypes created by <a href="http://eightshapes.com">EightShapes, LLC</a>.
