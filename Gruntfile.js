@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -39,7 +40,13 @@ module.exports = function(grunt) {
       src: ['dist/esb.js'],
       options: {
         keepRunner: true,
-        specs: 'spec/**/*Spec.js'
+        specs: 'spec/**/*-spec.js'
+      }
+    },
+    watch: {
+      scripts: {
+        files: ['**/*.js'],
+        tasks: ['test']
       }
     }
   });

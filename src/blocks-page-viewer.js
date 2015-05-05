@@ -4,12 +4,15 @@ BlocksConfig.load();
 
 class BlocksPageViewer {
 	constructor() {
-		var config = BlocksConfig.getConfig();
-		console.log(config);
+		this.config = BlocksConfig.getConfig();
 	}
 
 	do_stuff() {
 		return 3 + 2;
+	}
+
+	new_method() {
+
 	}
 }
 

@@ -7455,8 +7455,7 @@ System.register('src/blocks-page-viewer', ['npm:babel-runtime@5.2.9/helpers/crea
 				function BlocksPageViewer() {
 					_classCallCheck(this, BlocksPageViewer);
 
-					var config = BlocksConfig.getConfig();
-					console.log(config);
+					this.config = BlocksConfig.getConfig();
 				}
 
 				_createClass(BlocksPageViewer, [{
@@ -7464,6 +7463,9 @@ System.register('src/blocks-page-viewer', ['npm:babel-runtime@5.2.9/helpers/crea
 					value: function do_stuff() {
 						return 3 + 2;
 					}
+				}, {
+					key: 'new_method',
+					value: function new_method() {}
 				}]);
 
 				return BlocksPageViewer;
