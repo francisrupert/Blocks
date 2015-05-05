@@ -1,0 +1,9 @@
+.esb-component-loading-error {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  color: red;
+  padding: 10px;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif; }

@@ -122,10 +122,8 @@ export class BlocksComponent {
     promise.fail(function () {
       // Returns: jqXHR, textStatus, error
       // var error_message = document.createElement('div');
-      var body = document.querySelectorAll('body')[0];
-      var el = document.createElement('div');
-      var error_style = "position: fixed; top:0; right:0; background:rgba(255,255,255,0.8); color:red; padding:10px; font-size:18px; font-family: Helvetica, Arial, sans-serif;";
-      el.style.cssText = error_style;
+      var body = document.querySelectorAll('body')[0],
+      el = document.createElement('div');
       el.textContent = 'Blocks Error - Component template not found: ' + self.name;
       el.classList.add("esb-component-loading-error");
       body.insertBefore(el, body.firstChild);
