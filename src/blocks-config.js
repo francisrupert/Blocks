@@ -20,12 +20,12 @@ class BlocksConfig {
       uri = url || self.url;
       req = new XMLHttpRequest();
 
-      uri = uri + "?timestamp=" + new Date().getTime(); //prevent ajax caching of the config
+      uri = uri + '?timestamp=' + new Date().getTime(); //prevent ajax caching of the config
 
       req.open('GET', uri);
 
       req.onload = function() {
-        if (req.status == 200) {
+        if (req.status === 200) {
           data = JSON.parse(req.response);
           self.merge(data);
           self.setLoggingLevel();
@@ -38,37 +38,14 @@ class BlocksConfig {
           $(document).trigger('blocks-config_loaded'); // We continue on with default options
           reject(Error(req.statusText));
         }
-      }
+      };
 
       req.onerror = function() {
-        reject(Error("Network Error"));
-      }
+        reject(Error('Network Error'));
+      };
 
       req.send();
     });
-
-    // var self = this,
-    //   uri = url || self.url,
-    //   fetch_config = {
-    //     type: 'GET',
-    //     dataType: 'json',
-    //     cache: false,
-    //     url: uri,
-    //     timeout: 30000,
-    //     success: function (data) {
-    //       self.merge(data);
-    //       self.setLoggingLevel();
-    //       self.makeAvailable(data);
-    //       $(document).trigger('blocks-config_loaded');
-    //     },
-    //     error: function (err) {
-    //       // NOTE: Logging isn't setup until we fetch the config thus window.debug doesn't yet exist
-    //       window.console.error('FAILED TO FETCH CONFIG: ' + uri + ' returned ' + JSON.stringify(err));
-    //       $(document).trigger('blocks-config_loaded'); // We continue on with default options
-    //     }
-    //   };
-
-    // $.ajax(fetch_config);
   }
 
   makeAvailable(data) {

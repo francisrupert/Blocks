@@ -12,6 +12,31 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jspm', 'jasmine'],
 
+    // preprocess matching files before serving them to the browser
+    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    preprocessors: {
+        "src/**/*.js": ['jshint']
+    },
+
+    jshint: {
+        options: {
+            "browser": true,
+            "curly": true,
+            "esnext": true,
+            "eqeqeq": true,
+            "globals": {
+                "performance": false
+            },
+            "globalstrict": true,
+            "indent": 2,
+            "nomen": true,
+            "quotmark": true,
+            "strict": false,
+            "undef": true,
+            "unused": true,
+            "white": false
+        }
+    },
 
     // list of files / patterns to load in the browser
     files: [
@@ -29,10 +54,6 @@ module.exports = function(config) {
     ],
 
 
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-    },
 
 
     // test results reporter to use
