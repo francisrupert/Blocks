@@ -1,1 +1,0 @@
-module.exports = require("npm:opener@1.4.1/opener");
