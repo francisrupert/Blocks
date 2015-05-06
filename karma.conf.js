@@ -10,7 +10,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jspm', 'jasmine'],
+    frameworks: ['jspm', 'jasmine-jquery', 'jasmine'],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -24,11 +24,11 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        {pattern: 'spec/esb-test-config.json', watched: true, included: false, served: true}
+        {pattern: 'spec/fixtures/*', watched: true, included: false, served: true}
     ],
 
     jspm: {
-        loadFiles: ['src/blocks-config.js', 'spec/**/*.js']
+        loadFiles: ['src/blocks-config.js', 'src/blocks-page.js', 'src/blocks-util.js', 'src/blocks-component.js', 'src/esb-page-viewer.js', 'spec/**/*.js']
         // serveFiles: ['spec/_esb-test-config.json']
     },
 
@@ -43,7 +43,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'osx'],
 
 
     // web server port
