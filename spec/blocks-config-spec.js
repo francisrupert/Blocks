@@ -25,7 +25,7 @@ describe("Blocks with config.json loaded", function(){
 
 	beforeEach(function(done){
 		// Karma prepends statically served files with 'base/'
-		BlocksConfig.load('base/spec/helpers/esb-test-config.json').then(function(data){
+		BlocksConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
 			config = BlocksConfig.getConfig();
 			done();
 		});

@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import BlocksUtil from './blocks-util';
 import { BlocksComponent } from './blocks-component';
+import { EsbPageViewer } from 'src/esb-page-viewer';
 
 class BlocksPage {
   constructor() {
@@ -9,6 +10,8 @@ class BlocksPage {
     self.logger = BlocksUtil.logger;
     self.timer = BlocksUtil.timer();
 
+    self.parsed_esb_components = [];
+    self.parsed_esb_page_viewers = [];
     // page cache of components
     self.components = {};
     self.component_variations = {};
@@ -35,25 +38,28 @@ class BlocksPage {
    * Wrapper for parse and load
    */
   display() {
-    var self = this,
-      page_components = [];
+    var self = this;
 
-    page_components = self.parse();
-
-    for (let idx in page_components) {
-      let page_component = page_components[idx];
+    for (let idx in self.parsed_esb_components) {
+      let page_component = self.parsed_esb_components[idx];
 
       page_component.load();
     }
   }
 
   parse() {
+    var self = this;
+    self.parseEsbComponents();
+    self.parseEsbPageViewers();
+  }
+
+  parseEsbComponents() {
     var self = this,
       queued_components = [],
       components = [];
 
-    self.name  = self.retrieve_page_title();
-    self.$root = self.retrieve_root_element();
+    self.name  = self.retrievePageTitle();
+    self.$root = self.retrieveRootElement();
 
     self.$root.find('*[data-component]').each(function () {
       self.child_count++;
@@ -76,14 +82,37 @@ class BlocksPage {
       components.push(component);
     });
 
-    return components;
+    self.parsed_esb_components = components;   
   }
 
-  retrieve_page_title() {
+  parseEsbPageViewers() {
+    var self = this,
+        page_viewers = [],
+        i = 0;
+    self.name  = self.retrievePageTitle();
+    self.$root = self.retrieveRootElement();
+
+    page_viewers = self.$root[0].querySelectorAll('*[data-esb-page-viewer]');
+    
+    for (i=0; i < page_viewers.length; i++) {
+      let uuid = BlocksUtil.generateUUID();
+
+      page_viewers[i].setAttribute('data-esb-uuid', uuid);
+
+      let page_viewer = new EsbPageViewer({
+        original_snippet: page_viewers[i].outerHTML,
+        uuid: uuid
+      });
+
+      self.parsed_esb_page_viewers.push(page_viewer);
+    }
+  }
+
+  retrievePageTitle() {
     return $(document).find('head title').text();
   }
 
-  retrieve_root_element() {
+  retrieveRootElement() {
     return $('body');
   }
 
