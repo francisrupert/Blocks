@@ -1,12 +1,12 @@
-import BlocksConfig from './blocks-config';
+import EsbConfig from './esb-config';
 
-class BlocksUtil {
+class EsbUtil {
   constructor() {
   }
 
   logger(level, message) {
     var levels = ['debug', 'info', 'warn', 'error', 'none'],
-      logging_level = BlocksConfig.getConfig().get('logging_level'),
+      logging_level = EsbConfig.getConfig().get('logging_level'),
       level_text;
 
     if (logging_level === undefined) {
@@ -53,4 +53,4 @@ class BlocksUtil {
   }
 }
 
-export default new BlocksUtil();
+export default new EsbUtil();

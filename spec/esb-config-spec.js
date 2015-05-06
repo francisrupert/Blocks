@@ -1,10 +1,10 @@
-import BlocksConfig from 'src/blocks-config'
+import EsbConfig from 'src/esb-config'
 
-describe("BlocksConfig default config", function(){
+describe("EsbConfig default config", function(){
 	var config;
 	
 	beforeEach(function(){
-		config = BlocksConfig.getConfig();
+		config = EsbConfig.getConfig();
 	})
 
 	it("should define backward_compatible as false", function(){
@@ -25,8 +25,8 @@ describe("Blocks with config.json loaded", function(){
 
 	beforeEach(function(done){
 		// Karma prepends statically served files with 'base/'
-		BlocksConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
-			config = BlocksConfig.getConfig();
+		EsbConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
+			config = EsbConfig.getConfig();
 			done();
 		});
 	});

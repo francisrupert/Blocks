@@ -1,14 +1,14 @@
 import $ from 'jquery';
-import BlocksUtil from './blocks-util';
-import { BlocksComponent } from './blocks-component';
+import EsbUtil from './esb-util';
+import { EsbComponent } from './esb-component';
 import { EsbPageViewer } from 'src/esb-page-viewer';
 
-class BlocksPage {
+class EsbPage {
   constructor() {
     var self = this;
 
-    self.logger = BlocksUtil.logger;
-    self.timer = BlocksUtil.timer();
+    self.logger = EsbUtil.logger;
+    self.timer = EsbUtil.timer();
 
     self.parsed_esb_components = [];
     self.parsed_esb_page_viewers = [];
@@ -64,7 +64,7 @@ class BlocksPage {
     self.$root.find('*[data-component]').each(function () {
       self.child_count++;
 
-      $(this).attr('data-blocks-uuid', BlocksUtil.generateUUID());
+      $(this).attr('data-blocks-uuid', EsbUtil.generateUUID());
 
       // MUST queue the components to get an accurate child count
       queued_components.push({ page: self, component: $(this) });
@@ -73,7 +73,7 @@ class BlocksPage {
     self.logger('info', 'PAGE ' + self.name + ' has ' + self.child_count + ' children');
 
     queued_components.forEach(function (queued_component) {
-      let component = new BlocksComponent({
+      let component = new EsbComponent({
         page: queued_component.page,
         parent: queued_component.page, // This component's parent is this page
         component: queued_component.component
@@ -95,7 +95,7 @@ class BlocksPage {
     page_viewers = self.$root[0].querySelectorAll('*[data-esb-page-viewer]');
     
     for (i=0; i < page_viewers.length; i++) {
-      let uuid = BlocksUtil.generateUUID();
+      let uuid = EsbUtil.generateUUID();
 
       page_viewers[i].setAttribute('data-esb-uuid', uuid);
 
@@ -120,7 +120,7 @@ class BlocksPage {
    * @method: childDoneLoading
    * @params: child
    *
-   * Takes a BlocksComponent object, tracks that it is finished loading,
+   * Takes a EsbComponent object, tracks that it is finished loading,
    * and calls render on that object.
    *
    * This function is recursive in that it will render children
@@ -140,7 +140,7 @@ class BlocksPage {
    * @method: childDoneRendering
    * @params: child
    *
-   * Takes a BlocksComponent object, tracks that it has finished rendering
+   * Takes a EsbComponent object, tracks that it has finished rendering
    * itself.
    * Replaces components on the page with their child's rendered elements.
    * Then injects the component Javascript.
@@ -222,4 +222,4 @@ class BlocksPage {
   }
 }
 
-export default new BlocksPage();
+export default new EsbPage();
