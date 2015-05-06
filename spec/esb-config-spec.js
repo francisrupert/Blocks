@@ -1,4 +1,4 @@
-import EsbConfig from 'src/esb-config'
+import EsbConfig from 'src/esb-config';
 
 describe("EsbConfig default config", function(){
 	var config;
