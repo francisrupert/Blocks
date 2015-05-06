@@ -2,7 +2,7 @@ import EsbConfig from 'src/esb-config';
 import EsbUtil from 'src/esb-util';
 import { EsbPageViewer } from 'src/esb-page-viewer';
 
-describe("Blocks Page Viewer", function(){
+describe("EsbPageViewer", function(){
 	var page_viewer = null,
 		page_viewer_snippet = null,
 		uuid = null;
@@ -24,6 +24,34 @@ describe("Blocks Page Viewer", function(){
 
 	it("should have a uuid", function(){
 		expect(page_viewer.uuid).toEqual(uuid);
+	});
+
+	it("should have default options", function(){
+		expect(page_viewer.options).toEqual({"load-immediately": false});
+	});
+
+	describe("with option overrides", function(){
+		beforeEach(function(){
+			loadFixtures('page-viewer-with-option-overrides.html');
+			uuid = EsbUtil.generateUUID();
+			page_viewer_snippet = $("#jasmine-fixtures")[0].querySelectorAll('*[data-esb-page-viewer]')[0];
+			page_viewer_snippet.setAttribute('data-esb-uuid', uuid);
+
+			page_viewer = new EsbPageViewer({
+				viewer_element: page_viewer_snippet,
+		        original_snippet: page_viewer_snippet.outerHTML,
+		        uuid: uuid
+			});
+		});
+	
+		it("should override the default options", function(){
+			expect(page_viewer.options).toEqual({"load-immediately": true});
+		});
+
+		it("should load immediately", function(){
+			page_viewer.inject_placeholder();
+		    expect($('#jasmine-fixtures iframe[src="spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		});
 	});
 
 	describe("after EsbConfig is loaded", function(){
@@ -62,14 +90,12 @@ describe("Blocks Page Viewer", function(){
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toEqual('<div class="esb-page-viewer"><iframe data-src="http://google.com"></iframe></div>')
+			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="http:\/\/google.com"><\/iframe>/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
-		    expect($('#jasmine-fixtures div[data-esb-uuid="' + uuid + '"]')).toBeInDOM();
 			page_viewer.inject_placeholder();
 		    expect($('#jasmine-fixtures iframe[data-src="http://google.com"]')).toBeInDOM();
-		    expect($('#jasmine-fixtures div[data-esb-uuid="' + uuid + '"]')).not.toBeInDOM();
 		});
 	});
 
@@ -92,14 +118,12 @@ describe("Blocks Page Viewer", function(){
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toEqual('<div class="esb-page-viewer"><iframe data-src="some/made-up/path/example.html"></iframe></div>')
+			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="some\/made-up\/path\/example.html"><\/iframe>/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
-		    expect($('#jasmine-fixtures div[data-esb-uuid="' + uuid + '"]')).toBeInDOM();
 			page_viewer.inject_placeholder();
 		    expect($('#jasmine-fixtures iframe[data-src="some/made-up/path/example.html"]')).toBeInDOM();
-		    expect($('#jasmine-fixtures div[data-esb-uuid="' + uuid + '"]')).not.toBeInDOM();
 		});
 	});
 
@@ -122,14 +146,18 @@ describe("Blocks Page Viewer", function(){
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toEqual('<div class="esb-page-viewer"><iframe data-src="spec/fixtures/page-viewers/just-a-default-example.html"></iframe></div>')
+			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="spec\/fixtures\/page-viewers\/just-a-default-example.html"><\/iframe>/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
-		    expect($('#jasmine-fixtures div[data-esb-uuid="' + uuid + '"]')).toBeInDOM();
 			page_viewer.inject_placeholder();
 		    expect($('#jasmine-fixtures iframe[data-src="spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
-		    expect($('#jasmine-fixtures div[data-esb-uuid="' + uuid + '"]')).not.toBeInDOM();
+		});
+
+		it("should be able to load the iframe within the placeholder", function(){
+			page_viewer.inject_placeholder();
+			page_viewer.load_iframe();
+		    expect($('#jasmine-fixtures iframe[src="spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
 		});
 	});
 });

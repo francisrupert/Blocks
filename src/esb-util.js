@@ -30,6 +30,26 @@ class EsbUtil {
     }
   }
 
+  booleanXorValue(value) {
+    var val,
+        boolean_strings = ['true', 'True', 'TRUE', 'false', 'False', 'FALSE'];
+
+    if (boolean_strings.indexOf(value) !== -1) {
+      if (value.match(/true/i) === null) {
+        val = false;
+      }
+      else {
+        val = true;
+      }
+    }
+    else {
+      val = value;
+    }
+
+
+    return val;
+  }
+
   /**
    * @method: generateUUID
    *

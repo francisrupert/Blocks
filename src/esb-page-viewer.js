@@ -5,21 +5,41 @@ export class EsbPageViewer {
 	constructor(opts) {
 		var self = this;
 
+		self.iframe_src = null;
+		self.placeholder_element = null;
+		self.viewer_element = null;
+		self.viewer_iframe = null;
+		self.options = null;
 	    self.logger = EsbUtil.logger;
 		self.original_element = opts.viewer_element;
 		self.original_snippet = opts.original_snippet;
 		self.uuid = opts.uuid;
 		self.config = EsbConfig.getConfig();
-		self.iframe_src = null;
+		self.set_viewer_options();
 		self.set_iframe_src();
-		self.placeholder_element = null;
 		self.create_placeholder_element();
+	}
+
+	set_viewer_options() {
+		var self = this,
+			options = {
+				'load-immediately': false
+			},
+			option = null;
+
+		for (option in options) {
+			if (self.original_element.getAttribute('data-' + option) !== null) {
+				options[option] = EsbUtil.booleanXorValue(self.original_element.getAttribute('data-' + option));
+			}
+		}
+
+		self.options = options;
 	}
 
 	create_placeholder_element() {
 		var self = this;
 
-		self.placeholder_element = '<div class="esb-page-viewer">' + self.get_iframe() + '</div>';
+		self.placeholder_element = '<div class="esb-page-viewer" data-esb-uuid="' + self.uuid + '">' + self.get_iframe() + '</div>';
 	}
 
 	get_iframe() {
@@ -40,6 +60,18 @@ export class EsbPageViewer {
 		var self = this;
 
 		self.original_element.outerHTML = self.placeholder_element;
+		self.viewer_element = document.querySelector('*[data-esb-uuid="' + self.uuid + '"]');
+		self.iframe_element = self.viewer_element.querySelector('iframe');
+
+		if (self.options['load-immediately']) {
+			self.load_iframe();
+		}
+	}
+
+	load_iframe() {
+		var self = this;
+
+		self.iframe_element.setAttribute('src', self.iframe_element.getAttribute('data-src'));
 	}
 
 	set_iframe_src() {
