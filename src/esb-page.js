@@ -45,6 +45,12 @@ class EsbPage {
 
       page_component.load();
     }
+
+    for (let idx in self.parsed_esb_page_viewers) {
+      let page_viewer = self.parsed_esb_page_viewers[idx];
+
+      page_viewer.inject_placeholder();
+    }
   }
 
   parse() {
@@ -100,6 +106,7 @@ class EsbPage {
       page_viewers[i].setAttribute('data-esb-uuid', uuid);
 
       let page_viewer = new EsbPageViewer({
+        viewer_element: page_viewers[i],
         original_snippet: page_viewers[i].outerHTML,
         uuid: uuid
       });
