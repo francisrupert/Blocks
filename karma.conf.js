@@ -28,7 +28,7 @@ module.exports = function(config) {
     ],
 
     jspm: {
-        loadFiles: ['src/blocks-config.js', 'src/blocks-page.js', 'src/blocks-util.js', 'src/blocks-component.js', 'src/esb-page-viewer.js', 'spec/**/*.js']
+        loadFiles: ['src/esb-config.js', 'src/esb-page.js', 'src/esb-util.js', 'src/esb-component.js', 'src/esb-page-viewer.js', 'spec/**/*.js']
         // serveFiles: ['spec/_esb-test-config.json']
     },
 

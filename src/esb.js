@@ -1,9 +1,9 @@
-import BlocksConfig from './blocks-config';
-import BlocksPage from './blocks-page';
+import EsbConfig from './esb-config';
+import EsbPage from './esb-page';
 
-BlocksConfig.load().then(function(){
-  BlocksPage.parse(); //Finds all blocks components, viewers, etc. and preps them for loading/display
-  BlocksPage.display();
+EsbConfig.load().then(function(){
+  EsbPage.parse(); //Finds all blocks components, viewers, etc. and preps them for loading/display
+  EsbPage.display();
 });
 
 export default {};

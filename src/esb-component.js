@@ -1,13 +1,13 @@
 import $ from 'jquery';
 import handlebars from 'handlebars';
-import BlocksConfig from './blocks-config';
-import BlocksUtil from './blocks-util';
+import EsbConfig from './esb-config';
+import EsbUtil from './esb-util';
 
-export class BlocksComponent {
+export class EsbComponent {
   constructor(opts) {
     var self = this;
 
-    self.logger = BlocksUtil.logger;
+    self.logger = EsbUtil.logger;
 
     self.has_nested = false;
     self.classes = [];
@@ -36,7 +36,7 @@ export class BlocksComponent {
     var self = this,
       $component = opts.component;
 
-    self.config = BlocksConfig.getConfig();
+    self.config = EsbConfig.getConfig();
     self.parent = opts.parent;
     self.page = opts.page;
 
@@ -190,7 +190,7 @@ export class BlocksComponent {
     if ($nested_components !== undefined && $nested_components.length > 0) {
       $nested_components.each(function (idx, nested_component) {
         var $nested_component = $(nested_component),
-          nested_component_id = BlocksUtil.generateUUID();
+          nested_component_id = EsbUtil.generateUUID();
 
         self.logger('debug', 'FOUND nested component: ' + $nested_component.attr('data-component'));
         self.child_count++;
@@ -222,15 +222,15 @@ export class BlocksComponent {
       Array.from(queued_components).forEach(function (queued_component) {
         var component;
 
-        component = new BlocksComponent({
+        component = new EsbComponent({
           parent: queued_component.parent,
           component: queued_component.component,
           page: queued_component.parent.page
         });
 
-        // This is new and probably not the desired behavior. The BlocksPage.display() loads each
+        // This is new and probably not the desired behavior. The EsbPage.display() loads each
         // page-level component whereas before we just autoloaded each component.
-        // But now we would need to rip apart load and rely on BlocksPage to do all of that.
+        // But now we would need to rip apart load and rely on EsbPage to do all of that.
         // Circumnavigating this for now.
         component.load();
       });

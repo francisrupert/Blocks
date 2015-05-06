@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-class BlocksConfig {
+class EsbConfig {
   constructor() {
     this.url = 'config.json';
     this.setDefaults();
@@ -105,4 +105,4 @@ class BlocksConfig {
   }
 }
 
-export default new BlocksConfig();
+export default new EsbConfig();
