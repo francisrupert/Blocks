@@ -8,7 +8,7 @@ describe("EsbPageViewer", function(){
 		uuid = null;
 	jasmine.getFixtures().fixturesPath = 'base/spec/fixtures';
 
-	beforeEach(function(){
+	beforeEach(function(done){
 		loadFixtures('page-with-page-viewer.html');
 		uuid = EsbUtil.generateUUID();
 		page_viewer_snippet = $("#jasmine-fixtures")[0].querySelectorAll('*[data-esb-page-viewer]')[0];
@@ -19,6 +19,17 @@ describe("EsbPageViewer", function(){
 	        original_snippet: page_viewer_snippet.outerHTML,
 	        uuid: uuid
 		});
+
+		EsbConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
+			page_viewer = new EsbPageViewer({
+				viewer_element: page_viewer_snippet,
+		        original_snippet: page_viewer_snippet.outerHTML,
+		        uuid: uuid
+			});
+			done();
+		}, function(err){
+			console.log(err);
+		});
 	});
 
 
@@ -28,6 +39,10 @@ describe("EsbPageViewer", function(){
 
 	it("should have default options", function(){
 		expect(page_viewer.options).toEqual({"load-immediately": false});
+	});
+
+	it("should have access to BlocksConfig", function(){
+		expect(page_viewer.config.get("page-viewers").get("source")).toEqual('base/spec/fixtures/page-viewers');
 	});
 
 	describe("with option overrides", function(){
@@ -50,24 +65,7 @@ describe("EsbPageViewer", function(){
 
 		it("should load immediately", function(){
 			page_viewer.inject_placeholder();
-		    expect($('#jasmine-fixtures iframe[src="spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
-		});
-	});
-
-	describe("after EsbConfig is loaded", function(){
-		beforeEach(function(done){
-			EsbConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
-				page_viewer = new EsbPageViewer({
-					viewer_element: page_viewer_snippet,
-			        original_snippet: page_viewer_snippet.outerHTML,
-			        uuid: uuid
-				});
-				done();
-			});
-		})
-	
-		it("should have access to BlocksConfig", function(){
-			expect(page_viewer.config.get("page-viewers").get("source")).toEqual('spec/fixtures/page-viewers');
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
 		});
 	});
 
@@ -142,22 +140,22 @@ describe("EsbPageViewer", function(){
 		});
 
 		it("should create the iframe_src using the data-source attribute plus the file name", function(){
-			expect(page_viewer.iframe_src).toEqual('spec/fixtures/page-viewers/just-a-default-example.html');
+			expect(page_viewer.iframe_src).toEqual('base/spec/fixtures/page-viewers/just-a-default-example.html');
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="spec\/fixtures\/page-viewers\/just-a-default-example.html"><\/iframe>/);
+			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="base\/spec\/fixtures\/page-viewers\/just-a-default-example.html"><\/iframe>/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
 			page_viewer.inject_placeholder();
-		    expect($('#jasmine-fixtures iframe[data-src="spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
 		});
 
 		it("should be able to load the iframe within the placeholder", function(){
 			page_viewer.inject_placeholder();
 			page_viewer.load_iframe();
-		    expect($('#jasmine-fixtures iframe[src="spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
 		});
 	});
 });

@@ -4,6 +4,7 @@ describe("EsbConfig default config", function(){
 	var config;
 	
 	beforeEach(function(){
+		EsbConfig.setDefaults();
 		config = EsbConfig.getConfig();
 	})
 
@@ -20,7 +21,7 @@ describe("EsbConfig default config", function(){
 	});
 });
 
-describe("Blocks with config.json loaded", function(){
+describe("EsbConfig with config.json loaded", function(){
 	var config;
 
 	beforeEach(function(done){
@@ -28,11 +29,13 @@ describe("Blocks with config.json loaded", function(){
 		EsbConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
 			config = EsbConfig.getConfig();
 			done();
+		}, function(err){
+			console.log(err);
 		});
 	});
 
-	it("should have a logging level of 'debug'", function(){
-		expect(config.get("logging")).toEqual("debug");
+	it("should have a logging level of 'none'", function(){
+		expect(config.get("logging")).toEqual("none");
 	});
 
 	it("should components as a map with replace_reference = true", function(){
