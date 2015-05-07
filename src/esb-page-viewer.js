@@ -10,6 +10,7 @@ export class EsbPageViewer {
 		self.viewer_element = null;
 		self.viewer_iframe = null;
 		self.options = null;
+		self.scrollable_ancestors = [];
 	    self.logger = EsbUtil.logger;
 		self.original_element = opts.viewer_element;
 		self.original_snippet = opts.original_snippet;
@@ -66,6 +67,52 @@ export class EsbPageViewer {
 		if (self.options['load-immediately']) {
 			self.load_iframe();
 		}
+		else {
+			self.set_scrollable_ancestors();
+		}
+	}
+
+	set_scrollable_ancestors() {
+		var self = this,
+		ancestors = [],
+		el = self.viewer_element;
+
+		while (el.parentNode) {
+			el = el.parentNode;
+			if (el.scrollHeight > el.offsetHeight) {
+				if (el.nodeName === 'BODY') {
+					el = window;
+				}
+			  ancestors.push(el);
+			}
+		}
+
+		self.scrollable_ancestors = ancestors;
+		self.monitor_scrollable_ancestors();
+	}
+
+	monitor_scrollable_ancestors() {
+		var self = this,
+			allow_scroll = true,
+			allow_resize = true;
+
+		Array.prototype.forEach.call(self.scrollable_ancestors, function(el){
+			el.addEventListener('scroll', function(){
+				if (allow_scroll) {
+					allow_scroll = false;
+					self.load_iframe_if_visible();
+					setTimeout(function() { allow_scroll = true; }, 1000);
+				}
+			});
+
+			el.addEventListener('resize', function(){
+				if (allow_resize) {
+					allow_resize = false;
+					self.load_iframe_if_visible();
+					setTimeout(function() { allow_resize = true; }, 1000);
+				}
+			});
+		});
 	}
 
 	load_iframe() {
@@ -105,5 +152,46 @@ export class EsbPageViewer {
 		}
 
 		return path;
+	}
+
+	load_iframe_if_visible() {
+		var self = this;
+
+		if (self.is_visible()) {
+			self.load_iframe();
+		}
+	}
+
+	is_visible() {
+		var self = this,
+			visible = true,
+			ancestors = self.scrollable_ancestors.slice(0),
+			shortest_ancestor_height = null,
+			visible_threshold = self.viewer_element.getBoundingClientRect().top,
+			ancestor_height;
+		
+		if (self.viewer_element.offsetParent === null) {
+			visible = false;
+		}
+		else {
+			Array.prototype.forEach.call(ancestors, function(el, i){
+				if (ancestors[i+1] !== undefined) {
+					ancestor_height = ancestors[i].getBoundingClientRect().height;
+				}
+				else {
+					ancestor_height = window.innerHeight;
+				}
+
+				if (shortest_ancestor_height === null || shortest_ancestor_height > ancestor_height) {
+					shortest_ancestor_height = ancestor_height;
+				}
+			});
+
+			if (shortest_ancestor_height !== null && visible_threshold >= shortest_ancestor_height) {
+				visible = false;
+			}
+		}
+
+		return visible;
 	}
 }

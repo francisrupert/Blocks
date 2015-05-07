@@ -15,6 +15,10 @@ describe("Blocks Page parsing", function(){
 		});
 	});
 
+	xit("should have a method called blocks_done that returns a promise and runs an interval until blocks-done is triggered", function(){
+		
+	});
+
 	describe("when there are no blocks components found", function(){
 		beforeEach(function(){
 			loadFixtures('page-with-no-components.html');
