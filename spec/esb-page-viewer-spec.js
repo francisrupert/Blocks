@@ -152,6 +152,12 @@ describe("EsbPageViewer", function(){
 			page_viewer.inject_placeholder();
 			expect(page_viewer.is_visible()).toEqual(false);
 		});
+
+		it ("should know that it is visible when the parent element becomes visible", function(){
+			page_viewer.inject_placeholder();
+			document.getElementById("hidden-wrapper").style.display = "block";
+			expect(page_viewer.is_visible()).toEqual(true);
+		});
 	});
 
 	describe("when scrolled out of view", function(){
