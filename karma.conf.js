@@ -10,7 +10,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jspm', 'jasmine-jquery', 'jasmine'],
+    frameworks: ['phantomjs-shim', 'jspm', 'jasmine-jquery', 'jasmine'],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -24,7 +24,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        {pattern: 'spec/fixtures/*', watched: true, included: false, served: true}
+        {pattern: 'spec/fixtures/**/*', watched: true, included: false, served: true}
     ],
 
     jspm: {
@@ -43,7 +43,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'osx'],
+    reporters: ['mocha', 'notify'],
 
 
     // web server port
@@ -65,8 +65,8 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
-    // browsers: ['PhantomJS'],
+    // browsers: ['Chrome'],
+    browsers: ['PhantomJS', 'Chrome', 'Safari', 'Firefox'],
 
 
     // Continuous Integration mode

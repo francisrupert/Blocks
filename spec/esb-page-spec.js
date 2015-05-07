@@ -1,12 +1,18 @@
 import $ from 'jquery';
+import EsbConfig from 'src/esb-config';
 import EsbPage from 'src/esb-page';
 import { EsbPageViewer } from 'src/esb-page-viewer';
 
 describe("Blocks Page parsing", function(){
 	var components = null;
 
-	beforeEach(function(){
+	beforeEach(function(done){
 		jasmine.getFixtures().fixturesPath = 'base/spec/fixtures';
+		EsbConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
+			done();
+		}, function(err){
+			console.log(err);
+		});
 	});
 
 	describe("when there are no blocks components found", function(){

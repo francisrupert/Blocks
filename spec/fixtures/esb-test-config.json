@@ -1,11 +1,11 @@
 {
-    "logging": "debug",
+    "logging": "none",
     "components": {
         "source": "test/components/",
         "replace_reference": true
     },
     "page-viewers": {
-        "source": "spec/fixtures/page-viewers"
+        "source": "base/spec/fixtures/page-viewers"
     },
     "template_data": {
         "base": {
