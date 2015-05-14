@@ -12,6 +12,7 @@ class EsbPage {
 
     self.parsed_esb_components = [];
     self.parsed_esb_page_viewers = [];
+
     // page cache of components
     self.components = {};
     self.component_variations = {};
@@ -61,8 +62,7 @@ class EsbPage {
 
   parseEsbComponents() {
     var self = this,
-      queued_components = [],
-      components = [];
+      queued_components = [];
 
     self.name  = self.retrievePageTitle();
     self.$root = self.retrieveRootElement();
@@ -85,21 +85,20 @@ class EsbPage {
         component: queued_component.component
       });
 
-      components.push(component);
+      self.parsed_esb_components.push(component);
     });
-
-    self.parsed_esb_components = components;   
   }
 
   parseEsbPageViewers() {
     var self = this,
         page_viewers = [],
         i = 0;
+
     self.name  = self.retrievePageTitle();
     self.$root = self.retrieveRootElement();
 
     page_viewers = self.$root[0].querySelectorAll('*[data-esb-page-viewer]');
-    
+
     for (i=0; i < page_viewers.length; i++) {
       let uuid = EsbUtil.generateUUID();
 
