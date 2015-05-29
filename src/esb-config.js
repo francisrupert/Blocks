@@ -13,9 +13,10 @@ class EsbConfig {
 
   load(url) {
     var self = this,
-        uri, 
-        req, 
+        uri,
+        req,
         data;
+
     return new Promise(function(resolve, reject) {
       uri = url || self.url;
       req = new XMLHttpRequest();
@@ -25,7 +26,7 @@ class EsbConfig {
       req.open('GET', uri);
 
       req.onload = function() {
-        if (req.status === 200) {
+        if (req.status === 200 || req.readyState === 4) {
           data = JSON.parse(req.response);
           self.merge(data);
           self.setLoggingLevel();
