@@ -3,7 +3,7 @@ import EsbConfig from 'src/esb-config';
 import EsbPage from 'src/esb-page';
 import { EsbPageViewer } from 'src/esb-page-viewer';
 
-describe("Blocks Page parsing", function(){
+describe("EsbPage", function(){
 	var components = null;
 
 	beforeEach(function(done){
@@ -15,10 +15,36 @@ describe("Blocks Page parsing", function(){
 		});
 	});
 
+	it("should have a method called blocks_done that returns a promise that resolves when blocks_done is set to true within the timeout", function(done){
+		var promise = EsbPage.blocksDone();
+		spyOn(EsbPage, 'getBlocksDone').and.returnValue(true);
+
+		promise.then(function(value){
+			expect(value).toEqual(true);
+			done();
+		});
+	});
+
+	it("should have a method called blocks_done that returns a promise that rejects when blocks_done is still false after the timeout", function(done){
+		spyOn(EsbPage, 'getBlocksDone').and.returnValue(false);
+		spyOn(EsbPage, 'getBlocksDoneTimeout').and.returnValue(20);
+		
+		var promise = EsbPage.blocksDone();
+
+		promise.then(
+			function(value){
+				expect(true).toEqual('The promise should not resolve, but it is'); //this expectation is only here to ensure the test fails properly
+			},
+			function(error_msg){
+				expect(error_msg).toEqual('Blocks did not finish processing the page before the timeout threshold: 20ms');
+				done();
+			}
+		);
+	});
+
 	describe("when there are no blocks components found", function(){
 		beforeEach(function(){
 			loadFixtures('page-with-no-components.html');
-
 			spyOn(EsbPage, 'retrievePageTitle').and.returnValue('Jasmine Test Title');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();

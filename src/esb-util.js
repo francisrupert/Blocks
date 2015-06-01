@@ -50,6 +50,23 @@ class EsbUtil {
     return val;
   }
 
+  throttle(delay, callback) {
+    var previousCall = new Date().getTime();
+    return function() {
+        var time = new Date().getTime();
+
+        //
+        // if "delay" milliseconds have expired since
+        // the previous call then propagate this call to
+        // "callback"
+        //
+        if ((time - previousCall) >= delay) {
+            previousCall = time;
+            callback.apply(null, arguments);
+        }
+    };
+  }
+
   /**
    * @method: generateUUID
    *
