@@ -1,3 +1,9 @@
+.esb-page-viewer--is-loading {
+  background: red; }
+
+.esb-page-viewer--is-loading.esb-page-viewer--is-loaded {
+  background: green; }
+
 .esb-component-loading-error {
   position: fixed;
   top: 0;

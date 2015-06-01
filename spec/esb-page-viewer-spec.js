@@ -1,5 +1,6 @@
 import EsbConfig from 'src/esb-config';
 import EsbUtil from 'src/esb-util';
+import EsbPage from 'src/esb-page';
 import { EsbPageViewer } from 'src/esb-page-viewer';
 
 function load_page_viewer(fixture, uuid) {
@@ -62,8 +63,9 @@ describe("EsbPageViewer", function(){
 		});
 
 		it("should load immediately", function(){
+			spyOn(page_viewer, 'load_iframe');
 			page_viewer.inject_placeholder();
-		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+			expect(page_viewer.load_iframe).toHaveBeenCalled();
 		});
 	});
 
@@ -107,7 +109,7 @@ describe("EsbPageViewer", function(){
 		});
 	});
 
-	describe("with no data-source attribute", function(){
+	describe("with no data-source attribute visible at the top of the page", function(){
 		beforeEach(function(){
 			page_viewer = load_page_viewer('page-viewer-with-no-data-source-attribute.html');
 		});
@@ -136,10 +138,10 @@ describe("EsbPageViewer", function(){
 			expect(page_viewer.is_visible()).toEqual(true);
 		});
 
-		xit ("should automatically load", function(){
-			spyOn(page_viewer, 'load_iframe');
+		it ("should automatically load after BlocksDone has been called", function(){
+			spyOn(EsbPage, 'blocksDone').and.returnValue({then: function(){return true;}});
 			page_viewer.inject_placeholder();
-			expect(page_viewer.load_iframe).toHaveBeenCalled();
+			expect(EsbPage.blocksDone).toHaveBeenCalled();
 		});
 	});
 

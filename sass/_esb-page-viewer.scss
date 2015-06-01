@@ -1,0 +1,7 @@
+.esb-page-viewer--is-loading {
+	background: red;
+}
+
+.esb-page-viewer--is-loading.esb-page-viewer--is-loaded {
+	background: green;
+}

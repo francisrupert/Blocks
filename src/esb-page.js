@@ -9,6 +9,8 @@ class EsbPage {
 
     self.logger = EsbUtil.logger;
     self.timer = EsbUtil.timer();
+    self.blocks_done = false;
+    self.blocks_done_timeout_ms = 15000;
 
     self.parsed_esb_components = [];
     self.parsed_esb_page_viewers = [];
@@ -221,10 +223,49 @@ class EsbPage {
       }
 
       window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
+      self.blocks_done = true;
 
       self.time_duration = self.timer() - self.time_start;
       self.logger('info', 'TOTAL DURATION: ' + self.time_duration);
     }
+  }
+
+  getBlocksDone() {
+    var self = this;
+    return self.blocks_done;
+  }
+
+  getBlocksDoneTimeout() {
+    var self = this;
+    return self.blocks_done_timeout_ms;
+  }
+
+  blocksDone() {
+    var self = this,
+      timeout_ms = self.getBlocksDoneTimeout(),
+      polling_interval_ms = 500,
+      polling_attempt_threshold = timeout_ms / polling_interval_ms,
+      polling_attempts = 0,
+      blocks_done_interval = false;
+
+
+    return new Promise(function(resolve, reject) {
+      blocks_done_interval = setInterval(function(){
+        if (polling_attempts < polling_attempt_threshold) {
+          if (self.getBlocksDone()) {
+            resolve(true);
+            clearInterval(blocks_done_interval);
+          }
+          else {
+            polling_attempts++;
+          }
+        }
+        else {
+          self.logger('error', 'Blocks did not finish processing the page before the timeout threshold: ' + timeout_ms + 'ms');
+          reject('Blocks did not finish processing the page before the timeout threshold: ' + timeout_ms + 'ms');
+        }
+      }, polling_interval_ms);
+    });
   }
 }
 

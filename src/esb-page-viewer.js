@@ -1,5 +1,6 @@
 import EsbConfig from './esb-config';
 import EsbUtil from './esb-util';
+import EsbPage from './esb-page';
 
 export class EsbPageViewer {
 	constructor(opts) {
@@ -17,6 +18,7 @@ export class EsbPageViewer {
 		self.uuid = opts.uuid;
 		self.config = EsbConfig.getConfig();
 		self.set_viewer_options();
+
 		self.set_iframe_src();
 		self.create_placeholder_element();
 	}
@@ -59,17 +61,33 @@ export class EsbPageViewer {
 
 	inject_placeholder() {
 		var self = this;
-
 		self.original_element.outerHTML = self.placeholder_element;
 		self.viewer_element = document.querySelector('*[data-esb-uuid="' + self.uuid + '"]');
 		self.iframe_element = self.viewer_element.querySelector('iframe');
+		self.set_scrollable_ancestors();
 
-		if (self.options['load-immediately']) {
+		self.iframe_element.onload = function(){
+			self.set_state('loaded');
+		};
+
+		if (self.options['load-immediately'] === true) {
 			self.load_iframe();
 		}
 		else {
-			self.set_scrollable_ancestors();
+			EsbPage.blocksDone().then(
+				function(){
+					self.load_iframe_if_visible();
+				},
+				function() {
+					self.logger('error', 'EsbPageViewer ' + self.uuid + ' could not be loaded because Blocks Done did not fire within the Blocks Done Timeout Threshold of: ' + EsbPage.getBlocksDoneTimeout() + 'ms');
+				}
+			);
 		}
+	}
+
+	set_state(state) {
+		var self = this;
+		self.viewer_element.classList.add('esb-page-viewer--is-' + state);
 	}
 
 	set_scrollable_ancestors() {
@@ -80,7 +98,7 @@ export class EsbPageViewer {
 		while (el.parentNode) {
 			el = el.parentNode;
 			if (el.scrollHeight > el.offsetHeight) {
-				if (el.nodeName === 'BODY') {
+				if (el.nodeName === 'BODY' || el.nodeName === 'HTML') {
 					el = window;
 				}
 			  ancestors.push(el);
@@ -101,15 +119,16 @@ export class EsbPageViewer {
 				if (allow_scroll) {
 					allow_scroll = false;
 					self.load_iframe_if_visible();
-					setTimeout(function() { allow_scroll = true; }, 1000);
+					setTimeout(function() { allow_scroll = true; self.load_iframe_if_visible(); }, 1000);
 				}
 			});
 
 			el.addEventListener('resize', function(){
 				if (allow_resize) {
+					self.logger('info', 'listenting for resize');
 					allow_resize = false;
 					self.load_iframe_if_visible();
-					setTimeout(function() { allow_resize = true; }, 1000);
+					setTimeout(function() { allow_resize = true; self.load_iframe_if_visible(); }, 1000);
 				}
 			});
 		});
@@ -117,8 +136,12 @@ export class EsbPageViewer {
 
 	load_iframe() {
 		var self = this;
+		self.logger('info', 'BLOCKS VIEWER: ' + self.uuid + ', load_iframe called');
 
-		self.iframe_element.setAttribute('src', self.iframe_element.getAttribute('data-src'));
+		if (self.iframe_element.getAttribute('src') === null) {
+			self.set_state('loading');
+			self.iframe_element.setAttribute('src', self.iframe_element.getAttribute('data-src'));
+		}
 	}
 
 	set_iframe_src() {
