@@ -1,0 +1,10 @@
+{
+	"version": 3,
+	"file": "blocks-viewer.css",
+	"sources": [
+		"../sass/blocks-viewer.scss"
+	],
+	"sourcesContent": [],
+	"mappings": "",
+	"names": []
+}

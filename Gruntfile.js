@@ -4,6 +4,34 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    sass: {
+      dist: {
+        options: {
+          sourceMap: true
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'sass/',
+            src: '*.scss',
+            dest: 'css/',
+            ext: '.css'
+          }
+        ]
+      }
+    },
+    autoprefixer: {
+      options: {
+        map: true, // Use and update the sourcemap
+        browsers: ["last 2 versions"]
+      },
+      project_css: {
+        expand: true,
+        flatten: true,
+        src: 'css/*.css',
+        dest: 'css/'
+      }
+    },
     exec: {
       jspm_build: 'node_modules/.bin/jspm bundle-sfx --minify src/esb dist/esb.min.js'
     },
@@ -13,6 +41,22 @@ module.exports = function(grunt) {
           'css/blocks-viewer.css'
         ],
         dest: 'dist/blocks-viewer.min.css'
+      }
+    },
+    browserSync: {
+      dev: {
+        files: {
+          src : [
+            '*.html',
+            'css/**/*.css',
+            'src/**/*.js'
+          ]
+        },
+        options: {
+          startPath: 'dev.html',
+          watchTask: true,
+          server: './'
+        }
       }
     },
     jshint: {
@@ -35,6 +79,15 @@ module.exports = function(grunt) {
       ],
       gruntfile: 'Gruntfile.js'
     },
+    watch: {
+      styles: {
+        files: [
+          'sass/*.scss',
+          'sass/*/*.scss'
+        ],
+        tasks: ['sass', 'autoprefixer']
+      }
+    },
     karma: {
       unit: {
         configFile: 'karma.conf.js'
@@ -48,6 +101,7 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask('dev', ['browserSync', 'watch']);
   grunt.registerTask('default', ['jshint']);
   grunt.registerTask('build', ['jshint', 'exec']);
   grunt.registerTask('test', ['karma']);
