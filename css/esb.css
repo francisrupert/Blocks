@@ -1,8 +1,37 @@
-.esb-page-viewer--is-loading {
-  background: red; }
+.esb-page-viewer {
+  display: inline-block;
+  border: solid 1px #efefef; }
 
-.esb-page-viewer--is-loading.esb-page-viewer--is-loaded {
-  background: green; }
+.esb-page-viewer-iframe-wrap {
+  position: relative;
+  min-width: 250px;
+  overflow: hidden; }
+  .esb-page-viewer-iframe-wrap:after {
+    transition: opacity 1s ease;
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 1; }
+  .esb-page-viewer-iframe-wrap:before {
+    content: '';
+    display: block;
+    padding-top: 150%; }
+  .esb-page-viewer--is-loaded .esb-page-viewer-iframe-wrap:after {
+    opacity: 0; }
+
+.esb-page-viewer-iframe {
+  width: 1000px;
+  height: 1500px;
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(0.25);
+  transform-origin: 0 0; }
 
 .esb-component-loading-error {
   position: fixed;

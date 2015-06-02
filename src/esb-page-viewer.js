@@ -42,7 +42,7 @@ export class EsbPageViewer {
 	create_placeholder_element() {
 		var self = this;
 
-		self.placeholder_element = '<div class="esb-page-viewer" data-esb-uuid="' + self.uuid + '">' + self.get_iframe() + '</div>';
+		self.placeholder_element = '<div class="esb-page-viewer" data-esb-uuid="' + self.uuid + '"><div class="esb-page-viewer-iframe-wrap">' + self.get_iframe() + '</div></div>';
 	}
 
 	get_iframe() {
@@ -50,7 +50,7 @@ export class EsbPageViewer {
 			iframe = null;
 
 		if (self.iframe_src !== null) {
-			iframe = '<iframe data-src="' + self.iframe_src + '"></iframe>';
+			iframe = '<iframe class="esb-page-viewer-iframe" data-src="' + self.iframe_src + '" scrolling="no"></iframe>';
 		}
 		else {
 			self.logger('error', 'EsbPageViewer cannot create placeholder iframe because no iframe src is set.');
@@ -190,8 +190,10 @@ export class EsbPageViewer {
 			visible = true,
 			ancestors = self.scrollable_ancestors.slice(0),
 			shortest_ancestor_height = null,
+			shortest_ancestor_top = null,
 			visible_threshold = self.viewer_element.getBoundingClientRect().top,
-			ancestor_height;
+			ancestor_height,
+			ancestor_top;
 		
 		if (self.viewer_element.offsetParent === null) {
 			visible = false;
@@ -200,17 +202,23 @@ export class EsbPageViewer {
 			Array.prototype.forEach.call(ancestors, function(el, i){
 				if (ancestors[i+1] !== undefined) {
 					ancestor_height = ancestors[i].getBoundingClientRect().height;
+					ancestor_top = ancestors[i].getBoundingClientRect().top;
 				}
 				else {
 					ancestor_height = window.innerHeight;
+					ancestor_top = 0;
 				}
 
 				if (shortest_ancestor_height === null || shortest_ancestor_height > ancestor_height) {
 					shortest_ancestor_height = ancestor_height;
+					shortest_ancestor_top = ancestor_top;
 				}
 			});
 
-			if (shortest_ancestor_height !== null && visible_threshold >= shortest_ancestor_height) {
+			window.console.log(visible_threshold);
+			window.console.log(shortest_ancestor_height);
+
+			if (shortest_ancestor_height !== null && visible_threshold >= (shortest_ancestor_height + shortest_ancestor_top)) {
 				visible = false;
 			}
 		}

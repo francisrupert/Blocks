@@ -79,7 +79,7 @@ describe("EsbPageViewer", function(){
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="http:\/\/google.com"><\/iframe>/);
+			expect(page_viewer.placeholder_element).toMatch(/data-src="http:\/\/google.com"/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
@@ -100,7 +100,7 @@ describe("EsbPageViewer", function(){
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="some\/made-up\/path\/example.html"><\/iframe>/);
+			expect(page_viewer.placeholder_element).toMatch(/data-src="some\/made-up\/path\/example.html"/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
@@ -119,7 +119,7 @@ describe("EsbPageViewer", function(){
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="base\/spec\/fixtures\/page-viewers\/just-a-default-example.html"><\/iframe>/);
+			expect(page_viewer.placeholder_element).toMatch(/data-src="base\/spec\/fixtures\/page-viewers\/just-a-default-example.html"/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
@@ -189,6 +189,27 @@ describe("EsbPageViewer", function(){
 			wrapper.dispatchEvent(event);
 
 			expect(page_viewer.load_iframe).toHaveBeenCalled();
+		});
+	});
+
+	describe("with title, caption, and href functionality", function(){
+		beforeEach(function(){
+			page_viewer = load_page_viewer('page-viewer-with-title-caption-href-and-immediate-load.html');
+		});
+
+		it ("should have a title", function(){
+			page_viewer.inject_placeholder();
+		    expect($('#jasmine-fixtures h1:contains("My Framed Page")')).toBeInDOM();
+		});
+
+		xit ("should have a title", function(){
+			page_viewer.inject_placeholder();
+		    expect($('#jasmine-fixtures h2:contains("This is smaller caption text")')).toBeInDOM();
+		});
+
+		xit ("should have a title", function(){
+			page_viewer.inject_placeholder();
+		    expect($('#jasmine-fixtures a[href="http://example.com"]')).toBeInDOM();
 		});
 	});
 });
