@@ -1,7 +1,60 @@
-.esb-page-viewer--is-loading {
-	background: red;
+$viewer-width: 200px;
+$viewer-aspect-ratio: 3 / 2;
+$viewer-content-width: 1000px;
+$viewer-scale: $viewer-width / $viewer-content-width;
+
+.esb-page-viewer {
+	display: inline-block;
+	vertical-align: top;
+	background: #e5e5e5;
+	box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
-.esb-page-viewer--is-loading.esb-page-viewer--is-loaded {
-	background: green;
+.esb-page-viewer-iframe-wrap {
+	position:relative;
+	width: $viewer-width;
+	height: $viewer-width * $viewer-aspect-ratio;
+	overflow: hidden;
+
+	&:after {
+		transition: opacity 1s ease, bottom 1s 1s ease;
+		content: '';
+		position:absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: rgba(0,0,0,0.8);
+		opacity: 1;
+	}
+
+	.esb-page-viewer--is-loaded &:after {
+		opacity: 0;
+		bottom: 100%;
+	}
+
+	.esb-page-viewer-has-overlay.esb-page-viewer--is-loaded &:after {
+		bottom: 0;
+	}
+}
+
+.esb-page-viewer-iframe {
+	width: $viewer-content-width;
+	height: ($viewer-aspect-ratio * $viewer-width) / $viewer-scale;
+	border: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: scale($viewer-scale);
+	transform-origin: 0 0;
+}
+
+.esb-page-viewer-title {
+	padding: 10px;
+	margin: 0;
+}
+
+.esb-page-viewer-caption {
+	margin: 0;
+	padding: 0 10px 10px;
 }

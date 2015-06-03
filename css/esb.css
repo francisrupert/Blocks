@@ -1,8 +1,49 @@
-.esb-page-viewer--is-loading {
-  background: red; }
+.esb-page-viewer {
+  display: inline-block;
+  vertical-align: top;
+  background: #e5e5e5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); }
 
-.esb-page-viewer--is-loading.esb-page-viewer--is-loaded {
-  background: green; }
+.esb-page-viewer-iframe-wrap {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  overflow: hidden; }
+  .esb-page-viewer-iframe-wrap:after {
+    transition: opacity 1s ease, bottom 1s 1s ease;
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 1; }
+  .esb-page-viewer--is-loaded .esb-page-viewer-iframe-wrap:after {
+    opacity: 0;
+    bottom: 100%; }
+  .esb-page-viewer-has-overlay.esb-page-viewer--is-loaded .esb-page-viewer-iframe-wrap:after {
+    bottom: 0; }
+
+.esb-page-viewer-iframe {
+  width: 1000px;
+  height: 1500px;
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0; }
+
+.esb-page-viewer-title {
+  padding: 10px;
+  margin: 0; }
+
+.esb-page-viewer-caption {
+  margin: 0;
+  padding: 0 10px 10px; }
 
 .esb-component-loading-error {
   position: fixed;
@@ -13,3 +54,4 @@
   padding: 10px;
   font-size: 18px;
   font-family: Helvetica, Arial, sans-serif; }
+/*# sourceMappingURL=esb.css.map */

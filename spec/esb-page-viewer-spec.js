@@ -46,7 +46,7 @@ describe("EsbPageViewer", function(){
 	});
 
 	it("should have default options", function(){
-		expect(page_viewer.options).toEqual({"load-immediately": false});
+		expect(page_viewer.options).toEqual({"load-immediately": false, "title": false, "caption": false, "href": false, "scrolling": "no", "overlay": true, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
 	});
 
 	it("should have access to BlocksConfig", function(){
@@ -59,7 +59,7 @@ describe("EsbPageViewer", function(){
 		});
 	
 		it("should override the default options", function(){
-			expect(page_viewer.options).toEqual({"load-immediately": true});
+			expect(page_viewer.options).toEqual({"load-immediately": true, "title": false, "caption": false, "href": false, "scrolling": "no", "overlay": true, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
 		});
 
 		it("should load immediately", function(){
@@ -79,7 +79,7 @@ describe("EsbPageViewer", function(){
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="http:\/\/google.com"><\/iframe>/);
+			expect(page_viewer.placeholder_element).toMatch(/data-src="http:\/\/google.com"/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
@@ -100,7 +100,7 @@ describe("EsbPageViewer", function(){
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="some\/made-up\/path\/example.html"><\/iframe>/);
+			expect(page_viewer.placeholder_element).toMatch(/data-src="some\/made-up\/path\/example.html"/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
@@ -119,7 +119,7 @@ describe("EsbPageViewer", function(){
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toMatch(/<iframe data-src="base\/spec\/fixtures\/page-viewers\/just-a-default-example.html"><\/iframe>/);
+			expect(page_viewer.placeholder_element).toMatch(/data-src="base\/spec\/fixtures\/page-viewers\/just-a-default-example.html"/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
@@ -189,6 +189,39 @@ describe("EsbPageViewer", function(){
 			wrapper.dispatchEvent(event);
 
 			expect(page_viewer.load_iframe).toHaveBeenCalled();
+		});
+	});
+
+	describe("with title, caption, and href functionality", function(){
+		beforeEach(function(){
+			page_viewer = load_page_viewer('page-viewer-with-title-caption-href-and-immediate-load.html');
+		});
+
+		it ("should override the default options", function() {
+			expect(page_viewer.options).toEqual({"load-immediately": true, "title": "My Framed Page", "caption": "This is smaller caption text", "href": "http://example.com", "scrolling": "yes", "overlay": false, "viewport-width": "1000", "viewport-aspect-ratio": "1.5", "width": "300"});
+		});
+
+		it ("should have a title", function(){
+			page_viewer.inject_placeholder();
+		    expect($('#jasmine-fixtures h3:contains("My Framed Page")')).toBeInDOM();
+		});
+
+		it ("should have a caption", function(){
+			page_viewer.inject_placeholder();
+		    expect($('#jasmine-fixtures p:contains("This is smaller caption text")')).toBeInDOM();
+		});
+
+		it ("should have a href", function(){
+			page_viewer.inject_placeholder();
+		    expect($('#jasmine-fixtures a[href="http://example.com"]')).toBeInDOM();
+		});
+
+		it ("should calculate the correct width, height, and scale of the iframe ", function(){
+			expect(page_viewer.get_iframe_styles()).toEqual('width:1000px; height:1500px; transform: scale(0.3); -webkit-transform: scale(0.3); ');
+		});
+
+		it ("should calculate the correct width and height of the iframe wrapper", function(){
+			expect(page_viewer.get_iframe_wrap_styles()).toEqual('width:300px; height:450px;');
 		});
 	});
 });
