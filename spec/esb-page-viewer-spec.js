@@ -217,7 +217,7 @@ describe("EsbPageViewer", function(){
 		});
 
 		it ("should calculate the correct width, height, and scale of the iframe ", function(){
-			expect(page_viewer.get_iframe_styles()).toEqual('width:1000px; height:1500px; transform: scale(0.3);');
+			expect(page_viewer.get_iframe_styles()).toEqual('width:1000px; height:1500px; transform: scale(0.3); -webkit-transform: scale(0.3); ');
 		});
 
 		it ("should calculate the correct width and height of the iframe wrapper", function(){
