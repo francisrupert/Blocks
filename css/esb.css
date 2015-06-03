@@ -1,8 +1,8 @@
 .esb-page-viewer {
   display: inline-block;
   vertical-align: top;
-  border: solid 1px #ddd;
-  background: #efefef; }
+  background: #e5e5e5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); }
 
 .esb-page-viewer-iframe-wrap {
   position: relative;
