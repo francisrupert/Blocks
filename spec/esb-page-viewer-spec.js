@@ -5,8 +5,7 @@ import { EsbPageViewer } from 'src/esb-page-viewer';
 
 function load_page_viewer(fixture, uuid) {
 	var page_viewer, page_viewer_snippet;
-
-	uuid = typeof uuid === undefined ? EsbUtil.generateUUID() : uuid;
+	uuid = typeof uuid === 'undefined' ? EsbUtil.generateUUID() : uuid;
 
 	loadFixtures(fixture);
 	page_viewer_snippet = $("#jasmine-fixtures")[0].querySelectorAll('*[data-esb-page-viewer]')[0];
@@ -46,7 +45,7 @@ describe("EsbPageViewer", function(){
 	});
 
 	it("should have default options", function(){
-		expect(page_viewer.options).toEqual({"load-immediately": false, "title": false, "caption": false, "href": false, "scrolling": "no", "overlay": true, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
+		expect(page_viewer.options).toEqual({"load-immediately": false, "title": false, "caption": false, "href": "http://google.com", "scrolling": "no", "overlay": true, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
 	});
 
 	it("should have access to BlocksConfig", function(){
@@ -59,7 +58,7 @@ describe("EsbPageViewer", function(){
 		});
 	
 		it("should override the default options", function(){
-			expect(page_viewer.options).toEqual({"load-immediately": true, "title": false, "caption": false, "href": false, "scrolling": "no", "overlay": true, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
+			expect(page_viewer.options).toEqual({"load-immediately": true, "title": false, "caption": false, "href": "base/spec/fixtures/page-viewers/just-a-default-example.html", "scrolling": "no", "overlay": true, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
 		});
 
 		it("should load immediately", function(){
@@ -87,8 +86,6 @@ describe("EsbPageViewer", function(){
 		    expect($('#jasmine-fixtures iframe[data-src="http://google.com"]')).toBeInDOM();
 		});
 	});
-
-// TODO: describe("when data-source is not defined in config.json")
 
 	describe("with a data-source attribute", function(){
 		beforeEach(function(){
@@ -223,5 +220,35 @@ describe("EsbPageViewer", function(){
 		it ("should calculate the correct width and height of the iframe wrapper", function(){
 			expect(page_viewer.get_iframe_wrap_styles()).toEqual('width:300px; height:450px;');
 		});
+	});
+});
+
+describe("EsbPageViewer with alternate config", function(){
+	var page_viewer = null,
+		page_viewer_snippet = null,
+		uuid = null;
+
+	beforeAll(function(done){
+		jasmine.getFixtures().fixturesPath = 'base/spec/fixtures';
+		EsbConfig.load('base/spec/fixtures/esb-page-viewer-alt-config.json').then(function(data){
+			done();
+		}, function(err){
+			console.log(err);
+		});	
+	});
+
+	describe("with no source specified in the config.json", function() {
+		beforeEach(function(){
+			page_viewer = load_page_viewer('page-viewer-with-alternate-config-json.html');
+		});
+
+		it ("should default to the project root for the source", function (){
+			expect(page_viewer.iframe_src).toEqual('/base/spec/fixtures/page-viewers/just-a-default-example.html');
+		});
+
+		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the component level", function() {
+			expect(page_viewer.options).toEqual({"load-immediately": false, "title": "Global Page Viewer Title", "caption": "This caption is unique to the component", "href": "#link", "scrolling": "yes", "overlay": true, "viewport-width": 500, "viewport-aspect-ratio": 0.5, "width": 300})
+		});
+
 	});
 });

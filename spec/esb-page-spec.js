@@ -42,6 +42,17 @@ describe("EsbPage", function(){
 		);
 	});
 
+	it("should resolve the blocksDone promise immediately if no components are found on the page", function(){
+		spyOn(EsbPage, 'getParsedEsbComponents').and.returnValue([]);
+		EsbPage.display();
+		var promise = EsbPage.blocksDone();
+
+		promise.then(function(value){
+			expect(value).toEqual(true);
+			done();
+		});
+	});
+
 	describe("when there are no blocks components found", function(){
 		beforeEach(function(){
 			loadFixtures('page-with-no-components.html');
