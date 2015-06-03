@@ -26,7 +26,15 @@ export class EsbPageViewer {
 	set_viewer_options() {
 		var self = this,
 			options = {
-				'load-immediately': false
+				'load-immediately': false,
+				'title': false,
+				'caption': false,
+				'href': false,
+				'scrolling': 'no',
+				'overlay': true,
+				'viewport-width': 1000,
+				'viewport-aspect-ratio': 1.5,
+				'width': 200
 			},
 			option = null;
 
@@ -41,16 +49,91 @@ export class EsbPageViewer {
 
 	create_placeholder_element() {
 		var self = this;
+		self.placeholder_element = '<div class="esb-page-viewer ';
+		if (self.options.overlay) { self.placeholder_element += ' esb-page-viewer-has-overlay '; }
+		self.placeholder_element += '" data-esb-uuid="' + self.uuid + '">';
+		if (self.options.href) { self.placeholder_element += '<a class="esb-page-viewer-link" href="' + self.options.href + '">'; }
+		self.placeholder_element += self.get_title();
+		self.placeholder_element += self.get_caption();
+		self.placeholder_element += self.get_iframe_wrap();
+		if (self.options.href) { self.placeholder_element += '</a>'; }
+		self.placeholder_element += '</div>';
+	}
 
-		self.placeholder_element = '<div class="esb-page-viewer" data-esb-uuid="' + self.uuid + '"><div class="esb-page-viewer-iframe-wrap">' + self.get_iframe() + '</div></div>';
+	get_title() {
+		var self = this,
+			title = '';
+		if (self.options.title) {
+			title = '<h3 class="esb-page-viewer-title">' + self.options.title + '</h3>';
+		}
+
+		return title;
+	}
+
+	get_caption() {
+		var self = this,
+			caption = '';
+		if (self.options.caption) {
+			caption = '<p class="esb-page-viewer-caption">' + self.options.caption + '</p>';
+		}
+
+		return caption;
+	}
+
+	get_iframe_wrap_styles() {
+		var self = this,
+			styles = '',
+			height,
+			width;
+
+		if (self.options['viewport-aspect-ratio'] && self.options.width) {
+			width = self.options.width;
+			height = width * self.options['viewport-aspect-ratio'];
+			styles = 'width:' + width + 'px; height:' + height + 'px;';
+		}
+
+		return styles;
+	}
+
+	get_iframe_wrap() {
+		var self = this,
+			iframe_wrap,
+			styles = self.get_iframe_wrap_styles();
+
+		iframe_wrap = '<div class="esb-page-viewer-iframe-wrap"';
+		if (styles.length > 0) { iframe_wrap += ' style="' + styles + '" '; }
+		iframe_wrap += '>' + self.get_iframe() + '</div>';
+
+		return iframe_wrap;
+	}
+
+	get_iframe_styles() {
+		var self = this,
+			styles = '',
+			scale,
+			height,
+			width;
+		
+
+		if (self.options['viewport-width'] && self.options['viewport-aspect-ratio'] && self.options.width) {
+			scale = self.options.width / self.options['viewport-width'];
+			width = self.options['viewport-width'];
+			height = (self.options['viewport-aspect-ratio'] * self.options.width) / scale;
+			styles = 'width:' + width + 'px; height:' + height + 'px; transform: scale(' + scale + '); -webkit-transform: scale(' + scale + '); ';
+		}
+
+		return styles;
 	}
 
 	get_iframe() {
 		var self = this,
-			iframe = null;
+			iframe = null,
+			styles = self.get_iframe_styles();
 
 		if (self.iframe_src !== null) {
-			iframe = '<iframe class="esb-page-viewer-iframe" data-src="' + self.iframe_src + '" scrolling="no"></iframe>';
+			iframe = '<iframe class="esb-page-viewer-iframe" data-src="' + self.iframe_src + '" scrolling="' + self.options.scrolling + '";';
+			if (styles.length > 0) { iframe += ' style="' + styles + '" '; }
+			iframe +='></iframe>';
 		}
 		else {
 			self.logger('error', 'EsbPageViewer cannot create placeholder iframe because no iframe src is set.');
@@ -214,9 +297,6 @@ export class EsbPageViewer {
 					shortest_ancestor_top = ancestor_top;
 				}
 			});
-
-			window.console.log(visible_threshold);
-			window.console.log(shortest_ancestor_height);
 
 			if (shortest_ancestor_height !== null && visible_threshold >= (shortest_ancestor_height + shortest_ancestor_top)) {
 				visible = false;

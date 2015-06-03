@@ -46,7 +46,7 @@ describe("EsbPageViewer", function(){
 	});
 
 	it("should have default options", function(){
-		expect(page_viewer.options).toEqual({"load-immediately": false});
+		expect(page_viewer.options).toEqual({"load-immediately": false, "title": false, "caption": false, "href": false, "scrolling": "no", "overlay": true, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
 	});
 
 	it("should have access to BlocksConfig", function(){
@@ -59,7 +59,7 @@ describe("EsbPageViewer", function(){
 		});
 	
 		it("should override the default options", function(){
-			expect(page_viewer.options).toEqual({"load-immediately": true});
+			expect(page_viewer.options).toEqual({"load-immediately": true, "title": false, "caption": false, "href": false, "scrolling": "no", "overlay": true, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
 		});
 
 		it("should load immediately", function(){
@@ -197,19 +197,31 @@ describe("EsbPageViewer", function(){
 			page_viewer = load_page_viewer('page-viewer-with-title-caption-href-and-immediate-load.html');
 		});
 
+		it ("should override the default options", function() {
+			expect(page_viewer.options).toEqual({"load-immediately": true, "title": "My Framed Page", "caption": "This is smaller caption text", "href": "http://example.com", "scrolling": "yes", "overlay": false, "viewport-width": "1000", "viewport-aspect-ratio": "1.5", "width": "300"});
+		});
+
 		it ("should have a title", function(){
 			page_viewer.inject_placeholder();
-		    expect($('#jasmine-fixtures h1:contains("My Framed Page")')).toBeInDOM();
+		    expect($('#jasmine-fixtures h3:contains("My Framed Page")')).toBeInDOM();
 		});
 
-		xit ("should have a title", function(){
+		it ("should have a caption", function(){
 			page_viewer.inject_placeholder();
-		    expect($('#jasmine-fixtures h2:contains("This is smaller caption text")')).toBeInDOM();
+		    expect($('#jasmine-fixtures p:contains("This is smaller caption text")')).toBeInDOM();
 		});
 
-		xit ("should have a title", function(){
+		it ("should have a href", function(){
 			page_viewer.inject_placeholder();
 		    expect($('#jasmine-fixtures a[href="http://example.com"]')).toBeInDOM();
+		});
+
+		it ("should calculate the correct width, height, and scale of the iframe ", function(){
+			expect(page_viewer.get_iframe_styles()).toEqual('width:1000px; height:1500px; transform: scale(0.3);');
+		});
+
+		it ("should calculate the correct width and height of the iframe wrapper", function(){
+			expect(page_viewer.get_iframe_wrap_styles()).toEqual('width:300px; height:450px;');
 		});
 	});
 });
