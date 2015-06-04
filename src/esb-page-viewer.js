@@ -32,6 +32,7 @@ export class EsbPageViewer {
 				'href': self.iframe_src,
 				'scrolling': 'no',
 				'overlay': true,
+				'scale': false,
 				'viewport-width': 1000,
 				'viewport-aspect-ratio': 1.5,
 				'width': 200
@@ -78,12 +79,28 @@ export class EsbPageViewer {
 		self.options = options;
 	}
 
+	get_placeholder_element_styles() {
+		var self = this,
+			styles = '',
+			width = self.options.width;
+
+		if (self.options.scale) {
+			width = self.options['viewport-width'] * self.options.scale;
+		}
+
+		styles = 'width:' + width + 'px; ';
+
+		return styles;
+	}
+
 	create_placeholder_element() {
-		var self = this;
+		var self = this,
+			styles = self.get_placeholder_element_styles();
+
 		self.placeholder_element = '<div class="esb-page-viewer ';
 		if (self.options.overlay) { self.placeholder_element += ' esb-page-viewer-has-overlay '; }
 		self.placeholder_element += '" '; 
-		if (self.options.width) { self.placeholder_element += ' style="width:' + self.options.width + 'px;" '; }
+		if (styles.length > 0) { self.placeholder_element += ' style="' + styles + '" '; }
 		self.placeholder_element +='data-esb-uuid="' + self.uuid + '">';
 		if (self.options.href) { self.placeholder_element += '<a class="esb-page-viewer-link" href="' + self.options.href + '">'; }
 		self.placeholder_element += self.get_title();
@@ -117,10 +134,12 @@ export class EsbPageViewer {
 		var self = this,
 			styles = '',
 			height,
-			width;
+			width = self.options.width;
 
 		if (self.options['viewport-aspect-ratio'] && self.options.width) {
-			width = self.options.width;
+			if (self.options.scale) {
+				width = self.options['viewport-width'] * self.options.scale;
+			}
 			height = width * self.options['viewport-aspect-ratio'];
 			styles = 'width:' + width + 'px; height:' + height + 'px;';
 		}
@@ -150,15 +169,17 @@ export class EsbPageViewer {
 	get_iframe_styles() {
 		var self = this,
 			styles = '',
-			scale,
+			scale = self.options.scale,
 			height,
 			width;
 		
 
 		if (self.options['viewport-width'] && self.options['viewport-aspect-ratio'] && self.options.width) {
-			scale = self.options.width / self.options['viewport-width'];
+			if (!self.options.scale) {
+				scale = self.options.width / self.options['viewport-width'];
+			}
 			width = self.options['viewport-width'];
-			height = (self.options['viewport-aspect-ratio'] * self.options.width) / scale;
+			height = self.options['viewport-aspect-ratio'] * width;
 			styles = 'width:' + width + 'px; height:' + height + 'px; transform: scale(' + scale + '); -webkit-transform: scale(' + scale + '); ';
 		}
 
