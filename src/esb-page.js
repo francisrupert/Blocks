@@ -41,12 +41,18 @@ class EsbPage {
    * Wrapper for parse and load
    */
   display() {
-    var self = this;
+    var self = this,
+        parsed_esb_components = self.getParsedEsbComponents();
 
-    for (let idx in self.parsed_esb_components) {
-      let page_component = self.parsed_esb_components[idx];
+    if (parsed_esb_components.length > 0) {
+      for (let idx in parsed_esb_components) {
+        let page_component = self.parsed_esb_components[idx];
 
-      page_component.load();
+        page_component.load();
+      }
+    }
+    else {
+      self.setBlocksDone();
     }
 
     for (let idx in self.parsed_esb_page_viewers) {
@@ -54,6 +60,11 @@ class EsbPage {
 
       page_viewer.inject_placeholder();
     }
+  }
+
+  getParsedEsbComponents() {
+    var self = this;
+    return self.parsed_esb_components;
   }
 
   parse() {
@@ -222,12 +233,17 @@ class EsbPage {
         $(document).trigger('blocks-done');
       }
 
-      window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
-      self.blocks_done = true;
+      self.setBlocksDone();
 
       self.time_duration = self.timer() - self.time_start;
       self.logger('info', 'TOTAL DURATION: ' + self.time_duration);
     }
+  }
+
+  setBlocksDone() {
+    var self = this;
+    window.blocks_done = true; //Set globally accessible blocks_done variable so other scripts/processes that may be loaded after blocks can query to see if Blocks has finished doing its thing
+    self.blocks_done = true;
   }
 
   getBlocksDone() {

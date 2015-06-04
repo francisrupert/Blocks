@@ -17,9 +17,9 @@ export class EsbPageViewer {
 		self.original_snippet = opts.original_snippet;
 		self.uuid = opts.uuid;
 		self.config = EsbConfig.getConfig();
+		self.set_iframe_src();
 		self.set_viewer_options();
 
-		self.set_iframe_src();
 		self.create_placeholder_element();
 	}
 
@@ -29,15 +29,46 @@ export class EsbPageViewer {
 				'load-immediately': false,
 				'title': false,
 				'caption': false,
-				'href': false,
+				'href': self.iframe_src,
 				'scrolling': 'no',
 				'overlay': true,
 				'viewport-width': 1000,
 				'viewport-aspect-ratio': 1.5,
 				'width': 200
 			},
-			option = null;
+			option = null,
+			el = self.original_element,
+			page_level_config_element = false,
+			config_json_global_options = self.config.get('page-viewers');
 
+		// Global config
+		if (config_json_global_options !== undefined) {
+			for (option in options) {
+				if (config_json_global_options.get(option) !== undefined) {
+					options[option] = EsbUtil.booleanXorValue(config_json_global_options.get(option));
+				}
+			}
+		}
+
+		// Page level config
+		while (el.parentNode) {
+			el = el.parentNode;
+			if (el.tagName !== undefined && el.getAttribute('data-esb-page-viewer-config') !== null) {
+				page_level_config_element = el;
+				break;
+			}
+		}
+
+		if (page_level_config_element) {
+			for (option in options) {
+				if (page_level_config_element.getAttribute('data-' + option) !== null) {
+					options[option] = EsbUtil.booleanXorValue(page_level_config_element.getAttribute('data-' + option));
+				}
+			}
+		}
+
+
+		// Viewer level config
 		for (option in options) {
 			if (self.original_element.getAttribute('data-' + option) !== null) {
 				options[option] = EsbUtil.booleanXorValue(self.original_element.getAttribute('data-' + option));
@@ -51,7 +82,9 @@ export class EsbPageViewer {
 		var self = this;
 		self.placeholder_element = '<div class="esb-page-viewer ';
 		if (self.options.overlay) { self.placeholder_element += ' esb-page-viewer-has-overlay '; }
-		self.placeholder_element += '" data-esb-uuid="' + self.uuid + '">';
+		self.placeholder_element += '" '; 
+		if (self.options.width) { self.placeholder_element += ' style="width:' + self.options.width + 'px;" '; }
+		self.placeholder_element +='data-esb-uuid="' + self.uuid + '">';
 		if (self.options.href) { self.placeholder_element += '<a class="esb-page-viewer-link" href="' + self.options.href + '">'; }
 		self.placeholder_element += self.get_title();
 		self.placeholder_element += self.get_caption();
@@ -102,9 +135,16 @@ export class EsbPageViewer {
 
 		iframe_wrap = '<div class="esb-page-viewer-iframe-wrap"';
 		if (styles.length > 0) { iframe_wrap += ' style="' + styles + '" '; }
-		iframe_wrap += '>' + self.get_iframe() + '</div>';
+		iframe_wrap += '>';
+		iframe_wrap += self.get_loading_animation();
+		iframe_wrap += self.get_iframe();
+		iframe_wrap += '</div>';
 
 		return iframe_wrap;
+	}
+
+	get_loading_animation() {
+		return '<div class="esb-loading-animation"></div>';
 	}
 
 	get_iframe_styles() {
@@ -188,6 +228,10 @@ export class EsbPageViewer {
 			}
 		}
 
+		if (ancestors.length === 0) {
+			ancestors.push(document);
+		}
+
 		self.scrollable_ancestors = ancestors;
 		self.monitor_scrollable_ancestors();
 	}
@@ -219,9 +263,9 @@ export class EsbPageViewer {
 
 	load_iframe() {
 		var self = this;
-		self.logger('info', 'BLOCKS VIEWER: ' + self.uuid + ', load_iframe called');
 
 		if (self.iframe_element.getAttribute('src') === null) {
+		self.logger('info', 'BLOCKS VIEWER: ' + self.uuid + ', load_iframe called');
 			self.set_state('loading');
 			self.iframe_element.setAttribute('src', self.iframe_element.getAttribute('data-src'));
 		}
@@ -250,10 +294,15 @@ export class EsbPageViewer {
 		path = self.original_element.getAttribute('data-source');
 
 		if (path === null) {
-			path = self.config.get('page-viewers').get('source');
+			if (self.config.get('page-viewers') !== undefined && self.config.get('page-viewers').get('source') !== undefined) {
+				path = self.config.get('page-viewers').get('source');
+			}
+			else {
+				path = '';
+			}
 		}
 
-		if (path.slice(-1) !== '/') {
+		if (path.length > 0 && path.slice(-1) !== '/') {
 			path += '/';
 		}
 
