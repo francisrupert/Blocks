@@ -242,8 +242,8 @@ describe("EsbPageViewer with alternate config", function(){
 			page_viewer = load_page_viewer('page-viewer-with-alternate-config-json.html');
 		});
 
-		it ("should default to the project root for the source", function (){
-			expect(page_viewer.iframe_src).toEqual('/base/spec/fixtures/page-viewers/just-a-default-example.html');
+		it ("should use a relative path for the source", function (){
+			expect(page_viewer.iframe_src).toEqual('base/spec/fixtures/page-viewers/just-a-default-example.html');
 		});
 
 		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the component level", function() {
