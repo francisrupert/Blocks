@@ -29,13 +29,15 @@ export class EsbPageViewer {
 				'load-immediately': false,
 				'title': false,
 				'caption': false,
+				'dimensions': true,
 				'href': self.iframe_src,
 				'scrolling': 'no',
 				'overlay': true,
 				'scale': false,
 				'viewport-width': 1000,
 				'viewport-aspect-ratio': 1.5,
-				'width': 200
+				'width': 200,
+				'height': false
 			},
 			option = null,
 			el = self.original_element,
@@ -105,6 +107,7 @@ export class EsbPageViewer {
 		if (self.options.href) { self.placeholder_element += '<a class="esb-page-viewer-link" href="' + self.options.href + '">'; }
 		self.placeholder_element += self.get_title();
 		self.placeholder_element += self.get_caption();
+		self.placeholder_element += self.get_dimensions_annotation();
 		self.placeholder_element += self.get_iframe_wrap();
 		if (self.options.href) { self.placeholder_element += '</a>'; }
 		self.placeholder_element += '</div>';
@@ -130,6 +133,20 @@ export class EsbPageViewer {
 		return caption;
 	}
 
+	get_dimensions_annotation() {
+		var self = this,
+			dimensions = self.get_iframe_dimensions(),
+			dimensions_annotation = '';
+		
+		if (self.options.dimensions && dimensions.width && dimensions.height && dimensions.scale) {
+			dimensions_annotation = '<p class="esb-page-viewer-dimensions-annotation">';
+			dimensions_annotation += Math.round(dimensions.width) + '&times;' + Math.round(dimensions.height) + 'px @ ' + parseFloat((dimensions.scale*100).toFixed(1)) + '% scale';
+			dimensions_annotation += '</p>';
+		}
+
+		return dimensions_annotation;
+	}
+
 	get_iframe_wrap_styles() {
 		var self = this,
 			styles = '',
@@ -140,7 +157,13 @@ export class EsbPageViewer {
 			if (self.options.scale) {
 				width = self.options['viewport-width'] * self.options.scale;
 			}
-			height = width * self.options['viewport-aspect-ratio'];
+
+			if (self.options.height) {
+				height = self.options.height;
+			}
+			else {
+				height = width * self.options['viewport-aspect-ratio'];
+			}
 			styles = 'width:' + width + 'px; height:' + height + 'px;';
 		}
 
@@ -169,21 +192,46 @@ export class EsbPageViewer {
 	get_iframe_styles() {
 		var self = this,
 			styles = '',
-			scale = self.options.scale,
-			height,
-			width;
+			dimensions = self.get_iframe_dimensions();
 		
+
+		if (dimensions.width && dimensions.height && dimensions.scale) {
+			styles = 'width:' + dimensions.width + 'px; height:' + dimensions.height + 'px; transform: scale(' + dimensions.scale + '); -webkit-transform: scale(' + dimensions.scale + '); ';
+		}
+
+		return styles;
+	}
+
+	get_iframe_dimensions() {
+		var self = this,
+		scale = self.options.scale,
+		height, 
+		width,
+		dimensions = {
+			'width': null,
+			'height': null,
+			'scale': null
+		};
 
 		if (self.options['viewport-width'] && self.options['viewport-aspect-ratio'] && self.options.width) {
 			if (!self.options.scale) {
 				scale = self.options.width / self.options['viewport-width'];
 			}
 			width = self.options['viewport-width'];
-			height = self.options['viewport-aspect-ratio'] * width;
-			styles = 'width:' + width + 'px; height:' + height + 'px; transform: scale(' + scale + '); -webkit-transform: scale(' + scale + '); ';
+
+			if (self.options.height) {
+				height = self.options.height / scale;
+			}
+			else {
+				height = self.options['viewport-aspect-ratio'] * width;
+			}
+
+			dimensions.height = height;
+			dimensions.width = width;
+			dimensions.scale = scale;
 		}
 
-		return styles;
+		return dimensions;
 	}
 
 	get_iframe() {

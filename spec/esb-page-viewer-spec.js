@@ -45,7 +45,7 @@ describe("EsbPageViewer", function(){
 	});
 
 	it("should have default options", function(){
-		expect(page_viewer.options).toEqual({"load-immediately": false, "title": false, "caption": false, "href": "http://google.com", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
+		expect(page_viewer.options).toEqual({"load-immediately": false, "title": false, "caption": false, "dimensions": true, "href": "http://google.com", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false});
 	});
 
 	it("should have access to BlocksConfig", function(){
@@ -58,7 +58,7 @@ describe("EsbPageViewer", function(){
 		});
 	
 		it("should override the default options", function(){
-			expect(page_viewer.options).toEqual({"load-immediately": true, "title": false, "caption": false, "href": "base/spec/fixtures/page-viewers/just-a-default-example.html", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200});
+			expect(page_viewer.options).toEqual({"load-immediately": true, "title": false, "caption": false, "dimensions": true, "href": "base/spec/fixtures/page-viewers/just-a-default-example.html", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false});
 		});
 
 		it("should load immediately", function(){
@@ -195,7 +195,7 @@ describe("EsbPageViewer", function(){
 		});
 
 		it ("should override the default options", function() {
-			expect(page_viewer.options).toEqual({"load-immediately": true, "title": "My Framed Page", "caption": "This is smaller caption text", "href": "http://example.com", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": "1000", "viewport-aspect-ratio": "1.5", "width": "300"});
+			expect(page_viewer.options).toEqual({"load-immediately": true, "title": "My Framed Page", "caption": "This is smaller caption text", "dimensions": true, "href": "http://example.com", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": "1000", "viewport-aspect-ratio": "1.5", "width": "300", "height": false});
 		});
 
 		it ("should have a title", function(){
@@ -239,6 +239,28 @@ describe("EsbPageViewer", function(){
 			expect(page_viewer.get_placeholder_element_styles()).toEqual('width:80px; ');
 		});
 	});
+
+	describe("with data-esb-height option set", function() {
+		beforeEach(function(){
+			page_viewer = load_page_viewer('page-viewer-with-height-option.html');
+		});
+
+		it ("should calculate the correct width, height, and scale of the iframe ", function(){
+			expect(page_viewer.get_iframe_styles()).toEqual('width:320px; height:1200px; transform: scale(0.25); -webkit-transform: scale(0.25); ');
+		});
+
+		it ("should calculate the correct width and height of the iframe wrapper", function(){
+			expect(page_viewer.get_iframe_wrap_styles()).toEqual('width:80px; height:300px;');
+		});
+
+		it ("should calculate the correct width of the outer wrapper", function(){
+			expect(page_viewer.get_placeholder_element_styles()).toEqual('width:80px; ');
+		});
+
+		it ("should create a dimensions string", function() {
+			expect(page_viewer.get_dimensions_annotation()).toEqual('<p class="esb-page-viewer-dimensions-annotation">320&times;1200px @ 25% scale</p>');
+		});
+	});
 });
 
 describe("EsbPageViewer with alternate config", function(){
@@ -265,8 +287,7 @@ describe("EsbPageViewer with alternate config", function(){
 		});
 
 		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the component level", function() {
-			expect(page_viewer.options).toEqual({"load-immediately": false, "title": "Global Page Viewer Title", "caption": "This caption is unique to the component", "href": "#link", "scrolling": "yes", "overlay": true, "scale": false, "viewport-width": 500, "viewport-aspect-ratio": 0.5, "width": 300})
+			expect(page_viewer.options).toEqual({"load-immediately": false, "title": "Global Page Viewer Title", "caption": "This caption is unique to the component", "dimensions": false, "href": "#link", "scrolling": "yes", "overlay": true, "scale": false, "viewport-width": 500, "viewport-aspect-ratio": 0.5, "width": 300, "height": false})
 		});
-
 	});
 });

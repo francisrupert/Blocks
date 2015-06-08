@@ -54,7 +54,17 @@
 
 .esb-page-viewer-caption {
   margin: 0;
-  padding: 0 10px 10px; }
+  padding: 0 10px 10px;
+  color: #666; }
+
+.esb-page-viewer-dimensions-annotation {
+  font-size: 0.8em;
+  color: #999;
+  margin: 0;
+  padding: 10px; }
+  .esb-page-viewer-caption + .esb-page-viewer-dimensions-annotation,
+  .esb-page-viewer-title + .esb-page-viewer-dimensions-annotation {
+    padding-top: 0; }
 
 .esb-loading-animation,
 .esb-loading-animation:before,

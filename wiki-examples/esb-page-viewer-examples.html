@@ -30,14 +30,14 @@
 			<p>This is how to display the same page at multiple viewports to get a side-by-side responsive comparison.</p>
 			<pre>
 				<code>
-&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.25" data-esb-title="iPhone"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-scale="0.25" data-esb-title="iPad"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-scale="0.25" data-esb-title="Desktop"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPhone"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPad"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-height="300" data-esb-scale="0.25" data-esb-title="Desktop"&gt;&lt;/div&gt;
 				</code>
 			</pre>
-			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.25" data-esb-title="iPhone"></div>
-			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-scale="0.25" data-esb-title="iPad"></div>
-			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-scale="0.25" data-esb-title="Desktop"></div>
+			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPhone"></div>
+			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPad"></div>
+			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-height="300" data-esb-scale="0.25" data-esb-title="Desktop"></div>
 
 			<h2 id="gallery-example">Gallery Example</h2>
 			<p>This is how to display multiple pages side-by-side</p>
@@ -60,8 +60,8 @@
 			<p>Use on page config to wrap certain viewers with options that you don't want to apply to other viewers</p>
 			<pre>
 				<code>
-&lt;h4&gt;280px wide&lt;/h4&gt;
-&lt;div data-esb-page-viewer-config="" data-esb-width="280"&gt;
+&lt;h4&gt;280px wide, hide dimensions annotation&lt;/h4&gt;
+&lt;div data-esb-page-viewer-config="" data-esb-dimensions="false" data-esb-width="280"&gt;
 	&lt;div data-esb-page-viewer="http://css-tricks.com"&gt;&lt;/div&gt;
 	&lt;div data-esb-page-viewer="http://css-tricks.com/video-screencasts"&gt;&lt;/div&gt;
 	&lt;div data-esb-page-viewer="http://css-tricks.com/almanac"&gt;&lt;/div&gt;
@@ -76,8 +76,8 @@
 &lt;div data-esb-page-viewer="http://css-tricks.com/forums"&gt;&lt;/div&gt;
 				</code>
 			</pre>
-			<h4>280px wide</h4>
-			<div data-esb-page-viewer-config="" data-esb-width="280">
+			<h4>280px wide, hide dimensions annotation</h4>
+			<div data-esb-page-viewer-config="" data-esb-dimensions="false" data-esb-width="280">
 				<div data-esb-page-viewer="http://css-tricks.com"></div>
 				<div data-esb-page-viewer="http://css-tricks.com/video-screencasts"></div>
 				<div data-esb-page-viewer="http://css-tricks.com/almanac"></div>

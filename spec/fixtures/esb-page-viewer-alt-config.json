@@ -7,7 +7,8 @@
     "page-viewers": {
         "load-immediately": false, 
         "title": "Global Page Viewer Title", 
-        "caption": "Global Page Viewer Caption", 
+        "caption": "Global Page Viewer Caption",
+        "dimensions": false,
         "href": "#link", 
         "scrolling": "yes", 
         "overlay": false, 
