@@ -1,9 +1,29 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="../css/esb.css">
+		<link rel="stylesheet" href="../css/esb-documentation.css">
 		<script src="../dist/esb.min.js"></script>
 	</head>
 	<body>
-		<div data-esb-page-viewer="http://example.com"></div>
+		<div class="esb-documentation-wrap">
+			<h1>ESB Page Viewer Examples</h1>
+			<h2 id="default-example">Default Example</h2>
+			<div data-esb-page-viewer="http://example.com"></div>
+			<code>
+				&lt;div data-esb-page-viewer="http://example.com"&gt;&lt;/div&gt;
+			</code>
+
+			<h2 id="responsive-example">Responsive Example</h2>
+			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.25" data-esb-title="iPhone"></div>
+			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-scale="0.25" data-esb-title="iPad"></div>
+			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-scale="0.25" data-esb-title="Desktop"></div>
+			<pre>
+				<code>
+&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.25" data-esb-title="iPhone"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-scale="0.25" data-esb-title="iPad"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-scale="0.25" data-esb-title="Desktop"&gt;&lt;/div&gt;
+				</code>
+			</pre>
+		</div>
 	</body>
 </html>
