@@ -1,0 +1,121 @@
+.esb-page-viewer {
+  display: inline-block;
+  vertical-align: top;
+  background: #e5e5e5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  min-width: 200px;
+  font-family: 'Helvetica', 'Arial', sans-serif; }
+
+.esb-page-viewer-iframe-wrap {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  overflow: hidden;
+  background: #ccc; }
+  .esb-page-viewer-iframe-wrap:after {
+    transition: opacity 1s ease, bottom 1s 1s ease;
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 1; }
+  .esb-page-viewer--is-loaded .esb-page-viewer-iframe-wrap:after {
+    opacity: 0;
+    bottom: 100%; }
+  .esb-page-viewer-has-overlay.esb-page-viewer--is-loaded .esb-page-viewer-iframe-wrap:after {
+    bottom: 0; }
+
+.esb-page-viewer-link {
+  color: #5fb3ce;
+  text-decoration: none; }
+  .esb-page-viewer-link:visited {
+    color: #000099; }
+  .esb-page-viewer-link:hover {
+    text-decoration: underline; }
+
+.esb-page-viewer-iframe {
+  width: 1000px;
+  height: 1500px;
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2);
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0; }
+
+.esb-page-viewer-title {
+  padding: 10px;
+  margin: 0; }
+
+.esb-page-viewer-caption {
+  margin: 0;
+  padding: 0 10px 10px; }
+
+.esb-loading-animation,
+.esb-loading-animation:before,
+.esb-loading-animation:after {
+  background: #FFF;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em; }
+
+.esb-loading-animation:before,
+.esb-loading-animation:after {
+  position: absolute;
+  top: 0;
+  content: ''; }
+
+.esb-loading-animation:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s; }
+
+.esb-loading-animation {
+  text-indent: -9999em;
+  margin: 8em auto;
+  position: relative;
+  font-size: 11px;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s; }
+
+.esb-loading-animation:after {
+  left: 1.5em; }
+
+@-webkit-keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0 #FFF;
+    height: 4em; }
+  40% {
+    box-shadow: 0 -2em #ffffff;
+    height: 5em; } }
+
+@keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0 #FFF;
+    height: 4em; }
+  40% {
+    box-shadow: 0 -2em #ffffff;
+    height: 5em; } }
+
+.esb-component-loading-error {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  color: red;
+  padding: 10px;
+  font-size: 18px;
+  font-family: Helvetica, Arial, sans-serif; }
+/*# sourceMappingURL=esb.css.map */
