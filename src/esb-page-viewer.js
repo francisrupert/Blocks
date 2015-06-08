@@ -62,8 +62,8 @@ export class EsbPageViewer {
 
 		if (page_level_config_element) {
 			for (option in options) {
-				if (page_level_config_element.getAttribute('data-' + option) !== null) {
-					options[option] = EsbUtil.booleanXorValue(page_level_config_element.getAttribute('data-' + option));
+				if (page_level_config_element.getAttribute('data-esb-' + option) !== null) {
+					options[option] = EsbUtil.booleanXorValue(page_level_config_element.getAttribute('data-esb-' + option));
 				}
 			}
 		}
@@ -71,8 +71,8 @@ export class EsbPageViewer {
 
 		// Viewer level config
 		for (option in options) {
-			if (self.original_element.getAttribute('data-' + option) !== null) {
-				options[option] = EsbUtil.booleanXorValue(self.original_element.getAttribute('data-' + option));
+			if (self.original_element.getAttribute('data-esb-' + option) !== null) {
+				options[option] = EsbUtil.booleanXorValue(self.original_element.getAttribute('data-esb-' + option));
 			}
 		}
 
@@ -257,28 +257,41 @@ export class EsbPageViewer {
 		self.monitor_scrollable_ancestors();
 	}
 
-	monitor_scrollable_ancestors() {
+	debounce_scroll_event() {
 		var self = this,
-			allow_scroll = true,
-			allow_resize = true;
+		allow_scroll = true;
+		if (allow_scroll) {
+			allow_scroll = false;
+			self.load_iframe_if_visible();
+			setTimeout(function() { allow_scroll = true; self.load_iframe_if_visible(); }, 1000);
+		}
+	}
+
+	debounce_resize_event() {
+		var self = this,
+		allow_resize = true;
+		if (allow_resize) {
+			allow_resize = false;
+			self.load_iframe_if_visible();
+			setTimeout(function() { allow_resize = true; self.load_iframe_if_visible(); }, 1000);
+		}
+	}
+
+	monitor_scrollable_ancestors() {
+		var self = this;
 
 		Array.prototype.forEach.call(self.scrollable_ancestors, function(el){
-			el.addEventListener('scroll', function(){
-				if (allow_scroll) {
-					allow_scroll = false;
-					self.load_iframe_if_visible();
-					setTimeout(function() { allow_scroll = true; self.load_iframe_if_visible(); }, 1000);
-				}
-			});
+			el.addEventListener('scroll', self.debounce_scroll_event.bind(self));
+			el.addEventListener('resize', self.debounce_resize_event.bind(self));
+		});
+	}
 
-			el.addEventListener('resize', function(){
-				if (allow_resize) {
-					self.logger('info', 'listenting for resize');
-					allow_resize = false;
-					self.load_iframe_if_visible();
-					setTimeout(function() { allow_resize = true; self.load_iframe_if_visible(); }, 1000);
-				}
-			});
+	stop_monitoring_scrollable_ancestors() {
+		var self = this;
+
+		Array.prototype.forEach.call(self.scrollable_ancestors, function(el){
+			el.removeEventListener('scroll', self.debounce_scroll_event.bind(self));
+			el.removeEventListener('resize', self.debounce_resize_event.bind(self));
 		});
 	}
 
@@ -286,7 +299,7 @@ export class EsbPageViewer {
 		var self = this;
 
 		if (self.iframe_element.getAttribute('src') === null) {
-		self.logger('info', 'BLOCKS VIEWER: ' + self.uuid + ', load_iframe called');
+			self.stop_monitoring_scrollable_ancestors();
 			self.set_state('loading');
 			self.iframe_element.setAttribute('src', self.iframe_element.getAttribute('data-src'));
 		}
@@ -312,7 +325,7 @@ export class EsbPageViewer {
 		var self = this,
 			path = null;
 
-		path = self.original_element.getAttribute('data-source');
+		path = self.original_element.getAttribute('data-esb-source');
 
 		if (path === null) {
 			if (self.config.get('page-viewers') !== undefined && self.config.get('page-viewers').get('source') !== undefined) {
