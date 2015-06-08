@@ -8,15 +8,16 @@
 		<div class="esb-documentation-wrap">
 			<h1>ESB Page Viewer Examples</h1>
 			<h2 id="default-example">Default Example</h2>
+			<p>This is the simplest example</p>
+			<pre>
+				<code>
+&lt;div data-esb-page-viewer="http://example.com"&gt;&lt;/div&gt;
+				</code>
+			</pre>
 			<div data-esb-page-viewer="http://example.com"></div>
-			<code>
-				&lt;div data-esb-page-viewer="http://example.com"&gt;&lt;/div&gt;
-			</code>
 
 			<h2 id="responsive-example">Responsive Example</h2>
-			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.25" data-esb-title="iPhone"></div>
-			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-scale="0.25" data-esb-title="iPad"></div>
-			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-scale="0.25" data-esb-title="Desktop"></div>
+			<p>This is how to display the same page at multiple viewports to get a side-by-side responsive comparison.</p>
 			<pre>
 				<code>
 &lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.25" data-esb-title="iPhone"&gt;&lt;/div&gt;
@@ -24,6 +25,61 @@
 &lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-scale="0.25" data-esb-title="Desktop"&gt;&lt;/div&gt;
 				</code>
 			</pre>
+			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.25" data-esb-title="iPhone"></div>
+			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-scale="0.25" data-esb-title="iPad"></div>
+			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-scale="0.25" data-esb-title="Desktop"></div>
+
+			<h2 id="gallery-example">Gallery Example</h2>
+			<p>This is how to display multiple pages side-by-side</p>
+			<pre>
+				<code>
+&lt;div data-esb-page-viewer="http://apple.com/home"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://apple.com/mac"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://apple.com/iphone"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://apple.com/ipad"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://apple.com/watch"&gt;&lt;/div&gt;
+				</code>
+			</pre>
+			<div data-esb-page-viewer="http://apple.com/home"></div>
+			<div data-esb-page-viewer="http://apple.com/mac"></div>
+			<div data-esb-page-viewer="http://apple.com/iphone"></div>
+			<div data-esb-page-viewer="http://apple.com/ipad"></div>
+			<div data-esb-page-viewer="http://apple.com/watch"></div>
+
+			<h2 id="on-page-config-example">On Page Config Example</h2>
+			<p>Use on page config to wrap certain viewers with options that you don't want to apply to other viewers</p>
+			<pre>
+				<code>
+&lt;h4&gt;280px wide&lt;/h4&gt;
+&lt;div data-esb-page-viewer-config="" data-esb-width="280"&gt;
+	&lt;div data-esb-page-viewer="http://css-tricks.com"&gt;&lt;/div&gt;
+	&lt;div data-esb-page-viewer="http://css-tricks.com/video-screencasts"&gt;&lt;/div&gt;
+	&lt;div data-esb-page-viewer="http://css-tricks.com/almanac"&gt;&lt;/div&gt;
+	&lt;div data-esb-page-viewer="http://css-tricks.com/snippets"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;200px wide&lt;/h4&gt;
+&lt;div data-esb-page-viewer="http://css-tricks.com"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://css-tricks.com/video-screencasts"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://css-tricks.com/almanac"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://css-tricks.com/snippets"&gt;&lt;/div&gt;
+&lt;div data-esb-page-viewer="http://css-tricks.com/forums"&gt;&lt;/div&gt;
+				</code>
+			</pre>
+			<h4>280px wide</h4>
+			<div data-esb-page-viewer-config="" data-esb-width="280">
+				<div data-esb-page-viewer="http://css-tricks.com"></div>
+				<div data-esb-page-viewer="http://css-tricks.com/video-screencasts"></div>
+				<div data-esb-page-viewer="http://css-tricks.com/almanac"></div>
+				<div data-esb-page-viewer="http://css-tricks.com/snippets"></div>
+			</div>
+
+			<h4>200px wide</h4>
+			<div data-esb-page-viewer="http://css-tricks.com"></div>
+			<div data-esb-page-viewer="http://css-tricks.com/video-screencasts"></div>
+			<div data-esb-page-viewer="http://css-tricks.com/almanac"></div>
+			<div data-esb-page-viewer="http://css-tricks.com/snippets"></div>
+			<div data-esb-page-viewer="http://css-tricks.com/forums"></div>
 		</div>
 	</body>
 </html>
