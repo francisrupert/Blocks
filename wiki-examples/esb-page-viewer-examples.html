@@ -3,6 +3,17 @@
 		<link rel="stylesheet" href="../css/esb.css">
 		<link rel="stylesheet" href="../css/esb-documentation.css">
 		<script src="../dist/esb.min.js"></script>
+		<script>
+			// simple script to delay positioning of anchor elements
+			if (window.location.hash) {
+				setTimeout(function(){
+					var targetId = window.location.hash.slice(1);
+					var topOfTarget = document.getElementById(targetId).getBoundingClientRect().top;
+					window.scrollTo(0, topOfTarget + document.body.scrollTop);
+					alert(topOfTarget + document.body.scrollTop);
+				}, 1000);
+			}
+		</script>
 	</head>
 	<body>
 		<div class="esb-documentation-wrap">
