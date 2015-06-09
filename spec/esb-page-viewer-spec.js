@@ -203,7 +203,7 @@ describe("EsbPageViewer", function(){
 		});
 	});
 
-	describe("when scrolled out of view", function(){
+	describe("when not yet scrolled into view", function(){
 		beforeEach(function(){
 			page_viewer = load_page_viewer('page-viewer-scrolled-out-of-view.html');
 		});
@@ -230,6 +230,50 @@ describe("EsbPageViewer", function(){
 			wrapper.dispatchEvent(event);
 
 			expect(page_viewer.load_iframe).toHaveBeenCalled();
+		});
+
+		it ("should know the viewer is no longer visible when scrolled out of view", function(){
+			spyOn(page_viewer, 'load_iframe');
+			page_viewer.inject_placeholder();
+
+			// programatically 'scroll' the wrapper div
+			var wrapper = document.getElementById("scrollable-wrapper");
+			wrapper.scrollTop = 1;
+			var scroll = document.createEvent('HTMLEvents');
+			scroll.initEvent('scroll', true, false);
+			wrapper.dispatchEvent(scroll);
+			expect(page_viewer.load_iframe).toHaveBeenCalled();
+
+		    var viewer_height = $('#jasmine-fixtures .esb-page-viewer').height();
+
+			wrapper.scrollTop = 400 + viewer_height; //400 is the height of the element above the viewer in the fixture
+			wrapper.dispatchEvent(scroll);
+			
+			expect(page_viewer.is_visible()).toEqual(false);
+		});
+
+		it ("should automatically unload the iFrame when the viewer is scrolled out of view", function(){
+			spyOn(page_viewer, 'load_iframe');
+			page_viewer.inject_placeholder();
+
+			// programatically 'scroll' the wrapper div
+			var wrapper = document.getElementById("scrollable-wrapper");
+			wrapper.scrollTop = 1;
+			var scroll = document.createEvent('HTMLEvents');
+			scroll.initEvent('scroll', true, false);
+			wrapper.dispatchEvent(scroll);
+			expect(page_viewer.load_iframe).toHaveBeenCalled();
+
+		    var viewer_height = $('#jasmine-fixtures .esb-page-viewer').height();
+
+			spyOn(page_viewer, 'unload_iframe');
+			spyOn(page_viewer, 'is_iframe_loaded').and.returnValue(true);
+			wrapper.scrollTop = 400 + viewer_height; //400 is the height of the element above the viewer in the fixture
+			wrapper.dispatchEvent(scroll);
+
+			expect(page_viewer.is_visible()).toEqual(false);
+			expect(page_viewer.is_iframe_loaded()).toEqual(true);
+			expect(page_viewer.unload_iframe).toHaveBeenCalled();
 		});
 	});
 
