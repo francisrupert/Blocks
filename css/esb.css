@@ -11,7 +11,8 @@
   width: 200px;
   height: 300px;
   overflow: hidden;
-  background: #ccc; }
+  background: #ccc;
+  margin: 0 auto; }
   .esb-page-viewer-iframe-wrap:after {
     transition: opacity 1s ease, bottom 1s 1s ease;
     content: '';
