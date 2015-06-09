@@ -9,7 +9,8 @@ export class EsbPageViewer {
 		self.iframe_src = null;
 		self.placeholder_element = null;
 		self.viewer_element = null;
-		self.viewer_iframe = null;
+		self.iframe_element = null;
+		self.iframe_is_loaded = false;
 		self.options = null;
 		self.scrollable_ancestors = [];
 	    self.logger = EsbUtil.logger;
@@ -251,15 +252,30 @@ export class EsbPageViewer {
 		return iframe;
 	}
 
+	set_event_listeners() {
+		var self = this;
+
+		document.addEventListener('load-esb-page-viewer-' + self.uuid, self.load_iframe.bind(self));
+		document.addEventListener('unload-esb-page-viewer-' + self.uuid, self.unload_iframe.bind(self));
+
+		if (window.$ !== undefined) {
+			// jQuery's event system is separate from the browser's, so set these up so $(document).trigger will work
+			window.$(document).on('load-esb-page-viewer-' + self.uuid, self.load_iframe.bind(self));
+			window.$(document).on('unload-esb-page-viewer-' + self.uuid, self.unload_iframe.bind(self));
+		}
+	}
+
 	inject_placeholder() {
 		var self = this;
 		self.original_element.outerHTML = self.placeholder_element;
 		self.viewer_element = document.querySelector('*[data-esb-uuid="' + self.uuid + '"]');
 		self.iframe_element = self.viewer_element.querySelector('iframe');
 		self.set_scrollable_ancestors();
+		self.set_event_listeners();
 
 		self.iframe_element.onload = function(){
 			self.set_state('loaded');
+			self.iframe_is_loaded = true;
 		};
 
 		if (self.options['load-immediately'] === true) {
@@ -351,6 +367,12 @@ export class EsbPageViewer {
 			self.set_state('loading');
 			self.iframe_element.setAttribute('src', self.iframe_element.getAttribute('data-src'));
 		}
+	}
+
+	unload_iframe() {
+		var self = this;
+		self.iframe_element.outerHTML = self.get_iframe();
+		self.iframe_element = self.viewer_element.querySelector('iframe');
 	}
 
 	set_iframe_src() {

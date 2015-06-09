@@ -130,6 +130,34 @@ describe("EsbPageViewer", function(){
 		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
 		});
 
+		it("should be able to unload the iframe", function(){
+			page_viewer.inject_placeholder();
+			page_viewer.load_iframe();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+
+		    page_viewer.unload_iframe();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).not.toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		});
+
+		it("should be able to programatically unload the iframe by triggering an event", function(){
+			page_viewer.inject_placeholder();
+			page_viewer.load_iframe();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+
+			if (window.CustomEvent) {
+			  var event = new CustomEvent('unload-esb-page-viewer-' + page_viewer.uuid);
+			} else {
+			  var event = document.createEvent('CustomEvent');
+			  event.initCustomEvent('unload-esb-page-viewer-' + page_viewer.uuid, true, true);
+			}
+
+			document.dispatchEvent(event);
+
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).not.toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		});
+
 		it("should be visible", function(){
 			page_viewer.inject_placeholder();
 			expect(page_viewer.is_visible()).toEqual(true);
@@ -156,6 +184,22 @@ describe("EsbPageViewer", function(){
 			page_viewer.inject_placeholder();
 			document.getElementById("hidden-wrapper").style.display = "block";
 			expect(page_viewer.is_visible()).toEqual(true);
+		});
+
+		it("should be able to programmatically load a hidden Page Viewer", function(){
+			spyOn(page_viewer, 'load_iframe');
+			page_viewer.inject_placeholder();
+			expect(page_viewer.iframe_is_loaded).toEqual(false);
+
+			if (window.CustomEvent) {
+			  var event = new CustomEvent('load-esb-page-viewer-' + page_viewer.uuid);
+			} else {
+			  var event = document.createEvent('CustomEvent');
+			  event.initCustomEvent('load-esb-page-viewer-' + page_viewer.uuid, true, true);
+			}
+
+			document.dispatchEvent(event);
+			expect(page_viewer.load_iframe).toHaveBeenCalled();
 		});
 	});
 
