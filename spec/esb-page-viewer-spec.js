@@ -130,6 +130,34 @@ describe("EsbPageViewer", function(){
 		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
 		});
 
+		it("should be able to unload the iframe", function(){
+			page_viewer.inject_placeholder();
+			page_viewer.load_iframe();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+
+		    page_viewer.unload_iframe();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).not.toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		});
+
+		it("should be able to programatically unload the iframe by triggering an event", function(){
+			page_viewer.inject_placeholder();
+			page_viewer.load_iframe();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+
+			if (window.CustomEvent) {
+			  var event = new CustomEvent('unload-esb-page-viewer-' + page_viewer.uuid);
+			} else {
+			  var event = document.createEvent('CustomEvent');
+			  event.initCustomEvent('unload-esb-page-viewer-' + page_viewer.uuid, true, true);
+			}
+
+			document.dispatchEvent(event);
+
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).not.toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		});
+
 		it("should be visible", function(){
 			page_viewer.inject_placeholder();
 			expect(page_viewer.is_visible()).toEqual(true);
@@ -157,9 +185,25 @@ describe("EsbPageViewer", function(){
 			document.getElementById("hidden-wrapper").style.display = "block";
 			expect(page_viewer.is_visible()).toEqual(true);
 		});
+
+		it("should be able to programmatically load a hidden Page Viewer", function(){
+			spyOn(page_viewer, 'load_iframe');
+			page_viewer.inject_placeholder();
+			expect(page_viewer.iframe_is_loaded).toEqual(false);
+
+			if (window.CustomEvent) {
+			  var event = new CustomEvent('load-esb-page-viewer-' + page_viewer.uuid);
+			} else {
+			  var event = document.createEvent('CustomEvent');
+			  event.initCustomEvent('load-esb-page-viewer-' + page_viewer.uuid, true, true);
+			}
+
+			document.dispatchEvent(event);
+			expect(page_viewer.load_iframe).toHaveBeenCalled();
+		});
 	});
 
-	describe("when scrolled out of view", function(){
+	describe("when not yet scrolled into view", function(){
 		beforeEach(function(){
 			page_viewer = load_page_viewer('page-viewer-scrolled-out-of-view.html');
 		});
@@ -186,6 +230,50 @@ describe("EsbPageViewer", function(){
 			wrapper.dispatchEvent(event);
 
 			expect(page_viewer.load_iframe).toHaveBeenCalled();
+		});
+
+		it ("should know the viewer is no longer visible when scrolled out of view", function(){
+			spyOn(page_viewer, 'load_iframe');
+			page_viewer.inject_placeholder();
+
+			// programatically 'scroll' the wrapper div
+			var wrapper = document.getElementById("scrollable-wrapper");
+			wrapper.scrollTop = 1;
+			var scroll = document.createEvent('HTMLEvents');
+			scroll.initEvent('scroll', true, false);
+			wrapper.dispatchEvent(scroll);
+			expect(page_viewer.load_iframe).toHaveBeenCalled();
+
+		    var viewer_height = $('#jasmine-fixtures .esb-page-viewer').height();
+
+			wrapper.scrollTop = 400 + viewer_height; //400 is the height of the element above the viewer in the fixture
+			wrapper.dispatchEvent(scroll);
+			
+			expect(page_viewer.is_visible()).toEqual(false);
+		});
+
+		it ("should automatically unload the iFrame when the viewer is scrolled out of view", function(){
+			spyOn(page_viewer, 'load_iframe');
+			page_viewer.inject_placeholder();
+
+			// programatically 'scroll' the wrapper div
+			var wrapper = document.getElementById("scrollable-wrapper");
+			wrapper.scrollTop = 1;
+			var scroll = document.createEvent('HTMLEvents');
+			scroll.initEvent('scroll', true, false);
+			wrapper.dispatchEvent(scroll);
+			expect(page_viewer.load_iframe).toHaveBeenCalled();
+
+		    var viewer_height = $('#jasmine-fixtures .esb-page-viewer').height();
+
+			spyOn(page_viewer, 'unload_iframe');
+			spyOn(page_viewer, 'is_iframe_loaded').and.returnValue(true);
+			wrapper.scrollTop = 400 + viewer_height; //400 is the height of the element above the viewer in the fixture
+			wrapper.dispatchEvent(scroll);
+
+			expect(page_viewer.is_visible()).toEqual(false);
+			expect(page_viewer.is_iframe_loaded()).toEqual(true);
+			expect(page_viewer.unload_iframe).toHaveBeenCalled();
 		});
 	});
 

@@ -9,7 +9,8 @@ export class EsbPageViewer {
 		self.iframe_src = null;
 		self.placeholder_element = null;
 		self.viewer_element = null;
-		self.viewer_iframe = null;
+		self.iframe_element = null;
+		self.iframe_is_loaded = false;
 		self.options = null;
 		self.scrollable_ancestors = [];
 	    self.logger = EsbUtil.logger;
@@ -21,6 +22,11 @@ export class EsbPageViewer {
 		self.set_viewer_options();
 
 		self.create_placeholder_element();
+	}
+
+	is_iframe_loaded() {
+		var self = this;
+		return self.iframe_is_loaded;
 	}
 
 	set_viewer_options() {
@@ -251,16 +257,27 @@ export class EsbPageViewer {
 		return iframe;
 	}
 
+	set_event_listeners() {
+		var self = this;
+
+		document.addEventListener('load-esb-page-viewer-' + self.uuid, self.load_iframe.bind(self));
+		document.addEventListener('unload-esb-page-viewer-' + self.uuid, self.unload_iframe.bind(self));
+
+		if (window.$ !== undefined) {
+			// jQuery's event system is separate from the browser's, so set these up so $(document).trigger will work
+			window.$(document).on('load-esb-page-viewer-' + self.uuid, self.load_iframe.bind(self));
+			window.$(document).on('unload-esb-page-viewer-' + self.uuid, self.unload_iframe.bind(self));
+		}
+	}
+
 	inject_placeholder() {
 		var self = this;
 		self.original_element.outerHTML = self.placeholder_element;
 		self.viewer_element = document.querySelector('*[data-esb-uuid="' + self.uuid + '"]');
 		self.iframe_element = self.viewer_element.querySelector('iframe');
 		self.set_scrollable_ancestors();
-
-		self.iframe_element.onload = function(){
-			self.set_state('loaded');
-		};
+		self.set_event_listeners();
+		self.set_iframe_onload_behavior();
 
 		if (self.options['load-immediately'] === true) {
 			self.load_iframe();
@@ -310,7 +327,12 @@ export class EsbPageViewer {
 		allow_scroll = true;
 		if (allow_scroll) {
 			allow_scroll = false;
-			self.load_iframe_if_visible();
+			if (!self.is_iframe_loaded()) {
+				self.load_iframe_if_visible();
+			}
+			else {
+				self.unload_iframe_if_not_visible();
+			}
 			setTimeout(function() { allow_scroll = true; self.load_iframe_if_visible(); }, 1000);
 		}
 	}
@@ -320,7 +342,12 @@ export class EsbPageViewer {
 		allow_resize = true;
 		if (allow_resize) {
 			allow_resize = false;
-			self.load_iframe_if_visible();
+			if (!self.is_iframe_loaded()) {
+				self.load_iframe_if_visible();
+			}
+			else {
+				self.unload_iframe_if_not_visible();
+			}
 			setTimeout(function() { allow_resize = true; self.load_iframe_if_visible(); }, 1000);
 		}
 	}
@@ -334,22 +361,46 @@ export class EsbPageViewer {
 		});
 	}
 
-	stop_monitoring_scrollable_ancestors() {
+	set_iframe_onload_behavior() {
 		var self = this;
 
-		Array.prototype.forEach.call(self.scrollable_ancestors, function(el){
-			el.removeEventListener('scroll', self.debounce_scroll_event.bind(self));
-			el.removeEventListener('resize', self.debounce_resize_event.bind(self));
-		});
+		self.iframe_element.onload = function(){
+			self.set_state('loaded');
+			self.iframe_is_loaded = true;
+		};
 	}
+
+	// stop_monitoring_scrollable_ancestors() {
+	// 	var self = this;
+
+	// 	Array.prototype.forEach.call(self.scrollable_ancestors, function(el){
+	// 		el.removeEventListener('scroll', self.debounce_scroll_event.bind(self));
+	// 		el.removeEventListener('resize', self.debounce_resize_event.bind(self));
+	// 	});
+	// }
 
 	load_iframe() {
 		var self = this;
 
 		if (self.iframe_element.getAttribute('src') === null) {
-			self.stop_monitoring_scrollable_ancestors();
 			self.set_state('loading');
 			self.iframe_element.setAttribute('src', self.iframe_element.getAttribute('data-src'));
+		}
+	}
+
+	unload_iframe() {
+		var self = this;
+		self.iframe_element.outerHTML = self.get_iframe();
+		self.iframe_element = self.viewer_element.querySelector('iframe');
+		self.set_iframe_onload_behavior();
+		self.iframe_is_loaded = false;
+	}
+
+	unload_iframe_if_not_visible() {
+		var self = this;
+
+		if (!self.is_visible()) {
+			self.unload_iframe();
 		}
 	}
 
@@ -405,8 +456,12 @@ export class EsbPageViewer {
 			ancestors = self.scrollable_ancestors.slice(0),
 			shortest_ancestor_height = null,
 			shortest_ancestor_top = null,
-			visible_threshold = self.viewer_element.getBoundingClientRect().top,
+			shortest_ancestor_bottom = null,
+			bounding_rect = self.viewer_element.getBoundingClientRect(),
+			top_visible_threshold = bounding_rect.top,
+			bottom_visible_threshold = bounding_rect.bottom,
 			ancestor_height,
+			ancestor_bottom,
 			ancestor_top;
 		
 		if (self.viewer_element.offsetParent === null) {
@@ -416,20 +471,26 @@ export class EsbPageViewer {
 			Array.prototype.forEach.call(ancestors, function(el, i){
 				if (ancestors[i+1] !== undefined) {
 					ancestor_height = ancestors[i].getBoundingClientRect().height;
+					ancestor_bottom = ancestors[i].getBoundingClientRect().bottom;
 					ancestor_top = ancestors[i].getBoundingClientRect().top;
 				}
 				else {
 					ancestor_height = window.innerHeight;
 					ancestor_top = 0;
+					ancestor_bottom = ancestor_height;
 				}
 
 				if (shortest_ancestor_height === null || shortest_ancestor_height > ancestor_height) {
 					shortest_ancestor_height = ancestor_height;
 					shortest_ancestor_top = ancestor_top;
+					shortest_ancestor_bottom = ancestor_bottom;
 				}
 			});
 
-			if (shortest_ancestor_height !== null && visible_threshold >= (shortest_ancestor_height + shortest_ancestor_top)) {
+			if (shortest_ancestor_height !== null && (
+				top_visible_threshold >= (shortest_ancestor_height + shortest_ancestor_top) ||
+				bottom_visible_threshold <= (shortest_ancestor_top)
+				)) {
 				visible = false;
 			}
 		}

@@ -2,6 +2,7 @@
 	<head>
 		<link rel="stylesheet" href="../css/esb.css">
 		<link rel="stylesheet" href="../css/esb-documentation.css">
+		<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 		<script src="../dist/esb.min.js"></script>
 		<script>
 			// simple script to delay positioning of anchor elements
@@ -90,6 +91,166 @@
 			<div data-esb-page-viewer="http://css-tricks.com/almanac"></div>
 			<div data-esb-page-viewer="http://css-tricks.com/snippets"></div>
 			<div data-esb-page-viewer="http://css-tricks.com/forums"></div>
+
+			<h2 id="api">Triggering loading and unloading of iFrames manually</h2>
+			<p>There is an event-based API to control the loading and unloading of Page Viewer iframes.</p>
+			<ol>
+				<li>Find the UUID of the Page Viewer you want to load/unload</li>
+				<li>Trigger a custom event on the <code>document</code> using that UUID to invoke the action</li>
+			</ol>
+
+			<pre>
+				<code>
+&lt;div class=&quot;wrapper-element&quot;&gt;
+	&lt;div data-esb-page-viewer=&quot;http://example.com&quot;&gt;&lt;/div&gt;
+	&lt;a href=&quot;#link&quot; id=&quot;unload-iframe-link&quot; class=&quot;btn btn-danger&quot;&gt;Unload this Page Viewer&lt;/a&gt;
+	&lt;a href=&quot;#link&quot; id=&quot;load-iframe-link&quot; class=&quot;btn&quot;&gt;Load this Page Viewer&lt;/a&gt;
+&lt;/div&gt;	
+
+&lt;!-- First Script Example, Javascript only, see jQuery Example below --&gt;
+&lt;script&gt;
+	var unload_link = document.getElementById('unload-iframe-link');
+	var load_link = document.getElementById('load-iframe-link');
+
+	unload_link.addEventListener('click', function(){
+		// The Page Viewer is a sibling of the links in this example
+		// Iterate over the siblings until the Page Viewer is found (contains a data-esb-uuid attribute)
+		var el = this,
+			uuid = false,
+			siblings = Array.prototype.filter.call(el.parentNode.children, function(child){
+		  		return child !== el;
+			});
+
+
+		Array.prototype.forEach.call(siblings, function(el, i){
+			if (el.getAttribute('data-esb-uuid') !== null) {
+				uuid = el.getAttribute('data-esb-uuid');
+			}
+		});
+
+		// Once the uuid is found, dispatch a custom event called 'unload-esb-page-viewer-[uuid]'
+		if (uuid) {
+			if (window.CustomEvent) {
+			  var event = new CustomEvent('unload-esb-page-viewer-' + uuid);
+			} else {
+			  var event = document.createEvent('CustomEvent');
+			  event.initCustomEvent('unload-esb-page-viewer-' + uuid, true, true);
+			}
+
+			document.dispatchEvent(event);
+		}
+	});
+
+	load_link.addEventListener('click', function(){
+		// The Page Viewer is a sibling of the links in this example
+		// Iterate over the siblings until the Page Viewer is found (contains a data-esb-uuid attribute)
+		var el = this,
+			uuid = false,
+			siblings = Array.prototype.filter.call(el.parentNode.children, function(child){
+		  		return child !== el;
+			});
+
+
+		Array.prototype.forEach.call(siblings, function(el, i){
+			if (el.getAttribute('data-esb-uuid') !== null) {
+				uuid = el.getAttribute('data-esb-uuid');
+			}
+		});
+
+		// Once the uuid is found, dispatch a custom event called 'unload-esb-page-viewer-[uuid]'
+		if (uuid) {
+			if (window.CustomEvent) {
+			  var event = new CustomEvent('load-esb-page-viewer-' + uuid);
+			} else {
+			  var event = document.createEvent('CustomEvent');
+			  event.initCustomEvent('load-esb-page-viewer-' + uuid, true, true);
+			}
+
+			document.dispatchEvent(event);
+		}
+	});
+&lt;/script&gt;	
+
+&lt;!-- Second Script Example, jQuery, identical result to above example --&gt;
+&lt;script&gt;
+	$(document).ready(function(){
+		$("#unload-iframe-link").on("click", function(){
+			var uuid = $(this).siblings().filter("[data-esb-uuid]").attr("data-esb-uuid");
+			$('body').trigger('unload-esb-page-viewer-' + uuid);
+		});
+
+		$("#load-iframe-link").on("click", function(){
+			var uuid = $(this).siblings().filter("[data-esb-uuid]").attr("data-esb-uuid");
+			$(document).trigger('load-esb-page-viewer-' + uuid);
+		});
+		
+	});
+&lt;/script&gt;				
+				</code>
+			</pre>
+
+			<div class="wrapper-element">
+				<div data-esb-page-viewer="http://example.com"></div>
+				<a href="#link" id="unload-iframe-link" class="btn btn-danger">Unload this Page Viewer</a>
+				<a href="#link" id="load-iframe-link" class="btn">Load this Page Viewer</a>
+			</div>
+		
+			<script>
+				var unload_link = document.getElementById('unload-iframe-link');
+				var load_link = document.getElementById('load-iframe-link');
+
+				unload_link.addEventListener('click', function(){
+					var el = this,
+						uuid = false,
+						siblings = Array.prototype.filter.call(el.parentNode.children, function(child){
+					  		return child !== el;
+						});
+
+
+					Array.prototype.forEach.call(siblings, function(el, i){
+						if (el.getAttribute('data-esb-uuid') !== null) {
+							uuid = el.getAttribute('data-esb-uuid');
+						}
+					});
+
+					if (uuid) {
+						if (window.CustomEvent) {
+						  var event = new CustomEvent('unload-esb-page-viewer-' + uuid);
+						} else {
+						  var event = document.createEvent('CustomEvent');
+						  event.initCustomEvent('unload-esb-page-viewer-' + uuid, true, true);
+						}
+
+						document.dispatchEvent(event);
+					}
+				});
+
+				load_link.addEventListener('click', function(){
+					var el = this,
+						uuid = false,
+						siblings = Array.prototype.filter.call(el.parentNode.children, function(child){
+					  		return child !== el;
+						});
+
+
+					Array.prototype.forEach.call(siblings, function(el, i){
+						if (el.getAttribute('data-esb-uuid') !== null) {
+							uuid = el.getAttribute('data-esb-uuid');
+						}
+					});
+
+					if (uuid) {
+						if (window.CustomEvent) {
+						  var event = new CustomEvent('load-esb-page-viewer-' + uuid);
+						} else {
+						  var event = document.createEvent('CustomEvent');
+						  event.initCustomEvent('load-esb-page-viewer-' + uuid, true, true);
+						}
+
+						document.dispatchEvent(event);
+					}
+				});
+			</script>
 		</div>
 	</body>
 </html>
