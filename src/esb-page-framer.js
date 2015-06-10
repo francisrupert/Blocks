@@ -333,7 +333,7 @@ export class EsbPageFramer {
 			else {
 				self.unload_iframe_if_not_visible();
 			}
-			setTimeout(function() { allow_scroll = true; self.load_iframe_if_visible(); }, 1000);
+			setTimeout(function() { allow_scroll = true; self.load_iframe_if_visible(); }, 2000);
 		}
 	}
 
@@ -348,7 +348,7 @@ export class EsbPageFramer {
 			else {
 				self.unload_iframe_if_not_visible();
 			}
-			setTimeout(function() { allow_resize = true; self.load_iframe_if_visible(); }, 1000);
+			setTimeout(function() { allow_resize = true; self.load_iframe_if_visible(); }, 2000);
 		}
 	}
 
