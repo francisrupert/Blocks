@@ -68,16 +68,30 @@
 					data-esb-scale="0.25" 
 					data-esb-title="Desktop"></div>
 
-			<h2 id="gallery-example">Gallery Example</h2>
+			<h2 id="gallery-example">Gallery Example, Unloads when not visible</h2>
 			<p>This is how to display multiple pages side-by-side</p>
+			<p>This is also an example of unloading the Framers when they're no longer viewable. This can be useful if a Framer contains video or other rendering-intensive content that you want to prevent when the Framer is not visible.</p>
 			<pre>
 				<code>
-&lt;div data-esb-page-framer=&quot;framer_local_pages/local1.html&quot; data-esb-scale=&quot;0.57&quot; data-esb-overlay=&quot;false&quot;&gt;&lt;/div&gt;
-&lt;div data-esb-page-framer=&quot;framer_local_pages/local2.html&quot; data-esb-scale=&quot;0.57&quot; data-esb-overlay=&quot;false&quot;&gt;&lt;/div&gt;
+&lt;div 	data-esb-page-framer=&quot;framer_local_pages/local1.html&quot; 
+	data-esb-scale=&quot;0.57&quot; 
+	data-esb-overlay=&quot;false&quot; 
+	data-esb-unload-when-not-visible=&quot;true&quot;&gt;&lt;/div&gt;
+	
+&lt;div 	data-esb-page-framer=&quot;framer_local_pages/local2.html&quot; 
+	data-esb-scale=&quot;0.57&quot; 
+	data-esb-overlay=&quot;false&quot;
+	data-esb-unload-when-not-visible=&quot;true&quot;&gt;&lt;/div&gt;
 				</code>
 			</pre>
-			<div data-esb-page-framer="framer_local_pages/local1.html" data-esb-scale="0.57" data-esb-overlay="false"></div>
-			<div data-esb-page-framer="framer_local_pages/local2.html" data-esb-scale="0.57" data-esb-overlay="false"></div>
+			<div 	data-esb-page-framer="framer_local_pages/local1.html" 
+					data-esb-scale="0.57" 
+					data-esb-overlay="false" 
+					data-esb-unload-when-not-visible="true"></div>
+			<div 	data-esb-page-framer="framer_local_pages/local2.html" 
+					data-esb-scale="0.57" 
+					data-esb-overlay="false"
+					data-esb-unload-when-not-visible="true"></div>
 
 
 			<h2 id="on-page-config-example">On Page Config Example</h2>
