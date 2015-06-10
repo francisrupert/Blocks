@@ -91,6 +91,22 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   }
 }
 
+.esb-page-framer-dimensions-icon,
+.esb-page-framer-scale-icon,
+.esb-page-framer-dimensions-value,
+.esb-page-framer-scale-value {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 5px;
+}
+
+.esb-page-framer-dimensions-value,
+.esb-page-framer-scale-value {
+  color: #666;
+  padding-right: 15px;
+}
+
+
 .esb-loading-animation,
 .esb-loading-animation:before,
 .esb-loading-animation:after {
