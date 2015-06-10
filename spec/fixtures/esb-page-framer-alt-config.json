@@ -4,7 +4,7 @@
         "source": "test/components/",
         "replace_reference": true
     },
-    "page-viewers": {
+    "page-framers": {
         "load-immediately": false, 
         "title": "Global Page Viewer Title", 
         "caption": "Global Page Viewer Caption",

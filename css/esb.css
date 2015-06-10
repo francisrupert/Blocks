@@ -1,4 +1,4 @@
-.esb-page-viewer {
+.esb-page-framer {
   display: inline-block;
   vertical-align: top;
   background: #e5e5e5;
@@ -6,14 +6,14 @@
   min-width: 200px;
   font-family: 'Helvetica', 'Arial', sans-serif; }
 
-.esb-page-viewer-iframe-wrap {
+.esb-page-framer-iframe-wrap {
   position: relative;
   width: 200px;
   height: 300px;
   overflow: hidden;
   background: #ccc;
   margin: 0 auto; }
-  .esb-page-viewer-iframe-wrap:after {
+  .esb-page-framer-iframe-wrap:after {
     transition: opacity 1s ease, bottom 1s 1s ease;
     content: '';
     position: absolute;
@@ -23,21 +23,21 @@
     right: 0;
     background: rgba(0, 0, 0, 0.8);
     opacity: 1; }
-  .esb-page-viewer--is-loaded .esb-page-viewer-iframe-wrap:after {
+  .esb-page-framer--is-loaded .esb-page-framer-iframe-wrap:after {
     opacity: 0;
     bottom: 100%; }
-  .esb-page-viewer-has-overlay.esb-page-viewer--is-loaded .esb-page-viewer-iframe-wrap:after {
+  .esb-page-framer-has-overlay.esb-page-framer--is-loaded .esb-page-framer-iframe-wrap:after {
     bottom: 0; }
 
-.esb-page-viewer-link {
+.esb-page-framer-link {
   color: #5fb3ce;
   text-decoration: none; }
-  .esb-page-viewer-link:visited {
+  .esb-page-framer-link:visited {
     color: #000099; }
-  .esb-page-viewer-link:hover {
+  .esb-page-framer-link:hover {
     text-decoration: underline; }
 
-.esb-page-viewer-iframe {
+.esb-page-framer-iframe {
   width: 1000px;
   height: 1500px;
   border: none;
@@ -49,22 +49,22 @@
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0; }
 
-.esb-page-viewer-title {
+.esb-page-framer-title {
   padding: 10px;
   margin: 0; }
 
-.esb-page-viewer-caption {
+.esb-page-framer-caption {
   margin: 0;
   padding: 0 10px 10px;
   color: #666; }
 
-.esb-page-viewer-dimensions-annotation {
+.esb-page-framer-dimensions-annotation {
   font-size: 0.8em;
   color: #999;
   margin: 0;
   padding: 10px; }
-  .esb-page-viewer-caption + .esb-page-viewer-dimensions-annotation,
-  .esb-page-viewer-title + .esb-page-viewer-dimensions-annotation {
+  .esb-page-framer-caption + .esb-page-framer-dimensions-annotation,
+  .esb-page-framer-title + .esb-page-framer-dimensions-annotation {
     padding-top: 0; }
 
 .esb-loading-animation,

@@ -1,17 +1,17 @@
 import EsbConfig from 'src/esb-config';
 import EsbUtil from 'src/esb-util';
 import EsbPage from 'src/esb-page';
-import { EsbPageViewer } from 'src/esb-page-viewer';
+import { EsbPageFramer } from 'src/esb-page-framer';
 
 function load_page_viewer(fixture, uuid) {
 	var page_viewer, page_viewer_snippet;
 	uuid = typeof uuid === 'undefined' ? EsbUtil.generateUUID() : uuid;
 
 	loadFixtures(fixture);
-	page_viewer_snippet = $("#jasmine-fixtures")[0].querySelectorAll('*[data-esb-page-viewer]')[0];
+	page_viewer_snippet = $("#jasmine-fixtures")[0].querySelectorAll('*[data-esb-page-framer]')[0];
 	page_viewer_snippet.setAttribute('data-esb-uuid', uuid);
 
-	page_viewer = new EsbPageViewer({
+	page_viewer = new EsbPageFramer({
 		viewer_element: page_viewer_snippet,
         original_snippet: page_viewer_snippet.outerHTML,
         uuid: uuid
@@ -29,14 +29,14 @@ beforeAll(function(done){
 	});
 })
 
-describe("EsbPageViewer", function(){
+describe("EsbPageFramer", function(){
 	var page_viewer = null,
 		page_viewer_snippet = null,
 		uuid = null;
 
 	beforeEach(function(){
 		uuid = EsbUtil.generateUUID();
-		page_viewer = load_page_viewer('page-with-page-viewer.html', uuid);
+		page_viewer = load_page_viewer('page-with-page-framer.html', uuid);
 	});
 
 
@@ -49,16 +49,16 @@ describe("EsbPageViewer", function(){
 	});
 
 	it("should have access to BlocksConfig", function(){
-		expect(page_viewer.config.get("page-viewers").get("source")).toEqual('base/spec/fixtures/page-viewers');
+		expect(page_viewer.config.get("page-framers").get("source")).toEqual('base/spec/fixtures/page-framers');
 	});
 
 	describe("with option overrides", function(){
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-with-option-overrides.html');
+			page_viewer = load_page_viewer('page-framer-with-option-overrides.html');
 		});
 	
 		it("should override the default options", function(){
-			expect(page_viewer.options).toEqual({"load-immediately": true, "title": false, "caption": false, "dimensions": true, "href": "base/spec/fixtures/page-viewers/just-a-default-example.html", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false});
+			expect(page_viewer.options).toEqual({"load-immediately": true, "title": false, "caption": false, "dimensions": true, "href": "base/spec/fixtures/page-framers/just-a-default-example.html", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false});
 		});
 
 		it("should load immediately", function(){
@@ -70,7 +70,7 @@ describe("EsbPageViewer", function(){
 
 	describe("for a fully qualified URL", function(){
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-fully-qualified-url.html');
+			page_viewer = load_page_viewer('page-framer-fully-qualified-url.html');
 		});
 
 		it("should use the URL as-is", function(){
@@ -89,7 +89,7 @@ describe("EsbPageViewer", function(){
 
 	describe("with a data-source attribute", function(){
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-with-data-source-attribute.html');
+			page_viewer = load_page_viewer('page-framer-with-data-source-attribute.html');
 		});
 
 		it("should create the iframe_src using the data-source attribute plus the file name", function(){
@@ -108,54 +108,54 @@ describe("EsbPageViewer", function(){
 
 	describe("with no data-source attribute visible at the top of the page", function(){
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-with-no-data-source-attribute.html');
+			page_viewer = load_page_viewer('page-framer-with-no-data-source-attribute.html');
 		});
 
 		it("should create the iframe_src using the data-source attribute plus the file name", function(){
-			expect(page_viewer.iframe_src).toEqual('base/spec/fixtures/page-viewers/just-a-default-example.html');
+			expect(page_viewer.iframe_src).toEqual('base/spec/fixtures/page-framers/just-a-default-example.html');
 		});
 
 		it("should create a placeholder iframe", function(){
-			expect(page_viewer.placeholder_element).toMatch(/data-src="base\/spec\/fixtures\/page-viewers\/just-a-default-example.html"/);
+			expect(page_viewer.placeholder_element).toMatch(/data-src="base\/spec\/fixtures\/page-framers\/just-a-default-example.html"/);
 		});
 
 		it("should replace the original snippet with the placeholder iframe", function(){
 			page_viewer.inject_placeholder();
-		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-framers/just-a-default-example.html"]')).toBeInDOM();
 		});
 
 		it("should be able to load the iframe within the placeholder", function(){
 			page_viewer.inject_placeholder();
 			page_viewer.load_iframe();
-		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-framers/just-a-default-example.html"]')).toBeInDOM();
 		});
 
 		it("should be able to unload the iframe", function(){
 			page_viewer.inject_placeholder();
 			page_viewer.load_iframe();
-		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-framers/just-a-default-example.html"]')).toBeInDOM();
 
 		    page_viewer.unload_iframe();
-		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).not.toBeInDOM();
-		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-framers/just-a-default-example.html"]')).not.toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-framers/just-a-default-example.html"]')).toBeInDOM();
 		});
 
 		it("should be able to programatically unload the iframe by triggering an event", function(){
 			page_viewer.inject_placeholder();
 			page_viewer.load_iframe();
-		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-framers/just-a-default-example.html"]')).toBeInDOM();
 
 			if (window.CustomEvent) {
-			  var event = new CustomEvent('unload-esb-page-viewer-' + page_viewer.uuid);
+			  var event = new CustomEvent('unload-esb-page-framer-' + page_viewer.uuid);
 			} else {
 			  var event = document.createEvent('CustomEvent');
-			  event.initCustomEvent('unload-esb-page-viewer-' + page_viewer.uuid, true, true);
+			  event.initCustomEvent('unload-esb-page-framer-' + page_viewer.uuid, true, true);
 			}
 
 			document.dispatchEvent(event);
 
-		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).not.toBeInDOM();
-		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-viewers/just-a-default-example.html"]')).toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/page-framers/just-a-default-example.html"]')).not.toBeInDOM();
+		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/page-framers/just-a-default-example.html"]')).toBeInDOM();
 		});
 
 		it("should be visible", function(){
@@ -172,7 +172,7 @@ describe("EsbPageViewer", function(){
 
 	describe("when nested inside a hidden element", function(){
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-hidden.html');
+			page_viewer = load_page_viewer('page-framer-hidden.html');
 		});
 
 		it ("should know that it is not visible", function(){
@@ -192,10 +192,10 @@ describe("EsbPageViewer", function(){
 			expect(page_viewer.iframe_is_loaded).toEqual(false);
 
 			if (window.CustomEvent) {
-			  var event = new CustomEvent('load-esb-page-viewer-' + page_viewer.uuid);
+			  var event = new CustomEvent('load-esb-page-framer-' + page_viewer.uuid);
 			} else {
 			  var event = document.createEvent('CustomEvent');
-			  event.initCustomEvent('load-esb-page-viewer-' + page_viewer.uuid, true, true);
+			  event.initCustomEvent('load-esb-page-framer-' + page_viewer.uuid, true, true);
 			}
 
 			document.dispatchEvent(event);
@@ -205,7 +205,7 @@ describe("EsbPageViewer", function(){
 
 	describe("when not yet scrolled into view", function(){
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-scrolled-out-of-view.html');
+			page_viewer = load_page_viewer('page-framer-scrolled-out-of-view.html');
 		});
 
 		it ("should have scrollable ancestors", function(){
@@ -244,7 +244,7 @@ describe("EsbPageViewer", function(){
 			wrapper.dispatchEvent(scroll);
 			expect(page_viewer.load_iframe).toHaveBeenCalled();
 
-		    var viewer_height = $('#jasmine-fixtures .esb-page-viewer').height();
+		    var viewer_height = $('#jasmine-fixtures .esb-page-framer').height();
 
 			wrapper.scrollTop = 400 + viewer_height; //400 is the height of the element above the viewer in the fixture
 			wrapper.dispatchEvent(scroll);
@@ -264,7 +264,7 @@ describe("EsbPageViewer", function(){
 			wrapper.dispatchEvent(scroll);
 			expect(page_viewer.load_iframe).toHaveBeenCalled();
 
-		    var viewer_height = $('#jasmine-fixtures .esb-page-viewer').height();
+		    var viewer_height = $('#jasmine-fixtures .esb-page-framer').height();
 
 			spyOn(page_viewer, 'unload_iframe');
 			spyOn(page_viewer, 'is_iframe_loaded').and.returnValue(true);
@@ -279,7 +279,7 @@ describe("EsbPageViewer", function(){
 
 	describe("with title, caption, and href functionality", function(){
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-with-title-caption-href-and-immediate-load.html');
+			page_viewer = load_page_viewer('page-framer-with-title-caption-href-and-immediate-load.html');
 		});
 
 		it ("should override the default options", function() {
@@ -312,7 +312,7 @@ describe("EsbPageViewer", function(){
 
 	describe("with data-scale option set", function() {
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-with-scale-option.html');
+			page_viewer = load_page_viewer('page-framer-with-scale-option.html');
 		});
 
 		it ("should calculate the correct width, height, and scale of the iframe ", function(){
@@ -330,7 +330,7 @@ describe("EsbPageViewer", function(){
 
 	describe("with data-esb-height option set", function() {
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-with-height-option.html');
+			page_viewer = load_page_viewer('page-framer-with-height-option.html');
 		});
 
 		it ("should calculate the correct width, height, and scale of the iframe ", function(){
@@ -346,19 +346,19 @@ describe("EsbPageViewer", function(){
 		});
 
 		it ("should create a dimensions string", function() {
-			expect(page_viewer.get_dimensions_annotation()).toEqual('<p class="esb-page-viewer-dimensions-annotation">320&times;1200px @ 25% scale</p>');
+			expect(page_viewer.get_dimensions_annotation()).toEqual('<p class="esb-page-framer-dimensions-annotation">320&times;1200px @ 25% scale</p>');
 		});
 	});
 });
 
-describe("EsbPageViewer with alternate config", function(){
+describe("EsbPageFramer with alternate config", function(){
 	var page_viewer = null,
 		page_viewer_snippet = null,
 		uuid = null;
 
 	beforeAll(function(done){
 		jasmine.getFixtures().fixturesPath = 'base/spec/fixtures';
-		EsbConfig.load('base/spec/fixtures/esb-page-viewer-alt-config.json').then(function(data){
+		EsbConfig.load('base/spec/fixtures/esb-page-framer-alt-config.json').then(function(data){
 			done();
 		}, function(err){
 			console.log(err);
@@ -367,11 +367,11 @@ describe("EsbPageViewer with alternate config", function(){
 
 	describe("with no source specified in the config.json", function() {
 		beforeEach(function(){
-			page_viewer = load_page_viewer('page-viewer-with-alternate-config-json.html');
+			page_viewer = load_page_viewer('page-framer-with-alternate-config-json.html');
 		});
 
 		it ("should use a relative path for the source", function (){
-			expect(page_viewer.iframe_src).toEqual('base/spec/fixtures/page-viewers/just-a-default-example.html');
+			expect(page_viewer.iframe_src).toEqual('base/spec/fixtures/page-framers/just-a-default-example.html');
 		});
 
 		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the component level", function() {

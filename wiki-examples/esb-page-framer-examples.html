@@ -22,75 +22,75 @@
 			<p>This is the simplest example</p>
 			<pre>
 				<code>
-&lt;div data-esb-page-viewer="http://example.com"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://example.com"&gt;&lt;/div&gt;
 				</code>
 			</pre>
-			<div data-esb-page-viewer="http://example.com"></div>
+			<div data-esb-page-framer="http://example.com"></div>
 
 			<h2 id="responsive-example">Responsive Example</h2>
 			<p>This is how to display the same page at multiple viewports to get a side-by-side responsive comparison.</p>
 			<pre>
 				<code>
-&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPhone"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPad"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-height="300" data-esb-scale="0.25" data-esb-title="Desktop"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPhone"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPad"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-height="300" data-esb-scale="0.25" data-esb-title="Desktop"&gt;&lt;/div&gt;
 				</code>
 			</pre>
-			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPhone"></div>
-			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPad"></div>
-			<div data-esb-page-viewer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-height="300" data-esb-scale="0.25" data-esb-title="Desktop"></div>
+			<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPhone"></div>
+			<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-height="300" data-esb-scale="0.25" data-esb-title="iPad"></div>
+			<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="1600" data-esb-height="300" data-esb-scale="0.25" data-esb-title="Desktop"></div>
 
 			<h2 id="gallery-example">Gallery Example</h2>
 			<p>This is how to display multiple pages side-by-side</p>
 			<pre>
 				<code>
-&lt;div data-esb-page-viewer="http://apple.com/music"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://apple.com/mac"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://apple.com/iphone"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://apple.com/ipad"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://apple.com/watch"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://apple.com/music"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://apple.com/mac"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://apple.com/iphone"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://apple.com/ipad"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://apple.com/watch"&gt;&lt;/div&gt;
 				</code>
 			</pre>
-			<div data-esb-page-viewer="http://apple.com/music"></div>
-			<div data-esb-page-viewer="http://apple.com/mac"></div>
-			<div data-esb-page-viewer="http://apple.com/iphone"></div>
-			<div data-esb-page-viewer="http://apple.com/ipad"></div>
-			<div data-esb-page-viewer="http://apple.com/watch"></div>
+			<div data-esb-page-framer="http://apple.com/music"></div>
+			<div data-esb-page-framer="http://apple.com/mac"></div>
+			<div data-esb-page-framer="http://apple.com/iphone"></div>
+			<div data-esb-page-framer="http://apple.com/ipad"></div>
+			<div data-esb-page-framer="http://apple.com/watch"></div>
 
 			<h2 id="on-page-config-example">On Page Config Example</h2>
 			<p>Use on page config to wrap certain viewers with options that you don't want to apply to other viewers</p>
 			<pre>
 				<code>
 &lt;h4&gt;280px wide, hide dimensions annotation&lt;/h4&gt;
-&lt;div data-esb-page-viewer-config="" data-esb-dimensions="false" data-esb-width="280"&gt;
-	&lt;div data-esb-page-viewer="http://css-tricks.com"&gt;&lt;/div&gt;
-	&lt;div data-esb-page-viewer="http://css-tricks.com/video-screencasts"&gt;&lt;/div&gt;
-	&lt;div data-esb-page-viewer="http://css-tricks.com/almanac"&gt;&lt;/div&gt;
-	&lt;div data-esb-page-viewer="http://css-tricks.com/snippets"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer-config="" data-esb-dimensions="false" data-esb-width="280"&gt;
+	&lt;div data-esb-page-framer="http://css-tricks.com"&gt;&lt;/div&gt;
+	&lt;div data-esb-page-framer="http://css-tricks.com/video-screencasts"&gt;&lt;/div&gt;
+	&lt;div data-esb-page-framer="http://css-tricks.com/almanac"&gt;&lt;/div&gt;
+	&lt;div data-esb-page-framer="http://css-tricks.com/snippets"&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;h4&gt;200px wide&lt;/h4&gt;
-&lt;div data-esb-page-viewer="http://css-tricks.com"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://css-tricks.com/video-screencasts"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://css-tricks.com/almanac"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://css-tricks.com/snippets"&gt;&lt;/div&gt;
-&lt;div data-esb-page-viewer="http://css-tricks.com/forums"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://css-tricks.com"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://css-tricks.com/video-screencasts"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://css-tricks.com/almanac"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://css-tricks.com/snippets"&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer="http://css-tricks.com/forums"&gt;&lt;/div&gt;
 				</code>
 			</pre>
 			<h4>280px wide, hide dimensions annotation</h4>
-			<div data-esb-page-viewer-config="" data-esb-dimensions="false" data-esb-width="280">
-				<div data-esb-page-viewer="http://css-tricks.com"></div>
-				<div data-esb-page-viewer="http://css-tricks.com/video-screencasts"></div>
-				<div data-esb-page-viewer="http://css-tricks.com/almanac"></div>
-				<div data-esb-page-viewer="http://css-tricks.com/snippets"></div>
+			<div data-esb-page-framer-config="" data-esb-dimensions="false" data-esb-width="280">
+				<div data-esb-page-framer="http://css-tricks.com"></div>
+				<div data-esb-page-framer="http://css-tricks.com/video-screencasts"></div>
+				<div data-esb-page-framer="http://css-tricks.com/almanac"></div>
+				<div data-esb-page-framer="http://css-tricks.com/snippets"></div>
 			</div>
 
 			<h4>200px wide</h4>
-			<div data-esb-page-viewer="http://css-tricks.com"></div>
-			<div data-esb-page-viewer="http://css-tricks.com/video-screencasts"></div>
-			<div data-esb-page-viewer="http://css-tricks.com/almanac"></div>
-			<div data-esb-page-viewer="http://css-tricks.com/snippets"></div>
-			<div data-esb-page-viewer="http://css-tricks.com/forums"></div>
+			<div data-esb-page-framer="http://css-tricks.com"></div>
+			<div data-esb-page-framer="http://css-tricks.com/video-screencasts"></div>
+			<div data-esb-page-framer="http://css-tricks.com/almanac"></div>
+			<div data-esb-page-framer="http://css-tricks.com/snippets"></div>
+			<div data-esb-page-framer="http://css-tricks.com/forums"></div>
 
 			<h2 id="api">Triggering loading and unloading of iFrames manually</h2>
 			<p>There is an event-based API to control the loading and unloading of Page Viewer iframes.</p>
@@ -102,7 +102,7 @@
 			<pre>
 				<code>
 &lt;div class=&quot;wrapper-element&quot;&gt;
-	&lt;div data-esb-page-viewer=&quot;http://example.com&quot;&gt;&lt;/div&gt;
+	&lt;div data-esb-page-framer=&quot;http://example.com&quot;&gt;&lt;/div&gt;
 	&lt;a href=&quot;#link&quot; id=&quot;unload-iframe-link&quot; class=&quot;btn btn-danger&quot;&gt;Unload this Page Viewer&lt;/a&gt;
 	&lt;a href=&quot;#link&quot; id=&quot;load-iframe-link&quot; class=&quot;btn&quot;&gt;Load this Page Viewer&lt;/a&gt;
 &lt;/div&gt;	
@@ -128,13 +128,13 @@
 			}
 		});
 
-		// Once the uuid is found, dispatch a custom event called 'unload-esb-page-viewer-[uuid]'
+		// Once the uuid is found, dispatch a custom event called 'unload-esb-page-framer-[uuid]'
 		if (uuid) {
 			if (window.CustomEvent) {
-			  var event = new CustomEvent('unload-esb-page-viewer-' + uuid);
+			  var event = new CustomEvent('unload-esb-page-framer-' + uuid);
 			} else {
 			  var event = document.createEvent('CustomEvent');
-			  event.initCustomEvent('unload-esb-page-viewer-' + uuid, true, true);
+			  event.initCustomEvent('unload-esb-page-framer-' + uuid, true, true);
 			}
 
 			document.dispatchEvent(event);
@@ -157,13 +157,13 @@
 			}
 		});
 
-		// Once the uuid is found, dispatch a custom event called 'unload-esb-page-viewer-[uuid]'
+		// Once the uuid is found, dispatch a custom event called 'unload-esb-page-framer-[uuid]'
 		if (uuid) {
 			if (window.CustomEvent) {
-			  var event = new CustomEvent('load-esb-page-viewer-' + uuid);
+			  var event = new CustomEvent('load-esb-page-framer-' + uuid);
 			} else {
 			  var event = document.createEvent('CustomEvent');
-			  event.initCustomEvent('load-esb-page-viewer-' + uuid, true, true);
+			  event.initCustomEvent('load-esb-page-framer-' + uuid, true, true);
 			}
 
 			document.dispatchEvent(event);
@@ -176,12 +176,12 @@
 	$(document).ready(function(){
 		$("#unload-iframe-link").on("click", function(){
 			var uuid = $(this).siblings().filter("[data-esb-uuid]").attr("data-esb-uuid");
-			$('body').trigger('unload-esb-page-viewer-' + uuid);
+			$('body').trigger('unload-esb-page-framer-' + uuid);
 		});
 
 		$("#load-iframe-link").on("click", function(){
 			var uuid = $(this).siblings().filter("[data-esb-uuid]").attr("data-esb-uuid");
-			$(document).trigger('load-esb-page-viewer-' + uuid);
+			$(document).trigger('load-esb-page-framer-' + uuid);
 		});
 		
 	});
@@ -190,7 +190,7 @@
 			</pre>
 
 			<div class="wrapper-element">
-				<div data-esb-page-viewer="http://example.com"></div>
+				<div data-esb-page-framer="http://example.com"></div>
 				<a href="#link" id="unload-iframe-link" class="btn btn-danger">Unload this Page Viewer</a>
 				<a href="#link" id="load-iframe-link" class="btn">Load this Page Viewer</a>
 			</div>
@@ -215,10 +215,10 @@
 
 					if (uuid) {
 						if (window.CustomEvent) {
-						  var event = new CustomEvent('unload-esb-page-viewer-' + uuid);
+						  var event = new CustomEvent('unload-esb-page-framer-' + uuid);
 						} else {
 						  var event = document.createEvent('CustomEvent');
-						  event.initCustomEvent('unload-esb-page-viewer-' + uuid, true, true);
+						  event.initCustomEvent('unload-esb-page-framer-' + uuid, true, true);
 						}
 
 						document.dispatchEvent(event);
@@ -241,10 +241,10 @@
 
 					if (uuid) {
 						if (window.CustomEvent) {
-						  var event = new CustomEvent('load-esb-page-viewer-' + uuid);
+						  var event = new CustomEvent('load-esb-page-framer-' + uuid);
 						} else {
 						  var event = document.createEvent('CustomEvent');
-						  event.initCustomEvent('load-esb-page-viewer-' + uuid, true, true);
+						  event.initCustomEvent('load-esb-page-framer-' + uuid, true, true);
 						}
 
 						document.dispatchEvent(event);

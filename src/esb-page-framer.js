@@ -2,7 +2,7 @@ import EsbConfig from './esb-config';
 import EsbUtil from './esb-util';
 import EsbPage from './esb-page';
 
-export class EsbPageViewer {
+export class EsbPageFramer {
 	constructor(opts) {
 		var self = this;
 
@@ -48,7 +48,7 @@ export class EsbPageViewer {
 			option = null,
 			el = self.original_element,
 			page_level_config_element = false,
-			config_json_global_options = self.config.get('page-viewers');
+			config_json_global_options = self.config.get('page-framers');
 
 		// Global config
 		if (config_json_global_options !== undefined) {
@@ -62,7 +62,7 @@ export class EsbPageViewer {
 		// Page level config
 		while (el.parentNode) {
 			el = el.parentNode;
-			if (el.tagName !== undefined && el.getAttribute('data-esb-page-viewer-config') !== null) {
+			if (el.tagName !== undefined && el.getAttribute('data-esb-page-framer-config') !== null) {
 				page_level_config_element = el;
 				break;
 			}
@@ -105,12 +105,12 @@ export class EsbPageViewer {
 		var self = this,
 			styles = self.get_placeholder_element_styles();
 
-		self.placeholder_element = '<div class="esb-page-viewer ';
-		if (self.options.overlay) { self.placeholder_element += ' esb-page-viewer-has-overlay '; }
+		self.placeholder_element = '<div class="esb-page-framer ';
+		if (self.options.overlay) { self.placeholder_element += ' esb-page-framer-has-overlay '; }
 		self.placeholder_element += '" '; 
 		if (styles.length > 0) { self.placeholder_element += ' style="' + styles + '" '; }
 		self.placeholder_element +='data-esb-uuid="' + self.uuid + '">';
-		if (self.options.href) { self.placeholder_element += '<a class="esb-page-viewer-link" href="' + self.options.href + '">'; }
+		if (self.options.href) { self.placeholder_element += '<a class="esb-page-framer-link" href="' + self.options.href + '">'; }
 		self.placeholder_element += self.get_title();
 		self.placeholder_element += self.get_caption();
 		self.placeholder_element += self.get_dimensions_annotation();
@@ -123,7 +123,7 @@ export class EsbPageViewer {
 		var self = this,
 			title = '';
 		if (self.options.title) {
-			title = '<h3 class="esb-page-viewer-title">' + self.options.title + '</h3>';
+			title = '<h3 class="esb-page-framer-title">' + self.options.title + '</h3>';
 		}
 
 		return title;
@@ -133,7 +133,7 @@ export class EsbPageViewer {
 		var self = this,
 			caption = '';
 		if (self.options.caption) {
-			caption = '<p class="esb-page-viewer-caption">' + self.options.caption + '</p>';
+			caption = '<p class="esb-page-framer-caption">' + self.options.caption + '</p>';
 		}
 
 		return caption;
@@ -145,7 +145,7 @@ export class EsbPageViewer {
 			dimensions_annotation = '';
 		
 		if (self.options.dimensions && dimensions.width && dimensions.height && dimensions.scale) {
-			dimensions_annotation = '<p class="esb-page-viewer-dimensions-annotation">';
+			dimensions_annotation = '<p class="esb-page-framer-dimensions-annotation">';
 			dimensions_annotation += Math.round(dimensions.width) + '&times;' + Math.round(dimensions.height) + 'px @ ' + parseFloat((dimensions.scale*100).toFixed(1)) + '% scale';
 			dimensions_annotation += '</p>';
 		}
@@ -181,7 +181,7 @@ export class EsbPageViewer {
 			iframe_wrap,
 			styles = self.get_iframe_wrap_styles();
 
-		iframe_wrap = '<div class="esb-page-viewer-iframe-wrap"';
+		iframe_wrap = '<div class="esb-page-framer-iframe-wrap"';
 		if (styles.length > 0) { iframe_wrap += ' style="' + styles + '" '; }
 		iframe_wrap += '>';
 		iframe_wrap += self.get_loading_animation();
@@ -246,12 +246,12 @@ export class EsbPageViewer {
 			styles = self.get_iframe_styles();
 
 		if (self.iframe_src !== null) {
-			iframe = '<iframe class="esb-page-viewer-iframe" data-src="' + self.iframe_src + '" scrolling="' + self.options.scrolling + '";';
+			iframe = '<iframe class="esb-page-framer-iframe" data-src="' + self.iframe_src + '" scrolling="' + self.options.scrolling + '";';
 			if (styles.length > 0) { iframe += ' style="' + styles + '" '; }
 			iframe +='></iframe>';
 		}
 		else {
-			self.logger('error', 'EsbPageViewer cannot create placeholder iframe because no iframe src is set.');
+			self.logger('error', 'EsbPageFramer cannot create placeholder iframe because no iframe src is set.');
 		}
 
 		return iframe;
@@ -260,13 +260,13 @@ export class EsbPageViewer {
 	set_event_listeners() {
 		var self = this;
 
-		document.addEventListener('load-esb-page-viewer-' + self.uuid, self.load_iframe.bind(self));
-		document.addEventListener('unload-esb-page-viewer-' + self.uuid, self.unload_iframe.bind(self));
+		document.addEventListener('load-esb-page-framer-' + self.uuid, self.load_iframe.bind(self));
+		document.addEventListener('unload-esb-page-framer-' + self.uuid, self.unload_iframe.bind(self));
 
 		if (window.$ !== undefined) {
 			// jQuery's event system is separate from the browser's, so set these up so $(document).trigger will work
-			window.$(document).on('load-esb-page-viewer-' + self.uuid, self.load_iframe.bind(self));
-			window.$(document).on('unload-esb-page-viewer-' + self.uuid, self.unload_iframe.bind(self));
+			window.$(document).on('load-esb-page-framer-' + self.uuid, self.load_iframe.bind(self));
+			window.$(document).on('unload-esb-page-framer-' + self.uuid, self.unload_iframe.bind(self));
 		}
 	}
 
@@ -288,7 +288,7 @@ export class EsbPageViewer {
 					self.load_iframe_if_visible();
 				},
 				function() {
-					self.logger('error', 'EsbPageViewer ' + self.uuid + ' could not be loaded because Blocks Done did not fire within the Blocks Done Timeout Threshold of: ' + EsbPage.getBlocksDoneTimeout() + 'ms');
+					self.logger('error', 'EsbPageFramer ' + self.uuid + ' could not be loaded because Blocks Done did not fire within the Blocks Done Timeout Threshold of: ' + EsbPage.getBlocksDoneTimeout() + 'ms');
 				}
 			);
 		}
@@ -296,7 +296,7 @@ export class EsbPageViewer {
 
 	set_state(state) {
 		var self = this;
-		self.viewer_element.classList.add('esb-page-viewer--is-' + state);
+		self.viewer_element.classList.add('esb-page-framer--is-' + state);
 	}
 
 	set_scrollable_ancestors() {
@@ -408,10 +408,10 @@ export class EsbPageViewer {
 		var self = this,
 			src = null;
 
-		src = self.original_element.getAttribute('data-esb-page-viewer');
+		src = self.original_element.getAttribute('data-esb-page-framer');
 
 		if (src.indexOf('http') === 0) {
-			self.logger('info', 'Fully qualified url found for page viewer: ' + src + ', esb-page-viewer uuid: ' + self.uuid);
+			self.logger('info', 'Fully qualified url found for page viewer: ' + src + ', esb-page-framer uuid: ' + self.uuid);
 		}
 		else {
 			src = self.get_path_to_src() + src;
@@ -427,8 +427,8 @@ export class EsbPageViewer {
 		path = self.original_element.getAttribute('data-esb-source');
 
 		if (path === null) {
-			if (self.config.get('page-viewers') !== undefined && self.config.get('page-viewers').get('source') !== undefined) {
-				path = self.config.get('page-viewers').get('source');
+			if (self.config.get('page-framers') !== undefined && self.config.get('page-framers').get('source') !== undefined) {
+				path = self.config.get('page-framers').get('source');
 			}
 			else {
 				path = '';

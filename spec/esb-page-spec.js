@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import EsbConfig from 'src/esb-config';
 import EsbPage from 'src/esb-page';
-import { EsbPageViewer } from 'src/esb-page-viewer';
+import { EsbPageFramer } from 'src/esb-page-framer';
 
 describe("EsbPage", function(){
 	var components = null;
@@ -88,19 +88,19 @@ describe("EsbPage", function(){
 		});
 	});
 
-	describe("when there is an esb-page-viewer on the page", function(){
+	describe("when there is an esb-page-framer on the page", function(){
 		beforeEach(function(){
-			loadFixtures('page-with-page-viewer.html');
+			loadFixtures('page-with-page-framer.html');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();
 		});
 
-		it ("should have an esb-page-viewers count of 1", function(){
+		it ("should have an esb-page-framers count of 1", function(){
 			expect(EsbPage.parsed_esb_page_viewers.length).toEqual(1);
 		});
 
-		it ("should create an EsbPageViewer instance", function(){
-			expect(EsbPage.parsed_esb_page_viewers[0].original_snippet).toMatch(/data-esb-page-viewer="http:\/\/google.com"/);
+		it ("should create an EsbPageFramer instance", function(){
+			expect(EsbPage.parsed_esb_page_viewers[0].original_snippet).toMatch(/data-esb-page-framer="http:\/\/google.com"/);
 		});
 	});
 });
