@@ -346,7 +346,8 @@ describe("EsbPageFramer", function(){
 		});
 
 		it ("should create a dimensions string", function() {
-			expect(page_viewer.get_dimensions_annotation()).toEqual('<p class="esb-page-framer-dimensions-annotation">320&times;1200px @ 25% scale</p>');
+			expect(page_viewer.get_dimensions_annotation()).toContain('320&times;1200');
+			expect(page_viewer.get_dimensions_annotation()).toContain('25%');
 		});
 	});
 });
