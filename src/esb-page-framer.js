@@ -33,6 +33,7 @@ export class EsbPageFramer {
 		var self = this,
 			options = {
 				'load-immediately': false,
+				'unload-when-not-visible': false,
 				'title': false,
 				'caption': false,
 				'dimensions': true,
@@ -330,7 +331,7 @@ export class EsbPageFramer {
 			if (!self.is_iframe_loaded()) {
 				self.load_iframe_if_visible();
 			}
-			else {
+			else if (self.options['unload-when-not-visible']){
 				self.unload_iframe_if_not_visible();
 			}
 			setTimeout(function() { allow_scroll = true; self.load_iframe_if_visible(); }, 2000);
@@ -345,7 +346,7 @@ export class EsbPageFramer {
 			if (!self.is_iframe_loaded()) {
 				self.load_iframe_if_visible();
 			}
-			else {
+			else if (self.options['unload-when-not-visible']){
 				self.unload_iframe_if_not_visible();
 			}
 			setTimeout(function() { allow_resize = true; self.load_iframe_if_visible(); }, 2000);
@@ -367,17 +368,20 @@ export class EsbPageFramer {
 		self.iframe_element.onload = function(){
 			self.set_state('loaded');
 			self.iframe_is_loaded = true;
+			if (!self.options['unload-when-not-visible']) {
+				self.stop_monitoring_scrollable_ancestors();
+			}
 		};
 	}
 
-	// stop_monitoring_scrollable_ancestors() {
-	// 	var self = this;
+	stop_monitoring_scrollable_ancestors() {
+		var self = this;
 
-	// 	Array.prototype.forEach.call(self.scrollable_ancestors, function(el){
-	// 		el.removeEventListener('scroll', self.debounce_scroll_event.bind(self));
-	// 		el.removeEventListener('resize', self.debounce_resize_event.bind(self));
-	// 	});
-	// }
+		Array.prototype.forEach.call(self.scrollable_ancestors, function(el){
+			el.removeEventListener('scroll', self.debounce_scroll_event.bind(self));
+			el.removeEventListener('resize', self.debounce_resize_event.bind(self));
+		});
+	}
 
 	load_iframe() {
 		var self = this;
