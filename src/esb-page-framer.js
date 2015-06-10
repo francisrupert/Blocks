@@ -163,11 +163,15 @@ export class EsbPageFramer {
 	get_dimensions_annotation() {
 		var self = this,
 			dimensions = self.get_iframe_dimensions(),
-			dimensions_annotation = '';
+			dimensions_annotation = '',
+			scale = parseFloat((dimensions.scale*100).toFixed(1));
 		
 		if (self.options.dimensions && dimensions.width && dimensions.height && dimensions.scale) {
 			dimensions_annotation = '<p class="esb-page-framer-dimensions-annotation">';
-			dimensions_annotation += self.get_dimensions_icon() + '<span class="esb-page-framer-dimensions-value">' + Math.round(dimensions.width) + '&times;' + Math.round(dimensions.height) + '</span> ' + self.get_scale_icon() + '<span class="esb-page-framer-scale-value">' + parseFloat((dimensions.scale*100).toFixed(1)) + '%</span>';
+			dimensions_annotation += self.get_dimensions_icon() + '<span class="esb-page-framer-dimensions-value">' + Math.round(dimensions.width) + '&times;' + Math.round(dimensions.height) + '</span> ';
+			if (scale !== 100) {
+				dimensions_annotation += self.get_scale_icon() + '<span class="esb-page-framer-scale-value">' + parseFloat((dimensions.scale*100).toFixed(1)) + '%</span>';
+			}
 			dimensions_annotation += '</p>';
 		}
 
