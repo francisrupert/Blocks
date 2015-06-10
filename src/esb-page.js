@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import EsbUtil from './esb-util';
 import { EsbComponent } from './esb-component';
-import { EsbPageViewer } from 'src/esb-page-viewer';
+import { EsbPageFramer } from 'src/esb-page-framer';
 
 class EsbPage {
   constructor() {
@@ -70,7 +70,7 @@ class EsbPage {
   parse() {
     var self = this;
     self.parseEsbComponents();
-    self.parseEsbPageViewers();
+    self.parseEsbPageFramers();
   }
 
   parseEsbComponents() {
@@ -102,7 +102,7 @@ class EsbPage {
     });
   }
 
-  parseEsbPageViewers() {
+  parseEsbPageFramers() {
     var self = this,
         page_viewers = [],
         i = 0;
@@ -110,14 +110,14 @@ class EsbPage {
     self.name  = self.retrievePageTitle();
     self.$root = self.retrieveRootElement();
 
-    page_viewers = self.$root[0].querySelectorAll('*[data-esb-page-viewer]');
+    page_viewers = self.$root[0].querySelectorAll('*[data-esb-page-framer]');
 
     for (i=0; i < page_viewers.length; i++) {
       let uuid = EsbUtil.generateUUID();
 
       page_viewers[i].setAttribute('data-esb-uuid', uuid);
 
-      let page_viewer = new EsbPageViewer({
+      let page_viewer = new EsbPageFramer({
         viewer_element: page_viewers[i],
         original_snippet: page_viewers[i].outerHTML,
         uuid: uuid
