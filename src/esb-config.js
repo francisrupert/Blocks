@@ -1,9 +1,11 @@
 import $ from 'jquery';
+import EsbUtil from './esb-util';
 
 class EsbConfig {
   constructor() {
     this.url = 'config.json';
     this.setDefaults();
+    this.logger = EsbUtil.logger;
   }
 
   getConfig() {
@@ -27,7 +29,14 @@ class EsbConfig {
 
       req.onload = function() {
         if (req.status === 200 || req.readyState === 4) {
-          data = JSON.parse(req.response);
+          try{
+            data = JSON.parse(req.response);
+          }catch(e){
+            //If no valid JSON Config is found, set config to an empty object and log the message
+            self.logger('info', 'No valid JSON config found at: ' + uri + ', setting config to be an empty {}');
+            data = {};
+          }
+
           self.merge(data);
           self.setLoggingLevel();
           self.makeAvailable(data);
@@ -37,7 +46,7 @@ class EsbConfig {
         else {
           window.console.error('FAILED TO FETCH CONFIG: ' + uri + ' returned ' + JSON.stringify(req.statusText));
           $(document).trigger('blocks-config_loaded'); // We continue on with default options
-          reject(Error(req.statusText));
+          resolve(Error(req.statusText)); // Resolve the promise so Blocks can function without a config.json
         }
       };
 
