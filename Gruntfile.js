@@ -38,9 +38,9 @@ module.exports = function(grunt) {
     cssmin: {
       minify: {
         src: [
-          'css/blocks-viewer.css'
+          'css/esb.css'
         ],
-        dest: 'dist/blocks-viewer.min.css'
+        dest: 'dist/esb.min.css'
       }
     },
     browserSync: {
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev', ['browserSync', 'watch']);
   grunt.registerTask('default', ['jshint']);
-  grunt.registerTask('build', ['jshint', 'exec']);
   grunt.registerTask('test', ['karma']);
-  grunt.registerTask('css', ['cssmin']);
+  grunt.registerTask('css', ['sass', 'cssmin']);
+  grunt.registerTask('build', ['jshint', 'exec', 'css']);
 };
