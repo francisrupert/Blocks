@@ -379,4 +379,14 @@ describe("EsbPageFramer with alternate config", function(){
 			expect(page_viewer.options).toEqual({"load-immediately": false, "unload-when-not-visible": false, "title": "Global Page Viewer Title", "caption": "This caption is unique to the component", "dimensions": false, "href": "#link", "scrolling": "yes", "overlay": true, "scale": false, "viewport-width": 500, "viewport-aspect-ratio": 0.5, "width": 300, "height": false})
 		});
 	});
+
+	describe("EsbPageFramer with data-esb-page-framer set at multiple levels", function(){
+		beforeEach(function(){
+			page_viewer = load_page_viewer('page-framer-with-config-level-esb-page-framer.html');
+		});
+
+		it ("should inherit options from the config file including esb-page-viewer itself", function() {
+			expect(page_viewer.iframe_src).toEqual("set_in_config_json.html");
+		});
+	});
 });
