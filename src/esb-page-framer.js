@@ -18,7 +18,7 @@ export class EsbPageFramer {
 		self.original_snippet = opts.original_snippet;
 		self.uuid = opts.uuid;
 		self.config = EsbConfig.getConfig();
-		self.set_iframe_src();
+		// self.set_iframe_src();
 		self.set_viewer_options();
 
 		self.create_placeholder_element();
@@ -49,6 +49,7 @@ export class EsbPageFramer {
 				'height': false
 			},
 			option = null,
+			value = null,
 			el = self.original_element,
 			page_level_config_element = false,
 			config_json_global_options = self.config.get('page-framers');
@@ -56,8 +57,9 @@ export class EsbPageFramer {
 		// Global config
 		if (config_json_global_options !== undefined) {
 			for (option in options) {
-				if (config_json_global_options.get(option) !== undefined) {
-					options[option] = EsbUtil.booleanXorValue(config_json_global_options.get(option));
+				value = config_json_global_options.get(option);
+				if (value !== undefined && value.toString().length > 0) {
+					options[option] = EsbUtil.booleanXorValue(value);
 				}
 			}
 		}
@@ -73,16 +75,18 @@ export class EsbPageFramer {
 
 		if (page_level_config_element) {
 			for (option in options) {
-				if (page_level_config_element.getAttribute('data-esb-' + option) !== null) {
-					options[option] = EsbUtil.booleanXorValue(page_level_config_element.getAttribute('data-esb-' + option));
+				value = page_level_config_element.getAttribute('data-esb-' + option);
+				if (value !== null && value.length > 0) {
+					options[option] = EsbUtil.booleanXorValue(value);
 				}
 			}
 		}
 
 		// Viewer level config
 		for (option in options) {
-			if (self.original_element.getAttribute('data-esb-' + option) !== null) {
-				options[option] = EsbUtil.booleanXorValue(self.original_element.getAttribute('data-esb-' + option));
+			value = self.original_element.getAttribute('data-esb-' + option);
+			if (value !== null && value.length > 0) {
+				options[option] = EsbUtil.booleanXorValue(value);
 			}
 		}
 
@@ -91,19 +95,19 @@ export class EsbPageFramer {
 			options.source += '/';
 		}
 
-		if (options["page-framer"].indexOf('http') === 0) {
-			self.logger('info', 'Fully qualified url found for page viewer: ' + options["page-framer"] + ', esb-page-framer uuid: ' + self.uuid);
+		if (options['page-framer'].indexOf('http') === 0) {
+			self.logger('info', 'Fully qualified url found for page viewer: ' + options['page-framer'] + ', esb-page-framer uuid: ' + self.uuid);
 		}
 		else {
-			options["page-framer"] = options.source + options["page-framer"];
+			options['page-framer'] = options.source + options['page-framer'];
 		}
 
 		// set iframe_src variable
-		self.iframe_src = options["page-framer"];
+		self.iframe_src = options['page-framer'];
 
 		if (!options.href) {
 			// href wasn't set at any level, default to the source + page-framer
-			option.href = options["page-framer"];
+			options.href = options['page-framer'];
 		}
 
 		self.options = options;
