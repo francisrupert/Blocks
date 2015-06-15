@@ -5,6 +5,7 @@
         "replace_reference": true
     },
     "page-framers": {
+        "page-framer": "set_in_config_json.html",
         "load-immediately": false, 
         "title": "Global Page Viewer Title", 
         "caption": "Global Page Viewer Caption",

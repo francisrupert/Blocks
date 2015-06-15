@@ -18,7 +18,7 @@ export class EsbPageFramer {
 		self.original_snippet = opts.original_snippet;
 		self.uuid = opts.uuid;
 		self.config = EsbConfig.getConfig();
-		self.set_iframe_src();
+		// self.set_iframe_src();
 		self.set_viewer_options();
 
 		self.create_placeholder_element();
@@ -32,12 +32,14 @@ export class EsbPageFramer {
 	set_viewer_options() {
 		var self = this,
 			options = {
+				'page-framer': false,
+				'source': '',
 				'load-immediately': false,
 				'unload-when-not-visible': false,
 				'title': false,
 				'caption': false,
 				'dimensions': true,
-				'href': self.iframe_src,
+				'href': false,
 				'scrolling': 'no',
 				'overlay': true,
 				'scale': false,
@@ -47,6 +49,7 @@ export class EsbPageFramer {
 				'height': false
 			},
 			option = null,
+			value = null,
 			el = self.original_element,
 			page_level_config_element = false,
 			config_json_global_options = self.config.get('page-framers');
@@ -54,8 +57,9 @@ export class EsbPageFramer {
 		// Global config
 		if (config_json_global_options !== undefined) {
 			for (option in options) {
-				if (config_json_global_options.get(option) !== undefined) {
-					options[option] = EsbUtil.booleanXorValue(config_json_global_options.get(option));
+				value = config_json_global_options.get(option);
+				if (value !== undefined && value.toString().length > 0) {
+					options[option] = EsbUtil.booleanXorValue(value);
 				}
 			}
 		}
@@ -71,18 +75,39 @@ export class EsbPageFramer {
 
 		if (page_level_config_element) {
 			for (option in options) {
-				if (page_level_config_element.getAttribute('data-esb-' + option) !== null) {
-					options[option] = EsbUtil.booleanXorValue(page_level_config_element.getAttribute('data-esb-' + option));
+				value = page_level_config_element.getAttribute('data-esb-' + option);
+				if (value !== null && value.length > 0) {
+					options[option] = EsbUtil.booleanXorValue(value);
 				}
 			}
 		}
 
-
 		// Viewer level config
 		for (option in options) {
-			if (self.original_element.getAttribute('data-esb-' + option) !== null) {
-				options[option] = EsbUtil.booleanXorValue(self.original_element.getAttribute('data-esb-' + option));
+			value = self.original_element.getAttribute('data-esb-' + option);
+			if (value !== null && value.length > 0) {
+				options[option] = EsbUtil.booleanXorValue(value);
 			}
+		}
+
+		// Append '/' to source if source is given and doesn't end in '/'
+		if (options.source.length > 0 && options.source.slice(-1) !== '/') {
+			options.source += '/';
+		}
+
+		if (options['page-framer'].indexOf('http') === 0) {
+			self.logger('info', 'Fully qualified url found for page viewer: ' + options['page-framer'] + ', esb-page-framer uuid: ' + self.uuid);
+		}
+		else {
+			options['page-framer'] = options.source + options['page-framer'];
+		}
+
+		// set iframe_src variable
+		self.iframe_src = options['page-framer'];
+
+		if (!options.href) {
+			// href wasn't set at any level, default to the source + page-framer
+			options.href = options['page-framer'];
 		}
 
 		self.options = options;
@@ -430,44 +455,6 @@ export class EsbPageFramer {
 		if (!self.is_visible()) {
 			self.unload_iframe();
 		}
-	}
-
-	set_iframe_src() {
-		var self = this,
-			src = null;
-
-		src = self.original_element.getAttribute('data-esb-page-framer');
-
-		if (src.indexOf('http') === 0) {
-			self.logger('info', 'Fully qualified url found for page viewer: ' + src + ', esb-page-framer uuid: ' + self.uuid);
-		}
-		else {
-			src = self.get_path_to_src() + src;
-		}
-
-		self.iframe_src = src;
-	}
-
-	get_path_to_src() {
-		var self = this,
-			path = null;
-
-		path = self.original_element.getAttribute('data-esb-source');
-
-		if (path === null) {
-			if (self.config.get('page-framers') !== undefined && self.config.get('page-framers').get('source') !== undefined) {
-				path = self.config.get('page-framers').get('source');
-			}
-			else {
-				path = '';
-			}
-		}
-
-		if (path.length > 0 && path.slice(-1) !== '/') {
-			path += '/';
-		}
-
-		return path;
 	}
 
 	load_iframe_if_visible() {

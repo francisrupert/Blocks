@@ -110,7 +110,7 @@ class EsbPage {
     self.name  = self.retrievePageTitle();
     self.$root = self.retrieveRootElement();
 
-    page_viewers = self.$root[0].querySelectorAll('*[data-esb-page-framer]');
+    page_viewers = self.$root[0].querySelectorAll('*[data-esb-page-framer]:not([data-esb-page-framer-config])');
 
     for (i=0; i < page_viewers.length; i++) {
       let uuid = EsbUtil.generateUUID();
