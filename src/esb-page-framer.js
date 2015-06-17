@@ -214,11 +214,11 @@ export class EsbPageFramer {
 			height,
 			width = self.options.width;
 
-		if (self.options['viewport-aspect-ratio'] && self.options.width) {
-			if (self.options.scale) {
-				width = self.options['viewport-width'] * self.options.scale;
-			}
+		if (self.options.scale) {
+			width = self.options['viewport-width'] * self.options.scale;
+		}
 
+		if (self.options['viewport-aspect-ratio'] && self.options.width) {
 			if (self.options.height) {
 				height = self.options.height;
 			}
@@ -274,23 +274,21 @@ export class EsbPageFramer {
 			'scale': null
 		};
 
-		if (self.options['viewport-width'] && self.options['viewport-aspect-ratio'] && self.options.width) {
-			if (!self.options.scale) {
-				scale = self.options.width / self.options['viewport-width'];
-			}
-			width = self.options['viewport-width'];
-
-			if (self.options.height) {
-				height = self.options.height / scale;
-			}
-			else {
-				height = self.options['viewport-aspect-ratio'] * width;
-			}
-
-			dimensions.height = height;
-			dimensions.width = width;
-			dimensions.scale = scale;
+		if (!scale && self.options.width) {
+			scale = self.options.width / self.options['viewport-width'];
 		}
+		width = self.options['viewport-width'];
+
+		if (self.options.height) {
+			height = self.options.height / scale;
+		}
+		else {
+			height = self.options['viewport-aspect-ratio'] * width;
+		}
+
+		dimensions.height = height;
+		dimensions.width = width;
+		dimensions.scale = scale;
 
 		return dimensions;
 	}

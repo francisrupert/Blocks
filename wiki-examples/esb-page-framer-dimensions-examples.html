@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../css/esb.css">
+	<link rel="stylesheet" href="../css/esb-documentation.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/> -->
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="../dist/esb.min.js"></script>
+	<script>
+			// simple script to delay positioning of anchor elements
+			if (window.location.hash) {
+				setTimeout(function(){
+					var targetId = window.location.hash.slice(1);
+					var target = document.getElementById(targetId);
+					if (target !== null) {
+						var topOfTarget = target.getBoundingClientRect().top;
+						window.scrollTo(0, topOfTarget + document.body.scrollTop);
+					}
+				}, 1000);
+			}
+		</script>
+	</head>
+	<body>
+		<div class="esb-documentation-wrap">
+			<div class="row">
+				<div class="col-md-7">
+					<h1>ESB Page Framer Dimension Examples</h1>
+					<p>
+						There are several <code>data-esb-</code> attributes that control the overal dimensions of each page framer. These options have quite a bit of overlap, so here are some examples for how to get your Page Framer just the right size.
+					</p>
+					<h2>Recommended Approach</h2>
+					<p>The easiest way to get your Page Framer sized correctly is to think about two parameters: viewport-width and scale. Basically "what size do I want to show this page and how scaled down do I want it to be?"</p>
+					<p>For example, let's say you want to show your design at 320px (a common mobile size), but you want that 320px design to be scaled down to 50%.</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.5"></div>
+				</div>
+				<div class="col-md-8">
+					<pre>
+						<code>
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-width=&quot;320&quot; 
+     data-esb-scale=&quot;0.5&quot;&gt;&lt;/div&gt;
+						</code>
+					</pre>
+				</div>
+			</div>			
+
+			<div class="row">
+				<div class="col-md-7">
+					<p>Maybe you want to show multiple sizes all scaled down by 33% to highlight a responsive design. Note the hight is automatically calculated assuming an aspect ratio of 1.5</p>
+					<pre>
+						<code>
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-width=&quot;320&quot; 
+     data-esb-scale=&quot;0.33&quot;&gt;&lt;/div&gt;
+
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-width=&quot;768&quot; 
+     data-esb-scale=&quot;0.33&quot;&gt;&lt;/div&gt;
+
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-width=&quot;1200&quot; 
+     data-esb-scale=&quot;0.33&quot;&gt;&lt;/div&gt;
+						</code>
+					</pre>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.33"></div>
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-scale="0.33"></div>
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="1200" data-esb-scale="0.33"></div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-7">
+					<h2>Controlling height</h2>
+					<p>
+						By default Page Framer will automatically calculate height based on an aspect ratio of 1.5. This calculation can be overridden by explicitly providing a <code>data-esb-height</code> attribute.
+					</p>
+					<pre>
+						<code>
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-width=&quot;320&quot; 
+     data-esb-scale=&quot;0.33&quot;
+     data-esb-height=&quot;300&quot;
+     &gt;&lt;/div&gt;
+
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-width=&quot;768&quot; 
+     data-esb-scale=&quot;0.33&quot;
+     data-esb-height=&quot;300&quot;
+     &gt;&lt;/div&gt;
+
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-width=&quot;1200&quot; 
+     data-esb-scale=&quot;0.33&quot;
+     data-esb-height=&quot;300&quot;
+     &gt;&lt;/div&gt;
+						</code>
+					</pre>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-scale="0.33" data-esb-height="300"></div>
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-scale="0.33" data-esb-height="300"></div>
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="1200" data-esb-scale="0.33" data-esb-height="300"></div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-7">
+					<h2>Controlling width (auto-scale)</h2>
+					<p>
+						By default Page Framer will automatically calculate width based on the <code>data-esb-viewport-width</code> and the <code>data-esb-scale</code>. If you instead provide <code>data-esb-viewport-width</code> and a <code>data-esb-width</code> attribute, the scale will be calculated automatically.
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<pre>
+						<code>
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; data-esb-viewport-width=&quot;320&quot; data-esb-width=&quot;300&quot;&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; data-esb-viewport-width=&quot;768&quot; data-esb-width=&quot;300&quot;&gt;&lt;/div&gt;
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; data-esb-viewport-width=&quot;1200&quot; data-esb-width=&quot;300&quot;&gt;&lt;/div&gt;
+						</code>
+					</pre>
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-width="300"></div>
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="768" data-esb-width="300"></div>
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="1200" data-esb-width="300"></div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-7">
+					<h3>Zooming</h3>
+					<p>
+						If the <code>data-esb-viewport-width</code> is smaller than the <code>data-esb-width</code> provided, the content will be zoomed to larger than 100%. 
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-5">
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="320" data-esb-width="400"></div>
+				</div>
+				<div class="col-md-7">
+					<pre>
+						<code>
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-width=&quot;320&quot; 
+     data-esb-width=&quot;400&quot;&gt;&lt;/div&gt;
+						</code>
+					</pre>
+				</div>
+			</div>	
+
+			<div class="row">
+				<div class="col-md-7">
+					<h2>Controlling aspect ratio</h2>
+					<p>
+						Be default Page Framer uses a 1.5 aspect ratio to calculate the height. This aspect ratio can be changed by providing the <code>data-esb-viewport-aspect-ratio</code> attribute. The aspect ratio must be a valid number, i.e. 16:9 won't work, use 0.5625 instead.
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<div data-esb-page-framer="http://eightshapes.com" data-esb-viewport-width="1200" data-esb-viewport-aspect-ratio="0.5625"></div>
+				</div>
+				<div class="col-md-8">
+					<pre>
+						<code>
+&lt;div data-esb-page-framer=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-width=&quot;320&quot; 
+     data-esb-viewport-aspec-ratio=&quot;0.5625&quot;&gt;&lt;/div&gt;
+						</code>
+					</pre>
+				</div>
+			</div>	
+	</div>
+</body>
+</html>
