@@ -63,6 +63,8 @@
   color: #999;
   margin: 0;
   padding: 10px; }
+  .esb-page-framer-dimensions-annotation svg {
+    fill: #999; }
   .esb-page-framer-caption + .esb-page-framer-dimensions-annotation,
   .esb-page-framer-title + .esb-page-framer-dimensions-annotation {
     padding-top: 0; }
@@ -77,7 +79,6 @@
 
 .esb-page-framer-dimensions-value,
 .esb-page-framer-scale-value {
-  color: #666;
   padding-right: 15px; }
 
 .esb-loading-animation,

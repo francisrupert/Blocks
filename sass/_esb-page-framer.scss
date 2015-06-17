@@ -81,10 +81,13 @@ $viewer-scale: $viewer-width / $viewer-content-width;
 
 .esb-page-framer-dimensions-annotation {
   font-size: 0.8em;
-  // padding: 0 10px;
   color: #999;
   margin: 0;
   padding: 10px;
+
+  svg {
+    fill: #999;
+  }
 
   .esb-page-framer-caption + &,
   .esb-page-framer-title + & {
@@ -103,7 +106,6 @@ $viewer-scale: $viewer-width / $viewer-content-width;
 
 .esb-page-framer-dimensions-value,
 .esb-page-framer-scale-value {
-  color: #666;
   padding-right: 15px;
 }
 

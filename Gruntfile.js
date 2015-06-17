@@ -48,6 +48,7 @@ module.exports = function(grunt) {
         files: {
           src : [
             '*.html',
+            'wiki-examples/**/*.html',
             'css/**/*.css',
             'src/**/*.js'
           ]
