@@ -4,8 +4,8 @@
         "source": "test/components/",
         "replace_reference": true
     },
-    "page-framers": {
-        "source": "base/spec/fixtures/page-framers"
+    "frames": {
+        "source": "base/spec/fixtures/frames"
     },
     "template_data": {
         "base": {

@@ -1,4 +1,4 @@
-.esb-page-framer {
+.esb-frame {
   display: inline-block;
   vertical-align: top;
   background: #e5e5e5;
@@ -6,13 +6,13 @@
   min-width: 200px;
   font-family: 'Helvetica', 'Arial', sans-serif; }
 
-.esb-page-framer-iframe-wrap {
+.esb-frame-iframe-wrap {
   position: relative;
   width: 200px;
   height: 300px;
   overflow: hidden;
   background: #ccc; }
-  .esb-page-framer-iframe-wrap:after {
+  .esb-frame-iframe-wrap:after {
     transition: opacity 1s ease, bottom 1s 1s ease;
     content: '';
     position: absolute;
@@ -22,21 +22,21 @@
     right: 0;
     background: rgba(0, 0, 0, 0.8);
     opacity: 1; }
-  .esb-page-framer--is-loaded .esb-page-framer-iframe-wrap:after {
+  .esb-frame--is-loaded .esb-frame-iframe-wrap:after {
     opacity: 0;
     bottom: 100%; }
-  .esb-page-framer-has-overlay.esb-page-framer--is-loaded .esb-page-framer-iframe-wrap:after {
+  .esb-frame-has-overlay.esb-frame--is-loaded .esb-frame-iframe-wrap:after {
     bottom: 0; }
 
-.esb-page-framer-link {
+.esb-frame-link {
   color: #5fb3ce;
   text-decoration: none; }
-  .esb-page-framer-link:visited {
+  .esb-frame-link:visited {
     color: #000099; }
-  .esb-page-framer-link:hover {
+  .esb-frame-link:hover {
     text-decoration: underline; }
 
-.esb-page-framer-iframe {
+.esb-frame-iframe {
   width: 1000px;
   height: 1500px;
   border: none;
@@ -48,11 +48,11 @@
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0; }
 
-.esb-page-framer-title {
+.esb-frame-title {
   padding: 10px;
   margin: 0; }
 
-.esb-page-framer-caption {
+.esb-frame-caption {
   margin: 0;
   padding: 0 10px 10px; }
 
