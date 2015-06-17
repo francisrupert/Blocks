@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		<div class="esb-documentation-wrap">
-			<h1>ESB Page Framer Examples</h1>
+			<h1>ESB Frame Examples</h1>
 			<h2 id="default-example">Default Example</h2>
 			<p>This is the simplest example</p>
 			<pre>
@@ -126,9 +126,9 @@
 			<div data-esb-page-framer="http://eightshapes.com/blog/2013/09/25/maintaining-trust-in-coworking-settings/"></div>
 
 			<h2 id="api">Triggering loading and unloading of iFrames manually</h2>
-			<p>There is an event-based API to control the loading and unloading of Page Framer iframes.</p>
+			<p>There is an event-based API to control the loading and unloading of Frame iframes.</p>
 			<ol>
-				<li>Find the UUID of the Page Framer you want to load/unload</li>
+				<li>Find the UUID of the Frame you want to load/unload</li>
 				<li>Trigger a custom event on the <code>document</code> using that UUID to invoke the action</li>
 			</ol>
 
@@ -136,8 +136,8 @@
 				<code>
 &lt;div class=&quot;wrapper-element&quot;&gt;
 	&lt;div data-esb-page-framer=&quot;http://example.com&quot;&gt;&lt;/div&gt;
-	&lt;a href=&quot;#link&quot; id=&quot;unload-iframe-link&quot; class=&quot;btn btn-danger&quot;&gt;Unload this Page Framer&lt;/a&gt;
-	&lt;a href=&quot;#link&quot; id=&quot;load-iframe-link&quot; class=&quot;btn&quot;&gt;Load this Page Framer&lt;/a&gt;
+	&lt;a href=&quot;#link&quot; id=&quot;unload-iframe-link&quot; class=&quot;btn btn-danger&quot;&gt;Unload this Frame&lt;/a&gt;
+	&lt;a href=&quot;#link&quot; id=&quot;load-iframe-link&quot; class=&quot;btn&quot;&gt;Load this Frame&lt;/a&gt;
 &lt;/div&gt;	
 
 &lt;!-- First Script Example, Javascript only, see jQuery Example below --&gt;
@@ -146,8 +146,8 @@
 	var load_link = document.getElementById('load-iframe-link');
 
 	unload_link.addEventListener('click', function(){
-		// The Page Framer is a sibling of the links in this example
-		// Iterate over the siblings until the Page Framer is found (contains a data-esb-uuid attribute)
+		// The Frame is a sibling of the links in this example
+		// Iterate over the siblings until the Frame is found (contains a data-esb-uuid attribute)
 		var el = this,
 			uuid = false,
 			siblings = Array.prototype.filter.call(el.parentNode.children, function(child){
@@ -175,8 +175,8 @@
 	});
 
 	load_link.addEventListener('click', function(){
-		// The Page Framer is a sibling of the links in this example
-		// Iterate over the siblings until the Page Framer is found (contains a data-esb-uuid attribute)
+		// The Frame is a sibling of the links in this example
+		// Iterate over the siblings until the Frame is found (contains a data-esb-uuid attribute)
 		var el = this,
 			uuid = false,
 			siblings = Array.prototype.filter.call(el.parentNode.children, function(child){
@@ -224,8 +224,8 @@
 
 			<div class="wrapper-element">
 				<div data-esb-page-framer="http://example.com"></div>
-				<a href="#link" id="unload-iframe-link" class="btn btn-danger">Unload this Page Framer</a>
-				<a href="#link" id="load-iframe-link" class="btn">Load this Page Framer</a>
+				<a href="#link" id="unload-iframe-link" class="btn btn-danger">Unload this Frame</a>
+				<a href="#link" id="load-iframe-link" class="btn">Load this Frame</a>
 			</div>
 		
 			<script>
