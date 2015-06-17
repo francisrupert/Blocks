@@ -46,13 +46,16 @@ export class EsbFrame {
 				'viewport-width': 1000,
 				'viewport-aspect-ratio': 1.5,
 				'width': 200,
-				'height': false
+				'height': false,
+				'viewport-device': false,
+				'viewport-device-orientation': 'portrait'
 			},
 			option = null,
 			value = null,
 			el = self.original_element,
 			page_level_config_element = false,
-			config_json_global_options = self.config.get('frames');
+			config_json_global_options = self.config.get('frames'),
+			device_dimensions = null;
 
 		// Global config
 		if (config_json_global_options !== undefined) {
@@ -119,6 +122,16 @@ export class EsbFrame {
 		if (options.scrolling === 'yes') {
 			//If scrolling is desired, the overlay has to be disabled or you cannot scroll
 			options.overlay = false;
+		}
+
+		//VIEWPORT-DEVICE and VIEWPORT-DEVICE-ORIENTATION
+		if (options['viewport-device']) {
+			device_dimensions = self.get_device_dimensions(options['viewport-device'], options['viewport-device-orientation']);
+			if (device_dimensions) {
+				window.console.log(device_dimensions);
+				options['viewport-width'] = device_dimensions.width;
+				options['viewport-aspect-ratio'] = device_dimensions['aspect-ratio'];
+			}
 		}
 
 		self.options = options;
@@ -514,5 +527,62 @@ export class EsbFrame {
 		}
 
 		return visible;
+	}
+
+	get_device_dimensions(key, orientation) {
+		var result_dimensions = false,
+			height = null,
+			width = null,
+			aspect_ratio = null,
+			dimensions = {
+				'iphone-4': {
+					'width': 320,
+					'height': 480
+				},
+				'iphone-5': {
+					'width': 320,
+					'height': 568
+				},
+				'iphone-6': {
+					'width': 375,
+					'height': 667
+				},
+				'iphone-6-plus': {
+					'width': 414,
+					'height': 736
+				},
+				'ipad': {
+					'width': 768,
+					'height': 1024
+				},
+				'nexus-10': {
+					'width': 800,
+					'height': 1280
+				},
+				'galaxy-s6': {
+					'width':360,
+					'height':640
+				}
+			};
+
+		if (key in dimensions) {
+			height = dimensions[key].height;
+			width = dimensions[key].width;
+	
+			if (orientation === 'landscape') {
+				width = dimensions[key].height;
+				height = dimensions[key].width;
+			}
+
+			aspect_ratio = (height / width).toFixed(5);
+
+			result_dimensions = {
+				'height': height,
+				'width': width,
+				'aspect-ratio': aspect_ratio		
+			};
+		}
+
+		return result_dimensions;
 	}
 }

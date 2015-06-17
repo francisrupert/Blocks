@@ -81,6 +81,31 @@
 
 			<div class="row">
 				<div class="col-md-7">
+					<h2>Using device dimensions</h2>
+					<p>
+						Frame has shortcuts for setting height and width for a number of common mobile devices and tablets. See the <a href="https://github.com/eightshapes/blocks/wiki/Frame#frame-options">Frame Options</a> documentation for a complete listing of devices.
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<pre>
+						<code>
+&lt;div data-esb-frame=&quot;http://eightshapes.com&quot; data-esb-viewport-device=&quot;iphone-5&quot; data-esb-scale=&quot;0.5&quot; data-esb-title=&quot;iPhone 5&quot;&gt;&lt;/div&gt;
+&lt;div data-esb-frame=&quot;http://eightshapes.com&quot; data-esb-viewport-device=&quot;iphone-5&quot; data-esb-scale=&quot;0.5&quot; data-esb-viewport-device-orientation=&quot;landscape&quot; data-esb-title=&quot;iPhone 5&quot; data-esb-caption=&quot;Landscape Orientation&quot;&gt;&lt;/div&gt;
+&lt;div data-esb-frame=&quot;http://eightshapes.com&quot; data-esb-viewport-device=&quot;iphone-6-plus&quot; data-esb-scale=&quot;0.5&quot; data-esb-title=&quot;iPhone 6 Plus&quot;&gt;&lt;/div&gt;
+						</code>
+					</pre>
+					<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="iphone-5" data-esb-scale="0.5" data-esb-title="iPhone 5"></div>
+					<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="iphone-5" data-esb-scale="0.5" data-esb-viewport-device-orientation="landscape" data-esb-title="iPhone 5" data-esb-caption="Landscape Orientation"></div>
+					<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="iphone-6-plus" data-esb-scale="0.5" data-esb-title="iPhone 6 Plus"></div>
+				</div>
+			</div>	
+
+
+			<div class="row">
+				<div class="col-md-7">
 					<h2>Controlling height</h2>
 					<p>
 						By default Frame will automatically calculate height based on an aspect ratio of 1.5. This calculation can be overridden by explicitly providing a <code>data-esb-height</code> attribute.
