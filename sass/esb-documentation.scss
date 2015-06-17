@@ -591,104 +591,104 @@ pre code, pre tt {
 	margin: 0 auto;
 }
 
-//Framer Styling Examples
+//frame Styling Examples
 .basic-style-override-wrapper {
-  .esb-page-framer {
+  .esb-frame {
     background: skyblue;
     box-shadow: none;
     border: solid 1px darken(skyblue, 30%);
     font-family: 'Oswald', sans-serif;
   }
 
-  .esb-page-framer:hover {
+  .esb-frame:hover {
     background: lighten(skyblue, 10%);
   }
 
-  .esb-page-framer-title {
+  .esb-frame-title {
     color: white;
     padding-bottom: 0;
   }
 
-  .esb-page-framer-link:hover {
+  .esb-frame-link:hover {
     text-decoration: none;
 
   }
 
-  .esb-page-framer-link:hover .esb-page-framer-title {
+  .esb-frame-link:hover .esb-frame-title {
     text-decoration: underline;
   }
 
-  .esb-page-framer-caption {
+  .esb-frame-caption {
     color: darken(skyblue, 40%);
     font-style: italic;
   }
 
-  .esb-page-framer-dimensions-annotation {
+  .esb-frame-dimensions-annotation {
     color: darken(skyblue, 30%);
   }
 
-  .esb-page-framer-dimensions-annotation svg {
+  .esb-frame-dimensions-annotation svg {
     fill: darken(skyblue, 30%);
   }
 
-  .esb-page-framer-iframe-wrap {
+  .esb-frame-iframe-wrap {
     border-top: solid 1px darken(skyblue, 30%);
   }
 }
 
 .layout-override-wrapper {
-  .esb-page-framer-inner-wrap {
+  .esb-frame-inner-wrap {
     display: flex;
     flex-direction: column;
   }
   
-  .esb-page-framer-iframe-wrap {
+  .esb-frame-iframe-wrap {
     order: 1;
   }
 
-  .esb-page-framer-title {
+  .esb-frame-title {
     order: 2;
   }
 
-  .esb-page-framer-caption {
+  .esb-frame-caption {
     order: 3;
   }
 
-  .esb-page-framer-dimensions-annotation {
+  .esb-frame-dimensions-annotation {
     order: 4;
   }
 }
 
 .layout-override-example-wrapper {
-  .esb-page-framer-inner-wrap {
+  .esb-frame-inner-wrap {
     display: flex;
     flex-direction: column;
   }
   
-  .esb-page-framer-iframe-wrap {
+  .esb-frame-iframe-wrap {
     order: 3;
   }
 
-  .esb-page-framer-title {
+  .esb-frame-title {
     order: 1;
   }
 
-  .esb-page-framer-caption {
+  .esb-frame-caption {
     order: 2;
   }
 
-  .esb-page-framer-dimensions-annotation {
+  .esb-frame-dimensions-annotation {
     padding-top: 10px;
     order: 4;
   }
 }
 
-.framer-no-min-width-wrapper {
-  .esb-page-framer {
+.frame-no-min-width-wrapper {
+  .esb-frame {
     min-width: 0;
   }
 
-  .esb-page-framer-title {
+  .esb-frame-title {
     font-size: 10px;
     padding: 5px;
   }

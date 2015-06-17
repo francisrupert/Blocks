@@ -3,7 +3,7 @@ $viewer-aspect-ratio: 3 / 2;
 $viewer-content-width: 1000px;
 $viewer-scale: $viewer-width / $viewer-content-width;
 
-.esb-page-framer {
+.esb-frame {
 	display: inline-block;
 	vertical-align: top;
 	background: #e5e5e5;
@@ -13,7 +13,7 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   margin: 10px;
 }
 
-.esb-page-framer-iframe-wrap {
+.esb-frame-iframe-wrap {
 	position:relative;
 	width: $viewer-width;
 	height: $viewer-width * $viewer-aspect-ratio;
@@ -33,17 +33,17 @@ $viewer-scale: $viewer-width / $viewer-content-width;
 		opacity: 1;
 	}
 
-	.esb-page-framer--is-loaded &:after {
+	.esb-frame--is-loaded &:after {
 		opacity: 0;
 		bottom: 100%;
 	}
 
-	.esb-page-framer-has-overlay.esb-page-framer--is-loaded &:after {
+	.esb-frame-has-overlay.esb-frame--is-loaded &:after {
 		bottom: 0;
 	}
 }
 
-.esb-page-framer-link {
+.esb-frame-link {
   color: darken(lightblue, 20%);
   text-decoration: none;
 
@@ -56,7 +56,7 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   }
 }
 
-.esb-page-framer-iframe {
+.esb-frame-iframe {
 	width: $viewer-content-width;
 	height: ($viewer-aspect-ratio * $viewer-width) / $viewer-scale;
 	border: none;
@@ -68,18 +68,18 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   -webkit-transform-origin: 0 0;
 }
 
-.esb-page-framer-title {
+.esb-frame-title {
 	padding: 10px;
 	margin: 0;
 }
 
-.esb-page-framer-caption {
+.esb-frame-caption {
 	margin: 0;
 	padding: 0 10px 10px;
   color: #666;
 }
 
-.esb-page-framer-dimensions-annotation {
+.esb-frame-dimensions-annotation {
   font-size: 0.8em;
   color: #999;
   margin: 0;
@@ -89,23 +89,23 @@ $viewer-scale: $viewer-width / $viewer-content-width;
     fill: #999;
   }
 
-  .esb-page-framer-caption + &,
-  .esb-page-framer-title + & {
+  .esb-frame-caption + &,
+  .esb-frame-title + & {
     padding-top: 0;
   }
 }
 
-.esb-page-framer-dimensions-icon,
-.esb-page-framer-scale-icon,
-.esb-page-framer-dimensions-value,
-.esb-page-framer-scale-value {
+.esb-frame-dimensions-icon,
+.esb-frame-scale-icon,
+.esb-frame-dimensions-value,
+.esb-frame-scale-value {
   display: inline-block;
   vertical-align: middle;
   padding-right: 5px;
 }
 
-.esb-page-framer-dimensions-value,
-.esb-page-framer-scale-value {
+.esb-frame-dimensions-value,
+.esb-frame-scale-value {
   padding-right: 15px;
 }
 

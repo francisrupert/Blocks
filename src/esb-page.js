@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import EsbUtil from './esb-util';
 import { EsbComponent } from './esb-component';
-import { EsbPageFramer } from 'src/esb-page-framer';
+import { EsbFrame } from 'src/esb-frame';
 
 class EsbPage {
   constructor() {
@@ -13,7 +13,7 @@ class EsbPage {
     self.blocks_done_timeout_ms = 15000;
 
     self.parsed_esb_components = [];
-    self.parsed_esb_page_viewers = [];
+    self.parsed_esb_frames = [];
 
     // page cache of components
     self.components = {};
@@ -55,10 +55,10 @@ class EsbPage {
       self.setBlocksDone();
     }
 
-    for (let idx in self.parsed_esb_page_viewers) {
-      let page_viewer = self.parsed_esb_page_viewers[idx];
+    for (let idx in self.parsed_esb_frames) {
+      let frame = self.parsed_esb_frames[idx];
 
-      page_viewer.inject_placeholder();
+      frame.inject_placeholder();
     }
   }
 
@@ -70,7 +70,7 @@ class EsbPage {
   parse() {
     var self = this;
     self.parseEsbComponents();
-    self.parseEsbPageFramers();
+    self.parseEsbFrames();
   }
 
   parseEsbComponents() {
@@ -102,28 +102,28 @@ class EsbPage {
     });
   }
 
-  parseEsbPageFramers() {
+  parseEsbFrames() {
     var self = this,
-        page_viewers = [],
+        frames = [],
         i = 0;
 
     self.name  = self.retrievePageTitle();
     self.$root = self.retrieveRootElement();
 
-    page_viewers = self.$root[0].querySelectorAll('*[data-esb-page-framer]:not([data-esb-page-framer-config])');
+    frames = self.$root[0].querySelectorAll('*[data-esb-frame]:not([data-esb-frame-config])');
 
-    for (i=0; i < page_viewers.length; i++) {
+    for (i=0; i < frames.length; i++) {
       let uuid = EsbUtil.generateUUID();
 
-      page_viewers[i].setAttribute('data-esb-uuid', uuid);
+      frames[i].setAttribute('data-esb-uuid', uuid);
 
-      let page_viewer = new EsbPageFramer({
-        viewer_element: page_viewers[i],
-        original_snippet: page_viewers[i].outerHTML,
+      let frame = new EsbFrame({
+        viewer_element: frames[i],
+        original_snippet: frames[i].outerHTML,
         uuid: uuid
       });
 
-      self.parsed_esb_page_viewers.push(page_viewer);
+      self.parsed_esb_frames.push(frame);
     }
   }
 
