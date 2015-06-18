@@ -4,18 +4,12 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="150px" height="307.875px" viewBox="0 0 150 307.875" enable-background="new 0 0 150 307.875" xml:space="preserve">
 <g>
-	<path id="bezel_3_"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M149,290.883
-		c0,8.833-7.191,15.992-16.062,15.992H17.062C8.191,306.875,1,299.716,1,290.883V16.992C1,8.159,8.191,1,17.062,1h115.875
-		C141.808,1,149,8.159,149,16.992V290.883L149,290.883z"/>
-	
-		<rect id="screen_3_" x="10.035" y="36.919"  fill="#FFFFFF" stroke="#7F89A3" width="129.93" height="231.084">
-	</rect>
-	<path id="speaker_2_"  fill="none" stroke="#7F89A3" d="M86.031,26.665c0,0.635-0.439,1.147-0.98,1.147
-		H64.949c-0.542,0-0.98-0.513-0.98-1.147v-2.58c0-0.635,0.439-1.147,0.98-1.147H85.05c0.541,0,0.98,0.513,0.98,1.147V26.665
-		L86.031,26.665z"/>
-	<circle id="camera_3_"  fill="none" stroke="#7F89A3" cx="75" cy="12.919" r="3">
-	</circle>
-	<ellipse id="lock_3_"  fill="none" stroke="#7F89A3" cx="75" cy="286.92" rx="10.04" ry="10.001">
-	</ellipse>
+	<path id="bezel_3_" fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M149,290.883c0,8.833-7.191,15.992-16.062,15.992H17.062
+		C8.191,306.875,1,299.716,1,290.883V16.992C1,8.159,8.191,1,17.062,1h115.875C141.809,1,149,8.159,149,16.992V290.883L149,290.883z
+		"/>
+	<path id="speaker_2_" fill="none" stroke="#7F89A3" d="M86.031,26.665c0,0.635-0.439,1.147-0.98,1.147H64.949
+		c-0.542,0-0.98-0.513-0.98-1.147v-2.58c0-0.635,0.439-1.147,0.98-1.147H85.05c0.541,0,0.979,0.513,0.979,1.147v2.58H86.031z"/>
+	<circle id="camera_3_" fill="none" stroke="#7F89A3" cx="75" cy="12.919" r="3"/>
+	<ellipse id="lock_3_" fill="none" stroke="#7F89A3" cx="75" cy="286.92" rx="10.04" ry="10.001"/>
 </g>
 </svg>

@@ -2,21 +2,14 @@
 <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="131.999px" height="243.875px" viewBox="0 0 131.999 243.875" enable-background="new 0 0 131.999 243.875"
-	 xml:space="preserve">
+	 width="132px" height="243.875px" viewBox="0 0 132 243.875" enable-background="new 0 0 132 243.875" xml:space="preserve">
 <g>
-	<path id="bezel_2_"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M130.999,226.883
-		c0,8.833-7.191,15.992-16.062,15.992H17.062C8.191,242.875,1,235.716,1,226.883V16.992C1,8.159,8.191,1,17.062,1h97.875
-		c8.871,0,16.062,7.159,16.062,15.992V226.883L130.999,226.883z"/>
-	
-		<rect id="screen_2_" x="9.999" y="36.919"  fill="#FFFFFF" stroke="#7F89A3" width="111.929" height="167.084">
-	</rect>
-	<path id="speaker"  fill="none" stroke="#7F89A3" d="M77.999,26.665c0,0.635-0.439,1.147-0.98,1.147
-		H56.917c-0.542,0-0.98-0.513-0.98-1.147v-2.58c0-0.635,0.439-1.147,0.98-1.147h20.101c0.541,0,0.98,0.513,0.98,1.147V26.665
-		L77.999,26.665z"/>
-	<circle id="camera_1_"  fill="none" stroke="#7F89A3" cx="66.999" cy="12.919" r="3">
-	</circle>
-	<ellipse id="lock_1_"  fill="none" stroke="#7F89A3" cx="66.039" cy="222.92" rx="10.04" ry="10.001">
-	</ellipse>
+	<path id="bezel_2_" fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M131,226.883c0,8.833-7.191,15.992-16.062,15.992H17.062
+		C8.191,242.875,1,235.716,1,226.883V16.992C1,8.159,8.191,1,17.062,1h97.875C123.808,1,131,8.159,131,16.992V226.883L131,226.883z"
+		/>
+	<path id="speaker" fill="none" stroke="#7F89A3" d="M78,26.665c0,0.635-0.439,1.147-0.98,1.147H56.917
+		c-0.542,0-0.98-0.513-0.98-1.147v-2.58c0-0.635,0.439-1.147,0.98-1.147h20.101c0.541,0,0.979,0.513,0.979,1.147v2.58H78z"/>
+	<circle id="camera_1_" fill="none" stroke="#7F89A3" cx="67" cy="12.919" r="3"/>
+	<ellipse id="lock_1_" fill="none" stroke="#7F89A3" cx="66.039" cy="222.92" rx="10.041" ry="10.001"/>
 </g>
 </svg>
