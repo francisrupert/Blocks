@@ -6,6 +6,71 @@ export class EsbFrame {
 	constructor(opts) {
 		var self = this;
 
+		self.device_presets = {
+			'iphone-4': {
+				'annotation-name': 'iPhone 4',
+				'width': 320,
+				'height': 480,
+				'svg': '<svg class="esb-device-frame" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 131.999 243.875" xml:space="preserve"> <g> <path id="bezel_2_"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M130.999,226.883 c0,8.833-7.191,15.992-16.062,15.992H17.062C8.191,242.875,1,235.716,1,226.883V16.992C1,8.159,8.191,1,17.062,1h97.875 c8.871,0,16.062,7.159,16.062,15.992V226.883L130.999,226.883z"/> <rect id="screen_2_" x="9.999" y="36.919"  fill="#FFFFFF" stroke="#7F89A3" width="111.929" height="167.084"> </rect> <path id="speaker"  fill="none" stroke="#7F89A3" d="M77.999,26.665c0,0.635-0.439,1.147-0.98,1.147 H56.917c-0.542,0-0.98-0.513-0.98-1.147v-2.58c0-0.635,0.439-1.147,0.98-1.147h20.101c0.541,0,0.98,0.513,0.98,1.147V26.665 L77.999,26.665z"/><circle id="camera_1_"  fill="none" stroke="#7F89A3" cx="66.999" cy="12.919" r="3"></circle><ellipse id="lock_1_"  fill="none" stroke="#7F89A3" cx="66.039" cy="222.92" rx="10.04" ry="10.001"></ellipse></g></svg>',
+				'svg-landscape':'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 243.875 131.999" xml:space="preserve"> <g> <path id="bezel_2_" fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M226.883,1 c8.833,0,15.992,7.191,15.992,16.062v97.874c0,8.87-7.159,16.062-15.992,16.062l-209.891,0.001C8.159,130.999,1,123.808,1,114.937 V17.062C1,8.191,8.159,1,16.992,1H226.883L226.883,1z"/> <rect id="screen_2_" x="36.919" y="10.07"  fill="#FFFFFF" stroke="#7F89A3" width="167.084" height="111.929"> </rect> <path id="speaker"  fill="none" stroke="#7F89A3" d="M26.665,54c0.635,0,1.147,0.439,1.147,0.98v20.101 c0,0.543-0.513,0.98-1.147,0.98h-2.58c-0.635,0-1.147-0.439-1.147-0.98V54.98c0-0.541,0.513-0.98,1.147-0.98H26.665L26.665,54z"/> <circle id="camera_1_"  fill="none" stroke="#7F89A3" cx="12.919" cy="65" r="3"> </circle> <ellipse id="lock_1_"  fill="none" stroke="#7F89A3" cx="222.92" cy="65.959" rx="10.001" ry="10.04"> </ellipse> </g> </svg>',
+				'frame-width-multiplier':'1.189',
+				'frame-height-multiplier':'1.465'
+			},
+			'iphone-5': {
+				'annotation-name': 'iPhone 5',
+				'width': 320,
+				'height': 568,
+				'svg':'<svg class="esb-device-frame" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 131.999 273.875" xml:space="preserve"><g><path id="bezel_1_"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M130.999,256.883 c0,8.833-7.191,15.992-16.062,15.992H17.062C8.191,272.875,1,265.716,1,256.883V16.992C1,8.159,8.191,1,17.062,1h97.875 c8.871,0,16.062,7.159,16.062,15.992V256.883L130.999,256.883z"/><rect id="screen_1_" x="9.999" y="36.919"  fill="#FFFFFF" stroke="#7F89A3" width="111.93" height="197.084"></rect><path id="speaker_1_"  fill="none" stroke="#7F89A3" d="M77.999,26.665c0,0.635-0.439,1.147-0.98,1.147 H56.917c-0.542,0-0.98-0.513-0.98-1.147v-2.58c0-0.635,0.439-1.147,0.98-1.147h20.102c0.541,0,0.98,0.513,0.98,1.147V26.665 L77.999,26.665z"/><circle id="camera_2_"  fill="none" stroke="#7F89A3" cx="66.999" cy="12.919" r="3"></circle><ellipse id="lock_2_"  fill="none" stroke="#7F89A3" cx="66.039" cy="252.92" rx="10.04" ry="10.001"></ellipse></g></svg>',
+				'svg-landscape':'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 273.875 131.999" xml:space="preserve"> <g> <path id="bezel_1_"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M256.883,1 c8.833,0,15.992,7.191,15.992,16.062v97.876c0,8.869-7.159,16.061-15.992,16.061H16.992C8.159,130.999,1,123.808,1,114.938V17.062 C1,8.191,8.159,1,16.992,1H256.883L256.883,1z"/> <rect id="screen_1_" x="36.919" y="10.07"  fill="#FFFFFF" stroke="#7F89A3" width="197.084" height="111.931"> </rect> <path id="speaker_1_"  fill="none" stroke="#7F89A3" d="M26.665,54c0.635,0,1.147,0.439,1.147,0.98 v20.103c0,0.541-0.513,0.98-1.147,0.98h-2.58c-0.635,0-1.147-0.439-1.147-0.98V54.98c0-0.541,0.513-0.98,1.147-0.98H26.665 L26.665,54z"/> <circle id="camera_2_"  fill="none" stroke="#7F89A3" cx="12.919" cy="65" r="3"> </circle> <ellipse id="lock_2_"  fill="none" stroke="#7F89A3" cx="252.92" cy="65.96" rx="10.001" ry="10.04"> </ellipse> </g> </svg>',
+				'frame-width-multiplier':'1.188',
+				'frame-height-multiplier':'1.39'
+			},
+			'iphone-6': {
+				'annotation-name': 'iPhone 6',
+				'width': 375,
+				'height': 667,
+				'svg':'<svg class="esb-device-frame" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 307.875" xml:space="preserve"><g><path id="bezel_3_"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M149,290.883 c0,8.833-7.191,15.992-16.062,15.992H17.062C8.191,306.875,1,299.716,1,290.883V16.992C1,8.159,8.191,1,17.062,1h115.875 C141.808,1,149,8.159,149,16.992V290.883L149,290.883z"/><rect id="screen_3_" x="10.035" y="36.919"  fill="#FFFFFF" stroke="#7F89A3" width="129.93" height="231.084"></rect><path id="speaker_2_"  fill="none" stroke="#7F89A3" d="M86.031,26.665c0,0.635-0.439,1.147-0.98,1.147 H64.949c-0.542,0-0.98-0.513-0.98-1.147v-2.58c0-0.635,0.439-1.147,0.98-1.147H85.05c0.541,0,0.98,0.513,0.98,1.147V26.665 L86.031,26.665z"/><circle id="camera_3_"  fill="none" stroke="#7F89A3" cx="75" cy="12.919" r="3"></circle><ellipse id="lock_3_"  fill="none" stroke="#7F89A3" cx="75" cy="286.92" rx="10.04" ry="10.001"></ellipse></g></svg>',
+				'svg-landscape':'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 307.875 149.998" xml:space="preserve"> <g> <path id="bezel_3_"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M290.883,1 c8.833,0,15.992,7.191,15.992,16.062v115.875c0,8.869-7.159,16.061-15.992,16.061H16.992C8.159,148.998,1,141.807,1,132.938V17.062 C1,8.191,8.159,1,16.992,1H290.883L290.883,1z"/> <rect id="screen_3_" x="36.919" y="10.034"  fill="#FFFFFF" stroke="#7F89A3" width="231.084" height="129.93"> </rect> <path id="speaker_2_"  fill="none" stroke="#7F89A3" d="M26.665,63.968c0.635,0,1.147,0.439,1.147,0.98 V85.05c0,0.542-0.513,0.98-1.147,0.98h-2.58c-0.635,0-1.147-0.439-1.147-0.98V64.948c0-0.541,0.513-0.98,1.147-0.98H26.665 L26.665,63.968z"/> <circle id="camera_3_"  fill="none" stroke="#7F89A3" cx="12.919" cy="74.999" r="3"> </circle> <ellipse id="lock_3_"  fill="none" stroke="#7F89A3" cx="286.92" cy="74.999" rx="10.001" ry="10.04"> </ellipse> </g> </svg>',
+				'frame-width-multiplier':'1.16',
+				'frame-height-multiplier':'1.34'
+			},
+			'iphone-6-plus': {
+				'annotation-name': 'iPhone 6 Plus',
+				'width': 414,
+				'height': 736,
+				'svg':'<svg class="esb-device-frame" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 163.999 331.875" xml:space="preserve"> <g> <path id="bezel_4_"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M162.999,314.883 c0,8.833-7.191,15.992-16.062,15.992H17.062C8.191,330.875,1,323.716,1,314.883V16.992C1,8.159,8.191,1,17.062,1h129.875 c8.871,0,16.062,7.159,16.062,15.992V314.883L162.999,314.883z"/> <rect id="screen_4_" x="10.034" y="36.919"  fill="#FFFFFF" stroke="#7F89A3" width="143.929" height="255.084"> </rect> <path id="speaker_3_"  fill="none" stroke="#7F89A3" d="M93.03,26.665c0,0.635-0.439,1.147-0.98,1.147 H71.948c-0.542,0-0.98-0.513-0.98-1.147v-2.58c0-0.635,0.439-1.147,0.98-1.147h20.101c0.541,0,0.98,0.513,0.98,1.147V26.665 L93.03,26.665z"/> <circle id="camera_4_"  fill="none" stroke="#7F89A3" cx="81.999" cy="12.919" r="3"> </circle> <ellipse id="lock_4_"  fill="none" stroke="#7F89A3" cx="81.999" cy="310.92" rx="10.041" ry="10.001"> </ellipse> </g> </svg>',
+				'svg-landscape':'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 331.875 163.998" enable-background="new 0 0 331.875 163.998" xml:space="preserve"> <g> <path id="bezel_4_"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M314.883,1 c8.833,0,15.992,7.191,15.992,16.062v129.874c0,8.87-7.159,16.062-15.992,16.062H16.992C8.159,162.998,1,155.807,1,146.937V17.062 C1,8.191,8.159,1,16.992,1H314.883L314.883,1z"/> <rect id="screen_4_" x="36.919" y="10.034"  fill="#FFFFFF" stroke="#7F89A3" width="255.084" height="143.93"> </rect> <path id="speaker_3_"  fill="none" stroke="#7F89A3" d="M26.665,70.968c0.635,0,1.147,0.439,1.147,0.98 V92.05c0,0.542-0.513,0.98-1.147,0.98h-2.58c-0.635,0-1.147-0.439-1.147-0.98V71.948c0-0.541,0.513-0.98,1.147-0.98H26.665 L26.665,70.968z"/> <circle id="camera_4_"  fill="none" stroke="#7F89A3" cx="12.919" cy="81.999" r="3"> </circle> <ellipse id="lock_4_"  fill="none" stroke="#7F89A3" cx="310.92" cy="81.999" rx="10.001" ry="10.04"> </ellipse> </g> </svg>',
+				'frame-width-multiplier':'1.15',
+				'frame-height-multiplier':'1.31'
+			},
+			'ipad': {
+				'annotation-name': 'iPad',
+				'width': 768,
+				'height': 1024,
+				'svg':'<svg class="esb-device-frame" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 300.917 419.917" xml:space="preserve"> <g id="IPAD" transform="translate(681.000000, 55.000000)" sketch:type="MSLayerGroup"> <path id="bezel"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M-393.096,363.917h-274.89 c-6.635,0-12.014-5.377-12.014-12.01V-41.99c0-6.633,5.378-12.01,12.014-12.01h274.89c6.635,0,12.014,5.377,12.014,12.01v393.897 C-381.083,358.54-386.461,363.917-393.096,363.917z"/> <path id="bezel-2"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M-393.096,363.917h-274.89 c-6.635,0-12.014-5.377-12.014-12.01V-41.99c0-6.633,5.378-12.01,12.014-12.01h274.89c6.635,0,12.014,5.377,12.014,12.01v393.897 C-381.083,358.54-386.461,363.917-393.096,363.917z"/> <rect id="screen" x="-663.541" y="-22.083"  fill="#FFFFFF" stroke="#7F89A3" width="266" height="353.917"> </rect> <circle id="lock"  fill="none" stroke="#7F89A3" cx="-530.541" cy="346.938" r="8.021"> </circle> <circle id="camera"  fill="none" stroke="#7F89A3" cx="-530.542" cy="-37.093" r="2.99"> </circle> </g> </svg>',
+				'svg-landscape':'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 419.917 300.917" xml:space="preserve"> <g id="IPAD" transform="translate(681.000000, 55.000000)" sketch:type="MSLayerGroup"> <path id="bezel"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M-262.083-41.986v274.89 c0,6.635-5.377,12.014-12.01,12.014H-667.99c-6.633,0-12.01-5.378-12.01-12.014v-274.89C-680-48.622-674.623-54-667.99-54h393.897 C-267.46-54-262.083-48.622-262.083-41.986z"/> <path id="bezel-2"  fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M-262.083-41.986v274.89 c0,6.635-5.377,12.014-12.01,12.014H-667.99c-6.633,0-12.01-5.378-12.01-12.014v-274.89C-680-48.622-674.623-54-667.99-54h393.897 C-267.46-54-262.083-48.622-262.083-41.986z"/> <rect id="screen" x="-648.083" y="-37.541"  fill="#FFFFFF" stroke="#7F89A3" width="353.917" height="265.999"> </rect> <circle id="lock"  fill="none" stroke="#7F89A3" cx="-279.062" cy="95.458" r="8.021"> </circle> <circle id="camera"  fill="none" stroke="#7F89A3" cx="-663.093" cy="95.459" r="2.99"> </circle> </g> </svg>',
+				'frame-width-multiplier':'1.14',
+				'frame-height-multiplier':'1.194'
+			},
+			'nexus-10': {
+				'annotation-name': 'Nexus 10',
+				'width': 800,
+				'height': 1280,
+				'svg':'<svg class="esb-device-frame" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 472.125 696.723" enable-background="new 0 0 472.125 696.723" xml:space="preserve"> <g> <path fill="#FFFFFF" stroke="#58595B" d="M67.5,696.223c-37.002,0-67-29.997-67-67V67.5c0-37.003,29.998-67,67-67h337.125 c37.004,0,67,29.997,67,67v561.723c0,37.003-29.996,67-67,67H67.5z"/> <rect x="54.936" y="60.057" fill="#FFFFFF" stroke="#7F89A3" width="362.256" height="579.609"/> <circle fill="#FFFFFF" stroke="#000000" cx="443.623" cy="317.894" r="3.25"/> <circle fill="#FFFFFF" stroke="#000000" cx="443.873" cy="376.644" r="4"/> </g> </svg>',
+				'svg-landscape':'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 696.722 472.124" xml:space="preserve"> <g> <path fill="#FFFFFF" stroke="#58595B" d="M696.222,404.624c0,37.002-29.997,67-67,67H67.5c-37.003,0-67-29.998-67-67V67.5 c0-37.004,29.997-67,67-67h561.722c37.003,0,67,29.996,67,67V404.624z"/> <rect x="60.057" y="54.934" fill="#FFFFFF" stroke="#7F89A3" width="579.609" height="362.255"/> <circle fill="#FFFFFF" stroke="#000000" cx="317.894" cy="28.502" r="3.25"/> <circle fill="#FFFFFF" stroke="#000000" cx="376.643" cy="28.252" r="4"/> </g> </svg>',
+				'frame-width-multiplier':'1.305',
+				'frame-height-multiplier':'1.204'
+			},
+			'galaxy-s6': {
+				'annotation-name': 'Galaxy S6',
+				'width':360,
+				'height':640,
+				'svg':'<svg class="esb-device-frame" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 163 335" enable-background="new 0 0 163 335" xml:space="preserve"> <g> <path fill="#FFFFFF" stroke="#808285" d="M162.5,308.5c0,14.359-11.641,26-26,26h-110c-14.359,0-26-11.641-26-26v-282 c0-14.359,11.641-26,26-26h110c14.359,0,26,11.641,26,26V308.5z"/> <rect x="6.798" y="34.558" fill="#FFFFFF" stroke="#7F89A3" width="149.405" height="265.609"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M100.834,316.5c0,4.418-3.582,8-8,8H70.167c-4.418,0-8-3.582-8-8 l0,0c0-4.418,3.582-8,8-8h22.667C97.252,308.5,100.834,312.082,100.834,316.5L100.834,316.5z"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M97.492,13.042c0,1.381-1.119,2.5-2.5,2.5H68.009 c-1.381,0-2.5-1.119-2.5-2.5l0,0c0-1.381,1.119-2.5,2.5-2.5h26.983C96.373,10.542,97.492,11.661,97.492,13.042L97.492,13.042z"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="50.365" cy="12.354" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="57.99" cy="12.354" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="120.428" cy="12.229" r="4.125"/> </g> </svg>',
+				'svg-landscape':'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 335 163" xml:space="preserve"> <g> <path fill="#FFFFFF" stroke="#808285" d="M308.5,0.5c14.359,0,26,11.641,26,26v110c0,14.359-11.641,26-26,26h-282 c-14.359,0-26-11.641-26-26v-110c0-14.359,11.641-26,26-26H308.5z"/> <rect x="34.558" y="6.797" fill="#FFFFFF" stroke="#7F89A3" width="265.609" height="149.406"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M316.5,62.166c4.418,0,8,3.582,8,8v22.667c0,4.418-3.582,8-8,8 l0,0c-4.418,0-8-3.582-8-8V70.166C308.5,65.748,312.083,62.166,316.5,62.166L316.5,62.166z"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M13.042,65.508c1.381,0,2.5,1.119,2.5,2.5v26.984 c0,1.381-1.119,2.5-2.5,2.5l0,0c-1.381,0-2.5-1.119-2.5-2.5V68.008C10.542,66.627,11.661,65.508,13.042,65.508L13.042,65.508z"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.354" cy="112.635" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.354" cy="105.01" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.229" cy="42.572" r="4.125"/> </g> </svg>',
+				'frame-width-multiplier':'1.098',
+				'frame-height-multiplier':'1.266'
+			}
+		};
 		self.iframe_src = null;
 		self.placeholder_element = null;
 		self.viewer_element = null;
@@ -18,9 +83,7 @@ export class EsbFrame {
 		self.original_snippet = opts.original_snippet;
 		self.uuid = opts.uuid;
 		self.config = EsbConfig.getConfig();
-		// self.set_iframe_src();
 		self.set_viewer_options();
-
 		self.create_placeholder_element();
 	}
 
@@ -48,7 +111,9 @@ export class EsbFrame {
 				'width': 200,
 				'height': false,
 				'viewport-device': false,
-				'viewport-device-orientation': 'portrait'
+				'viewport-device-orientation': 'portrait',
+				'device-annotation': true,
+				'device-frame': false
 			},
 			option = null,
 			value = null,
@@ -128,7 +193,6 @@ export class EsbFrame {
 		if (options['viewport-device']) {
 			device_dimensions = self.get_device_dimensions(options['viewport-device'], options['viewport-device-orientation']);
 			if (device_dimensions) {
-				window.console.log(device_dimensions);
 				options['viewport-width'] = device_dimensions.width;
 				options['viewport-aspect-ratio'] = device_dimensions['aspect-ratio'];
 			}
@@ -142,6 +206,8 @@ export class EsbFrame {
 
 		self.placeholder_element = '<div class="esb-frame ';
 		if (self.options.overlay) { self.placeholder_element += ' esb-frame-has-overlay '; }
+		if (self.options['device-frame']) { self.placeholder_element += ' esb-frame--has-device-frame esb-frame-device-frame-' + self.options['viewport-device']; }
+		if (self.options['viewport-device-orientation'] === 'landscape') { self.placeholder_element += ' esb-frame-device-orientation-landscape'; }
 		self.placeholder_element += '" '; 
 		self.placeholder_element +='data-esb-uuid="' + self.uuid + '">';
 		if (self.options.href) { 
@@ -185,7 +251,6 @@ export class EsbFrame {
 
 	get_scale_icon() {
 		var scale_icon = '<span class="esb-frame-scale-icon">';
-
 		scale_icon += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 13.973" height="15px">';
 		scale_icon += '<g><path d="M8.361,7.749c-0.043,0-0.077,0.005-0.113,0.012c-0.02,0.002-0.039,0.014-0.051,0.014 C8.177,7.783,8.154,7.788,8.14,7.794C8.116,7.802,8.1,7.815,8.084,7.825C8.068,7.831,8.051,7.841,8.036,7.848 c-0.061,0.044-0.115,0.099-0.16,0.16C7.869,8.022,7.858,8.039,7.854,8.056c-0.012,0.02-0.027,0.033-0.03,0.055 C7.814,8.13,7.812,8.148,7.802,8.171C7.799,8.185,7.792,8.2,7.787,8.219C7.783,8.256,7.775,8.294,7.776,8.335v3.296 c0,0.327,0.262,0.587,0.585,0.587c0.322,0,0.585-0.26,0.585-0.587V9.743l4.059,4.058c0.226,0.229,0.595,0.229,0.822,0 c0.23-0.229,0.23-0.599,0-0.824l-4.06-4.06h1.893c0.158,0.001,0.308-0.062,0.414-0.172c0.103-0.106,0.167-0.249,0.167-0.41 c0-0.326-0.26-0.586-0.581-0.586H8.361z"/><path d="M6.42,0H0.584C0.262,0,0,0.261,0,0.583v5.835c0,0.319,0.262,0.581,0.584,0.581H6.42 C6.738,6.999,7,6.737,7,6.418V0.583C7,0.261,6.738,0,6.42,0z M1.17,1.168h4.662v4.665H1.17V1.168z"/></g></svg>';
 		scale_icon += '</span>';
@@ -195,11 +260,10 @@ export class EsbFrame {
 
 	get_dimensions_icon() {
 		var dimensions_icon = '<span class="esb-frame-dimensions-icon">';
-
 		dimensions_icon += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 13.993" height="15px">';
 		dimensions_icon += '<path d="M13.996,3.487c0-0.034-0.002-0.067-0.006-0.096c-0.006-0.021-0.01-0.039-0.017-0.054 c-0.007-0.02-0.009-0.041-0.019-0.056c-0.006-0.021-0.018-0.04-0.029-0.056c-0.007-0.015-0.014-0.032-0.025-0.047 c-0.016-0.028-0.041-0.055-0.062-0.077c-0.004-0.005-0.006-0.01-0.008-0.011l0,0l0,0l-2.91-2.922 c-0.226-0.226-0.594-0.226-0.824-0.003c-0.228,0.229-0.228,0.6-0.002,0.826l1.919,1.926L3.499,2.914l0,0 c-0.153,0-0.302,0.062-0.412,0.172C2.978,3.194,2.917,3.342,2.917,3.5l0.006,8.491l-1.928-1.928c-0.226-0.232-0.595-0.232-0.824,0 c-0.228,0.224-0.229,0.592-0.001,0.82l2.931,2.939c0.109,0.109,0.259,0.17,0.416,0.17c0.162,0,0.301-0.061,0.411-0.17l2.899-2.926 c0.228-0.232,0.225-0.602-0.001-0.828c-0.231-0.225-0.601-0.225-0.828,0.008l-1.911,1.928L4.084,4.08l7.924,0.008l-1.921,1.914 c-0.231,0.224-0.232,0.594-0.004,0.821c0.113,0.115,0.263,0.174,0.413,0.174c0.149,0,0.297-0.058,0.41-0.174l2.924-2.908l0,0 c0.027-0.027,0.051-0.058,0.07-0.086c0.012-0.014,0.018-0.031,0.025-0.047c0.012-0.021,0.021-0.035,0.028-0.056 c0.011-0.02,0.013-0.036,0.02-0.06c0.007-0.015,0.011-0.03,0.017-0.05C13.994,3.582,14,3.542,14,3.501l0,0 C14,3.499,13.996,3.489,13.996,3.487z"/></svg>';
 		dimensions_icon += '</span>';
-
+		
 		return dimensions_icon;
 	}
 
@@ -209,8 +273,17 @@ export class EsbFrame {
 			dimensions_annotation = '',
 			scale = parseFloat((dimensions.scale*100).toFixed(1));
 		
+		if (self.options['viewport-device'] && self.options['device-annotation']) {
+			dimensions_annotation += '<p class="esb-frame-device-annotation">';
+			dimensions_annotation += self.device_presets[self.options['viewport-device']]['annotation-name'];
+			if (self.options['viewport-device-orientation'] === 'landscape') {
+				dimensions_annotation += ', Landscape';
+			}
+			dimensions_annotation += '</p>';
+		}
+
 		if (self.options.dimensions && dimensions.width && dimensions.height && dimensions.scale) {
-			dimensions_annotation = '<p class="esb-frame-dimensions-annotation">';
+			dimensions_annotation += '<p class="esb-frame-dimensions-annotation">';
 			dimensions_annotation += self.get_dimensions_icon() + '<span class="esb-frame-dimensions-value">' + Math.round(dimensions.width) + '&times;' + Math.round(dimensions.height) + '</span> ';
 			if (scale !== 100) {
 				dimensions_annotation += self.get_scale_icon() + '<span class="esb-frame-scale-value">' + parseFloat((dimensions.scale*100).toFixed(1)) + '%</span>';
@@ -225,6 +298,7 @@ export class EsbFrame {
 		var self = this,
 			styles = '',
 			height,
+			device_frame_offsets,
 			width = self.options.width;
 
 		if (self.options.scale) {
@@ -238,8 +312,15 @@ export class EsbFrame {
 			else {
 				height = width * self.options['viewport-aspect-ratio'];
 			}
-			styles = 'width:' + width + 'px; height:' + height + 'px;';
 		}
+
+		if (self.options['device-frame']) {
+			device_frame_offsets = self.get_device_frame_dimension_offsets(self.options['viewport-device'], self.options['viewport-device-orientation']);
+			width = width * device_frame_offsets.width;
+			height = height * device_frame_offsets.height;
+		}
+
+		styles = 'width:' + width + 'px; height:' + height + 'px;';
 
 		return styles;
 	}
@@ -252,6 +333,7 @@ export class EsbFrame {
 		iframe_wrap = '<div class="esb-frame-iframe-wrap"';
 		if (styles.length > 0) { iframe_wrap += ' style="' + styles + '" '; }
 		iframe_wrap += '>';
+		if (self.options['device-frame']) { iframe_wrap += self.get_device_frame(self.options['viewport-device'], self.options['viewport-device-orientation']); }
 		iframe_wrap += self.get_loading_animation();
 		iframe_wrap += self.get_iframe();
 		iframe_wrap += '</div>';
@@ -530,59 +612,57 @@ export class EsbFrame {
 	}
 
 	get_device_dimensions(key, orientation) {
-		var result_dimensions = false,
+		var self = this,
+			result_dimensions = false,
 			height = null,
 			width = null,
-			aspect_ratio = null,
-			dimensions = {
-				'iphone-4': {
-					'width': 320,
-					'height': 480
-				},
-				'iphone-5': {
-					'width': 320,
-					'height': 568
-				},
-				'iphone-6': {
-					'width': 375,
-					'height': 667
-				},
-				'iphone-6-plus': {
-					'width': 414,
-					'height': 736
-				},
-				'ipad': {
-					'width': 768,
-					'height': 1024
-				},
-				'nexus-10': {
-					'width': 800,
-					'height': 1280
-				},
-				'galaxy-s6': {
-					'width':360,
-					'height':640
-				}
-			};
+			aspect_ratio = null;
 
-		if (key in dimensions) {
-			height = dimensions[key].height;
-			width = dimensions[key].width;
-	
-			if (orientation === 'landscape') {
-				width = dimensions[key].height;
-				height = dimensions[key].width;
-			}
+		height = self.device_presets[key].height;
+		width = self.device_presets[key].width;
 
-			aspect_ratio = (height / width).toFixed(5);
-
-			result_dimensions = {
-				'height': height,
-				'width': width,
-				'aspect-ratio': aspect_ratio		
-			};
+		if (orientation === 'landscape') {
+			width = self.device_presets[key].height;
+			height = self.device_presets[key].width;
 		}
 
+		aspect_ratio = (height / width).toFixed(5);
+
+		result_dimensions = {
+			'height': height,
+			'width': width,
+			'aspect-ratio': aspect_ratio		
+		};
+
 		return result_dimensions;
+	}
+
+	get_device_frame(key, orientation) {
+		var self = this,
+			svg_string = '';
+
+		svg_string = self.device_presets[key].svg;
+
+		if (orientation === 'landscape') {
+			svg_string = self.device_presets[key]['svg-landscape'];
+		}
+
+		return svg_string;
+	}
+
+	get_device_frame_dimension_offsets(key, orientation) {
+		var self = this,
+			width,
+			height;
+
+		width = self.device_presets[key]['frame-width-multiplier'];
+		height = self.device_presets[key]['frame-height-multiplier'];
+
+		if (orientation === 'landscape') {
+			width = self.device_presets[key]['frame-height-multiplier'];
+			height = self.device_presets[key]['frame-width-multiplier'];
+		}
+
+		return {'width': width, 'height': height};
 	}
 }

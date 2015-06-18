@@ -31,6 +31,7 @@ $viewer-scale: $viewer-width / $viewer-content-width;
 		right: 0;
 		background: rgba(0,0,0,0.8);
 		opacity: 1;
+    z-index: 5;
 	}
 
 	.esb-frame--is-loaded &:after {
@@ -52,7 +53,11 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   }
 
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
+
+    .esb-frame-title {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -79,7 +84,8 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   color: #666;
 }
 
-.esb-frame-dimensions-annotation {
+.esb-frame-dimensions-annotation,
+.esb-frame-device-annotation {
   font-size: 0.8em;
   color: #999;
   margin: 0;
@@ -95,6 +101,10 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   }
 }
 
+.esb-frame-device-annotation + .esb-frame-dimensions-annotation {
+  padding-top: 0;
+}
+
 .esb-frame-dimensions-icon,
 .esb-frame-scale-icon,
 .esb-frame-dimensions-value,
@@ -108,7 +118,6 @@ $viewer-scale: $viewer-width / $viewer-content-width;
 .esb-frame-scale-value {
   padding-right: 15px;
 }
-
 
 .esb-loading-animation,
 .esb-loading-animation:before,
@@ -166,5 +175,71 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   40% {
     box-shadow: 0 -2em #ffffff;
     height: 5em;
+  }
+}
+
+.esb-device-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index:1;
+}
+
+$device-offsets: (
+  'iphone-4': (
+    'top': 15.05%,
+    'left': 7.4%
+  ),
+  'iphone-5': (
+    'top': 13.3%,
+    'left': 7.55%
+  ),
+  'iphone-6': (
+    'top': 11.9%,
+    'left': 6.65%
+  ),
+  'iphone-6-plus': (
+    'top': 11.1%,
+    'left': 6.1%
+  ),
+  'ipad': (
+    'top': 7.88%,
+    'left': 5.93%
+  ),
+  'nexus-10': (
+    'top': 8.5%,
+    'left': 11.5%
+  ),
+  'galaxy-s6': (
+    'top': 10.3%,
+    'left': 4.2%
+  )
+);
+
+@each $device, $dimensions in $device-offsets {
+  .esb-frame--has-device-frame.esb-frame-device-frame-#{$device} .esb-frame-iframe {
+    top: #{map-get($dimensions, 'top')};
+    left: #{map-get($dimensions, 'left')};
+  }
+
+  .esb-frame--has-device-frame.esb-frame-device-frame-#{$device}.esb-frame-device-orientation-landscape .esb-frame-iframe {
+    top: #{map-get($dimensions, 'left')};
+    left: #{map-get($dimensions, 'top')};
+  }
+}
+
+.esb-frame--has-device-frame {
+  background: none;
+  box-shadow: none;
+
+  .esb-frame-iframe-wrap {
+    background: none;
+  }
+
+  .esb-frame-iframe {
+    z-index: 2;
+    background: gray;
+    padding: 2px;
   }
 }
