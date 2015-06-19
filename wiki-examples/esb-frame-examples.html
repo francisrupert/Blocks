@@ -95,6 +95,50 @@
 					data-esb-unload-when-not-visible="true"></div>
 
 
+			<h2 id="device-examples">Device Examples</h2>
+			<p>
+				Frame has built-in shortcuts for displaying pages as they would appear on various devices. Use the <code>data-esb-viewport-device</code> attribute to have your Frame sized to match a device.
+			</p>
+			<p>
+				You can also wrap the Frame with a wireframed representation of the device by using <code>data-esb-device-frame="true"</code>
+			</p>
+
+<pre>
+	<code>
+&lt;div data-esb-frame=&quot;http://eightshapes.com&quot; data-esb-viewport-device=&quot;iphone-6&quot; data-esb-scale=&quot;0.75&quot;&gt;&lt;/div&gt;
+&lt;div data-esb-frame=&quot;http://eightshapes.com&quot; data-esb-viewport-device=&quot;iphone-6&quot; data-esb-scale=&quot;0.75&quot; data-esb-device-frame=&quot;true&quot;&gt;&lt;/div&gt;
+	</code>
+</pre>
+
+			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="iphone-6" data-esb-scale="0.75"></div>
+			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="iphone-6" data-esb-scale="0.75" data-esb-device-frame="true"></div>
+
+			<p>
+				The device's orientation can also be set to landscape using <code>data-esb-viewport-device-orientation="landscape"</code>
+			</p>
+
+<pre>
+	<code>
+&lt;div data-esb-frame=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-device=&quot;galaxy-s6&quot; 
+     data-esb-scale=&quot;0.75&quot; 
+     data-esb-viewport-device-orientation=&quot;landscape&quot;&gt;&lt;/div&gt;
+
+&lt;div data-esb-frame=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-device=&quot;galaxy-s6&quot; 
+     data-esb-scale=&quot;0.75&quot; 
+     data-esb-viewport-device-orientation=&quot;landscape&quot;
+     data-esb-device-frame=&quot;true&quot;&gt;&lt;/div&gt;	
+	</code>
+</pre>
+			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="galaxy-s6" data-esb-scale="0.75" data-esb-viewport-device-orientation="landscape"></div>
+			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="galaxy-s6" data-esb-scale="0.75" data-esb-device-frame="true" data-esb-viewport-device-orientation="landscape"></div>
+
+
+
+
+
+
 			<h2 id="on-page-config-example">On Page Config Example</h2>
 			<p>Use on page config to wrap certain viewers with options that you don't want to apply to other viewers</p>
 			<pre>
