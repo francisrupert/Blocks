@@ -40,4 +40,8 @@ describe("EsbMark", function(){
 	it("should have a uuid", function(){
 		expect(mark.uuid).toEqual(uuid);
 	});
+
+	xit("should inject an esb-mark-label into the DOM", function(){
+		
+	});
 });

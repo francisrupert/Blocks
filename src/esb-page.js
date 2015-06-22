@@ -62,6 +62,33 @@ class EsbPage {
 
       frame.inject_placeholder();
     }
+
+    self.blocksDone().then(
+      function(){
+        self.displayEsbMarks();
+      },
+      function() {
+        self.logger('error', 'BlocksDone did not fire.');
+      }
+    );
+  }
+
+  displayEsbMarks() {
+    var self = this,
+        parsed_esb_marks = self.getParsedEsbMarks();
+
+        if (parsed_esb_marks.length > 0) {
+          for (let idx in parsed_esb_marks) {
+            let esb_mark = self.parsed_esb_marks[idx];
+
+            esb_mark.render();
+          }
+        }
+  }
+
+  getParsedEsbMarks() {
+    var self = this;
+    return self.parsed_esb_marks;
   }
 
   getParsedEsbComponents() {
@@ -146,7 +173,8 @@ class EsbPage {
       marks[i].setAttribute('data-esb-uuid', uuid);
 
       let mark = new EsbMark({
-        uuid: uuid
+        uuid: uuid,
+        mark_element: marks[i]
       });
 
       self.parsed_esb_marks.push(mark);

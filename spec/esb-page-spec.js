@@ -115,8 +115,9 @@ describe("EsbPage", function(){
 			expect(EsbPage.parsed_esb_marks.length).toEqual(1);
 		});
 
-		xit ("should create an EsbMark instance", function(){
-			// expect(EsbPage.parsed_esb_frames[0].original_snippet).toMatch(/data-esb-frame="http:\/\/google.com"/);
+		it ("should display all ESB Mark instances", function(){
+			EsbPage.displayEsbMarks();
+			expect(EsbPage.parsed_esb_marks[0].mark_element.outerHTML).toMatch(/class="button esb-mark"/);
 		});
 	});
 });
