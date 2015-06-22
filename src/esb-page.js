@@ -2,6 +2,7 @@ import $ from 'jquery';
 import EsbUtil from './esb-util';
 import { EsbComponent } from './esb-component';
 import { EsbFrame } from 'src/esb-frame';
+import { EsbMark } from 'src/esb-mark';
 
 class EsbPage {
   constructor() {
@@ -14,6 +15,7 @@ class EsbPage {
 
     self.parsed_esb_components = [];
     self.parsed_esb_frames = [];
+    self.parsed_esb_marks = [];
 
     // page cache of components
     self.components = {};
@@ -71,6 +73,7 @@ class EsbPage {
     var self = this;
     self.parseEsbComponents();
     self.parseEsbFrames();
+    self.parseEsbMarks();
   }
 
   parseEsbComponents() {
@@ -124,6 +127,29 @@ class EsbPage {
       });
 
       self.parsed_esb_frames.push(frame);
+    }
+  }
+
+  parseEsbMarks() {
+    var self = this,
+        marks = [],
+        i = 0;
+
+    self.name  = self.retrievePageTitle();
+    self.$root = self.retrieveRootElement();
+
+    marks = self.$root[0].querySelectorAll('*[data-esb-mark]:not([data-esb-mark-config])');
+
+    for (i=0; i < marks.length; i++) {
+      let uuid = EsbUtil.generateUUID();
+
+      marks[i].setAttribute('data-esb-uuid', uuid);
+
+      let mark = new EsbMark({
+        uuid: uuid
+      });
+
+      self.parsed_esb_marks.push(mark);
     }
   }
 

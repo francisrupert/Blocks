@@ -103,4 +103,20 @@ describe("EsbPage", function(){
 			expect(EsbPage.parsed_esb_frames[0].original_snippet).toMatch(/data-esb-frame="http:\/\/google.com"/);
 		});
 	});
+
+	describe("when there is an esb-mark on the page", function(){
+		beforeEach(function(){
+			loadFixtures('page-with-mark.html');
+			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
+			EsbPage.parse();
+		});
+
+		it ("should have an esb-marks count of 1", function(){
+			expect(EsbPage.parsed_esb_marks.length).toEqual(1);
+		});
+
+		xit ("should create an EsbMark instance", function(){
+			// expect(EsbPage.parsed_esb_frames[0].original_snippet).toMatch(/data-esb-frame="http:\/\/google.com"/);
+		});
+	});
 });
