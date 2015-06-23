@@ -36,6 +36,7 @@ class EsbPage {
     // A flag for children to know that there are no more parents to notify
     // The 'page' type is the root
     self.type = 'page';
+    self.setEventListeners();
   }
 
   /*
@@ -75,6 +76,60 @@ class EsbPage {
 
         esb_mark.render();
       }
+    }
+  }
+
+  hideAllEsbMarks() {
+    var rendered_marks = document.querySelectorAll('.esb-mark'),
+        i;
+
+    for (i = 0; i < rendered_marks.length; i++) {
+      EsbUtil.addClass(rendered_marks[i], 'esb-mark--is-hidden');
+    }
+  }
+
+  showAllEsbMarks() {
+    var rendered_marks = document.querySelectorAll('.esb-mark'),
+        i;
+
+    for (i = 0; i < rendered_marks.length; i++) {
+      EsbUtil.removeClass(rendered_marks[i], 'esb-mark--is-hidden');
+    }
+  }
+
+  toggleAllEsbMarks() {
+    var self = this,
+        hidden_marks = document.querySelectorAll('.esb-mark.esb-mark--is-hidden');
+
+    if (hidden_marks.length > 0) {
+      self.showAllEsbMarks();
+    }
+    else {
+      self.hideAllEsbMarks();
+    }
+  }
+
+  processKeyboardEvent(e) {
+    var self = this;
+
+    if (e.keyCode === 77 && e.shiftKey === true && e.ctrlKey === true) {
+      self.toggleAllEsbMarks();
+    }
+  }
+
+  setEventListeners() {
+    var self = this;
+    
+    if (window.$ !== undefined) {
+      // jQuery's event system is separate from the browser's, so set these up so $(document).trigger will work
+      window.$(document).on('show-all-esb-marks', self.showAllEsbMarks.bind(self));
+      window.$(document).on('hide-all-esb-marks', self.hideAllEsbMarks.bind(self));
+      window.$(document).on('keydown', self.processKeyboardEvent.bind(self));
+    }
+    else {
+      document.addEventListener('show-all-esb-marks', self.showAllEsbMarks.bind(self));
+      document.addEventListener('hide-all-esb-marks', self.hideAllEsbMarks.bind(self));
+      document.addEventListener('keydown', self.processKeyboardEvent.bind(self));
     }
   }
 

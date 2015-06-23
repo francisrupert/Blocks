@@ -50,12 +50,49 @@ class EsbUtil {
     return val;
   }
 
+  isVoidElement(el) {
+    var tags = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input',
+                 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
+        name;
+
+    name = el.nodeName.toLowerCase();
+
+    if (tags.indexOf(name) !== -1) {
+      return true;
+    }
+
+    return false;
+  }
+
   addClass(el, class_name) {
-    if (el.classList) {
-      el.classList.add(class_name);
-    } 
-    else {
-      el.className += ' ' + class_name;
+    var classes = [],
+        i = 0;
+
+    classes = class_name.split(' ');
+
+    for (i=0; i < classes.length; i++) {
+      if (el.classList) {
+        el.classList.add(classes[i]);
+      } 
+      else {
+        el.className += ' ' + classes[i];
+      }
+    }
+  }
+
+  removeClass(el, class_name) {
+    var classes = [],
+        i = 0;
+
+    classes = class_name.split(' ');
+
+    for (i=0; i < classes.length; i++) {
+      if (el.classList){
+        el.classList.remove(classes[i]);
+      }
+      else {
+        el.className = el.className.replace(new RegExp('(^|\\b)' + classes[i].split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+      }
     }
   }
 

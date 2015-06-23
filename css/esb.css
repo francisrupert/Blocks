@@ -4,7 +4,7 @@
   background: #e5e5e5;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   min-width: 200px;
-  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-family: "Proxima Nova", "Arial", sans-serif;
   margin: 10px; }
 
 .esb-frame-iframe-wrap {
@@ -217,6 +217,59 @@
     z-index: 2;
     background: gray;
     padding: 2px; }
+
+.esb-mark--has-outline {
+  transition: outline-color 0.4s ease;
+  outline: solid 1px #e76822; }
+  .esb-mark--has-outline:hover {
+    outline-width: 2px; }
+
+.esb-mark--has-static-position {
+  position: relative; }
+
+.esb-mark-label {
+  transition: opacity 0.4s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #e76822;
+  color: white;
+  font-size: 16px;
+  font-family: "Proxima Nova", "Arial", sans-serif;
+  opacity: 1; }
+  .esb-mark-position-top-right .esb-mark-label {
+    left: auto;
+    right: 0; }
+  .esb-mark-position-bottom-left .esb-mark-label {
+    top: auto;
+    bottom: 0; }
+  .esb-mark-position-bottom-right .esb-mark-label {
+    top: auto;
+    left: auto;
+    bottom: 0;
+    right: 0; }
+
+.esb-mark-label-id,
+.esb-mark-label-name {
+  padding: 3px 6px; }
+
+.esb-mark-label-id + .esb-mark-label-name {
+  padding-left: 0; }
+
+.esb-mark-label--has-name .esb-mark-label-id {
+  opacity: 0.8; }
+
+.esb-mark.secondary.esb-mark--has-outline {
+  outline-color: #801608; }
+
+.esb-mark.secondary .esb-mark-label {
+  background: #801608; }
+
+.esb-mark.esb-mark--is-hidden .esb-mark-label {
+  opacity: 0; }
+
+.esb-mark.esb-mark--is-hidden.esb-mark--has-outline {
+  outline-color: rgba(231, 104, 34, 0); }
 
 .esb-component-loading-error {
   position: fixed;

@@ -19,6 +19,8 @@ class EsbConfig {
         req,
         data;
 
+    self.setDefaults(); //reset config when a new url is loaded
+
     return new Promise(function(resolve, reject) {
       uri = url || self.url;
       req = new XMLHttpRequest();

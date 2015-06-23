@@ -19,7 +19,8 @@ export class EsbMark {
 			options = {
 				'mark': null,
 				'id': null,
-				'position': 'top-left',
+				'show-id': true,
+				'mark-position': 'top-left',
 				'outline': true,
 				'group': null
 			},
@@ -28,8 +29,6 @@ export class EsbMark {
 			el = self.mark_element,
 			page_level_config_element = false,
 			config_json_global_options = self.config.get('marks');
-
-			// window.console.log(self.mark_element);
 
 		// Global config
 		if (config_json_global_options !== undefined) {
@@ -72,12 +71,73 @@ export class EsbMark {
 
 	render() {
 		var self = this,
-			label_element = self.get_label_element();
+			label_element = self.get_label_element(),
+			mark_wrapper;
 
-		EsbUtil.addClass(self.mark_element, 'esb-mark');
-		EsbUtil.addClass(self.mark_element, 'esb-mark-position-' + self.options.position);
+		if (EsbUtil.isVoidElement(self.mark_element)) {
+			// The element being marked cannot have children appended (img, input, etc.)
+			mark_wrapper = self.add_mark_wrapper();
+		}
+		else {
+			mark_wrapper = self.mark_element;
+		}
 
-		self.mark_element.appendChild(label_element);
+		EsbUtil.addClass(mark_wrapper, 'esb-mark');
+		EsbUtil.addClass(mark_wrapper, 'esb-mark-position-' + self.options['mark-position']);
+		EsbUtil.addClass(mark_wrapper, self.get_css_position_class(mark_wrapper));
+
+		if (self.options.outline) {
+			EsbUtil.addClass(mark_wrapper, 'esb-mark--has-outline');
+		}
+
+		if (self.options.group !== null) {
+			EsbUtil.addClass(mark_wrapper, self.options.group);
+		}
+
+		mark_wrapper.appendChild(label_element);
+	}
+
+	add_mark_wrapper() {
+		var self = this,
+			wrapper = document.createElement('span'),
+			original_element_styles,
+			i,
+			original_value,
+			property_name,
+			styles_to_copy = [
+				'float',
+				'display'
+			];
+
+		original_element_styles = window.getComputedStyle(self.mark_element, null);
+
+		for (i=0; i < styles_to_copy.length; i++) {
+			property_name = styles_to_copy[i];
+			original_value = original_element_styles.getPropertyValue(property_name);
+
+			if (property_name === 'display' && original_value === 'inline') {
+				original_value = 'inline-block';
+			}
+
+			wrapper.style[property_name] = original_value;
+		}
+
+		// wrapper.style.cssText = window.getComputedStyle(self.mark_element, null).cssText;
+		wrapper.appendChild(self.mark_element.cloneNode((true)));
+
+		self.mark_element.parentNode.replaceChild(wrapper, self.mark_element);
+
+		return wrapper;
+	}
+
+	get_css_position_class(wrapper) {
+		var css_position_class = '',
+			css_position = 'static';
+
+		css_position = window.getComputedStyle(wrapper, null).getPropertyValue('position');
+
+		css_position_class = 'esb-mark--has-' + css_position + '-position';
+		return css_position_class;
 	}
 
 	get_label_element() {
@@ -88,10 +148,13 @@ export class EsbMark {
 
 		EsbUtil.addClass(label_element, 'esb-mark-label');
 
-		label_element.appendChild(label_id_element);
+		if (self.options['show-id']) {
+			label_element.appendChild(label_id_element);
+		}
 
 		if (label_name_element !== null) {
 			label_element.appendChild(label_name_element);
+			EsbUtil.addClass(label_element, 'esb-mark-label--has-name');
 		}
 
 		return label_element;
