@@ -108,7 +108,8 @@ describe("EsbPage", function(){
 		beforeEach(function(){
 			loadFixtures('page-with-mark.html');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
-			EsbPage.parse();
+			EsbPage.parseEsbMarks();
+			EsbPage.esb_mark_auto_id = 1;
 		});
 
 		it ("should have an esb-marks count of 1", function(){
@@ -117,7 +118,12 @@ describe("EsbPage", function(){
 
 		it ("should display all ESB Mark instances", function(){
 			EsbPage.displayEsbMarks();
-			expect(EsbPage.parsed_esb_marks[0].mark_element.outerHTML).toMatch(/class="button esb-mark"/);
+			expect(EsbPage.parsed_esb_marks[0].mark_element.outerHTML).toMatch(/class="button esb-mark/);
+		});
+
+		it ("should return an auto-incrementing number to be used as a default Mark id", function(){
+			expect(EsbPage.getEsbMarkAutoId()).toEqual(1);
+			expect(EsbPage.getEsbMarkAutoId()).toEqual(2);
 		});
 	});
 });

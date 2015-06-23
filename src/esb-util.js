@@ -50,6 +50,15 @@ class EsbUtil {
     return val;
   }
 
+  addClass(el, class_name) {
+    if (el.classList) {
+      el.classList.add(class_name);
+    } 
+    else {
+      el.className += ' ' + class_name;
+    }
+  }
+
   throttle(delay, callback) {
     var previousCall = new Date().getTime();
     return function() {

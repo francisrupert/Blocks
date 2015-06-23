@@ -27,7 +27,7 @@ beforeAll(function(done){
 	}, function(err){
 		console.log(err);
 	});
-})
+});
 
 describe("EsbFrame", function(){
 	var frame = null,

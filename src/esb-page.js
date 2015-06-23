@@ -16,6 +16,7 @@ class EsbPage {
     self.parsed_esb_components = [];
     self.parsed_esb_frames = [];
     self.parsed_esb_marks = [];
+    self.esb_mark_auto_id = 1;
 
     // page cache of components
     self.components = {};
@@ -62,28 +63,19 @@ class EsbPage {
 
       frame.inject_placeholder();
     }
-
-    self.blocksDone().then(
-      function(){
-        self.displayEsbMarks();
-      },
-      function() {
-        self.logger('error', 'BlocksDone did not fire.');
-      }
-    );
   }
 
   displayEsbMarks() {
     var self = this,
         parsed_esb_marks = self.getParsedEsbMarks();
 
-        if (parsed_esb_marks.length > 0) {
-          for (let idx in parsed_esb_marks) {
-            let esb_mark = self.parsed_esb_marks[idx];
+    if (parsed_esb_marks.length > 0) {
+      for (let idx in parsed_esb_marks) {
+        let esb_mark = self.parsed_esb_marks[idx];
 
-            esb_mark.render();
-          }
-        }
+        esb_mark.render();
+      }
+    }
   }
 
   getParsedEsbMarks() {
@@ -96,11 +88,19 @@ class EsbPage {
     return self.parsed_esb_components;
   }
 
+  getEsbMarkAutoId() {
+    var self = this,
+        id = self.esb_mark_auto_id;
+    
+    self.esb_mark_auto_id++;
+
+    return id;
+  }
+
   parse() {
     var self = this;
     self.parseEsbComponents();
     self.parseEsbFrames();
-    self.parseEsbMarks();
   }
 
   parseEsbComponents() {
