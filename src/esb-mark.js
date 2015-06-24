@@ -22,7 +22,8 @@ export class EsbMark {
 				'show-id': true,
 				'mark-position': 'top-left',
 				'outline': true,
-				'group': null
+				'group': null,
+				'visible-on-load': true
 			},
 			option = null,
 			value = null,
@@ -85,6 +86,10 @@ export class EsbMark {
 		EsbUtil.addClass(mark_wrapper, 'esb-mark');
 		EsbUtil.addClass(mark_wrapper, 'esb-mark-position-' + self.options['mark-position']);
 		EsbUtil.addClass(mark_wrapper, self.get_css_position_class(mark_wrapper));
+
+		if (!self.options['visible-on-load']) {
+			EsbUtil.addClass(mark_wrapper, 'esb-mark--is-hidden');
+		}
 
 		if (self.options.outline) {
 			EsbUtil.addClass(mark_wrapper, 'esb-mark--has-outline');

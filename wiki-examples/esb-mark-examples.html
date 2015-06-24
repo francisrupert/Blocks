@@ -269,6 +269,27 @@ document.dispatchEvent(event);
 				</div>
 			</div>
 
+			<h2>Hiding by default</h2>
+			<div class="row">
+				<div class="col-md-4">
+					<p data-esb-mark data-esb-visible-on-load="false">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. 
+					</p>
+				</div>
+				<div class="col-md-8">
+					Using the <code>visible-on-load="false"</code> option will prevent the Mark from appearing on page load. It can then be made visible using Javascript or by using the keyboard shortcut
+
+					<pre>
+						<code>
+&lt;p data-esb-mark data-esb-visible-on-load=&quot;false&quot;&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+	Illum maiores numquam sed iusto vero, suscipit facilis. 
+&lt;/p&gt;
+						</code>
+					</pre>
+				</div>
+			</div>
+
 
 		</div>
 	</body>

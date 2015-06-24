@@ -1,3 +1,5 @@
+$default-border-radius: 4px;
+
 .esb-mark--has-outline {
 	transition: outline-color 0.4s ease;
 	outline: solid 1px $esb-orange;
@@ -13,6 +15,7 @@
 
 .esb-mark-label {
 	transition: opacity 0.4s ease;
+	border-radius: $default-border-radius;
 	position: absolute;
 	top: 0;
 	left: 0;
