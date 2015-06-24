@@ -74,7 +74,9 @@ export class EsbMark {
 	render() {
 		var self = this,
 			label_element = self.get_label_element(),
-			mark_wrapper;
+			mark_wrapper,
+			i,
+			group_classes;
 
 		if (EsbUtil.isVoidElement(self.mark_element)) {
 			// The element being marked cannot have children appended (img, input, etc.)
@@ -97,6 +99,11 @@ export class EsbMark {
 		}
 
 		if (self.options.group !== null) {
+			group_classes = self.options.group.split(' ');
+			for (i=0; i < group_classes.length; i++) {
+				group_classes[i] = 'esb-mark-group-' + group_classes[i];
+			}
+			self.options.group = group_classes.join(' ');
 			EsbUtil.addClass(mark_wrapper, self.options.group);
 		}
 

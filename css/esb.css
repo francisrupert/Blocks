@@ -259,7 +259,8 @@
 
 .esb-mark-label-id,
 .esb-mark-label-name {
-  padding: 3px 6px; }
+  padding: 5px 10px;
+  display: inline-block; }
 
 .esb-mark-label-id + .esb-mark-label-name {
   padding-left: 0; }
@@ -267,10 +268,10 @@
 .esb-mark-label--has-name .esb-mark-label-id {
   opacity: 0.8; }
 
-.esb-mark.secondary.esb-mark--has-outline {
+.esb-mark-group-secondary.esb-mark--has-outline {
   outline-color: #801608; }
 
-.esb-mark.secondary .esb-mark-label {
+.esb-mark-group-secondary .esb-mark-label {
   background: #801608; }
 
 .esb-mark.esb-mark--is-hidden .esb-mark-label {
@@ -278,6 +279,61 @@
 
 .esb-mark.esb-mark--is-hidden.esb-mark--has-outline {
   outline-color: rgba(231, 104, 34, 0); }
+
+.esb-mark-group-red.esb-mark--has-outline {
+  outline-color: #801608; }
+
+.esb-mark-group-red .esb-mark-label {
+  background: #801608; }
+
+.esb-mark-group-yellow.esb-mark--has-outline {
+  outline-color: #c07C39; }
+
+.esb-mark-group-yellow .esb-mark-label {
+  background: #c07C39; }
+
+.esb-mark-group-green.esb-mark--has-outline {
+  outline-color: #06601E; }
+
+.esb-mark-group-green .esb-mark-label {
+  background: #06601E; }
+
+.esb-mark-group-blue.esb-mark--has-outline {
+  outline-color: #3591A7; }
+
+.esb-mark-group-blue .esb-mark-label {
+  background: #3591A7; }
+
+.esb-mark-group-purple.esb-mark--has-outline {
+  outline-color: #7B3AAA; }
+
+.esb-mark-group-purple .esb-mark-label {
+  background: #7B3AAA; }
+
+.esb-mark-group-pink.esb-mark--has-outline {
+  outline-color: #B53672; }
+
+.esb-mark-group-pink .esb-mark-label {
+  background: #B53672; }
+
+.esb-mark-group-black.esb-mark--has-outline {
+  outline-color: #000; }
+
+.esb-mark-group-black .esb-mark-label {
+  background: #000; }
+
+.esb-mark-group-white.esb-mark--has-outline {
+  outline-color: #fff; }
+
+.esb-mark-group-white .esb-mark-label {
+  background: #fff;
+  color: #000; }
+
+.esb-mark-group-brown.esb-mark--has-outline {
+  outline-color: #532B03; }
+
+.esb-mark-group-brown .esb-mark-label {
+  background: #532B03; }
 
 .esb-component-loading-error {
   position: fixed;

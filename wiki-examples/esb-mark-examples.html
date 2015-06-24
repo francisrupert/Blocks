@@ -39,55 +39,49 @@
 					<p data-esb-mark>
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
 					</p>
-				</div>
-				<div class="col-md-8">
-					This is the simplest example. Add <code>data-esb-mark</code> to any element you'd like to mark. By default the element will be assigned a numeric label and it will be outlined.
-					<pre>
-						<code>
-&lt;p data-esb-mark&gt;
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-	Illum maiores numquam sed iusto vero, suscipit facilis. 
-	Dolorem laudantium, temporibus tenetur tempora! Eos 
-	voluptatibus, repellendus rerum cupiditate cum laudantium 
-	aliquid dolorem!
-&lt;/p&gt;
-						</code>
-					</pre>
-				</div>
-			</div>
-
-			<h2>Various Element Examples</h2>
-			<div class="row">
-				<div class="col-md-4">
-					<input type="text" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I'm a text input" data-esb-mark>
+					<fieldset data-esb-mark>
+						<h2>Sign up for our newsletter</h2>
+						<label>Name</label>
+						<input type="text" placeholder="Please enter your name"><br/><br/>
+						
+						<label>Email</label>
+						<input type="email" placeholder="me@example.com">
+					</fieldset>
 					<br/>
-					<br/>
-					<img src="http://placehold.it/150x150" data-esb-mark>
-					
+					<br/>					
 					<p data-esb-mark style="display:inline-block;">
 						<img src="http://placehold.it/150x150" style="float:right;" data-esb-mark>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The image within this component is floated right, and Mark respects and maintains that float when the label and outline are added.
 					</p>
 				</div>
 				<div class="col-md-8">
-					Mark attempts to be as unobtrusive as possible. It will try to maintain any existing layout styles on the elements being marked.
+					This is the simplest example. Add <code>data-esb-mark</code> to any element or component you'd like to mark. By default the Mark will be assigned a numeric label and it will be outlined.
 					<pre>
 						<code>
-&lt;input type=&quot;text&quot; placeholder=&quot;I&#039;m a text input&quot; data-esb-mark&gt;
-&lt;br/&gt;
-&lt;br/&gt;
-&lt;img src=&quot;http://placehold.it/150x150&quot; data-esb-mark&gt;
+&lt;p data-esb-mark&gt;
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed 
+    iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos 
+    voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+
+&lt;fieldset data-esb-mark&gt;
+    &lt;h2&gt;Sign up for our newsletter&lt;/h2&gt;
+    &lt;label&gt;Name&lt;/label&gt;
+    &lt;input type=&quot;text&quot; placeholder=&quot;Please enter your name&quot;&gt;&lt;br/&gt;&lt;br/&gt;
+    
+    &lt;label&gt;Email&lt;/label&gt;
+    &lt;input type=&quot;email&quot; placeholder=&quot;me@example.com&quot;&gt;
+&lt;/fieldset&gt;
 
 &lt;p data-esb-mark style=&quot;display:inline-block;&quot;&gt;
-	&lt;img src=&quot;http://placehold.it/150x150&quot; style=&quot;float:right;&quot; data-esb-mark&gt;
-	The image within this component is floated right, and Mark respects and maintains 
-	that float when the label and outline are added.
+    &lt;img src=&quot;http://placehold.it/150x150&quot; style=&quot;float:right;&quot; data-esb-mark&gt;
+    The image within this component is floated right, and Mark respects and maintains that 
+    float when the label and outline are added.
 &lt;/p&gt;
 						</code>
 					</pre>
 				</div>
 			</div>
-
 
 
 			<h1>Adding a Name</h1>
@@ -294,22 +288,78 @@ document.dispatchEvent(event);
 
 			<h2>Hiding by default</h2>
 			<div class="row">
-				<div class="col-md-4">
-					<p data-esb-mark data-esb-visible-on-load="false">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. 
+				<div class="col-md-4" data-esb-mark-config data-esb-visible-on-load="false">
+					<p data-esb-mark>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<fieldset data-esb-mark>
+						<h2>Sign up for our newsletter</h2>
+						<label>Name</label>
+						<input type="text" placeholder="Please enter your name"><br/><br/>
+						
+						<label>Email</label>
+						<input type="email" placeholder="me@example.com">
+					</fieldset>
+					<br/>
+					<br/>					
+					<p data-esb-mark style="display:inline-block;">
+						<img src="http://placehold.it/150x150" style="float:right;" data-esb-mark>
+						The image within this component is floated right, and Mark respects and maintains that float when the label and outline are added.
 					</p>
 				</div>
 				<div class="col-md-8">
-					Using the <code>visible-on-load="false"</code> option will prevent the Mark from appearing on page load. It can then be made visible using Javascript or by using the keyboard shortcut
+					Using the <code>visible-on-load="false"</code> option will prevent the Mark from appearing on page load. It can then be made visible using Javascript or by using the keyboard shortcut. This option is best used if applied at the page or project level.<br/><br/>
+					To apply this option at the page level, add <code>data-esb-mark-config data-esb-visible-on-load-"false"</code> to the <code>&lt;body&gt;</code> tag.
+					<br/><br/>
+					<strong>Full Markup Example</strong>
+					<pre>
+						<code>
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/esb.min.css&quot;/&gt;
+        &lt;script src=&quot;/path/to/esb.min.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body data-esb-mark-config data-esb-visible-on-load=&quot;false&quot;&gt;
+        &lt;p data-esb-mark&gt;
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores 
+            numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus 
+            tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum 
+            laudantium aliquid dolorem!
+        &lt;/p&gt;
+        
+        &lt;fieldset data-esb-mark&gt;
+            &lt;h2&gt;Sign up for our newsletter&lt;/h2&gt;
+            &lt;label&gt;Name&lt;/label&gt;
+            &lt;input type=&quot;text&quot; placeholder=&quot;Please enter your name&quot;&gt;&lt;br/&gt;&lt;br/&gt;
+            
+            &lt;label&gt;Email&lt;/label&gt;
+            &lt;input type=&quot;email&quot; placeholder=&quot;me@example.com&quot;&gt;
+        &lt;/fieldset&gt;
+        
+        &lt;p data-esb-mark style=&quot;display:inline-block;&quot;&gt;
+            &lt;img src=&quot;http://placehold.it/150x150&quot; style=&quot;float:right;&quot; data-esb-mark&gt;
+            The image within this component is floated right, and Mark respects 
+            and maintains that float when the label and outline are added.
+        &lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+						</code>
+					</pre>
+
+					To apply this option throughout your project, modify your project's <strong>config.json</strong> file:
 
 					<pre>
 						<code>
-&lt;p data-esb-mark data-esb-visible-on-load=&quot;false&quot;&gt;
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-	Illum maiores numquam sed iusto vero, suscipit facilis. 
-&lt;/p&gt;
+{
+    "logging":"false",
+    ...
+    "marks": {
+        "visible-on-load": false
+    }
+}
 						</code>
 					</pre>
+
 				</div>
 			</div>
 
@@ -319,31 +369,196 @@ document.dispatchEvent(event);
 					<p data-esb-mark>
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
 					</p>
-					<p data-esb-mark data-esb-group="secondary">
+					<p data-esb-mark data-esb-group="red">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<p data-esb-mark data-esb-group="yellow">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<p data-esb-mark data-esb-group="green">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<p data-esb-mark data-esb-group="blue">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<p data-esb-mark data-esb-group="purple">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<p data-esb-mark data-esb-group="pink">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<p data-esb-mark data-esb-group="brown">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<p data-esb-mark data-esb-group="black">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<div style="background:black; padding: 10px">
+						<p data-esb-mark data-esb-group="white">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+						</p>
+					</div>
+				</div>
+				<div class="col-md-8">
+					Mark provides 10 different styles that can be used to distinguish one Mark from another. These styles are triggered by the <code>data-esb-group</code> attribute. <br/><br/>
+					The built in styles are:
+					<ul>
+						<li>orange, default</li>
+						<li>red</li>
+						<li>yellow</li>
+						<li>green</li>
+						<li>blue</li>
+						<li>purple</li>
+						<li>pink</li>
+						<li>brown</li>
+						<li>black</li>
+						<li>white (useful on dark backgrounds)</li>
+					</ul>
+
+					<pre>
+						<code>
+&lt;p data-esb-mark&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+	sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! 
+	Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+&lt;p data-esb-mark data-esb-group=&quot;red&quot;&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+	sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! 
+	Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+&lt;p data-esb-mark data-esb-group=&quot;yellow&quot;&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+	sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! 
+	Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+&lt;p data-esb-mark data-esb-group=&quot;green&quot;&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+	sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! 
+	Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+&lt;p data-esb-mark data-esb-group=&quot;blue&quot;&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+	sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! 
+	Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+&lt;p data-esb-mark data-esb-group=&quot;purple&quot;&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+	sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! 
+	Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+&lt;p data-esb-mark data-esb-group=&quot;pink&quot;&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+	sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! 
+	Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+&lt;p data-esb-mark data-esb-group=&quot;brown&quot;&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+	sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! 
+	Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+&lt;p data-esb-mark data-esb-group=&quot;black&quot;&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+	sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! 
+	Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+&lt;/p&gt;
+&lt;div style=&quot;background:black; padding: 10px&quot;&gt;
+	&lt;p data-esb-mark data-esb-group=&quot;white&quot;&gt;
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores 
+		numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus 
+		tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum 
+		laudantium aliquid dolorem!
+	&lt;/p&gt;
+&lt;/div&gt;
+						</code>
+					</pre>
+				</div>
+			</div>
+
+			<h2>Create Your Own Groups</h2>
+			<div class="row">
+				<div class="col-md-4">
+					<p data-esb-mark data-esb-group="custom-callout">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
 					</p>
 				</div>
 				<div class="col-md-8">
-					<code>data-esb-group</code> can be used to add additional classes to the Mark. These classes can be used as hooks to style Marks differently and group various Marks together. A default group called <code>secondary</code> is available within Mark's default styles.
+					Any value provided to <code>data-esb-group</code> will be appended with <code>esb-mark-group-</code> and added as a class to the Mark's wrapper. This allows you to create your own groups and styles to match.
+					<br><br>
+					<strong>Full Markup Example</strong>
 					<pre>
 						<code>
-&lt;p data-esb-mark&gt;
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-    Illum maiores numquam sed iusto vero, suscipit facilis. 
-    Dolorem laudantium, temporibus tenetur tempora! Eos 
-    voluptatibus, repellendus rerum cupiditate cum laudantium 
-    aliquid dolorem!
-&lt;/p&gt;
-
-&lt;p data-esb-mark data-esb-group="secondary"&gt;
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-    Illum maiores numquam sed iusto vero, suscipit facilis. 
-    Dolorem laudantium, temporibus tenetur tempora! Eos 
-    voluptatibus, repellendus rerum cupiditate cum laudantium 
-    aliquid dolorem!
-&lt;/p&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/esb.min.css&quot;/&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;css-overrides.css&quot;/&gt;
+        &lt;script src=&quot;/path/to/esb.min.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p data-esb-mark data-esb-group="custom-callout"&gt;
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+            Illum maiores numquam sed iusto vero, suscipit facilis. 
+            Dolorem laudantium, temporibus tenetur tempora! Eos 
+            voluptatibus, repellendus rerum cupiditate cum laudantium 
+            aliquid dolorem!
+        &lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
 						</code>
 					</pre>
+
+					<strong>Rendered Markup</strong>
+					<pre>
+						<code>
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/esb.min.css&quot;/&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;css-overrides.css&quot;/&gt;
+        &lt;script src=&quot;/path/to/esb.min.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p 	data-esb-mark=&quot;&quot; 
+        	data-esb-group=&quot;custom-callout&quot; 
+        	data-esb-uuid=&quot;801ac082-ddff-43d9-8111-4bf6505da660&quot; 
+        	class=&quot;esb-mark esb-mark-group-custom-callout esb-mark-position-top-left esb-mark--has-static-position esb-mark--has-outline&quot;&gt;
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam 
+            sed iusto vero, suscipit facilis. Dolorem laudantium,         
+            temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum 
+            laudantium aliquid dolorem!
+            &lt;label class=&quot;esb-mark-label&quot;&gt;
+                &lt;span class=&quot;esb-mark-label-id&quot;&gt;28&lt;/span&gt;
+            &lt;/label&gt;
+        &lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+						</code>
+					</pre>
+					
+					<strong>css-overrides.css</strong>
+					<pre>
+						<code>
+.esb-mark-group-custom-callout.esb-mark--has-outline {
+  outline: dotted 5px hotpink;
+}
+
+.esb-mark-group-custom-callout:hover:before {
+  content:'';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0.5;
+  background: pink;
+}
+
+.esb-mark-group-custom-callout .esb-mark-label {
+  background-color: hotpink;
+  border-radius: 20px;
+}
+						</code>
+					</pre>
+
 				</div>
 			</div>
 

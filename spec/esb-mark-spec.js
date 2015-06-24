@@ -66,7 +66,7 @@ describe("EsbMark", function(){
 	it ("should add additional classes when the group option is used", function(){
 		mark.options.group = "secondary grouping-class";
 		mark.render();
-	    expect($('#jasmine-fixtures .esb-mark.secondary.grouping-class').length).toEqual(1);
+	    expect($('#jasmine-fixtures .esb-mark.esb-mark-group-secondary.esb-mark-group-grouping-class').length).toEqual(1);
 	});
 
 	it ("should not add an esb-mark--has-outline class when the outline option is set to false", function(){
