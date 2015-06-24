@@ -45,7 +45,7 @@ describe("EsbMark", function(){
 	});
 
 	it ("should have default options", function(){
-		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id': true, 'mark-position': 'top-left', 'outline': true, 'group': null, 'visible-on-load': true, 'href': false});
+		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'top-left', 'outline': true, 'group': null, 'visible-on-load': true, 'href': false});
 	});
 
 	it("should inject an esb-mark-label into the DOM", function(){
@@ -91,10 +91,11 @@ describe("EsbMark", function(){
 	    expect($('#jasmine-fixtures label.esb-mark-label .esb-mark-label-name')).not.toBeInDOM();
 	});
 
-	it ("should render an esb-mark-name element when a value is provided for data-esb-mark", function(){
+	it ("should render an esb-mark-name element and not render an esb-mark-id element when a value is provided for data-esb-mark", function(){
 		mark.options.mark = 'Fuzzy Bunny';
 		mark.render();
 	    expect($('#jasmine-fixtures label.esb-mark-label .esb-mark-label-name').text()).toEqual('Fuzzy Bunny');
+	    expect($('#jasmine-fixtures label.esb-mark-label .esb-mark-label-id').length).toEqual(0);
 	});
 
 	it ("should render an esb-mark-id element with content that matches the id option when the id option is provided", function(){
@@ -103,10 +104,11 @@ describe("EsbMark", function(){
 	    expect($('#jasmine-fixtures label.esb-mark-label .esb-mark-label-id').text()).toEqual('A');
 	});
 
-	it ("should not render an esb-mark-id element when show-id is set to false", function(){
-		mark.options['show-id'] = false;
+	it ("should render an esb-mark-id element with the esb-mark-name element when show-id-with-name is set to true", function(){
+		mark.options['show-id-with-name'] = true;
+		mark.options.mark = 'Fuzzy Bunny';
 		mark.render();
-	    expect($('#jasmine-fixtures label.esb-mark-label .esb-mark-label-id').length).toEqual(0);
+	    expect($('#jasmine-fixtures label.esb-mark-label .esb-mark-label-id').length).toEqual(1);
 	});
 
 	it ("should add a class when the element being marked has static position", function(){
@@ -167,16 +169,16 @@ describe("EsbMark config options", function(){
 	});
 
 	it ("should use options from global config", function(){
-		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id': true, 'mark-position': 'top-right', 'outline': false, 'group': 'alternate-style', 'visible-on-load': true, 'href': false});
+		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'top-right', 'outline': false, 'group': 'alternate-style', 'visible-on-load': true, 'href': false});
 	});
 
 	it ("should use options from page level config when set", function(){
 		mark = load_mark('page-with-mark-page-level-config.html', uuid);		
-		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id': true, 'mark-position': 'bottom-left', 'outline': true, 'group': 'page-level-style', 'visible-on-load': true, 'href': false});
+		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-left', 'outline': true, 'group': 'page-level-style', 'visible-on-load': true, 'href': false});
 	});
 
 	it ("should use options from instance level data attributes when set", function(){
 		mark = load_mark('page-with-mark-data-attribute-options.html', uuid);		
-		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id': true, 'mark-position': 'bottom-right', 'outline': false, 'group': 'instance-style', 'visible-on-load': true, 'href': false});
+		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-right', 'outline': false, 'group': 'instance-style', 'visible-on-load': true, 'href': false});
 	});
 });

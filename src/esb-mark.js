@@ -19,7 +19,7 @@ export class EsbMark {
 			options = {
 				'mark': null,
 				'id': null,
-				'show-id': true,
+				'show-id-with-name': false,
 				'mark-position': 'top-left',
 				'outline': true,
 				'group': null,
@@ -167,7 +167,7 @@ export class EsbMark {
 
 		EsbUtil.addClass(label_element, 'esb-mark-label');
 
-		if (self.options['show-id']) {
+		if (self.options.mark === null || self.options.mark !== null && self.options['show-id-with-name'] || self.options.id !== null) {
 			label_element.appendChild(label_id_element);
 		}
 

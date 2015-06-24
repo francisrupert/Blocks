@@ -83,53 +83,6 @@
 				</div>
 			</div>
 
-
-			<h1>Adding a Name</h1>
-			<div class="row">
-				<div class="col-md-4">
-					<p data-esb-mark="My Paragraph">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
-					</p>
-				</div>
-				<div class="col-md-8">
-					If you assign a value to the <code>data-esb-mark</code> it will be added to the mark's label as a name. 
-					<pre>
-						<code>
-&lt;p data-esb-mark="My Paragraph"&gt;
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-	Illum maiores numquam sed iusto vero, suscipit facilis. 
-	Dolorem laudantium, temporibus tenetur tempora! Eos 
-	voluptatibus, repellendus rerum cupiditate cum laudantium 
-	aliquid dolorem!
-&lt;/p&gt;
-						</code>
-					</pre>
-				</div>
-			</div>
-
-			<h1>Adding a Link</h1>
-			<div class="row">
-				<div class="col-md-4">
-					<p data-esb-mark="My Paragraph" data-esb-href="http://example.com">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
-					</p>
-				</div>
-				<div class="col-md-8">
-					The <code>data-esb-href</code> attribute can be used to make the Mark's label linkable. 
-					<pre>
-						<code>
-&lt;p data-esb-mark="My Paragraph" data-esb-href="http://example.com"&gt;
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
-	Illum maiores numquam sed iusto vero, suscipit facilis. 
-	Dolorem laudantium, temporibus tenetur tempora! Eos 
-	voluptatibus, repellendus rerum cupiditate cum laudantium 
-	aliquid dolorem!
-&lt;/p&gt;
-						</code>
-					</pre>
-				</div>
-			</div>
-
 			<h1>Overriding ID</h1>
 			<div class="row">
 				<div class="col-md-4">
@@ -153,18 +106,77 @@
 				</div>
 			</div>
 
-			<h1>Hiding ID</h1>
+
+			<h1>Adding a Name</h1>
 			<div class="row">
 				<div class="col-md-4">
-					<p data-esb-mark="My Paragraph" data-esb-show-id="false">
+					<p data-esb-mark="My Paragraph">
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
 					</p>
 				</div>
 				<div class="col-md-8">
-					The ID can be hidden completely with <code>data-esb-show-id="false"</code>
+					If you assign a value to the <code>data-esb-mark</code> it will be added to the mark's label as a name. When the name is shown the numeric ID is hidden by default.
 					<pre>
 						<code>
-&lt;p data-esb-mark="My Paragraph" data-esb-show-id="false"&gt;
+&lt;p data-esb-mark="My Paragraph"&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+	Illum maiores numquam sed iusto vero, suscipit facilis. 
+	Dolorem laudantium, temporibus tenetur tempora! Eos 
+	voluptatibus, repellendus rerum cupiditate cum laudantium 
+	aliquid dolorem!
+&lt;/p&gt;
+						</code>
+					</pre>
+				</div>
+			</div>
+
+			<h2>Showing ID with Name</h2>
+			<div class="row">
+				<div class="col-md-4">
+					<p data-esb-mark="My Paragraph" data-esb-show-id-with-name="true">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+
+					<p data-esb-mark="My Paragraph" data-esb-id="c12">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+				</div>
+				<div class="col-md-8">
+					To display the numeric id with the name, specify <code>data-esb-show-id-with-name="true"</code> or provide a value for the <code>data-esb-id</code> attribute
+					<pre>
+						<code>
+&lt;p data-esb-mark="My Paragraph" data-esb-show-id-with-name="true"&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+	Illum maiores numquam sed iusto vero, suscipit facilis. 
+	Dolorem laudantium, temporibus tenetur tempora! Eos 
+	voluptatibus, repellendus rerum cupiditate cum laudantium 
+	aliquid dolorem!
+&lt;/p&gt;
+
+&lt;p data-esb-mark="My Paragraph" data-esb-id="c12"&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+	Illum maiores numquam sed iusto vero, suscipit facilis. 
+	Dolorem laudantium, temporibus tenetur tempora! Eos 
+	voluptatibus, repellendus rerum cupiditate cum laudantium 
+	aliquid dolorem!
+&lt;/p&gt;
+						</code>
+					</pre>
+				</div>
+			</div>
+
+			<h1>Adding a Link</h1>
+			<div class="row">
+				<div class="col-md-4">
+					<p data-esb-mark="My Paragraph" data-esb-href="http://example.com">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+				</div>
+				<div class="col-md-8">
+					The <code>data-esb-href</code> attribute can be used to make the Mark's label linkable. 
+					<pre>
+						<code>
+&lt;p data-esb-mark="My Paragraph" data-esb-href="http://example.com"&gt;
 	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
 	Illum maiores numquam sed iusto vero, suscipit facilis. 
 	Dolorem laudantium, temporibus tenetur tempora! Eos 
