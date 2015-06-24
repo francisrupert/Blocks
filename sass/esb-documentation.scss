@@ -693,3 +693,33 @@ pre code, pre tt {
     padding: 5px;
   }
 }
+
+.basic-mark-style-override-wrapper {
+  .esb-mark-label {
+    background: skyblue;
+    border-radius: 10px;
+    font-family: 'Oswald', sans-serif;
+    padding: 2px 10px;
+    opacity: 0.9;
+  }
+
+  .esb-mark:hover .esb-mark-label {
+    opacity: 1;
+  }
+
+  .esb-mark--has-outline {
+    outline: solid 3px skyblue;
+  }
+
+  .esb-mark--has-outline:hover {
+    outline-width: 5px;
+  }
+
+  .esb-mark-label-id {
+    color: black;
+  }
+
+  .esb-mark-label-name {
+    text-transform: uppercase;
+  }
+}

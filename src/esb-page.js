@@ -2,6 +2,7 @@ import $ from 'jquery';
 import EsbUtil from './esb-util';
 import { EsbComponent } from './esb-component';
 import { EsbFrame } from 'src/esb-frame';
+import { EsbMark } from 'src/esb-mark';
 
 class EsbPage {
   constructor() {
@@ -14,6 +15,8 @@ class EsbPage {
 
     self.parsed_esb_components = [];
     self.parsed_esb_frames = [];
+    self.parsed_esb_marks = [];
+    self.esb_mark_auto_id = 1;
 
     // page cache of components
     self.components = {};
@@ -33,6 +36,7 @@ class EsbPage {
     // A flag for children to know that there are no more parents to notify
     // The 'page' type is the root
     self.type = 'page';
+    self.setEventListeners();
   }
 
   /*
@@ -62,9 +66,90 @@ class EsbPage {
     }
   }
 
+  displayEsbMarks() {
+    var self = this,
+        parsed_esb_marks = self.getParsedEsbMarks();
+
+    if (parsed_esb_marks.length > 0) {
+      for (let idx in parsed_esb_marks) {
+        let esb_mark = self.parsed_esb_marks[idx];
+
+        esb_mark.render();
+      }
+    }
+  }
+
+  hideAllEsbMarks() {
+    var rendered_marks = document.querySelectorAll('.esb-mark'),
+        i;
+
+    for (i = 0; i < rendered_marks.length; i++) {
+      EsbUtil.addClass(rendered_marks[i], 'esb-mark--is-hidden');
+    }
+  }
+
+  showAllEsbMarks() {
+    var rendered_marks = document.querySelectorAll('.esb-mark'),
+        i;
+
+    for (i = 0; i < rendered_marks.length; i++) {
+      EsbUtil.removeClass(rendered_marks[i], 'esb-mark--is-hidden');
+    }
+  }
+
+  toggleAllEsbMarks() {
+    var self = this,
+        hidden_marks = document.querySelectorAll('.esb-mark.esb-mark--is-hidden');
+
+    if (hidden_marks.length > 0) {
+      self.showAllEsbMarks();
+    }
+    else {
+      self.hideAllEsbMarks();
+    }
+  }
+
+  processKeyboardEvent(e) {
+    var self = this;
+
+    if (e.keyCode === 77 && e.shiftKey === true && e.ctrlKey === true) {
+      self.toggleAllEsbMarks();
+    }
+  }
+
+  setEventListeners() {
+    var self = this;
+    
+    if (window.$ !== undefined) {
+      // jQuery's event system is separate from the browser's, so set these up so $(document).trigger will work
+      window.$(document).on('show-all-esb-marks', self.showAllEsbMarks.bind(self));
+      window.$(document).on('hide-all-esb-marks', self.hideAllEsbMarks.bind(self));
+      window.$(document).on('keydown', self.processKeyboardEvent.bind(self));
+    }
+    else {
+      document.addEventListener('show-all-esb-marks', self.showAllEsbMarks.bind(self));
+      document.addEventListener('hide-all-esb-marks', self.hideAllEsbMarks.bind(self));
+      document.addEventListener('keydown', self.processKeyboardEvent.bind(self));
+    }
+  }
+
+  getParsedEsbMarks() {
+    var self = this;
+    return self.parsed_esb_marks;
+  }
+
   getParsedEsbComponents() {
     var self = this;
     return self.parsed_esb_components;
+  }
+
+  getEsbMarkAutoId() {
+    var self = this,
+        id = self.esb_mark_auto_id;
+    
+    self.esb_mark_auto_id++;
+
+    return id;
   }
 
   parse() {
@@ -124,6 +209,30 @@ class EsbPage {
       });
 
       self.parsed_esb_frames.push(frame);
+    }
+  }
+
+  parseEsbMarks() {
+    var self = this,
+        marks = [],
+        i = 0;
+
+    self.name  = self.retrievePageTitle();
+    self.$root = self.retrieveRootElement();
+
+    marks = self.$root[0].querySelectorAll('*[data-esb-mark]:not([data-esb-mark-config])');
+
+    for (i=0; i < marks.length; i++) {
+      let uuid = EsbUtil.generateUUID();
+
+      marks[i].setAttribute('data-esb-uuid', uuid);
+
+      let mark = new EsbMark({
+        uuid: uuid,
+        mark_element: marks[i]
+      });
+
+      self.parsed_esb_marks.push(mark);
     }
   }
 

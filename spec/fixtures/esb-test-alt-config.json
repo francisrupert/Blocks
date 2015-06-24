@@ -17,6 +17,11 @@
         "viewport-aspect-ratio": 0.5, 
         "width": 300
     },
+    "marks": {
+        "outline": false,
+        "mark-position": "top-right",
+        "group": "alternate-style"
+    },
     "template_data": {
         "base": {
             "user": {

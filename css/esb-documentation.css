@@ -562,4 +562,26 @@ pre code, pre tt {
   font-size: 10px;
   padding: 5px; }
 
+.basic-mark-style-override-wrapper .esb-mark-label {
+  background: skyblue;
+  border-radius: 10px;
+  font-family: 'Oswald', sans-serif;
+  padding: 2px 10px;
+  opacity: 0.9; }
+
+.basic-mark-style-override-wrapper .esb-mark:hover .esb-mark-label {
+  opacity: 1; }
+
+.basic-mark-style-override-wrapper .esb-mark--has-outline {
+  outline: solid 3px skyblue; }
+
+.basic-mark-style-override-wrapper .esb-mark--has-outline:hover {
+  outline-width: 5px; }
+
+.basic-mark-style-override-wrapper .esb-mark-label-id {
+  color: black; }
+
+.basic-mark-style-override-wrapper .esb-mark-label-name {
+  text-transform: uppercase; }
+
 /*# sourceMappingURL=esb-documentation.css.map */

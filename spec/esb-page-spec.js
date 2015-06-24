@@ -103,4 +103,97 @@ describe("EsbPage", function(){
 			expect(EsbPage.parsed_esb_frames[0].original_snippet).toMatch(/data-esb-frame="http:\/\/google.com"/);
 		});
 	});
+
+	describe("when there is an esb-mark on the page", function(){
+		beforeEach(function(){
+			loadFixtures('page-with-mark.html');
+			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
+			EsbPage.parseEsbMarks();
+			EsbPage.esb_mark_auto_id = 1;
+		});
+
+		it ("should have an esb-marks count of 1", function(){
+			expect(EsbPage.parsed_esb_marks.length).toEqual(1);
+		});
+
+		it ("should display all ESB Mark instances", function(){
+			EsbPage.displayEsbMarks();
+			expect(EsbPage.parsed_esb_marks[0].mark_element.outerHTML).toMatch(/class="button esb-mark/);
+		});
+
+		it ("should return an auto-incrementing number to be used as a default Mark id", function(){
+			expect(EsbPage.getEsbMarkAutoId()).toEqual(1);
+			expect(EsbPage.getEsbMarkAutoId()).toEqual(2);
+		});
+
+		it ("should be able to show/hide the esb marks", function(){
+			EsbPage.displayEsbMarks();
+			EsbPage.hideAllEsbMarks();
+			expect($("#jasmine-fixtures .esb-mark.esb-mark--is-hidden").length).toEqual(1);
+			EsbPage.showAllEsbMarks();
+			expect($("#jasmine-fixtures .esb-mark.esb-mark--is-hidden").length).toEqual(0);
+			expect($("#jasmine-fixtures .esb-mark").length).toEqual(1);
+		});
+
+		it ("should be able to toggle the esb marks", function(){
+			EsbPage.displayEsbMarks();
+			EsbPage.toggleAllEsbMarks();
+			expect($("#jasmine-fixtures .esb-mark.esb-mark--is-hidden").length).toEqual(1);
+			EsbPage.toggleAllEsbMarks();
+			expect($("#jasmine-fixtures .esb-mark.esb-mark--is-hidden").length).toEqual(0);
+			expect($("#jasmine-fixtures .esb-mark").length).toEqual(1);
+		});
+
+		it ("should trigger the hideAllEsbMarks method when a document level event of 'hide-all-esb-marks' is fired", function(){
+			spyOn(EsbPage, 'hideAllEsbMarks');
+			EsbPage.setEventListeners();
+			
+			if (window.CustomEvent) {
+			  var event = new CustomEvent('hide-all-esb-marks');
+			} else {
+			  var event = document.createEvent('CustomEvent');
+			  event.initCustomEvent('hide-all-esb-marks', true, true);
+			}
+
+			document.dispatchEvent(event);
+			
+			expect(EsbPage.hideAllEsbMarks).toHaveBeenCalled();
+		});
+
+		it ("should trigger the showAllEsbMarks method when a document level event of 'show-all-esb-marks' is fired", function(){
+			spyOn(EsbPage, 'showAllEsbMarks');
+			EsbPage.setEventListeners();
+			
+			if (window.CustomEvent) {
+			  var event = new CustomEvent('show-all-esb-marks');
+			} else {
+			  var event = document.createEvent('CustomEvent');
+			  event.initCustomEvent('show-all-esb-marks', true, true);
+			}
+
+			document.dispatchEvent(event);
+			
+			expect(EsbPage.showAllEsbMarks).toHaveBeenCalled();
+		});
+
+		it ("should trigger the toggleAllEsbMarks method when a keypress of Cmd + Shift + M occurs", function(){
+			spyOn(EsbPage, 'toggleAllEsbMarks');
+			EsbPage.setEventListeners();
+			
+			if (window.CustomEvent) {
+			  var event = new CustomEvent('keydown');
+			} else {
+			  var event = document.createEvent('CustomEvent');
+			  event.initCustomEvent('keydown', true, true);
+			}
+
+			event.keyCode = 77;
+			event.shiftKey = true;
+			event.ctrlKey = true;
+
+			document.dispatchEvent(event);
+			
+			expect(EsbPage.toggleAllEsbMarks).toHaveBeenCalled();
+		});
+	});
 });

@@ -9,7 +9,7 @@ $viewer-scale: $viewer-width / $viewer-content-width;
 	background: #e5e5e5;
 	box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   min-width: 200px;
-  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-family: $esb-font-family;
   margin: 10px;
 }
 

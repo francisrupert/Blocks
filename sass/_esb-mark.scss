@@ -1,0 +1,87 @@
+$default-border-radius: 4px;
+
+.esb-mark--has-outline {
+	transition: outline-color 0.4s ease;
+	outline: solid 1px $esb-orange;
+
+	&:hover {
+		outline-width: 2px;
+	}
+}
+
+.esb-mark--has-static-position {
+	position: relative;
+}
+
+.esb-mark-label {
+	transition: opacity 0.4s ease;
+	border-radius: $default-border-radius;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: $esb-orange;
+	color: white;
+	font-size: 16px;
+	font-family: $esb-font-family;
+	opacity: 1;
+
+	.esb-mark-position-top-right & {
+		left: auto;
+		right: 0;
+	}
+
+	.esb-mark-position-bottom-left & {
+		top: auto;
+		bottom: 0;
+	}
+
+	.esb-mark-position-bottom-right & {
+		top: auto;
+		left: auto;
+		bottom: 0;
+		right: 0;
+	}
+}
+
+.esb-mark-link {
+	text-decoration: none;
+	color: white;
+
+	&:hover {
+		text-decoration: underline;
+		color: #efefef;
+	}
+}
+
+.esb-mark-label-id,
+.esb-mark-label-name {
+	padding: 3px 6px;
+}
+
+.esb-mark-label-id + .esb-mark-label-name {
+	padding-left: 0;
+}
+
+.esb-mark-label--has-name .esb-mark-label-id {
+	opacity: 0.8;
+}
+
+.esb-mark.secondary {
+	&.esb-mark--has-outline {
+		outline-color: $esb-maroon;
+	}
+
+	.esb-mark-label {
+		background: $esb-maroon;
+	}
+}
+
+.esb-mark.esb-mark--is-hidden {
+	.esb-mark-label {
+		opacity: 0;
+	}
+
+	&.esb-mark--has-outline {
+		outline-color: rgba($esb-orange, 0);
+	}
+}

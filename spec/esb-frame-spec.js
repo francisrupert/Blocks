@@ -20,20 +20,21 @@ function load_frame(fixture, uuid) {
 	return frame;
 }
 
-beforeAll(function(done){
-	jasmine.getFixtures().fixturesPath = 'base/spec/fixtures';
-	EsbConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
-		done();
-	}, function(err){
-		console.log(err);
-	});
-})
 
 describe("EsbFrame", function(){
 	var frame = null,
 		frame_snippet = null,
 		uuid = null;
 
+	beforeAll(function(done){
+		jasmine.getFixtures().fixturesPath = 'base/spec/fixtures';
+		EsbConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
+			done();
+		}, function(err){
+			console.log(err);
+		});
+	});
+	
 	beforeEach(function(){
 		uuid = EsbUtil.generateUUID();
 		frame = load_frame('page-with-frame.html', uuid);
@@ -359,7 +360,7 @@ describe("EsbFrame with alternate config", function(){
 
 	beforeAll(function(done){
 		jasmine.getFixtures().fixturesPath = 'base/spec/fixtures';
-		EsbConfig.load('base/spec/fixtures/esb-frame-alt-config.json').then(function(data){
+		EsbConfig.load('base/spec/fixtures/esb-test-alt-config.json').then(function(data){
 			done();
 		}, function(err){
 			console.log(err);

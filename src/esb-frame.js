@@ -83,7 +83,7 @@ export class EsbFrame {
 		self.original_snippet = opts.original_snippet;
 		self.uuid = opts.uuid;
 		self.config = EsbConfig.getConfig();
-		self.set_viewer_options();
+		self.set_frame_options();
 		self.create_placeholder_element();
 	}
 
@@ -92,7 +92,7 @@ export class EsbFrame {
 		return self.iframe_is_loaded;
 	}
 
-	set_viewer_options() {
+	set_frame_options() {
 		var self = this,
 			options = {
 				'frame': false,

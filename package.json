@@ -7,9 +7,7 @@
     "url": "https://github.com/EightShapes/Blocks.git"
   },
   "blocksVersion": {
-    "blocks": "2.6.0",
-    "loader": "2.5.1",
-    "viewer": "2.0.1"
+    "blocks": "2.7.0"
   },
   "scripts": {
     "lint": "jshint src/*.js",
