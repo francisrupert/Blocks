@@ -24,6 +24,7 @@ $default-border-radius: 4px;
 	font-size: 16px;
 	font-family: $esb-font-family;
 	opacity: 1;
+	padding: 5px 0;
 
 	.esb-mark-position-top-right & {
 		left: auto;
@@ -55,7 +56,7 @@ $default-border-radius: 4px;
 
 .esb-mark-label-id,
 .esb-mark-label-name {
-	padding: 3px 6px;
+	padding: 0 10px;
 }
 
 .esb-mark-label-id + .esb-mark-label-name {
@@ -66,7 +67,7 @@ $default-border-radius: 4px;
 	opacity: 0.8;
 }
 
-.esb-mark.secondary {
+.esb-mark-group-secondary {
 	&.esb-mark--has-outline {
 		outline-color: $esb-maroon;
 	}
@@ -83,5 +84,88 @@ $default-border-radius: 4px;
 
 	&.esb-mark--has-outline {
 		outline-color: rgba($esb-orange, 0);
+	}
+}
+
+.esb-mark-group-red {
+	&.esb-mark--has-outline {
+		outline-color: $esb-red;
+	}
+
+	.esb-mark-label {
+		background: $esb-red;
+	}
+}
+.esb-mark-group-yellow {
+	&.esb-mark--has-outline {
+		outline-color: $esb-yellow;
+	}
+
+	.esb-mark-label {
+		background: $esb-yellow;
+	}	
+}
+.esb-mark-group-green {
+	&.esb-mark--has-outline {
+		outline-color: $esb-green;
+	}
+
+	.esb-mark-label {
+		background: $esb-green;
+	}	
+}
+.esb-mark-group-blue {
+	&.esb-mark--has-outline {
+		outline-color: $esb-blue;
+	}
+
+	.esb-mark-label {
+		background: $esb-blue;
+	}	
+}
+.esb-mark-group-purple {
+	&.esb-mark--has-outline {
+		outline-color: $esb-purple;
+	}
+
+	.esb-mark-label {
+		background: $esb-purple;
+	}	
+}
+.esb-mark-group-pink {
+	&.esb-mark--has-outline {
+		outline-color: $esb-pink;
+	}
+
+	.esb-mark-label {
+		background: $esb-pink;
+	}	
+}
+.esb-mark-group-black {
+	&.esb-mark--has-outline {
+		outline-color: $esb-black;
+	}
+
+	.esb-mark-label {
+		background: $esb-black;
+	}	
+}
+.esb-mark-group-white {
+	&.esb-mark--has-outline {
+		outline-color: $esb-white;
+	}
+
+	.esb-mark-label {
+		background: $esb-white;
+		color: $esb-black;
+	}	
+}
+.esb-mark-group-brown {
+	&.esb-mark--has-outline {
+		outline-color: $esb-brown;
+	}
+
+	.esb-mark-label {
+		background: $esb-brown;
 	}
 }

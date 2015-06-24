@@ -723,3 +723,23 @@ pre code, pre tt {
     text-transform: uppercase;
   }
 }
+
+.esb-mark-group-custom-callout.esb-mark--has-outline {
+  outline: dotted 5px hotpink;
+}
+
+.esb-mark-group-custom-callout:hover:before {
+  content:'';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0.5;
+  background: pink;
+}
+
+.esb-mark-group-custom-callout .esb-mark-label {
+  background-color: hotpink;
+  border-radius: 20px;
+}

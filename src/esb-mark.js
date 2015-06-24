@@ -19,7 +19,7 @@ export class EsbMark {
 			options = {
 				'mark': null,
 				'id': null,
-				'show-id': true,
+				'show-id-with-name': false,
 				'mark-position': 'top-left',
 				'outline': true,
 				'group': null,
@@ -74,7 +74,9 @@ export class EsbMark {
 	render() {
 		var self = this,
 			label_element = self.get_label_element(),
-			mark_wrapper;
+			mark_wrapper,
+			i,
+			group_classes;
 
 		if (EsbUtil.isVoidElement(self.mark_element)) {
 			// The element being marked cannot have children appended (img, input, etc.)
@@ -97,6 +99,11 @@ export class EsbMark {
 		}
 
 		if (self.options.group !== null) {
+			group_classes = self.options.group.split(' ');
+			for (i=0; i < group_classes.length; i++) {
+				group_classes[i] = 'esb-mark-group-' + group_classes[i];
+			}
+			self.options.group = group_classes.join(' ');
 			EsbUtil.addClass(mark_wrapper, self.options.group);
 		}
 
@@ -160,7 +167,7 @@ export class EsbMark {
 
 		EsbUtil.addClass(label_element, 'esb-mark-label');
 
-		if (self.options['show-id']) {
+		if (self.options.mark === null || self.options.mark !== null && self.options['show-id-with-name'] || self.options.id !== null) {
 			label_element.appendChild(label_id_element);
 		}
 

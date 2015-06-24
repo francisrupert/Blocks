@@ -63,16 +63,25 @@
 					<strong>html - includes Google Font Reference</strong>
 					<pre>
 						<code>
-&lt;link href=&#039;http://fonts.googleapis.com/css?family=Oswald&#039; rel=&#039;stylesheet&#039; type=&#039;text/css&#039;&gt;
-&lt;p data-esb-mark="Body Copy"&gt;
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla dolor, nisi quis quod! 
-    Quam laudantium, unde at neque porro numquam, similique ut enim natus commodi totam 
-    non. Accusamus odio, neque!
-&lt;/p&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;link href=&#039;http://fonts.googleapis.com/css?family=Oswald&#039; rel=&#039;stylesheet&#039; type=&#039;text/css&#039;&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;/path/to/esb.min.css&quot;/&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;my-esb-mark-overrides.css&quot;&gt;
+        &lt;script src=&quot;/path/to/esb.min.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p data-esb-mark=&quot;Body Copy&quot;&gt;
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla dolor, nisi quis quod! 
+            Quam laudantium, unde at neque porro numquam, similique ut enim natus commodi totam 
+            non. Accusamus odio, neque!
+        &lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
 						</code>
 					</pre>
 
-					<strong>Additional Styles</strong>
+					<strong>my-esb-mark-overrides.css</strong>
 					<pre>
 						<code>
 .esb-mark-label {
