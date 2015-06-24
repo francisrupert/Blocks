@@ -48,7 +48,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  transform: scale(0.2);
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2);
   transform-origin: 0 0;
   -webkit-transform-origin: 0 0; }
 
@@ -117,7 +118,6 @@
   position: relative;
   font-size: 11px;
   -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
   transform: translateZ(0);
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s; }
@@ -288,5 +288,4 @@
   padding: 10px;
   font-size: 18px;
   font-family: Helvetica, Arial, sans-serif; }
-
 /*# sourceMappingURL=esb.css.map */
