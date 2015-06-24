@@ -113,6 +113,29 @@
 				</div>
 			</div>
 
+			<h1>Adding a Link</h1>
+			<div class="row">
+				<div class="col-md-4">
+					<p data-esb-mark="My Paragraph" data-esb-href="http://example.com">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+				</div>
+				<div class="col-md-8">
+					The <code>data-esb-href</code> attribute can be used to make the Mark's label linkable. 
+					<pre>
+						<code>
+&lt;p data-esb-mark="My Paragraph" data-esb-href="http://example.com"&gt;
+	Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+	Illum maiores numquam sed iusto vero, suscipit facilis. 
+	Dolorem laudantium, temporibus tenetur tempora! Eos 
+	voluptatibus, repellendus rerum cupiditate cum laudantium 
+	aliquid dolorem!
+&lt;/p&gt;
+						</code>
+					</pre>
+				</div>
+			</div>
+
 			<h1>Overriding ID</h1>
 			<div class="row">
 				<div class="col-md-4">
@@ -290,6 +313,39 @@ document.dispatchEvent(event);
 				</div>
 			</div>
 
+			<h1>Using Groups</h1>
+			<div class="row">
+				<div class="col-md-4">
+					<p data-esb-mark>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+					<p data-esb-mark data-esb-group="secondary">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum maiores numquam sed iusto vero, suscipit facilis. Dolorem laudantium, temporibus tenetur tempora! Eos voluptatibus, repellendus rerum cupiditate cum laudantium aliquid dolorem!
+					</p>
+				</div>
+				<div class="col-md-8">
+					<code>data-esb-group</code> can be used to add additional classes to the Mark. These classes can be used as hooks to style Marks differently and group various Marks together. A default group called <code>secondary</code> is available within Mark's default styles.
+					<pre>
+						<code>
+&lt;p data-esb-mark&gt;
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+    Illum maiores numquam sed iusto vero, suscipit facilis. 
+    Dolorem laudantium, temporibus tenetur tempora! Eos 
+    voluptatibus, repellendus rerum cupiditate cum laudantium 
+    aliquid dolorem!
+&lt;/p&gt;
+
+&lt;p data-esb-mark data-esb-group="secondary"&gt;
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+    Illum maiores numquam sed iusto vero, suscipit facilis. 
+    Dolorem laudantium, temporibus tenetur tempora! Eos 
+    voluptatibus, repellendus rerum cupiditate cum laudantium 
+    aliquid dolorem!
+&lt;/p&gt;
+						</code>
+					</pre>
+				</div>
+			</div>
 
 		</div>
 	</body>

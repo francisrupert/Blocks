@@ -43,6 +43,16 @@ $default-border-radius: 4px;
 	}
 }
 
+.esb-mark-link {
+	text-decoration: none;
+	color: white;
+
+	&:hover {
+		text-decoration: underline;
+		color: #efefef;
+	}
+}
+
 .esb-mark-label-id,
 .esb-mark-label-name {
 	padding: 3px 6px;

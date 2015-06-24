@@ -23,7 +23,8 @@ export class EsbMark {
 				'mark-position': 'top-left',
 				'outline': true,
 				'group': null,
-				'visible-on-load': true
+				'visible-on-load': true,
+				'href': false
 			},
 			option = null,
 			value = null,
@@ -150,6 +151,12 @@ export class EsbMark {
 			label_element = document.createElement('label'),
 			label_id_element = self.get_label_id_element(),
 			label_name_element = self.get_label_name_element();
+
+		if (self.options.href) {
+			label_element = document.createElement('a');
+			label_element.href = self.options.href;
+			EsbUtil.addClass(label_element, 'esb-mark-link');
+		}
 
 		EsbUtil.addClass(label_element, 'esb-mark-label');
 

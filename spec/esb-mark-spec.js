@@ -45,7 +45,7 @@ describe("EsbMark", function(){
 	});
 
 	it ("should have default options", function(){
-		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id': true, 'mark-position': 'top-left', 'outline': true, 'group': null, 'visible-on-load': true});
+		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id': true, 'mark-position': 'top-left', 'outline': true, 'group': null, 'visible-on-load': true, 'href': false});
 	});
 
 	it("should inject an esb-mark-label into the DOM", function(){
@@ -137,6 +137,12 @@ describe("EsbMark", function(){
 		mark.render();
 		expect($("#jasmine-fixtures .esb-mark.esb-mark--is-hidden").length).toEqual(1);
 	});
+
+	it ("should make the Mark's label a link when the href option is provided with a value", function(){
+		mark.options.href = "http://example.com";
+		mark.render();
+		expect($("#jasmine-fixtures .esb-mark .esb-mark-label[href='http://example.com']").length).toEqual(1);
+	});
 });
 
 describe("EsbMark config options", function(){
@@ -161,16 +167,16 @@ describe("EsbMark config options", function(){
 	});
 
 	it ("should use options from global config", function(){
-		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id': true, 'mark-position': 'top-right', 'outline': false, 'group': 'alternate-style', 'visible-on-load': true});
+		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id': true, 'mark-position': 'top-right', 'outline': false, 'group': 'alternate-style', 'visible-on-load': true, 'href': false});
 	});
 
 	it ("should use options from page level config when set", function(){
 		mark = load_mark('page-with-mark-page-level-config.html', uuid);		
-		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id': true, 'mark-position': 'bottom-left', 'outline': true, 'group': 'page-level-style', 'visible-on-load': true});
+		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id': true, 'mark-position': 'bottom-left', 'outline': true, 'group': 'page-level-style', 'visible-on-load': true, 'href': false});
 	});
 
 	it ("should use options from instance level data attributes when set", function(){
 		mark = load_mark('page-with-mark-data-attribute-options.html', uuid);		
-		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id': true, 'mark-position': 'bottom-right', 'outline': false, 'group': 'instance-style', 'visible-on-load': true});
+		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id': true, 'mark-position': 'bottom-right', 'outline': false, 'group': 'instance-style', 'visible-on-load': true, 'href': false});
 	});
 });
