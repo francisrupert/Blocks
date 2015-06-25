@@ -113,6 +113,7 @@
 			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="iphone-6" data-esb-scale="0.75"></div>
 			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="iphone-6" data-esb-scale="0.75" data-esb-device-frame="true"></div>
 
+			<h2>Device Orientation</h2>
 			<p>
 				The device's orientation can also be set to landscape using <code>data-esb-viewport-device-orientation="landscape"</code>
 			</p>
@@ -132,7 +133,33 @@
 	</code>
 </pre>
 			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="galaxy-s6" data-esb-scale="0.75" data-esb-viewport-device-orientation="landscape"></div>
-			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="galaxy-s6" data-esb-scale="0.75" data-esb-device-frame="true" data-esb-viewport-device-orientation="landscape"></div>
+			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="galaxy-s6" data-esb-scale="0.75" data-esb-device-frame="true" data-esb-viewport-device-orientation="landscape"></div>			
+
+			<h2>Browser UI</h2>
+			<p>
+				To add a more true-to-life feel, you can reduce the viewport by the amount of screen real estate each device's browser ui uses. Set <code>data-esb-show-browser-ui="true"</code> to enable this feature. 
+				<br><br>
+				<strong>NOTE:</strong> the browser ui size is based on the browser ui size <i>after</i> the device has been scrolled.
+			</p>
+
+<pre>
+	<code>
+&lt;div data-esb-frame=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-device=&quot;iphone-4&quot; 
+     data-esb-scale=&quot;0.75&quot; 
+     data-esb-device-frame=&quot;true&quot; 
+     data-esb-show-browser-ui=&quot;true&quot;&gt;&lt;/div&gt;
+
+&lt;div data-esb-frame=&quot;http://eightshapes.com&quot; 
+     data-esb-viewport-device=&quot;nexus-10&quot; 
+     data-esb-scale=&quot;0.5&quot; 
+     data-esb-device-frame=&quot;true&quot; 
+     data-esb-viewport-device-orientation=&quot;landscape&quot; 
+     data-esb-show-browser-ui=&quot;true&quot;&gt;&lt;/div&gt;
+	</code>
+</pre>
+			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="iphone-4" data-esb-scale="0.75" data-esb-device-frame="true" data-esb-show-browser-ui="true"></div>
+			<div data-esb-frame="http://eightshapes.com" data-esb-viewport-device="nexus-10" data-esb-scale="0.5" data-esb-device-frame="true" data-esb-viewport-device-orientation="landscape" data-esb-show-browser-ui="true"></div>
 
 
 
