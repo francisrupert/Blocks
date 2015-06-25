@@ -61,16 +61,24 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   }
 }
 
-.esb-frame-iframe {
-	width: $viewer-content-width;
-	height: ($viewer-aspect-ratio * $viewer-width) / $viewer-scale;
-	border: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	transform: scale($viewer-scale);
-	transform-origin: 0 0;
+.esb-frame-iframe-inner-wrap {
+  box-sizing: border-box;
+  width: $viewer-content-width;
+  height: ($viewer-aspect-ratio * $viewer-width) / $viewer-scale;
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale($viewer-scale);
+  transform-origin: 0 0;
   -webkit-transform-origin: 0 0;
+}
+
+.esb-frame-iframe {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .esb-frame-title {
@@ -218,12 +226,12 @@ $device-offsets: (
 );
 
 @each $device, $dimensions in $device-offsets {
-  .esb-frame--has-device-frame.esb-frame-device-frame-#{$device} .esb-frame-iframe {
+  .esb-frame--has-device-frame.esb-frame-device-frame-#{$device} .esb-frame-iframe-inner-wrap {
     top: #{map-get($dimensions, 'top')};
     left: #{map-get($dimensions, 'left')};
   }
 
-  .esb-frame--has-device-frame.esb-frame-device-frame-#{$device}.esb-frame-device-orientation-landscape .esb-frame-iframe {
+  .esb-frame--has-device-frame.esb-frame-device-frame-#{$device}.esb-frame-device-orientation-landscape .esb-frame-iframe-inner-wrap {
     top: #{map-get($dimensions, 'left')};
     left: #{map-get($dimensions, 'top')};
   }
@@ -242,4 +250,14 @@ $device-offsets: (
     background: gray;
     padding: 2px;
   }
+}
+
+.esb-frame-browser-ui-top {
+  background: #efefef;
+  border: solid 2px gray;
+  border-bottom-width: 1px;
+}
+
+.esb-frame-browser-ui-top + .esb-frame-iframe {
+  padding-top: 0;
 }
