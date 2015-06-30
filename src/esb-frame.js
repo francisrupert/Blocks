@@ -153,7 +153,10 @@ export class EsbFrame {
 				'component-frame-template': 'component_frame_template.html',
 				'component-frame-template-target': 'body',
 				'component-source': '',
-				'place': 'replace'
+				'place': 'replace',
+				'crop': false,
+				'crop-offset-x': false,
+				'crop-offset-y': false
 			},
 			option = null,
 			value = null,
@@ -233,6 +236,12 @@ export class EsbFrame {
 		if (options.scrolling === 'yes') {
 			//If scrolling is desired, the overlay has to be disabled or you cannot scroll
 			options.overlay = false;
+		}
+
+		//CROP
+		if (options.crop) {
+			// If the crop option is used, don't show the dimensions annotation
+			options.dimensions = false;
 		}
 
 		//VIEWPORT-DEVICE and VIEWPORT-DEVICE-ORIENTATION
@@ -406,6 +415,10 @@ export class EsbFrame {
 			height = height * device_frame_offsets.height;
 		}
 
+		if (self.options.crop) {
+			width = self.options.width;
+		}
+
 		styles = 'width:' + width + 'px; height:' + height + 'px;';
 
 		return styles;
@@ -414,19 +427,34 @@ export class EsbFrame {
 	update_dimensions_annotation(dimensions) {
 		var self = this;
 
-		if (dimensions.width !== undefined) {
-			self.dimensions_annotation_width_element.textContent = dimensions.width;
-		}
+		if (self.dimensions_annotation_element !== null) {
+			if (dimensions.width !== undefined) {
+				self.dimensions_annotation_width_element.textContent = dimensions.width;
+			}
 
-		if (dimensions.height !== undefined) {
-			self.dimensions_annotation_height_element.textContent = dimensions.height;
-		}
-		
-		if (dimensions.scale !== undefined) {
-			self.dimensions_annotation_scale_element.textContent = dimensions.scale + '%';
-		}
+			if (dimensions.height !== undefined) {
+				self.dimensions_annotation_height_element.textContent = dimensions.height;
+			}
+			
+			if (dimensions.scale !== undefined) {
+				self.dimensions_annotation_scale_element.textContent = dimensions.scale + '%';
+			}
 
-		EsbUtil.removeClass(self.dimensions_annotation_element, 'esb-frame-dimensions--updating');
+			self.set_dimensions_annotation_status('updated');
+		}
+	}
+
+	set_dimensions_annotation_status(status) {
+		var self = this;
+
+		if (self.dimensions_annotation_element !== null) {
+			if (status === 'updated') {
+				EsbUtil.removeClass(self.dimensions_annotation_element, 'esb-frame-dimensions--updating');
+			}
+			else if (status === 'updating') {
+				EsbUtil.addClass(self.dimensions_annotation_element, 'esb-frame-dimensions--updating');
+			}
+		}
 	}
 
 	get_iframe_wrap() {
@@ -457,6 +485,14 @@ export class EsbFrame {
 
 		if (dimensions.width && dimensions.height && dimensions.scale) {
 			styles = 'width:' + dimensions.width + 'px; height:' + dimensions.height + 'px; transform: scale(' + dimensions.scale + '); -webkit-transform: scale(' + dimensions.scale + '); ';
+		}
+
+		if (self.options['crop-offset-x']) {
+			styles += ' left: -' + self.options['crop-offset-x'] + 'px; ';
+		}
+		
+		if (self.options['crop-offset-y']) {
+			styles += ' top: -' + self.options['crop-offset-y'] + 'px; ';
 		}
 
 		return styles;
@@ -664,7 +700,7 @@ export class EsbFrame {
 				self.set_blocks_done_in_iframe_behavior();
 			}
 			else {
-				EsbUtil.removeClass(self.dimensions_annotation_element, 'esb-frame-dimensions--updating');
+				self.set_dimensions_annotation_status('updated');
 			}
 		};
 	}
@@ -677,18 +713,20 @@ export class EsbFrame {
 	set_frame_height(height) {
 		var self = this,
 			inner_wrap = self.viewer_element.querySelector('.esb-frame-iframe-inner-wrap'),
-			outer_wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap');
-		outer_wrap.style.height = (height * self.options.scale) + 'px';
+			wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap');
 		inner_wrap.style.height = height + 'px';
-		
+		if (!self.options.crop) {
+			wrap.style.height = (height * self.options.scale) + 'px';
+		}
+
 		self.update_dimensions_annotation({height: height});
 	}
 
 	 adjust_height_to_iframe_content() {
 		var self = this,
 			content_height = EsbUtil.outerHeight(self.iframe_element.contentWindow.document.querySelector('body'));
-		EsbUtil.addClass(self.dimensions_annotation_element, 'esb-frame-dimensions--updating');
 		self.set_frame_height(content_height);
+		self.set_dimensions_annotation_status('updating');
 	}
 
 	stop_monitoring_scrollable_ancestors() {

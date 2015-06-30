@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../css/esb.css">
+	<link rel="stylesheet" href="../css/esb-documentation.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="../dist/esb.min.js"></script>
+	<script>
+			// simple script to delay positioning of anchor elements
+			if (window.location.hash) {
+				setTimeout(function(){
+					var targetId = window.location.hash.slice(1);
+					var target = document.getElementById(targetId);
+					if (target !== null) {
+						var topOfTarget = target.getBoundingClientRect().top;
+						window.scrollTo(0, topOfTarget + document.body.scrollTop);
+					}
+				}, 1000);
+			}
+		</script>
+	</head>
+	<body>
+		<div class="esb-documentation-wrap">
+			<h1>ESB Frame Component Examples</h1>
+			<div class="row">
+				<div class="col-md-7">
+					<p>
+						The following examples show how Frame can be used in conjunction with Component Loader.
+					</p>
+				</div>
+			</div>
+
+			<h1>Loading a Component in a Frame</h1>
+			<div class="row">
+				<div class="col-md-4">
+					<div data-esb-frame="newsletter-subscription" data-esb-variation="default"></div>
+				</div>
+				<div class="col-md-8">
+					
+				</div>
+			</div>
+
+
+		</div>
+	</body>
+</html>
