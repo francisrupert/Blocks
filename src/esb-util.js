@@ -50,6 +50,32 @@ class EsbUtil {
     return val;
   }
 
+  outerHeight(el) {
+    var height = el.offsetHeight;
+    var style = getComputedStyle(el);
+
+    height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+    return height;
+  }
+
+
+  convertQueryStringToJson(query_string) {
+    var pairs,
+        json = {};
+
+    if (query_string.length > 0) {
+      pairs = query_string.slice(1).split('&');
+
+      pairs.forEach(function(pair) {
+        pair = pair.split('=');
+        json[pair[0]] = decodeURIComponent(pair[1] || '');
+      });
+    }
+
+
+    return JSON.parse(JSON.stringify(json));
+  }
+
   isVoidElement(el) {
     var tags = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input',
                  'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'],

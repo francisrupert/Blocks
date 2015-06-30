@@ -46,7 +46,7 @@ describe("EsbFrame", function(){
 	});
 
 	it("should have default options", function(){
-		expect(frame.options).toEqual({"frame":"http://google.com", "source":"base/spec/fixtures/frames/", "load-immediately": false, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "http://google.com", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false});
+		expect(frame.options).toEqual({"frame":"http://google.com", "source":"base/spec/fixtures/frames/", "load-immediately": false, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "http://google.com", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template": "component_frame_template.html", "component-frame-template-target": "body", "component-source": "", "place": "replace"});
 	});
 
 	it("should have access to BlocksConfig", function(){
@@ -71,7 +71,7 @@ describe("EsbFrame", function(){
 		});
 	
 		it("should override the default options", function(){
-			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "base/spec/fixtures/frames/just-a-default-example.html", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false});
+			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "base/spec/fixtures/frames/just-a-default-example.html", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template": "component_frame_template.html", "component-frame-template-target": "body", "component-source": "", "place": "replace"});
 		});
 
 		it("should load immediately", function(){
@@ -150,6 +150,7 @@ describe("EsbFrame", function(){
 
 		    frame.unload_iframe();
 		    expect($('#jasmine-fixtures iframe[src="base/spec/fixtures/frames/just-a-default-example.html"]')).not.toBeInDOM();
+		    expect($('#jasmine-fixtures .esb-frame-iframe-inner-wrap').length).toEqual(1);
 		    expect($('#jasmine-fixtures iframe[data-src="base/spec/fixtures/frames/just-a-default-example.html"]')).toBeInDOM();
 		});
 
@@ -296,7 +297,7 @@ describe("EsbFrame", function(){
 		});
 
 		it ("should override the default options", function() {
-			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": "My Framed Page", "caption": "This is smaller caption text", "dimensions": true, "href": "http://example.com", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": "1000", "viewport-aspect-ratio": "1.5", "width": "300", "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false});
+			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": "My Framed Page", "caption": "This is smaller caption text", "dimensions": true, "href": "http://example.com", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": "1000", "viewport-aspect-ratio": "1.5", "width": "300", "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template":"component_frame_template.html", "component-frame-template-target": "body", "component-source":"", "place":"replace"});
 		});
 
 		it ("should have a title", function(){
@@ -351,8 +352,19 @@ describe("EsbFrame", function(){
 		});
 
 		it ("should create a dimensions string", function() {
-			expect(frame.get_dimensions_annotation()).toContain('320&times;1200');
+			expect(frame.get_dimensions_annotation()).toContain('320');
+			expect(frame.get_dimensions_annotation()).toContain('1200');
 			expect(frame.get_dimensions_annotation()).toContain('25%');
+		});
+	});
+
+	describe("for a framed component", function() {
+		beforeEach(function(){
+			frame = load_frame('frame-component-modern-syntax.html');
+		});
+
+		it ("should create a dynamic component url", function() {
+			expect(frame.options.frame).toEqual('component_frame_template.html?data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
 		});
 	});
 });
@@ -381,7 +393,7 @@ describe("EsbFrame with alternate config", function(){
 		});
 
 		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the component level", function() {
-			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "", "load-immediately": false, "unload-when-not-visible": false, "title": "Global Page Viewer Title", "caption": "This caption is unique to the component", "dimensions": false, "href": "#link", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": 500, "viewport-aspect-ratio": 0.5, "width": 300, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false})
+			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "", "load-immediately": false, "unload-when-not-visible": false, "title": "Global Page Viewer Title", "caption": "This caption is unique to the component", "dimensions": false, "href": "#link", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": 500, "viewport-aspect-ratio": 0.5, "width": 300, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template":"component_frame_template.html", "component-frame-template-target": "body", "component-source":"", "place":"replace"})
 		});
 	});
 

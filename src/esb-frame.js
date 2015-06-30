@@ -105,6 +105,11 @@ export class EsbFrame {
 		self.viewer_element = null;
 		self.iframe_element = null;
 		self.iframe_is_loaded = false;
+		self.is_framed_component = false;
+		self.dimensions_annotation_width_element = false;
+		self.dimensions_annotation_height_element = false;
+		self.dimensions_annotation_scale_element = false;
+		self.dimensions_annotation_element = false;
 		self.options = null;
 		self.scrollable_ancestors = [];
 	    self.logger = EsbUtil.logger;
@@ -143,7 +148,12 @@ export class EsbFrame {
 				'viewport-device-orientation': 'portrait',
 				'device-annotation': true,
 				'device-frame': false,
-				'show-browser-ui': false
+				'show-browser-ui': false,
+				'variation': false,
+				'component-frame-template': 'component_frame_template.html',
+				'component-frame-template-target': 'body',
+				'component-source': '',
+				'place': 'replace'
 			},
 			option = null,
 			value = null,
@@ -197,11 +207,17 @@ export class EsbFrame {
 		}
 
 		//FRAME
-		if (options.frame.indexOf('http') === 0) {
+		if (options.frame && options.frame.indexOf('http') === 0) {
 			self.logger('info', 'Fully qualified url found for page viewer: ' + options.frame + ', esb-frame uuid: ' + self.uuid);
 		}
-		else {
+		else if (!options.variation) {
 			options.frame = options.source + options.frame;
+		}
+
+		// COMPONENT FRAME
+		if (options.variation || self.original_element.getAttribute('data-frame-component') !== null) {
+			self.is_framed_component = true;
+			options = self.set_component_frame_options(options);
 		}
 
 		// set iframe_src variable
@@ -232,6 +248,41 @@ export class EsbFrame {
 		self.options = options;
 	}
 
+	set_component_frame_options(options) {
+		// Support legacy 'data-frame-component' syntax
+		var self = this,
+			component_url = options['component-frame-template'],
+			component_name = self.original_element.getAttribute('data-frame-component'),
+			component_variation = self.original_element.getAttribute('data-variation'),
+			component_source = self.original_element.getAttribute('data-source'),
+			component_place = self.original_element.getAttribute('data-place');
+
+		if (component_name === null) {
+			component_name = options.frame;
+		}
+
+		if (component_variation === null) {
+			component_variation = options.variation;
+		}
+
+		if (component_source === null) {
+			component_source = options['component-source'];
+		}
+
+		if (component_place === null) {
+			component_place = options.place;
+		}
+
+		component_url += 	'?data-esb-component=' + component_name + 
+							'&data-esb-variation=' + component_variation +
+							'&data-esb-source=' + component_source +
+							'&data-esb-place=' + component_place + 
+							'&data-esb-target=' + options['component-frame-template-target'];
+
+		options.frame = encodeURI(component_url).replace(/#/, '%23');
+		return options;
+	}
+
 	create_placeholder_element() {
 		var self = this;
 
@@ -239,6 +290,7 @@ export class EsbFrame {
 		if (self.options.overlay) { self.placeholder_element += ' esb-frame-has-overlay '; }
 		if (self.options['device-frame']) { self.placeholder_element += ' esb-frame--has-device-frame esb-frame-device-frame-' + self.options['viewport-device']; }
 		if (self.options['viewport-device-orientation'] === 'landscape') { self.placeholder_element += ' esb-frame-device-orientation-landscape'; }
+		if (self.is_framed_component) { self.placeholder_element += ' esb-frame--is-framed-component'; }
 		self.placeholder_element += '" '; 
 		self.placeholder_element +='data-esb-uuid="' + self.uuid + '">';
 		if (self.options.href) { 
@@ -314,8 +366,8 @@ export class EsbFrame {
 		}
 
 		if (self.options.dimensions && dimensions.width && dimensions.height && dimensions.scale) {
-			dimensions_annotation += '<p class="esb-frame-dimensions-annotation">';
-			dimensions_annotation += self.get_dimensions_icon() + '<span class="esb-frame-dimensions-value">' + Math.round(dimensions.width) + '&times;' + Math.round(dimensions.height) + '</span> ';
+			dimensions_annotation += '<p class="esb-frame-dimensions-annotation esb-frame-dimensions--updating">';
+			dimensions_annotation += self.get_dimensions_icon() + '<span class="esb-frame-dimensions-value"><span class="esb-frame-dimensions-width-value">' + Math.round(dimensions.width) + '</span>&times;<span class="esb-frame-dimensions-height-value">' + Math.round(dimensions.height) + '</span></span> ';
 			if (scale !== 100) {
 				dimensions_annotation += self.get_scale_icon() + '<span class="esb-frame-scale-value">' + parseFloat((dimensions.scale*100).toFixed(1)) + '%</span>';
 			}
@@ -340,6 +392,9 @@ export class EsbFrame {
 			if (self.options.height) {
 				height = self.options.height;
 			}
+			else if (self.is_framed_component) {
+				height = 180; //Set a nice default height so the loading animation displays
+			}
 			else {
 				height = width * self.options['viewport-aspect-ratio'];
 			}
@@ -354,6 +409,24 @@ export class EsbFrame {
 		styles = 'width:' + width + 'px; height:' + height + 'px;';
 
 		return styles;
+	}
+
+	update_dimensions_annotation(dimensions) {
+		var self = this;
+
+		if (dimensions.width !== undefined) {
+			self.dimensions_annotation_width_element.textContent = dimensions.width;
+		}
+
+		if (dimensions.height !== undefined) {
+			self.dimensions_annotation_height_element.textContent = dimensions.height;
+		}
+		
+		if (dimensions.scale !== undefined) {
+			self.dimensions_annotation_scale_element.textContent = dimensions.scale + '%';
+		}
+
+		EsbUtil.removeClass(self.dimensions_annotation_element, 'esb-frame-dimensions--updating');
 	}
 
 	get_iframe_wrap() {
@@ -487,6 +560,10 @@ export class EsbFrame {
 		self.original_element.outerHTML = self.placeholder_element;
 		self.viewer_element = document.querySelector('*[data-esb-uuid="' + self.uuid + '"]');
 		self.iframe_element = self.viewer_element.querySelector('iframe');
+		self.dimensions_annotation_width_element = self.viewer_element.querySelector('.esb-frame-dimensions-width-value');
+		self.dimensions_annotation_height_element = self.viewer_element.querySelector('.esb-frame-dimensions-height-value');
+		self.dimensions_annotation_scale_element = self.viewer_element.querySelector('.esb-frame-scale-value');
+		self.dimensions_annotation_element = self.viewer_element.querySelector('.esb-frame-dimensions-annotation');
 		self.set_scrollable_ancestors();
 		self.set_event_listeners();
 		self.set_iframe_onload_behavior();
@@ -582,7 +659,36 @@ export class EsbFrame {
 			if (!self.options['unload-when-not-visible']) {
 				self.stop_monitoring_scrollable_ancestors();
 			}
+
+			if (self.is_framed_component) {
+				self.set_blocks_done_in_iframe_behavior();
+			}
+			else {
+				EsbUtil.removeClass(self.dimensions_annotation_element, 'esb-frame-dimensions--updating');
+			}
 		};
+	}
+
+	set_blocks_done_in_iframe_behavior() {
+		var self = this;
+		self.iframe_element.contentWindow.document.addEventListener('blocks-done', self. adjust_height_to_iframe_content.bind(self));
+	}
+
+	set_frame_height(height) {
+		var self = this,
+			inner_wrap = self.viewer_element.querySelector('.esb-frame-iframe-inner-wrap'),
+			outer_wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap');
+		outer_wrap.style.height = (height * self.options.scale) + 'px';
+		inner_wrap.style.height = height + 'px';
+		
+		self.update_dimensions_annotation({height: height});
+	}
+
+	 adjust_height_to_iframe_content() {
+		var self = this,
+			content_height = EsbUtil.outerHeight(self.iframe_element.contentWindow.document.querySelector('body'));
+		EsbUtil.addClass(self.dimensions_annotation_element, 'esb-frame-dimensions--updating');
+		self.set_frame_height(content_height);
 	}
 
 	stop_monitoring_scrollable_ancestors() {
@@ -605,7 +711,8 @@ export class EsbFrame {
 
 	unload_iframe() {
 		var self = this;
-		self.iframe_element.outerHTML = self.get_iframe();
+		self.viewer_element.querySelector('.esb-frame-iframe-inner-wrap').outerHTML = self.get_iframe();
+		EsbUtil.removeClass(self.viewer_element, 'esb-frame--is-loaded');
 		self.iframe_element = self.viewer_element.querySelector('iframe');
 		self.set_iframe_onload_behavior();
 		self.iframe_is_loaded = false;

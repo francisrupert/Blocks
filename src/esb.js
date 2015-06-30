@@ -3,6 +3,7 @@ import EsbPage from './esb-page';
 import EsbUtil from './esb-util';
 
 EsbConfig.load().then(function() {
+  EsbPage.renderComponentFromQueryStringParams(); //Used by Frame to generate a component snippet from query string params
 	EsbPage.parse(); //Finds all blocks components, viewers, etc. and preps them for loading/display
 	EsbPage.display();
     EsbPage.blocksDone().then(

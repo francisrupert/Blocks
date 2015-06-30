@@ -13,87 +13,9 @@
 
 <body>
   <div id="base">
-
-      
-<!--       <a href="#" class="button" data-esb-mark data-esb-position="top-right" data-esb-href="http://example.com">I'm a call to action!</a>
-
-      <input type="text" data-esb-mark placeholder="Enter some text in me!">
-
-      <p style="max-width: 700px" data-esb-mark="Body Text" data-esb-position="bottom-left" data-esb-href="http://example.com"> 
-        <img src="http://placehold.it/150x150" alt="" style="float:right;" data-esb-mark data-esb-group="secondary" data-esb-position="bottom-right">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt reprehenderit nihil fuga nam quae rerum odit fugiat accusantium in laudantium! Doloremque sunt reiciendis, consequatur! Dolorem dignissimos, fugit optio placeat distinctio.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt reprehenderit nihil fuga nam quae rerum odit fugiat accusantium in laudantium! Doloremque sunt reiciendis, consequatur! Dolorem dignissimos, fugit optio placeat distinctio.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt reprehenderit nihil fuga nam quae rerum odit fugiat accusantium in laudantium! Doloremque sunt reiciendis, consequatur! Dolorem dignissimos, fugit optio placeat distinctio.
-      </p>
-
-    <p data-esb-mark data-esb-group="red">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p>
-
-    <p data-esb-mark data-esb-group="orange">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p>
-
-    <p data-esb-mark data-esb-group="yellow">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p>
-
-    <p data-esb-mark data-esb-group="green">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p>
-
-    <p data-esb-mark data-esb-group="blue">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p>
-
-    <p data-esb-mark data-esb-group="purple">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p>
-
-    <p data-esb-mark data-esb-group="pink">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p>
-
-    <p data-esb-mark data-esb-group="brown">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p>
-
-    <p data-esb-mark data-esb-group="white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p>
-
-    <p data-esb-mark data-esb-group="black">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae earum ab quibusdam debitis, explicabo minima molestiae beatae, sapiente ducimus quod, natus cum sint dolorum minus voluptate hic delectus repellendus error.</p> -->
-
-    <header data-component="header" data-variation="base" class="initial-class"></header>
-    <header data-component="header" data-variation="with-content" class="json-from-config" data-content="base.user.one"></header>
-    <header data-component="header" data-variation="with-content" class="json-raw" data-content='{"name": "Ziggy Ignots"}'></header>
-
-    <!-- This tests two identical nested children -->
-    <div data-component="parent" data-variation="v01"></div>
-    <div data-component="parent" data-variation="v02"></div>
-
-    <!-- This tests that data-place works as expected -->
-    <div data-component="child" data-variation="v02" data-place="replace" class="i-should-not-appear" data-object="child"></div>
-
-    <!-- This tests nested children with replace -->
-    <div data-component="parent" data-variation="v03" data-place="replace" class="i-also-should-not-appear"></div>
-
-    <!-- This tests nested children with replace -->
-    <div data-component="parent" data-variation="v04"></div>
-
-    <div data-component="library" data-variation="v01" data-source="test/test-source/components/"></div>
-
-    <div data-esb-frame-config data-esb-frame="http://eightshapes.com" data-esb-scale="0.5">
-      <div data-esb-frame data-esb-viewport-device="iphone-4" data-esb-title="EightShapes" data-esb-caption="eightshapes.com" data-esb-device-frame="true"></div>
-      <div data-esb-frame data-esb-viewport-device="iphone-4" data-esb-scale="1" data-esb-device-frame="true" ></div>
-      <div data-esb-frame data-esb-viewport-device="iphone-5" data-esb-device-frame="true"></div>
-      <div data-esb-frame data-esb-viewport-device="iphone-6" data-esb-device-frame="true"></div>
-      <div data-esb-frame data-esb-viewport-device="iphone-6-plus" data-esb-dimensions="false"></div>
-      <div data-esb-frame data-esb-viewport-device="ipad" data-esb-device-frame="true"></div>
-      <div data-esb-frame data-esb-viewport-device="galaxy-s6" data-esb-device-frame="true"></div>
-      <div data-esb-frame data-esb-viewport-device="nexus-10" data-esb-device-frame="true"></div>
-      <!-- <div data-esb-frame data-esb-viewport-device="iphone-6" data-esb-scale="0.5" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="iphone-6-plus" data-esb-scale="0.5" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="ipad" data-esb-scale="0.5" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="nexus-10" data-esb-scale="0.5" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="galaxy-s6" data-esb-scale="0.5" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="galaxy-s6" data-esb-scale="1" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="galaxy-s6" data-esb-scale="2" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="nexus-10" data-esb-scale="0.5" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="nexus-10" data-esb-scale="0.75" data-esb-device-frame="true" ></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="ipad" data-esb-scale="0.25" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="ipad" data-esb-scale="1" data-esb-device-frame="true"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-device="iphone-5" data-esb-scale="0.5" data-esb-device-frame="true"></div> -->
-<!--       <div data-esb-frame data-esb-viewport-device="iphone-4" data-esb-viewport-device-orientation="landscape" data-esb-scale="0.5"></div>
-      <div data-esb-frame data-esb-viewport-device="iphone-5" data-esb-scale="0.5"></div>
-      <div data-esb-frame data-esb-viewport-device="iphone-6" data-esb-scale="0.5"></div>
-      <div data-esb-frame data-esb-viewport-device="iphone-6-plus" data-esb-scale="0.5"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-width="768" data-esb-height="300"    data-esb-scale="0.25" data-esb-title="iPad"     data-esb-caption="Medium viewport"></div> -->
-      <!-- <div data-esb-frame data-esb-viewport-width="1200" data-esb-height="300"   data-esb-scale="0.25" data-esb-title="Desktop"  data-esb-caption="Large viewport"></div> -->
-    </div>
-    <footer data-component="footer" data-variation="v01"></footer>
+    <div data-esb-frame="http://eightshapes.com" data-esb-scale="1" data-esb-viewport-device="iphone-5" data-esb-device-frame="true"></div><br>
+    <div data-esb-frame="http://eightshapes.com" data-esb-scale="1" data-esb-viewport-device="iphone-5" data-esb-device-frame="true"></div><br>
+    <div data-esb-frame="parent" data-esb-variation="v01" data-esb-scale="1" data-esb-viewport-width="320"></div>
   </div>
 </body>
 </html>

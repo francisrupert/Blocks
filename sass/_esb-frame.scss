@@ -11,9 +11,14 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   min-width: 200px;
   font-family: $esb-font-family;
   margin: 10px;
+
+  &.esb-frame--is-framed-component {
+    min-width: 0;
+  }
 }
 
 .esb-frame-iframe-wrap {
+  transition: height 0.4s ease;
 	position:relative;
 	width: $viewer-width;
 	height: $viewer-width * $viewer-aspect-ratio;
@@ -62,6 +67,7 @@ $viewer-scale: $viewer-width / $viewer-content-width;
 }
 
 .esb-frame-iframe-inner-wrap {
+  transition: height 0.4s ease;
   box-sizing: border-box;
   width: $viewer-content-width;
   height: ($viewer-aspect-ratio * $viewer-width) / $viewer-scale;
@@ -79,6 +85,7 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   width: 100%;
   height: 100%;
   border: none;
+  background: white;
 }
 
 .esb-frame-title {
@@ -122,9 +129,21 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   padding-right: 5px;
 }
 
+
 .esb-frame-dimensions-value,
 .esb-frame-scale-value {
   padding-right: 15px;
+}
+
+.esb-frame-scale-value {
+  padding-right: 0;
+}
+
+.esb-frame-dimensions--updating {
+  .esb-frame-scale-value,
+  .esb-frame-dimensions-value {
+    text-indent: -10000px;
+  }
 }
 
 .esb-loading-animation,
@@ -135,6 +154,7 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   animation: load1 1s infinite ease-in-out;
   width: 1em;
   height: 4em;
+  z-index: 20;
 }
 .esb-loading-animation:before,
 .esb-loading-animation:after {
@@ -148,6 +168,7 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   animation-delay: -0.32s;
 }
 .esb-loading-animation {
+  transition: opacity 0.4s ease-in, height 0.4s linear 0.8s;
   text-indent: -9999em;
   margin: 8em auto;
   position: relative;
@@ -157,6 +178,12 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   transform: translateZ(0);
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
+
+  .esb-frame--is-loaded & {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
 }
 .esb-loading-animation:after {
   left: 1.5em;
@@ -260,4 +287,12 @@ $device-offsets: (
 
 .esb-frame-browser-ui-top + .esb-frame-iframe {
   padding-top: 0;
+}
+
+.component-frame-template-wrapper {
+  // Prevents margin collapse on component being framed
+  padding-top: 1px;
+  padding-bottom: 1px;
+  margin-top: -1px;
+  margin-bottom: -1px;
 }

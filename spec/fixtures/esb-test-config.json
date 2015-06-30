@@ -1,7 +1,7 @@
 {
     "logging": "none",
     "components": {
-        "source": "test/components/",
+        "source": "spec/fixtures/components/",
         "replace_reference": true
     },
     "frames": {

@@ -21,4 +21,14 @@ describe("EsbUtil", function(){
 		expect(EsbUtil.booleanXorValue(false)).toEqual(false);
 		expect(EsbUtil.booleanXorValue('foo')).toEqual('foo');
 	});
+
+	it ("should be able to convert a query string to a JSON object", function() {
+		expect(EsbUtil.convertQueryStringToJson('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace')).toEqual({
+			"data-esb-component": "my-navbar",
+			"data-esb-variation": "foo",
+			"data-esb-source": "library",
+			"data-esb-target": "#jasmine-fixtures",
+			"data-esb-place": "replace"
+		})
+	});
 });
