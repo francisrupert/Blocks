@@ -5,7 +5,8 @@
   padding: 20px;
   display: inline-block; }
   .newsletter-sign-up-wrap h1 {
-    color: #656565; }
+    color: #656565;
+    font-size: 1.5em; }
   .newsletter-sign-up-wrap input {
     box-sizing: border-box;
     display: block;
@@ -20,7 +21,15 @@
     font-size: 24px;
     border: none;
     padding: 10px 20px;
-    cursor: pointer; }
+    cursor: pointer;
+    width: 100%; }
     .newsletter-sign-up-wrap button:hover {
       background: lightblue; }
+
+@media (min-width: 321px) {
+  .newsletter-sign-up-wrap h1 {
+    font-size: 2em; }
+  .newsletter-sign-up-wrap button {
+    width: auto; } }
+
 /*# sourceMappingURL=newsletter-subscription.css.map */
