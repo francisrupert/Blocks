@@ -300,7 +300,7 @@ export class EsbFrame {
 
 	is_option_overridden(option_name) {
 		var self = this;
-		return self.overridden_options.indexOf(option_name) != -1;
+		return self.overridden_options.indexOf(option_name) !== -1;
 	}
 
 	create_placeholder_element() {
