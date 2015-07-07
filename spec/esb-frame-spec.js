@@ -79,6 +79,11 @@ describe("EsbFrame", function(){
 			frame.inject_placeholder();
 			expect(frame.load_iframe).toHaveBeenCalled();
 		});
+
+		it("should keep track of which options have been overridden", function(){
+			expect(frame.is_option_overridden('load-immediately')).toEqual(true);
+			expect(frame.is_option_overridden('title')).toEqual(false);
+		});
 	});
 
 	describe("for a fully qualified URL", function(){
@@ -417,7 +422,6 @@ describe("EsbFrame", function(){
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").width()).toEqual(400);
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-wrap").width()).toEqual(100);
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-wrap").height()).toEqual(100);
-
 		});
 	});
 });

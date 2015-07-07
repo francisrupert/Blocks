@@ -112,6 +112,7 @@ export class EsbFrame {
 		self.dimensions_annotation_scale_element = false;
 		self.dimensions_annotation_element = false;
 		self.options = null;
+		self.overridden_options = [];
 		self.scrollable_ancestors = [];
 	    self.logger = EsbUtil.logger;
 		self.original_element = opts.viewer_element;
@@ -173,6 +174,7 @@ export class EsbFrame {
 				value = config_json_global_options.get(option);
 				if (value !== undefined && value.toString().length > 0) {
 					options[option] = EsbUtil.booleanXorValue(value);
+					self.overridden_options.push(option);
 				}
 			}
 		}
@@ -191,6 +193,7 @@ export class EsbFrame {
 				value = page_level_config_element.getAttribute('data-esb-' + option);
 				if (value !== null && value.length > 0) {
 					options[option] = EsbUtil.booleanXorValue(value);
+					self.overridden_options.push(option);
 				}
 			}
 		}
@@ -200,6 +203,7 @@ export class EsbFrame {
 			value = self.original_element.getAttribute('data-esb-' + option);
 			if (value !== null && value.length > 0) {
 				options[option] = EsbUtil.booleanXorValue(value);
+				self.overridden_options.push(option);
 			}
 		}
 
@@ -292,6 +296,11 @@ export class EsbFrame {
 
 		options.frame = encodeURI(component_url).replace(/#/, '%23');
 		return options;
+	}
+
+	is_option_overridden(option_name) {
+		var self = this;
+		return self.overridden_options.indexOf(option_name) != -1;
 	}
 
 	create_placeholder_element() {
@@ -775,6 +784,9 @@ export class EsbFrame {
 		wrapper_element.style.paddingTop = '1px;';
 		wrapper_element.style.marginBottom = '-1px;';
 		wrapper_element.style.paddingBottom = '1px;';
+		if (self.is_option_overridden('viewport-width')) {
+			wrapper_element.style.width = self.options['viewport-width'] + 'px';
+		}
 
 		wrapper_element.innerHTML = content;
 
