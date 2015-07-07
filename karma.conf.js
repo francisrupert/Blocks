@@ -28,8 +28,8 @@ module.exports = function(config) {
     ],
 
     jspm: {
-        loadFiles: ['src/**/*.js', 'spec/*.js']
-        // serveFiles: ['spec/_esb-test-config.json']
+        loadFiles: ['src/**/*.js', 'spec/*.js'],
+        serveFiles: ['css/esb.css', 'jspm/**/*.js', 'config.js', 'src/**/*.js']
     },
 
 

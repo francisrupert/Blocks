@@ -46,7 +46,7 @@ describe("EsbFrame", function(){
 	});
 
 	it("should have default options", function(){
-		expect(frame.options).toEqual({"frame":"http://google.com", "source":"base/spec/fixtures/frames/", "load-immediately": false, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "http://google.com", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template": "component_frame_template.html", "component-frame-template-target": "body", "component-source": "", "place": "replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false});
+		expect(frame.options).toEqual({"frame":"http://google.com", "source":"base/spec/fixtures/frames/", "load-immediately": false, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "http://google.com", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template": "base/spec/fixtures/component_frame_template.html", "component-frame-template-target": "body", "component-source": "", "place": "replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false});
 	});
 
 	it("should have access to BlocksConfig", function(){
@@ -71,7 +71,7 @@ describe("EsbFrame", function(){
 		});
 	
 		it("should override the default options", function(){
-			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "base/spec/fixtures/frames/just-a-default-example.html", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template": "component_frame_template.html", "component-frame-template-target": "body", "component-source": "", "place": "replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false});
+			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "base/spec/fixtures/frames/just-a-default-example.html", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template": "base/spec/fixtures/component_frame_template.html", "component-frame-template-target": "body", "component-source": "", "place": "replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false});
 		});
 
 		it("should load immediately", function(){
@@ -297,7 +297,7 @@ describe("EsbFrame", function(){
 		});
 
 		it ("should override the default options", function() {
-			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": "My Framed Page", "caption": "This is smaller caption text", "dimensions": true, "href": "http://example.com", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": "1000", "viewport-aspect-ratio": "1.5", "width": "300", "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template":"component_frame_template.html", "component-frame-template-target": "body", "component-source":"", "place":"replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false});
+			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": "My Framed Page", "caption": "This is smaller caption text", "dimensions": true, "href": "http://example.com", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": "1000", "viewport-aspect-ratio": "1.5", "width": "300", "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template":"base/spec/fixtures/component_frame_template.html", "component-frame-template-target": "body", "component-source":"", "place":"replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false});
 		});
 
 		it ("should have a title", function(){
@@ -364,7 +364,60 @@ describe("EsbFrame", function(){
 		});
 
 		it ("should create a dynamic component url", function() {
-			expect(frame.options.frame).toEqual('component_frame_template.html?data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
+			expect(frame.options.frame).toEqual('base/spec/fixtures/component_frame_template.html?data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
+		});
+
+		// it ("should use the same defaults as a regular Frame", function(){
+		// 	frame.options['load-immediately'] = true;
+		// 	frame.inject_placeholder();
+		// 	expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").width()).toEqual(1000);
+		// 	expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-wrap").width()).toEqual(200);
+		// });
+	});
+
+	describe("for a framed component that has loaded", function(){
+		beforeEach(function(done){
+			var loaded_interval,
+				frame = load_frame('frame-component-modern-syntax.html');
+			frame.options['load-immediately'] = true;
+			frame.inject_placeholder();
+
+			loaded_interval = setInterval(function(){
+				if ($("#jasmine-fixtures .esb-frame--dynamically-resized").length === 1) {
+					clearInterval(loaded_interval);
+					done();
+				}
+			}, 500);
+		});
+
+		it ("should conform the frame to the size of the component by default", function(){
+			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").height()).toEqual(100);
+			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").width()).toEqual(400);
+
+		});
+	});
+
+	describe("for a cropped framed component that has loaded", function(){
+		beforeEach(function(done){
+			var loaded_interval,
+				frame = load_frame('frame-component-modern-syntax-cropped.html');
+			frame.options['load-immediately'] = true;
+			frame.inject_placeholder();
+
+			loaded_interval = setInterval(function(){
+				if ($("#jasmine-fixtures .esb-frame--dynamically-resized").length === 1) {
+					clearInterval(loaded_interval);
+					done();
+				}
+			}, 500);
+		});
+
+		it ("should crop the iframe to the given height and width", function(){
+			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").height()).toEqual(100);
+			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").width()).toEqual(400);
+			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-wrap").width()).toEqual(100);
+			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-wrap").height()).toEqual(100);
+
 		});
 	});
 });

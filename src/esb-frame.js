@@ -99,6 +99,7 @@ export class EsbFrame {
 				'frame-height-multiplier':'1.268'
 			}
 		};
+		self.state = 'not loaded';
 		self.device_dimensions = {};
 		self.iframe_src = null;
 		self.placeholder_element = null;
@@ -164,6 +165,7 @@ export class EsbFrame {
 			page_level_config_element = false,
 			config_json_global_options = self.config.get('frames'),
 			device_dimensions = null;
+
 
 		// Global config
 		if (config_json_global_options !== undefined) {
@@ -419,6 +421,11 @@ export class EsbFrame {
 			width = self.options.width;
 		}
 
+		if (!self.options.crop && self.is_framed_component) {
+			width = 100;
+			height = 100;
+		}
+
 		styles = 'width:' + width + 'px; height:' + height + 'px;';
 
 		return styles;
@@ -596,10 +603,12 @@ export class EsbFrame {
 		self.original_element.outerHTML = self.placeholder_element;
 		self.viewer_element = document.querySelector('*[data-esb-uuid="' + self.uuid + '"]');
 		self.iframe_element = self.viewer_element.querySelector('iframe');
+		
 		self.dimensions_annotation_width_element = self.viewer_element.querySelector('.esb-frame-dimensions-width-value');
 		self.dimensions_annotation_height_element = self.viewer_element.querySelector('.esb-frame-dimensions-height-value');
 		self.dimensions_annotation_scale_element = self.viewer_element.querySelector('.esb-frame-scale-value');
 		self.dimensions_annotation_element = self.viewer_element.querySelector('.esb-frame-dimensions-annotation');
+		
 		self.set_scrollable_ancestors();
 		self.set_event_listeners();
 		self.set_iframe_onload_behavior();
@@ -621,7 +630,13 @@ export class EsbFrame {
 
 	set_state(state) {
 		var self = this;
+		self.state = state;
 		self.viewer_element.classList.add('esb-frame--is-' + state);
+	}
+
+	get_state() {
+		var self = this;
+		return self.state;
 	}
 
 	set_scrollable_ancestors() {
@@ -697,7 +712,7 @@ export class EsbFrame {
 			}
 
 			if (self.is_framed_component) {
-				self.set_blocks_done_in_iframe_behavior();
+				self.set_component_loaded_in_iframe_behavior();
 			}
 			else {
 				self.set_dimensions_annotation_status('updated');
@@ -705,28 +720,77 @@ export class EsbFrame {
 		};
 	}
 
-	set_blocks_done_in_iframe_behavior() {
+	set_component_loaded_in_iframe_behavior() {
 		var self = this;
-		self.iframe_element.contentWindow.document.addEventListener('blocks-done', self. adjust_height_to_iframe_content.bind(self));
+		self.iframe_element.contentWindow.document.addEventListener('blocks-done', self.fit_frame_to_contents.bind(self));
 	}
 
 	set_frame_height(height) {
 		var self = this,
 			inner_wrap = self.viewer_element.querySelector('.esb-frame-iframe-inner-wrap'),
+			scale = self.options.scale,
 			wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap');
+		
 		inner_wrap.style.height = height + 'px';
+		
 		if (!self.options.crop) {
-			wrap.style.height = (height * self.options.scale) + 'px';
+			if (!scale) {
+				scale = self.options.width / self.options['viewport-width'];
+			}
+			wrap.style.height = (height * scale) + 'px';
 		}
 
 		self.update_dimensions_annotation({height: height});
 	}
 
-	 adjust_height_to_iframe_content() {
+	set_frame_width(width) {
 		var self = this,
-			content_height = EsbUtil.outerHeight(self.iframe_element.contentWindow.document.querySelector('body'));
-		self.set_frame_height(content_height);
+			inner_wrap = self.viewer_element.querySelector('.esb-frame-iframe-inner-wrap'),
+			scale = self.options.scale,
+			wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap');
+
+		inner_wrap.style.width = width + 'px';
+
+
+		if (!self.options.crop) {
+			if (!scale) {
+				scale = self.options.width / self.options['viewport-width'];
+			}
+			wrap.style.width = (width * scale) + 'px';
+		}
+
+		self.update_dimensions_annotation({width: width});
+	}
+
+	fit_frame_to_contents() {
+		var self = this,
+			content = self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML,
+			content_height,
+			content_width,
+			wrapper_element = document.createElement('span');
 		self.set_dimensions_annotation_status('updating');
+
+		wrapper_element.style.display = 'inline-block';
+		wrapper_element.style.marginTop = '-1px;';
+		wrapper_element.style.paddingTop = '1px;';
+		wrapper_element.style.marginBottom = '-1px;';
+		wrapper_element.style.paddingBottom = '1px;';
+
+		wrapper_element.innerHTML = content;
+
+		// Wrap contents with a display: inline-block; element to get an accurate height and width
+		self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = '';
+		self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).appendChild(wrapper_element);
+
+		content_height = EsbUtil.outerHeight(wrapper_element);
+		content_width = EsbUtil.outerWidth(wrapper_element);
+		self.set_frame_height(content_height);
+		self.set_frame_width(content_width);
+
+		// Unwrap contents
+		content = wrapper_element.innerHTML;
+		self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
+		EsbUtil.addClass(self.viewer_element, 'esb-frame--dynamically-resized');
 	}
 
 	stop_monitoring_scrollable_ancestors() {

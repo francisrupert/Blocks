@@ -17,8 +17,12 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   }
 }
 
+.esb-frame-inner-wrap {
+  display: block;
+}
+
 .esb-frame-iframe-wrap {
-  transition: height 0.4s ease;
+  transition: height 0.4s ease, width 0.4s ease;
 	position:relative;
 	width: $viewer-width;
 	height: $viewer-width * $viewer-aspect-ratio;
@@ -293,6 +297,5 @@ $device-offsets: (
   // Prevents margin collapse on component being framed
   padding-top: 1px;
   padding-bottom: 1px;
-  margin-top: -1px;
-  margin-bottom: -1px;
+  margin: -1px 0;
 }

@@ -9,8 +9,11 @@
   .esb-frame.esb-frame--is-framed-component {
     min-width: 0; }
 
+.esb-frame-inner-wrap {
+  display: block; }
+
 .esb-frame-iframe-wrap {
-  transition: height 0.4s ease;
+  transition: height 0.4s ease, width 0.4s ease;
   position: relative;
   width: 200px;
   height: 300px;
@@ -53,7 +56,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  transform: scale(0.2);
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2);
   transform-origin: 0 0;
   -webkit-transform-origin: 0 0; }
 
@@ -138,7 +142,6 @@
   position: relative;
   font-size: 11px;
   -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
   transform: translateZ(0);
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s; }
@@ -254,8 +257,7 @@
 .component-frame-template-wrapper {
   padding-top: 1px;
   padding-bottom: 1px;
-  margin-top: -1px;
-  margin-bottom: -1px; }
+  margin: -1px 0; }
 
 .esb-mark--has-outline {
   transition: outline-color 0.4s ease;
@@ -383,5 +385,4 @@
   padding: 10px;
   font-size: 18px;
   font-family: Helvetica, Arial, sans-serif; }
-
 /*# sourceMappingURL=esb.css.map */

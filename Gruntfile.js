@@ -16,6 +16,13 @@ module.exports = function(grunt) {
             src: '*.scss',
             dest: 'css/',
             ext: '.css'
+          },
+          {
+            expand: true,
+            cwd: 'wiki-examples/components/scss/',
+            src: '*.scss',
+            dest: 'wiki-examples/components/css/',
+            ext: '.css'
           }
         ]
       }
@@ -30,6 +37,12 @@ module.exports = function(grunt) {
         flatten: true,
         src: 'css/*.css',
         dest: 'css/'
+      },
+      examples_css: {
+        expand: true,
+        flatten: true,
+        src: 'wiki-examples/components/css/*.css',
+        dest: 'wiki-examples/components/css/'
       }
     },
     exec: {
@@ -50,6 +63,7 @@ module.exports = function(grunt) {
             '*.html',
             'wiki-examples/**/*.html',
             'css/**/*.css',
+            'wiki-examples/components/css/**/*.css',
             'src/**/*.js'
           ]
         },
@@ -84,7 +98,8 @@ module.exports = function(grunt) {
       styles: {
         files: [
           'sass/*.scss',
-          'sass/*/*.scss'
+          'sass/*/*.scss',
+          'wiki-examples/components/scss/*.scss'
         ],
         tasks: ['sass', 'autoprefixer']
       }
@@ -95,8 +110,8 @@ module.exports = function(grunt) {
       },
       continuous: {
         configFile: 'karma.conf.js',
-        browsers: ['PhantomJS', 'Chrome', 'Firefox'],
-        // browsers: ['Firefox'],
+        browsers: ['Chrome', 'Firefox'],
+        // browsers: ['PhantomJS'],
         singleRun: true
       }
     }

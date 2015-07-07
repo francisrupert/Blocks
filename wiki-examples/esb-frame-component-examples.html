@@ -36,9 +36,21 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div data-esb-frame="newsletter-subscription" data-esb-variation="default"></div>
+					<div data-esb-frame="newsletter-subscription" data-esb-viewport-width="640" data-esb-crop="true" data-esb-width="200" data-esb-variation="default"></div>
+					<div data-esb-frame="newsletter-subscription" data-esb-viewport-width="640" data-esb-variation="default"></div>
 				</div>
 				<div class="col-md-8">
-					
+					<p>
+						To frame a component, specify the component name for the <code>data-esb-frame</code> attribute and add a <code>data-esb-variation</code> attribute to specify the variation.
+					</p>
+					<p>
+						Framing a component inherits all of Frame's defaults which means with the minimum amount of options you'll see your component rendered in a 1000px viewport at 20% scale. Probably not what you want.
+					</p>
+					<pre>
+						<code>
+&lt;div data-esb-frame=&quot;newsletter-subscription&quot; data-esb-variation=&quot;default&quot;&gt;&lt;/div&gt;
+						</code>
+					</pre>
 				</div>
 			</div>
 

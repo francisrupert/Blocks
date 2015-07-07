@@ -1,7 +1,7 @@
 {
   "logging": "info",
   "components": {
-    "source": "test/components/",
+    "source": "spec/fixtures/components/",
     "replace_reference": true
   },
   "template_data": {

@@ -1,0 +1,26 @@
+.newsletter-sign-up-wrap {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  box-sizing: border-box;
+  background: #efefef;
+  padding: 20px;
+  display: inline-block; }
+  .newsletter-sign-up-wrap h1 {
+    color: #656565; }
+  .newsletter-sign-up-wrap input {
+    box-sizing: border-box;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 18px;
+    padding: 10px;
+    border: solid 1px #656565;
+    width: 100%; }
+  .newsletter-sign-up-wrap button {
+    background: #5fb3ce;
+    color: white;
+    font-size: 24px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer; }
+    .newsletter-sign-up-wrap button:hover {
+      background: lightblue; }
+/*# sourceMappingURL=newsletter-subscription.css.map */

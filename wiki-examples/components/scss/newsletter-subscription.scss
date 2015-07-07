@@ -1,0 +1,34 @@
+.newsletter-sign-up-wrap {
+	font-family: 'Helvetica', 'Arial', sans-serif;
+	box-sizing: border-box;
+	background: #efefef;
+	padding: 20px;
+	display: inline-block;
+
+	h1 {
+		color: #656565;
+	}
+
+	input {
+		box-sizing: border-box;
+		display: block;
+		margin-bottom: 20px;
+		font-size: 18px;
+		padding: 10px;
+		border: solid 1px #656565;
+		width: 100%;
+	}
+
+	button {
+		background: darken(lightblue, 20%);
+		color: white;
+		font-size: 24px;
+		border: none;
+		padding: 10px 20px;
+		cursor: pointer;
+
+		&:hover {
+			background: lightblue;
+		}
+	}
+}
