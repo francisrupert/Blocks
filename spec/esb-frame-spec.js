@@ -381,9 +381,14 @@ describe("EsbFrame", function(){
 	});
 
 	describe("for a framed component that has loaded", function(){
+		var originalTimeout;
+
 		beforeEach(function(done){
 			var loaded_interval,
 				frame = load_frame('frame-component-modern-syntax.html');
+			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+			jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
 			frame.options['load-immediately'] = true;
 			frame.inject_placeholder();
 
@@ -394,6 +399,10 @@ describe("EsbFrame", function(){
 				}
 			}, 500);
 		});
+
+	    afterEach(function() {
+	      jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+	    });
 
 		it ("should conform the frame to the size of the component by default", function(){
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").height()).toEqual(100);
@@ -403,9 +412,14 @@ describe("EsbFrame", function(){
 	});
 
 	describe("for a cropped framed component that has loaded", function(){
+		var originalTimeout;
+
 		beforeEach(function(done){
 			var loaded_interval,
 				frame = load_frame('frame-component-modern-syntax-cropped.html');
+			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+			jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
 			frame.options['load-immediately'] = true;
 			frame.inject_placeholder();
 
@@ -416,6 +430,10 @@ describe("EsbFrame", function(){
 				}
 			}, 500);
 		});
+
+	    afterEach(function() {
+	      jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+	    });
 
 		it ("should crop the iframe to the given height and width", function(){
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").height()).toEqual(100);
