@@ -46,7 +46,9 @@ describe("EsbFrame", function(){
 	});
 
 	it("should have default options", function(){
-		expect(frame.options).toEqual({"frame":"http://google.com", "source":"base/spec/fixtures/frames/", "load-immediately": false, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "http://google.com", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template": "base/spec/fixtures/component_frame_template.html", "component-frame-template-target": "body", "component-source": "", "place": "replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false});
+		expect(frame.options.frame).toEqual("http://google.com");
+		expect(frame.options['load-immediately']).toEqual(false);
+		expect(frame.options['unload-when-not-visible']).toEqual(false);
 	});
 
 	it("should have access to BlocksConfig", function(){
@@ -71,7 +73,8 @@ describe("EsbFrame", function(){
 		});
 	
 		it("should override the default options", function(){
-			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": false, "caption": false, "dimensions": true, "href": "base/spec/fixtures/frames/just-a-default-example.html", "scrolling": "no", "overlay": true, "scale": false, "viewport-width": 1000, "viewport-aspect-ratio": 1.5, "width": 200, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template": "base/spec/fixtures/component_frame_template.html", "component-frame-template-target": "body", "component-source": "", "place": "replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false});
+			expect(frame.iframe_src).toEqual("base/spec/fixtures/frames/just-a-default-example.html");
+			expect(frame.options["load-immediately"]).toEqual(true);
 		});
 
 		it("should load immediately", function(){
@@ -302,7 +305,9 @@ describe("EsbFrame", function(){
 		});
 
 		it ("should override the default options", function() {
-			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "base/spec/fixtures/frames/", "load-immediately": true, "unload-when-not-visible": false, "title": "My Framed Page", "caption": "This is smaller caption text", "dimensions": true, "href": "http://example.com", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": "1000", "viewport-aspect-ratio": "1.5", "width": "300", "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template":"base/spec/fixtures/component_frame_template.html", "component-frame-template-target": "body", "component-source":"", "place":"replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false});
+			expect(frame.options.title).toEqual("My Framed Page");
+			expect(frame.options.caption).toEqual("This is smaller caption text");
+			expect(frame.options.href).toEqual("http://example.com");
 		});
 
 		it ("should have a title", function(){
@@ -369,7 +374,7 @@ describe("EsbFrame", function(){
 		});
 
 		it ("should create a dynamic component url", function() {
-			expect(frame.options.frame).toEqual('base/spec/fixtures/component_frame_template.html?data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
+			expect(frame.iframe_src).toEqual('base/spec/fixtures/component_frame_template.html?data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
 		});
 
 		// it ("should use the same defaults as a regular Frame", function(){
@@ -468,7 +473,11 @@ describe("EsbFrame with alternate config", function(){
 		});
 
 		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the component level", function() {
-			expect(frame.options).toEqual({"frame": "base/spec/fixtures/frames/just-a-default-example.html", "source": "", "load-immediately": false, "unload-when-not-visible": false, "title": "Global Page Viewer Title", "caption": "This caption is unique to the component", "dimensions": false, "href": "#link", "scrolling": "yes", "overlay": false, "scale": false, "viewport-width": 500, "viewport-aspect-ratio": 0.5, "width": 300, "height": false, "viewport-device": false, "viewport-device-orientation": "portrait", "device-annotation": true, "device-frame": false, "show-browser-ui": false, "variation": false, "component-frame-template":"component_frame_template.html", "component-frame-template-target": "body", "component-source":"", "place":"replace", "crop":false, "crop-offset-x":false, "crop-offset-y":false})
+			expect(frame.options.title).toEqual("Global Page Viewer Title");
+			expect(frame.options.caption).toEqual("This caption is unique to the component");
+			expect(frame.options.source).toEqual("");
+			expect(frame.options.scrolling).toEqual("yes");
+			expect(frame.options.overlay).toEqual(false);
 		});
 	});
 

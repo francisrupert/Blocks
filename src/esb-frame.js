@@ -17,6 +17,7 @@ export class EsbFrame {
 		self.page_level_config_element = self.get_page_level_config_element();
 		
 		self.is_component_frame = self.get_component_frame_status();
+		self.default_options = self.get_default_options();
 		
 		self.set_device_presets();
 		self.device_dimensions = {};
@@ -24,7 +25,6 @@ export class EsbFrame {
 		self.state = 'not-loaded';
 		self.iframe_is_loaded = false;
 		
-		self.iframe_src = null;
 		
 		self.placeholder_element = null;
 		self.viewer_element = null;
@@ -38,9 +38,10 @@ export class EsbFrame {
 		self.scrollable_ancestors = [];
 	    
 		
-		self.options = null;
 		self.overridden_options = [];
-		self.set_frame_options();
+		self.options = self.get_frame_options();
+		self.iframe_src = self.options.iframe_src;
+
 		self.create_placeholder_element();
 	}
 
@@ -121,43 +122,50 @@ export class EsbFrame {
 		return is_component_frame;
 	}
 
+	get_default_options() {
+		var options = {
+			'frame': false,
+			'source': '',
+			'load-immediately': false,
+			'unload-when-not-visible': false,
+			'title': false,
+			'caption': false,
+			'dimensions': true,
+			'href': 'none',
+			'scrolling': 'no',
+			'overlay': true,
+			'scale': false,
+			'viewport-width': 1000,
+			'viewport-aspect-ratio': 1.5,
+			'width': 200,
+			'height': false,
+			'viewport-device': false,
+			'viewport-device-orientation': 'portrait',
+			'device-annotation': true,
+			'device-frame': false,
+			'show-browser-ui': false,
+			'variation': false,
+			'component-frame-template': 'component_frame_template.html',
+			'component-frame-template-target': 'body',
+			'component-source': '',
+			'place': 'replace',
+			'crop': false,
+			'crop-offset-x': false,
+			'crop-offset-y': false
+		};
+
+		return options; 
+	}
+
 	// BOTH - CORE - Config - Mixed, refactor?
-	set_frame_options() {
+	get_frame_options() {
 		var self = this,
-			options = {
-				'frame': false,
-				'source': '',
-				'load-immediately': false,
-				'unload-when-not-visible': false,
-				'title': false,
-				'caption': false,
-				'dimensions': true,
-				'href': 'none',
-				'scrolling': 'no',
-				'overlay': true,
-				'scale': false,
-				'viewport-width': 1000,
-				'viewport-aspect-ratio': 1.5,
-				'width': 200,
-				'height': false,
-				'viewport-device': false,
-				'viewport-device-orientation': 'portrait',
-				'device-annotation': true,
-				'device-frame': false,
-				'show-browser-ui': false,
-				'variation': false,
-				'component-frame-template': 'component_frame_template.html',
-				'component-frame-template-target': 'body',
-				'component-source': '',
-				'place': 'replace',
-				'crop': false,
-				'crop-offset-x': false,
-				'crop-offset-y': false
-			},
+			options = self.default_options,
 			option = null,
 			value = null,
 			device_dimensions = null;
 
+		// Check each tier of options to see if any overrides exist
 		for (option in options) {
 			// Instance Level
 			value = self.get_element_level_config_option(option);
@@ -177,38 +185,8 @@ export class EsbFrame {
 			}
 		}
 
-
-		//FINAL DEFAULTS
-
-		//SOURCE
-		// Append '/' to source if source is given and doesn't end in '/'
-		if (options.source.length > 0 && options.source.slice(-1) !== '/') {
-			options.source += '/';
-		}
-
-		//FRAME
-		if (options.frame && options.frame.indexOf('http') === 0) {
-			self.logger('info', 'Fully qualified url found for page viewer: ' + options.frame + ', esb-frame uuid: ' + self.uuid);
-		}
-		else if (!options.variation) {
-			options.frame = options.source + options.frame;
-		}
-
-		// COMPONENT FRAME
-		if (options.variation || self.original_element.getAttribute('data-frame-component') !== null) {
-			self.is_component_frame = true;
-			options = self.set_component_frame_options(options);
-		}
-
-		// set iframe_src variable
-		self.iframe_src = options.frame;
-
-		//HREF
-		if (options.href === 'none') {
-			// href wasn't set at any level, default to the source + frame
-			options.href = options.frame;
-		}
-
+		//CONDITIONAL DEFAULTS
+		
 		//OVERLAY
 		if (options.scrolling === 'yes') {
 			//If scrolling is desired, the overlay has to be disabled or you cannot scroll
@@ -231,11 +209,45 @@ export class EsbFrame {
 			}
 		}
 
-		self.options = options;
+		options.iframe_src = self.build_iframe_src(options);
+
+		//HREF
+		if (options.href === 'none') {
+			// href wasn't set at any level, default to options.frame
+			options.href = self.iframe_src;
+		}
+
+		return options;
 	}
 
-	// COMPONENT FRAME ONLY - Refactor?
-	set_component_frame_options(options) {
+	build_iframe_src(options) {
+		var self = this,
+			iframe_src;
+
+		// COMPONENT FRAME
+		if (self.is_component_frame) {
+			iframe_src = self.build_component_iframe_src(options);
+		}
+		// REGULAR FRAME
+		else {
+			if (options.source.length > 0 && options.source.slice(-1) !== '/') {
+				options.source += '/';
+			}
+
+			if (options.frame && options.frame.indexOf('http') === 0) {
+				self.logger('info', 'Fully qualified url found for page viewer: ' + options.frame + ', esb-frame uuid: ' + self.uuid);
+				iframe_src = options.frame;
+			}
+			else {
+				iframe_src = options.source + options.frame;
+			}
+		}
+
+		return iframe_src;
+	}
+
+	// COMPONENT FRAME ONLY
+	build_component_iframe_src(options) {
 		// Support legacy 'data-frame-component' syntax
 		var self = this,
 			component_url = options['component-frame-template'],
@@ -266,8 +278,7 @@ export class EsbFrame {
 							'&data-esb-place=' + component_place + 
 							'&data-esb-target=' + options['component-frame-template-target'];
 
-		options.frame = encodeURI(component_url).replace(/#/, '%23');
-		return options;
+		return encodeURI(component_url).replace(/#/, '%23');
 	}
 
 	// BOTH - CORE
