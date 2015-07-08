@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import EsbConfig from 'src/esb-config';
 import EsbPage from 'src/esb-page';
+import EsbUtil from 'src/esb-util';
 import { EsbFrame } from 'src/esb-frame';
 
 describe("EsbPage", function(){
@@ -104,6 +105,19 @@ describe("EsbPage", function(){
 		});
 	});
 
+	describe("when there are multiple esb-frame-components on the page", function(){
+		beforeEach(function(){
+			loadFixtures('page-with-frame-components.html');
+			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
+			EsbPage.parsed_esb_frames = [];
+			EsbPage.parse();
+		});
+
+		it ("should have an esb-frames count of 2", function(){
+			expect(EsbPage.parsed_esb_frames.length).toEqual(2);
+		});
+	});
+
 	describe("when there is an esb-mark on the page", function(){
 		beforeEach(function(){
 			loadFixtures('page-with-mark.html');
@@ -194,6 +208,26 @@ describe("EsbPage", function(){
 			document.dispatchEvent(event);
 			
 			expect(EsbPage.toggleAllEsbMarks).toHaveBeenCalled();
+		});
+	});
+
+	describe("when a component is passed via query string parameters on the URL", function(){
+
+		it ("should generate a component element", function(){
+			spyOn(EsbPage, 'getUrlQueryString').and.returnValue('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
+			var query_params = EsbUtil.convertQueryStringToJson(EsbPage.getUrlQueryString());
+			var component = EsbPage.generateComponentElement(query_params);
+			expect(component.getAttribute('data-component')).toEqual("my-navbar");
+			expect(component.getAttribute('data-variation')).toEqual("foo");
+			expect(component.getAttribute('data-place')).toEqual("replace");
+			expect(component.getAttribute('data-source')).toEqual("library");
+		});
+
+		it ("should append the generated component to the target element", function(){
+			spyOn(EsbPage, 'getUrlQueryString').and.returnValue('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
+			loadFixtures('page-with-no-components.html');
+			EsbPage.renderComponentFromQueryStringParams();
+		    expect($('#jasmine-fixtures div[data-component="my-navbar"]').length).toEqual(1);
 		});
 	});
 });

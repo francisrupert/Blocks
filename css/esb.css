@@ -6,8 +6,14 @@
   min-width: 200px;
   font-family: "Proxima Nova", "Arial", sans-serif;
   margin: 10px; }
+  .esb-frame.esb-frame--is-framed-component {
+    min-width: 0; }
+
+.esb-frame-inner-wrap {
+  display: block; }
 
 .esb-frame-iframe-wrap {
+  transition: height 0.4s ease, width 0.4s ease;
   position: relative;
   width: 200px;
   height: 300px;
@@ -42,6 +48,7 @@
       text-decoration: underline; }
 
 .esb-frame-iframe-inner-wrap {
+  transition: height 0.4s ease;
   box-sizing: border-box;
   width: 1000px;
   height: 1500px;
@@ -57,7 +64,8 @@
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  border: none; }
+  border: none;
+  background: white; }
 
 .esb-frame-title {
   padding: 10px;
@@ -98,6 +106,13 @@
 .esb-frame-scale-value {
   padding-right: 15px; }
 
+.esb-frame-scale-value {
+  padding-right: 0; }
+
+.esb-frame-dimensions--updating .esb-frame-scale-value,
+.esb-frame-dimensions--updating .esb-frame-dimensions-value {
+  text-indent: -10000px; }
+
 .esb-loading-animation,
 .esb-loading-animation:before,
 .esb-loading-animation:after {
@@ -105,7 +120,8 @@
   -webkit-animation: load1 1s infinite ease-in-out;
   animation: load1 1s infinite ease-in-out;
   width: 1em;
-  height: 4em; }
+  height: 4em;
+  z-index: 20; }
 
 .esb-loading-animation:before,
 .esb-loading-animation:after {
@@ -119,6 +135,7 @@
   animation-delay: -0.32s; }
 
 .esb-loading-animation {
+  transition: opacity 0.4s ease-in, height 0.4s linear 0.8s;
   text-indent: -9999em;
   margin: 8em auto;
   position: relative;
@@ -128,6 +145,10 @@
   transform: translateZ(0);
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s; }
+  .esb-frame--is-loaded .esb-loading-animation {
+    opacity: 0;
+    height: 0;
+    overflow: hidden; }
 
 .esb-loading-animation:after {
   left: 1.5em; }
@@ -232,6 +253,11 @@
 
 .esb-frame-browser-ui-top + .esb-frame-iframe {
   padding-top: 0; }
+
+.component-frame-template-wrapper {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  margin: -1px 0; }
 
 .esb-mark--has-outline {
   transition: outline-color 0.4s ease;

@@ -1,0 +1,2756 @@
+/* line 12, ../sass/breakpoint-bar.scss */
+body:before {
+  background: #8e7272;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  opacity: 0.7;
+  color: white;
+  height: 20px;
+  line-height: 20px;
+  content: 'S: 0px-479px';
+  display: block;
+  z-index: 999;
+}
+
+@media (min-width: 30em) {
+  /* line 30, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #986868;
+    content: "SM: 480px-559px";
+  }
+}
+@media (min-width: 35em) {
+  /* line 37, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #a35d5d;
+    content: "M: 560px-671px";
+  }
+}
+@media (min-width: 42em) {
+  /* line 44, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #ad5353;
+    content: "MML: 672px-767px";
+  }
+}
+@media (min-width: 48em) {
+  /* line 51, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #b74949;
+    content: "ML: 768px-863px";
+  }
+}
+@media (min-width: 54em) {
+  /* line 58, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #c13f3f;
+    content: "MLL: 864px-959px";
+  }
+}
+@media (min-width: 60em) {
+  /* line 65, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #cc3434;
+    content: "L: 960px-1023px";
+  }
+}
+@media (min-width: 64em) {
+  /* line 72, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #d62a2a;
+    content: "XL: 1024px - 1271px";
+  }
+}
+@media (min-width: 79.5em) {
+  /* line 79, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #e02020;
+    content: "XXL: 1272px - 1399px";
+  }
+}
+@media (min-width: 87.5em) {
+  /* line 86, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #ea1616;
+    content: "XXXL: 1400px - 1599px";
+  }
+}
+@media (min-width: 100em) {
+  /* line 93, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #f50b0b;
+    content: "SXL: 1600px - 1,000,000,000,000,000px";
+  }
+}
+/* line 78, ../sass/_nav-util.scss */
+.menu-icon {
+  position: relative;
+  width: 20px;
+  height: 14.4px;
+  display: block;
+  margin: 0 auto;
+}
+/* line 25, ../sass/_nav-util.scss */
+.menu-icon .menu-bars {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  width: 20px;
+  height: 3px;
+  background: #a4a4a4;
+  border-radius: 1px;
+  display: block;
+  position: absolute;
+  top: 6px;
+}
+/* line 35, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:before, .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  content: '';
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  display: block;
+  background: #a4a4a4;
+  border-radius: 1px;
+}
+/* line 48, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:before {
+  top: -6px;
+}
+/* line 52, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:after {
+  top: 6px;
+}
+/* line 59, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  background: white;
+}
+/* line 64, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars:before, [data-state='open'] .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  top: 0;
+  background: white;
+}
+/* line 71, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars:after {
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+/* line 88, ../sass/_nav-util.scss */
+.mango-header .sub-header,
+.mango-header .sign-in-small-screen-label,
+.mango-header .find-a-hotel-small-screen-label {
+  display: none;
+}
+@media (max-width: 41.9em) {
+  /* line 88, ../sass/_nav-util.scss */
+  .mango-header .sub-header,
+  .mango-header .sign-in-small-screen-label,
+  .mango-header .find-a-hotel-small-screen-label {
+    display: inline-block;
+  }
+}
+
+/* line 12, ../sass/nav.base.scss */
+.header-wrap, .header-wrap * {
+  box-sizing: border-box;
+}
+
+/* line 17, ../sass/nav.base.scss */
+.header-wrap {
+  width: 100%;
+}
+
+/* line 21, ../sass/nav.base.scss */
+.top-hat-header,
+.main-header,
+.sub-header {
+  max-width: 1401px;
+  margin: 0 auto;
+}
+
+/* line 28, ../sass/nav.base.scss */
+.top-hat-header {
+  height: 40px;
+  background: lemonchiffon;
+}
+
+/* line 33, ../sass/nav.base.scss */
+.main-header {
+  height: 80px;
+  background: orange;
+}
+
+/* line 38, ../sass/nav.base.scss */
+.sub-header {
+  height: 40px;
+  background: lime;
+}
+
+/* line 43, ../sass/nav.base.scss */
+.top-hat-header_inner,
+.main-header_inner,
+.sub-header_inner {
+  max-width: 100%;
+  margin: 0 auto;
+  height: 100%;
+}
+
+/* line 51, ../sass/nav.base.scss */
+.top-hat-header_left,
+.main-header_left,
+.sub-header_left {
+  float: left;
+  height: 100%;
+}
+
+/* line 58, ../sass/nav.base.scss */
+.top-hat-header_right,
+.main-header_right,
+.sub-header_right {
+  float: right;
+  height: 100%;
+}
+
+/* line 65, ../sass/nav.base.scss */
+.menu-list {
+  height: 100%;
+  line-height: 100%;
+}
+
+/* line 70, ../sass/nav.base.scss */
+.menu-list-item {
+  height: 100%;
+  display: inline-block;
+  font-size: 0;
+  line-height: inherit;
+  margin: 0;
+}
+/* line 77, ../sass/nav.base.scss */
+.menu-list-item:before {
+  height: 100%;
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* line 87, ../sass/nav.base.scss */
+.menu-list-item-link {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: inherit;
+}
+/* line 94, ../sass/nav.base.scss */
+.menu-list-item-link:before {
+  height: 100%;
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+}
+/* line 103, ../sass/nav.base.scss */
+.menu-list-item-link > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* line 109, ../sass/nav.base.scss */
+.hidden-label-text {
+  text-indent: -10000px;
+  width: 0;
+  display: inline-block;
+}
+
+/* line 115, ../sass/nav.base.scss */
+.caret-down-icon {
+  margin-left: 5px;
+  width: 8px;
+  fill: white;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* line 123, ../sass/nav.base.scss */
+.icon-counter-wrap {
+  position: relative;
+  width: 25px;
+  height: 25px;
+}
+/* line 129, ../sass/nav.base.scss */
+.icon-counter-wrap svg {
+  width: 100% !important;
+}
+
+/* line 134, ../sass/nav.base.scss */
+.icon-counter {
+  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - 8px);
+  padding: 1px 3px;
+  font-size: 13px;
+  text-align: center;
+  line-height: 13px;
+  color: black;
+}
+
+/* line 151, ../sass/nav.base.scss */
+.heart-icon + .icon-counter {
+  top: calc(50% - 9px);
+}
+
+/* line 155, ../sass/nav.base.scss */
+.has-menu-list-item-panel {
+  position: relative;
+}
+
+/* line 159, ../sass/nav.base.scss */
+.menu-list-item-panel--visible .menu-list-item-link {
+  position: relative;
+  z-index: 23;
+}
+
+/* line 164, ../sass/nav.base.scss */
+.menu-list-item-panel {
+  display: none;
+  position: absolute;
+  background: white;
+  z-index: 20;
+  padding: 10px;
+  top: 100%;
+  left: 0;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
+}
+/* line 174, ../sass/nav.base.scss */
+.menu-list-item-panel a {
+  font-size: 14px;
+}
+/* line 178, ../sass/nav.base.scss */
+.menu-list-item-panel--visible .menu-list-item-panel {
+  display: block;
+}
+
+/* line 183, ../sass/nav.base.scss */
+.menu-list-item-panel--visible .caret-down-icon {
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+/* line 189, ../sass/nav.base.scss */
+.top-hat-header .menu-list-item-panel--visible .menu-list-item-link,
+.top-hat-header .menu-list-item-panel--visible .menu-list-item-link:hover,
+.main-header .menu-list-item-panel--visible .menu-list-item-link,
+.main-header .menu-list-item-panel--visible .menu-list-item-link:hover {
+  background: white !important;
+  color: #494949 !important;
+}
+/* line 194, ../sass/nav.base.scss */
+.top-hat-header .menu-list-item-panel--visible .menu-list-item-link svg,
+.top-hat-header .menu-list-item-panel--visible .menu-list-item-link:hover svg,
+.main-header .menu-list-item-panel--visible .menu-list-item-link svg,
+.main-header .menu-list-item-panel--visible .menu-list-item-link:hover svg {
+  fill: #494949 !important;
+}
+
+/* line 200, ../sass/nav.base.scss */
+.t-rewards {
+  float: none;
+  width: 100%;
+}
+
+/* line 206, ../sass/nav.base.scss */
+.t-dropdown-panel {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  margin: 0;
+}
+
+/* line 214, ../sass/nav.base.scss */
+.l-dropdown {
+  position: static;
+  display: block;
+  width: 100%;
+}
+
+/* line 221, ../sass/nav.base.scss */
+.l-dropdown-panel.l-find {
+  padding: 0;
+}
+
+/* line 226, ../sass/nav.base.scss */
+nav[role="navigation"][data-variation="signedin"] {
+  display: none;
+}
+
+/* line 233, ../sass/nav.base.scss */
+.personalize-header-is-signed-in.personalize-header nav[role="navigation"][data-variation="signedin"],
+.personalize-header-short-labels-is-signed-in.personalize-short-labels-header nav[role="navigation"][data-variation="signedin"],
+.search-header-is-signed-in.search-header nav[role="navigation"][data-variation="signedin"] {
+  display: block;
+}
+/* line 237, ../sass/nav.base.scss */
+.personalize-header-is-signed-in.personalize-header nav[role="navigation"][data-variation="default"],
+.personalize-header-short-labels-is-signed-in.personalize-short-labels-header nav[role="navigation"][data-variation="default"],
+.search-header-is-signed-in.search-header nav[role="navigation"][data-variation="default"] {
+  display: none;
+}
+
+/* line 12, ../sass/breakpoint-bar.scss */
+body:before {
+  background: #8e7272;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  opacity: 0.7;
+  color: white;
+  height: 20px;
+  line-height: 20px;
+  content: 'S: 0px-479px';
+  display: block;
+  z-index: 999;
+}
+
+@media (min-width: 30em) {
+  /* line 30, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #986868;
+    content: "SM: 480px-559px";
+  }
+}
+@media (min-width: 35em) {
+  /* line 37, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #a35d5d;
+    content: "M: 560px-671px";
+  }
+}
+@media (min-width: 42em) {
+  /* line 44, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #ad5353;
+    content: "MML: 672px-767px";
+  }
+}
+@media (min-width: 48em) {
+  /* line 51, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #b74949;
+    content: "ML: 768px-863px";
+  }
+}
+@media (min-width: 54em) {
+  /* line 58, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #c13f3f;
+    content: "MLL: 864px-959px";
+  }
+}
+@media (min-width: 60em) {
+  /* line 65, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #cc3434;
+    content: "L: 960px-1023px";
+  }
+}
+@media (min-width: 64em) {
+  /* line 72, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #d62a2a;
+    content: "XL: 1024px - 1271px";
+  }
+}
+@media (min-width: 79.5em) {
+  /* line 79, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #e02020;
+    content: "XXL: 1272px - 1399px";
+  }
+}
+@media (min-width: 87.5em) {
+  /* line 86, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #ea1616;
+    content: "XXXL: 1400px - 1599px";
+  }
+}
+@media (min-width: 100em) {
+  /* line 93, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #f50b0b;
+    content: "SXL: 1600px - 1,000,000,000,000,000px";
+  }
+}
+/* line 78, ../sass/_nav-util.scss */
+.menu-icon {
+  position: relative;
+  width: 20px;
+  height: 14.4px;
+  display: block;
+  margin: 0 auto;
+}
+/* line 25, ../sass/_nav-util.scss */
+.menu-icon .menu-bars {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  width: 20px;
+  height: 3px;
+  background: #a4a4a4;
+  border-radius: 1px;
+  display: block;
+  position: absolute;
+  top: 6px;
+}
+/* line 35, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:before, .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  content: '';
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  display: block;
+  background: #a4a4a4;
+  border-radius: 1px;
+}
+/* line 48, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:before {
+  top: -6px;
+}
+/* line 52, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:after {
+  top: 6px;
+}
+/* line 59, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  background: white;
+}
+/* line 64, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars:before, [data-state='open'] .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  top: 0;
+  background: white;
+}
+/* line 71, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars:after {
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+/* line 88, ../sass/_nav-util.scss */
+.mango-header .sub-header,
+.mango-header .sign-in-small-screen-label,
+.mango-header .find-a-hotel-small-screen-label {
+  display: none;
+}
+@media (max-width: 41.9em) {
+  /* line 88, ../sass/_nav-util.scss */
+  .mango-header .sub-header,
+  .mango-header .sign-in-small-screen-label,
+  .mango-header .find-a-hotel-small-screen-label {
+    display: inline-block;
+  }
+}
+
+/* line 12, ../sass/breakpoint-bar.scss */
+body:before {
+  background: #8e7272;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  opacity: 0.7;
+  color: white;
+  height: 20px;
+  line-height: 20px;
+  content: 'S: 0px-479px';
+  display: block;
+  z-index: 999;
+}
+
+@media (min-width: 30em) {
+  /* line 30, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #986868;
+    content: "SM: 480px-559px";
+  }
+}
+@media (min-width: 35em) {
+  /* line 37, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #a35d5d;
+    content: "M: 560px-671px";
+  }
+}
+@media (min-width: 42em) {
+  /* line 44, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #ad5353;
+    content: "MML: 672px-767px";
+  }
+}
+@media (min-width: 48em) {
+  /* line 51, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #b74949;
+    content: "ML: 768px-863px";
+  }
+}
+@media (min-width: 54em) {
+  /* line 58, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #c13f3f;
+    content: "MLL: 864px-959px";
+  }
+}
+@media (min-width: 60em) {
+  /* line 65, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #cc3434;
+    content: "L: 960px-1023px";
+  }
+}
+@media (min-width: 64em) {
+  /* line 72, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #d62a2a;
+    content: "XL: 1024px - 1271px";
+  }
+}
+@media (min-width: 79.5em) {
+  /* line 79, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #e02020;
+    content: "XXL: 1272px - 1399px";
+  }
+}
+@media (min-width: 87.5em) {
+  /* line 86, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #ea1616;
+    content: "XXXL: 1400px - 1599px";
+  }
+}
+@media (min-width: 100em) {
+  /* line 93, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #f50b0b;
+    content: "SXL: 1600px - 1,000,000,000,000,000px";
+  }
+}
+/* line 78, ../sass/_nav-util.scss */
+.menu-icon {
+  position: relative;
+  width: 20px;
+  height: 14.4px;
+  display: block;
+  margin: 0 auto;
+}
+/* line 25, ../sass/_nav-util.scss */
+.menu-icon .menu-bars {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  width: 20px;
+  height: 3px;
+  background: #a4a4a4;
+  border-radius: 1px;
+  display: block;
+  position: absolute;
+  top: 6px;
+}
+/* line 35, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:before, .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  content: '';
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  display: block;
+  background: #a4a4a4;
+  border-radius: 1px;
+}
+/* line 48, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:before {
+  top: -6px;
+}
+/* line 52, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:after {
+  top: 6px;
+}
+/* line 59, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  background: white;
+}
+/* line 64, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars:before, [data-state='open'] .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  top: 0;
+  background: white;
+}
+/* line 71, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars:after {
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+/* line 88, ../sass/_nav-util.scss */
+.mango-header .sub-header,
+.mango-header .sign-in-small-screen-label,
+.mango-header .find-a-hotel-small-screen-label {
+  display: none;
+}
+@media (max-width: 41.9em) {
+  /* line 88, ../sass/_nav-util.scss */
+  .mango-header .sub-header,
+  .mango-header .sign-in-small-screen-label,
+  .mango-header .find-a-hotel-small-screen-label {
+    display: inline-block;
+  }
+}
+
+/* line 7, ../sass/nav.mango.hws.scss */
+.l-brandbar .brandbar-logo {
+  display: none !important;
+}
+
+/* line 12, ../sass/nav.mango.hws.scss */
+.mango-hws-signed-in {
+  display: none;
+}
+
+/* line 17, ../sass/nav.mango.hws.scss */
+.mango-header-is-signed-in .mango-hws-signed-in {
+  display: block;
+}
+/* line 21, ../sass/nav.mango.hws.scss */
+.mango-header-is-signed-in .mango-hws-default {
+  display: none;
+}
+
+/* line 26, ../sass/nav.mango.hws.scss */
+.mango-hws-header {
+  position: relative;
+  z-index: 3;
+}
+/* line 27, ../sass/nav.mango.hws.scss */
+.mango-hws-header .content-link_more-hotels-in-location,
+.mango-hws-header .content-link_more-hotels-in-brand,
+.mango-hws-header .account_join-rewards,
+.mango-hws-header .find-a-hotel-large-screen-label,
+.mango-hws-header .account_saved-hotels,
+.mango-hws-header .reservations_signed-in-label-and-icon,
+.mango-hws-header .reservations_label-and-icon,
+.mango-hws-header .sign-in-large-screen-label,
+.mango-hws-header .signed-in-large-screen-label,
+.mango-hws-header .account_signed-in-label-and-icon .caret-down-icon,
+.mango-hws-header .account_sign-in-label-and-icon .caret-down-icon,
+.mango-hws-header .language-toggle_language-label,
+.mango-hws-header .marriott-logo,
+.mango-hws-header .more-hotels_label,
+.mango-hws-header .meetings-and-events {
+  display: none;
+}
+/* line 45, ../sass/nav.mango.hws.scss */
+.mango-hws-header .search-icon,
+.mango-hws-header .profile-icon,
+.mango-hws-header .search-icon,
+.mango-hws-header .suitcase-icon,
+.mango-hws-header .heart-icon {
+  display: inline;
+  height: 15px;
+  margin: 0;
+  fill: white;
+}
+/* line 56, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-icon {
+  position: relative;
+  width: 17px;
+  height: 12.24px;
+  display: block;
+  margin: 0 auto;
+  display: block;
+}
+/* line 25, ../sass/_nav-util.scss */
+.mango-hws-header .menu-icon .menu-bars {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  width: 17px;
+  height: 3px;
+  background: #a4a4a4;
+  border-radius: 1px;
+  display: block;
+  position: absolute;
+  top: 5px;
+}
+/* line 35, ../sass/_nav-util.scss */
+.mango-hws-header .menu-icon .menu-bars:before, .mango-hws-header .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  content: '';
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  display: block;
+  background: #a4a4a4;
+  border-radius: 1px;
+}
+/* line 48, ../sass/_nav-util.scss */
+.mango-hws-header .menu-icon .menu-bars:before {
+  top: -5px;
+}
+/* line 52, ../sass/_nav-util.scss */
+.mango-hws-header .menu-icon .menu-bars:after {
+  top: 5px;
+}
+/* line 59, ../sass/_nav-util.scss */
+[data-state='open'] .mango-hws-header .menu-icon .menu-bars {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  background: white;
+}
+/* line 64, ../sass/_nav-util.scss */
+[data-state='open'] .mango-hws-header .menu-icon .menu-bars:before, [data-state='open'] .mango-hws-header .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  top: 0;
+  background: white;
+}
+/* line 71, ../sass/_nav-util.scss */
+[data-state='open'] .mango-hws-header .menu-icon .menu-bars:after {
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+/* line 61, ../sass/nav.mango.hws.scss */
+.mango-hws-header .caret-down-icon {
+  position: relative;
+  top: 1px;
+}
+/* line 66, ../sass/nav.mango.hws.scss */
+.mango-hws-header .find-a-hotel-small-screen-label,
+.mango-hws-header .sign-in-small-screen-label,
+.mango-hws-header .signed-in-small-screen-label {
+  font-size: 10px;
+  display: block;
+  letter-spacing: 0;
+}
+/* line 74, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-list-item-link {
+  font-size: 14px;
+  height: 100%;
+  color: #a4a4a4;
+  padding: 0 15px;
+  width: 50px;
+  text-align: center;
+  height: 100%;
+  padding: 10px 0 0;
+  text-decoration: none;
+}
+/* line 85, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-list-item-link:before {
+  display: none;
+}
+/* line 89, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-list-item-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+/* line 96, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link {
+  border-right: solid 1px rgba(73, 73, 73, 0.9);
+  width: 50px;
+  padding-top: 13px;
+}
+/* line 101, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link .menu-label-open {
+  display: none;
+}
+/* line 105, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link .menu-label,
+.mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link .menu-label-open {
+  font-size: 10px;
+  padding-top: 2px;
+}
+/* line 111, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] {
+  background: #494949;
+  color: white;
+}
+/* line 115, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] svg {
+  fill: white;
+}
+/* line 119, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] .menu-label-open {
+  display: inline;
+}
+/* line 123, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] .menu-label {
+  display: none;
+}
+/* line 133, ../sass/nav.mango.hws.scss */
+.mango-hws-header .brandbar-logo {
+  border-radius: 0 0 2px 2px;
+  background-size: 100%;
+  background-position: center;
+  width: 130px;
+  height: 65px;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 70px);
+  background: linear-gradient(to bottom, #6caedf 0%, #6caedf 50%, #598bb7 100%);
+  z-index: 100;
+}
+/* line 146, ../sass/nav.mango.hws.scss */
+.mango-hws-header .main-header {
+  height: 50px;
+  position: relative;
+  background: black;
+}
+/* line 152, ../sass/nav.mango.hws.scss */
+.mango-hws-header .reservations_label-and-icon-panel {
+  right: auto;
+  left: 0;
+}
+/* line 157, ../sass/nav.mango.hws.scss */
+.mango-hws-header .menu-list-item-panel {
+  width: 94vw;
+  max-width: 680px;
+  text-align: left;
+}
+/* line 163, ../sass/nav.mango.hws.scss */
+.mango-hws-header .find-a-hotel_button-label-and-icon-panel {
+  right: calc(-55px + 2vw);
+  left: auto;
+}
+/* line 169, ../sass/nav.mango.hws.scss */
+.mango-hws-header .reservations_signed-in-label-and-icon-panel,
+.mango-hws-header .reservations_label-and-icon-panel {
+  left: auto;
+  right: -110px;
+}
+/* line 175, ../sass/nav.mango.hws.scss */
+.mango-hws-header.has-mainmenu-alt .brandbar-logo {
+  -moz-transition: top 400ms ease;
+  -o-transition: top 400ms ease;
+  -webkit-transition: top 400ms ease;
+  transition: top 400ms ease;
+}
+/* line 179, ../sass/nav.mango.hws.scss */
+.mango-hws-header.has-mainmenu-alt.menu-state-open .brandbar-logo {
+  top: -65px;
+}
+/* line 184, ../sass/nav.mango.hws.scss */
+.mango-hws-header.mango-hws-rewards-account .marriott-rewards,
+.mango-hws-header.mango-hws-rewards-account .my-account {
+  display: none;
+}
+
+@media (min-width: 48em) {
+  /* line 192, ../sass/nav.mango.hws.scss */
+  .l-brandbar .brandbar-logo {
+    display: inline-block !important;
+    width: 140px;
+  }
+
+  /* line 198, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .main-header {
+    height: 40px;
+  }
+  /* line 202, ../sass/nav.mango.hws.scss */
+  .mango-hws-header.has-mainmenu-alt.menu-state-open .brandbar-logo {
+    top: 0;
+  }
+  /* line 206, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .find-a-hotel-large-screen-label,
+  .mango-hws-header .sign-in-large-screen-label,
+  .mango-hws-header .signed-in-large-screen-label,
+  .mango-hws-header .account_signed-in-label-and-icon .caret-down-icon,
+  .mango-hws-header .account_sign-in-label-and-icon .caret-down-icon,
+  .mango-hws-header .menu-label,
+  .mango-hws-header .language-toggle_language-label,
+  .mango-hws-header .reservations_signed-in-label-and-icon,
+  .mango-hws-header .reservations_label-and-icon,
+  .mango-hws-header .marriott-logo,
+  .mango-hws-header .account_saved-hotels {
+    display: inline-block;
+  }
+  /* line 220, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .find-a-hotel-small-screen-label,
+  .mango-hws-header .sign-in-small-screen-label,
+  .mango-hws-header .signed-in-small-screen-label,
+  .mango-hws-header .brandbar-logo,
+  .mango-hws-header .profile-icon,
+  .mango-hws-header .icon-counter-wrap {
+    display: none;
+  }
+  /* line 229, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .menu-list-item-link,
+  .mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link {
+    width: auto;
+    padding: 0 15px;
+    text-align: left;
+    height: 100%;
+    border-right: solid 1px rgba(73, 73, 73, 0.9);
+  }
+  /* line 237, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .menu-list-item-link:before,
+  .mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link:before {
+    display: inline-block;
+  }
+  /* line 242, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .menu-list-item:last-child .menu-list-item-link {
+    border-right: none;
+  }
+  /* line 248, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link .menu-icon {
+    display: inline-block;
+  }
+  /* line 253, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link .menu-label,
+  .mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link .menu-label-open {
+    width: auto;
+    font-size: 14px;
+    padding-left: 8px;
+    display: inline-block;
+    position: relative;
+  }
+  /* line 263, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .menu-toggle_label-and-icon .menu-list-item-link .menu-label-open {
+    display: none;
+  }
+  /* line 269, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .marriott-mark {
+    height: 20px;
+    fill: #a4a4a4;
+  }
+  /* line 274, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .search-icon,
+  .mango-hws-header .profile-icon,
+  .mango-hws-header .suitcase-icon,
+  .mango-hws-header .heart-icon {
+    margin-right: 8px;
+    fill: #a4a4a4;
+  }
+  /* line 283, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .menu-list-item-link:hover .search-icon,
+  .mango-hws-header .menu-list-item-link:hover .profile-icon,
+  .mango-hws-header .menu-list-item-link:hover .suitcase-icon,
+  .mango-hws-header .menu-list-item-link:hover .heart-icon,
+  .mango-hws-header .menu-list-item-link:hover .marriott-mark {
+    fill: white;
+  }
+  /* line 292, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .account-points {
+    display: inline-block;
+    padding-left: 8px;
+  }
+  /* line 296, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .account-points:before {
+    content: '';
+    display: inline-block;
+    height: 4px;
+    width: 4px;
+    vertical-align: middle;
+    margin-right: 5px;
+    background: #777777;
+    border-radius: 2px;
+    position: relative;
+    top: -1px;
+  }
+  /* line 310, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .find-a-hotel_button-label-and-icon-panel {
+    right: -120px;
+    width: 600px;
+  }
+}
+@media (min-width: 48em) and (min-width: 54em) {
+  /* line 318, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .more-hotels_label,
+  .mango-hws-header .meetings-and-events {
+    display: inline-block;
+  }
+  /* line 323, ../sass/nav.mango.hws.scss */
+  .mango-hws-header.mango-hws-rewards-account .more-hotels_label {
+    display: none;
+  }
+}
+@media (min-width: 48em) and (min-width: 64em) {
+  /* line 331, ../sass/nav.mango.hws.scss */
+  .mango-hws-header .content-link_more-hotels-in-location,
+  .mango-hws-header .content-link_more-hotels-in-brand {
+    display: inline-block;
+  }
+  /* line 336, ../sass/nav.mango.hws.scss */
+  .mango-hws-header.mango-hws-rewards-account .more-hotels_label {
+    display: inline-block;
+  }
+  /* line 341, ../sass/nav.mango.hws.scss */
+  .mango-hws-header.mango-hws-rewards-account .marriott-rewards,
+  .mango-hws-header.mango-hws-rewards-account .my-account {
+    display: inline-block;
+  }
+}
+/* line 12, ../sass/breakpoint-bar.scss */
+body:before {
+  background: #8e7272;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  opacity: 0.7;
+  color: white;
+  height: 20px;
+  line-height: 20px;
+  content: 'S: 0px-479px';
+  display: block;
+  z-index: 999;
+}
+
+@media (min-width: 30em) {
+  /* line 30, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #986868;
+    content: "SM: 480px-559px";
+  }
+}
+@media (min-width: 35em) {
+  /* line 37, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #a35d5d;
+    content: "M: 560px-671px";
+  }
+}
+@media (min-width: 42em) {
+  /* line 44, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #ad5353;
+    content: "MML: 672px-767px";
+  }
+}
+@media (min-width: 48em) {
+  /* line 51, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #b74949;
+    content: "ML: 768px-863px";
+  }
+}
+@media (min-width: 54em) {
+  /* line 58, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #c13f3f;
+    content: "MLL: 864px-959px";
+  }
+}
+@media (min-width: 60em) {
+  /* line 65, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #cc3434;
+    content: "L: 960px-1023px";
+  }
+}
+@media (min-width: 64em) {
+  /* line 72, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #d62a2a;
+    content: "XL: 1024px - 1271px";
+  }
+}
+@media (min-width: 79.5em) {
+  /* line 79, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #e02020;
+    content: "XXL: 1272px - 1399px";
+  }
+}
+@media (min-width: 87.5em) {
+  /* line 86, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #ea1616;
+    content: "XXXL: 1400px - 1599px";
+  }
+}
+@media (min-width: 100em) {
+  /* line 93, ../sass/breakpoint-bar.scss */
+  body:before {
+    background: #f50b0b;
+    content: "SXL: 1600px - 1,000,000,000,000,000px";
+  }
+}
+/* line 78, ../sass/_nav-util.scss */
+.menu-icon {
+  position: relative;
+  width: 20px;
+  height: 14.4px;
+  display: block;
+  margin: 0 auto;
+}
+/* line 25, ../sass/_nav-util.scss */
+.menu-icon .menu-bars {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  width: 20px;
+  height: 3px;
+  background: #a4a4a4;
+  border-radius: 1px;
+  display: block;
+  position: absolute;
+  top: 6px;
+}
+/* line 35, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:before, .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease 150ms, -moz-transform 300ms ease, background 300ms ease;
+  -o-transition: top 300ms ease 150ms, -o-transform 300ms ease, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 150ms, 0s, 0s;
+  transition: top 300ms ease 150ms, transform 300ms ease, background 300ms ease;
+  content: '';
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  display: block;
+  background: #a4a4a4;
+  border-radius: 1px;
+}
+/* line 48, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:before {
+  top: -6px;
+}
+/* line 52, ../sass/_nav-util.scss */
+.menu-icon .menu-bars:after {
+  top: 6px;
+}
+/* line 59, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  background: white;
+}
+/* line 64, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars:before, [data-state='open'] .menu-icon .menu-bars:after {
+  -moz-transition: top 300ms ease, -moz-transform 300ms ease 150ms, background 300ms ease;
+  -o-transition: top 300ms ease, -o-transform 300ms ease 150ms, background 300ms ease;
+  -webkit-transition: top 300ms ease, -webkit-transform 300ms ease, background 300ms ease;
+  -webkit-transition-delay: 0s, 150ms, 0s;
+  transition: top 300ms ease, transform 300ms ease 150ms, background 300ms ease;
+  top: 0;
+  background: white;
+}
+/* line 71, ../sass/_nav-util.scss */
+[data-state='open'] .menu-icon .menu-bars:after {
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+/* line 88, ../sass/_nav-util.scss */
+.mango-header .sub-header,
+.mango-header .sign-in-small-screen-label,
+.mango-header .find-a-hotel-small-screen-label {
+  display: none;
+}
+@media (max-width: 41.9em) {
+  /* line 88, ../sass/_nav-util.scss */
+  .mango-header .sub-header,
+  .mango-header .sign-in-small-screen-label,
+  .mango-header .find-a-hotel-small-screen-label {
+    display: inline-block;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-XS .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-XS .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 15em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-XS .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-XS .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-S .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-S .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 20em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-S .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-S .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-SM .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-SM .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 30em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-SM .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-SM .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-M .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-M .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 35em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-M .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-M .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-MML .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-MML .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 42em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-MML .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-MML .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-ML .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-ML .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 48em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-ML .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-ML .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-MLL .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-MLL .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 54em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-MLL .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-MLL .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-L .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-L .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 60em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-L .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-L .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-XL .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-XL .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 64em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-XL .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-XL .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-XXL .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-XXL .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 79.5em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-XXL .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-XXL .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-XXXL .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-XXXL .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 87.5em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-XXXL .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-XXXL .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 23, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-SXL .local-navigation-list-item {
+  display: none;
+}
+/* line 27, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header.local-nav-switch-SXL .menu-toggle_label-and-icon {
+  display: inline-block;
+}
+@media (min-width: 100em) {
+  /* line 32, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-SXL .local-navigation-list-item {
+    display: inline-block;
+  }
+  /* line 36, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header.local-nav-switch-SXL .menu-toggle_label-and-icon {
+    display: none;
+  }
+}
+
+/* line 45, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .top-hat-header {
+  display: block;
+}
+/* line 49, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .language-toggle_language-label,
+.mango-header.mango-companion-header .contact-us_label,
+.mango-header.mango-companion-header .search-label,
+.mango-header.mango-companion-header .cart-label,
+.mango-header.mango-companion-header .local-navigation-list-item,
+.mango-header.mango-companion-header .book-online {
+  display: none;
+}
+/* line 60, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .account_sign-in-label-and-icon .caret-down-icon,
+.mango-header.mango-companion-header .account_signed-in-label-and-icon .caret-down-icon {
+  display: inline-block;
+}
+/* line 64, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .account_sign-in-label-and-icon .menu-list-item-link,
+.mango-header.mango-companion-header .account_signed-in-label-and-icon .menu-list-item-link {
+  padding: 0 15px;
+  height: 100%;
+}
+/* line 68, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .account_sign-in-label-and-icon .menu-list-item-link:before,
+.mango-header.mango-companion-header .account_signed-in-label-and-icon .menu-list-item-link:before {
+  display: inline-block;
+}
+/* line 74, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .sign-in-small-screen-label {
+  font-size: 14px;
+  display: inline-block;
+  padding: 0;
+}
+/* line 80, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header {
+  background: white;
+  border-bottom: solid 1px #d2d2d2;
+  height: 55px;
+}
+/* line 85, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .menu-list-item-link {
+  color: #a4a4a4;
+  padding-top: 0;
+  width: 27.5px;
+}
+/* line 90, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .menu-list-item-link:hover {
+  color: #1c1c1c;
+}
+/* line 93, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .menu-list-item-link:hover .menu-icon,
+.mango-header.mango-companion-header .main-header .menu-list-item-link:hover .search-icon,
+.mango-header.mango-companion-header .main-header .menu-list-item-link:hover .cart-icon,
+.mango-header.mango-companion-header .main-header .menu-list-item-link:hover .caret-down-icon {
+  fill: #1c1c1c;
+}
+/* line 101, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .menu-list-item-link .menu-icon,
+.mango-header.mango-companion-header .main-header .menu-list-item-link .search-icon,
+.mango-header.mango-companion-header .main-header .menu-list-item-link .cart-icon,
+.mango-header.mango-companion-header .main-header .menu-list-item-link .caret-down-icon {
+  fill: #a4a4a4;
+  height: 15px;
+}
+/* line 109, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .menu-list-item-link .search-icon,
+.mango-header.mango-companion-header .main-header .menu-list-item-link .cart-icon {
+  fill: #777777;
+}
+/* line 114, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .menu-list-item-link:before {
+  display: inline-block;
+}
+/* line 119, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .local-navigation-list-item .menu-list-item-link {
+  width: auto;
+}
+/* line 123, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .menu-list-item:last-child {
+  padding-right: 15px;
+}
+/* line 128, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .menu-toggle_label-and-icon .menu-list-item-link {
+  padding-top: 12px;
+  border-right: solid 1px #d2d2d2;
+  width: 55px;
+}
+/* line 133, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .menu-toggle_label-and-icon .menu-list-item-link:before {
+  display: none;
+}
+/* line 137, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .menu-toggle_label-and-icon .menu-list-item-link:hover {
+  background: white;
+}
+/* line 141, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] {
+  background: #ededed;
+  color: #494949;
+}
+/* line 145, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] .menu-bars {
+  background: #494949;
+}
+/* line 148, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] .menu-bars:before, .mango-header.mango-companion-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] .menu-bars:after {
+  background: #494949;
+}
+/* line 156, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .companion-site-logo {
+  max-width: 175px;
+}
+/* line 159, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .companion-site-logo .menu-list-item-link {
+  padding: 0 15px;
+  width: 100%;
+}
+/* line 166, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .local-navigation-list-item .menu-list-item-link {
+  color: #494949;
+}
+/* line 171, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .companion-site-title .menu-list-item-link {
+  width: auto;
+  padding: 0 15px;
+  text-align: left;
+}
+/* line 176, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .companion-site-title .menu-list-item-link .site-title {
+  font-size: 18px;
+  color: #494949;
+}
+/* line 181, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .companion-site-title .menu-list-item-link .site-subtitle {
+  color: #a4a4a4;
+  font-style: italic;
+  font-size: 14px;
+  margin-top: 5px;
+  display: block;
+}
+/* line 190, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .menu-list-item-panel {
+  right: 0;
+  left: auto;
+  border: solid 8px #ededed;
+  z-index: 100;
+}
+/* line 197, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .main-header .menu-list-item-panel--visible .menu-list-item-link {
+  background: #ededed !important;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+}
+/* line 202, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .contact-us-panel {
+  left: auto;
+  right: 0;
+}
+/* line 207, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .caret-down-icon {
+  position: relative;
+  top: 1px;
+}
+/* line 212, ../sass/nav.mango.companion.scss */
+.mango-header.mango-companion-header .top-hat-header .caret-down-icon {
+  fill: white;
+}
+
+@media (min-width: 30em) {
+  /* line 219, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .language-toggle_language-label {
+    display: inline-block;
+  }
+}
+@media (min-width: 35em) {
+  /* line 227, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .contact-us_label,
+  .mango-header.mango-companion-header .book-online {
+    display: inline-block;
+  }
+}
+@media (min-width: 42em) {
+  /* line 236, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .sign-in-small-screen-label {
+    display: none;
+  }
+  /* line 240, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .cart-icon,
+  .mango-header.mango-companion-header .search-icon {
+    margin-right: 8px;
+  }
+  /* line 245, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .cart-label,
+  .mango-header.mango-companion-header .search-label {
+    display: inline-block;
+    text-transform: none;
+  }
+  /* line 251, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .cart-items {
+    padding-left: 8px;
+    font-weight: bold;
+    color: #777777;
+  }
+  /* line 257, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .menu-list-item-link:hover .cart-items {
+    color: #494949;
+  }
+  /* line 262, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .main-header .menu-list-item:last-child {
+    padding-right: 0;
+  }
+  /* line 266, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .main-header .menu-list-item-link {
+    width: auto;
+  }
+  /* line 271, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .search_label-and-icon {
+    position: relative;
+  }
+  /* line 275, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .search_label-and-icon:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 18.33333px;
+    bottom: 18.33333px;
+    width: 1px;
+    background: #d2d2d2;
+  }
+  /* line 296, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .companion-site-logo {
+    max-width: 220px;
+  }
+  /* line 299, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .companion-site-logo .menu-list-item-link {
+    width: 100%;
+  }
+}
+@media (min-width: 60em) {
+  /* line 316, ../sass/nav.mango.companion.scss */
+  .mango-header.mango-companion-header .account_sign-in-label-and-icon {
+    display: inline-block;
+  }
+}
+/* line 10, ../sass/nav.mango.scss */
+.menu-toggle_label {
+  text-transform: uppercase;
+}
+
+/* line 14, ../sass/nav.mango.scss */
+.menu-toggle_label-and-icon {
+  text-transform: uppercase;
+  text-align: center;
+  height: 100%;
+}
+/* line 18, ../sass/nav.mango.scss */
+.menu-toggle_label-and-icon .menu-list-item-link {
+  text-decoration: none !important;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 24, ../sass/nav.mango.scss */
+.menu-toggle_label-and-icon .menu-label,
+.menu-toggle_label-and-icon .menu-label-open {
+  width: 100%;
+  display: block;
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+/* line 34, ../sass/nav.mango.scss */
+.mango-signed-in {
+  display: none;
+}
+
+/* line 39, ../sass/nav.mango.scss */
+.mango-header-is-signed-in .mango-signed-in {
+  display: block;
+}
+/* line 43, ../sass/nav.mango.scss */
+.mango-header-is-signed-in .mango-default {
+  display: none;
+}
+
+/* line 48, ../sass/nav.mango.scss */
+.meeting-icon {
+  fill: white;
+  height: 10px;
+  margin-right: 5px;
+  fill: #a4a4a4;
+}
+/* line 54, ../sass/nav.mango.scss */
+.menu-list-item-link:hover .meeting-icon {
+  fill: white;
+}
+
+/* line 60, ../sass/nav.mango.scss */
+.mango-header .main-header {
+  background: #333333;
+  height: 55px;
+  position: relative;
+}
+/* line 66, ../sass/nav.mango.scss */
+.mango-header .top-hat-header {
+  background: black;
+}
+/* line 70, ../sass/nav.mango.scss */
+.mango-header .marriott-header-logo {
+  padding: 0 15px;
+}
+/* line 74, ../sass/nav.mango.scss */
+.mango-header .marriott-header-logo-svg {
+  width: 125px;
+  fill: white;
+}
+/* line 80, ../sass/nav.mango.scss */
+.mango-header .top-hat-header .menu-list-item-link {
+  font-size: 14px;
+  height: 100%;
+  color: #a4a4a4;
+  padding: 0 15px;
+  position: relative;
+}
+/* line 87, ../sass/nav.mango.scss */
+.mango-header .top-hat-header .menu-list-item-link.meetings-and-events-link {
+  color: #d2d2d2;
+}
+/* line 91, ../sass/nav.mango.scss */
+.mango-header .top-hat-header .menu-list-item-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+/* line 95, ../sass/nav.mango.scss */
+.mango-header .top-hat-header .menu-list-item-link:hover:after {
+  display: none;
+}
+/* line 104, ../sass/nav.mango.scss */
+.mango-header.has-top-hat-dividers .top-hat-header .menu-list-item-link:after {
+  content: '';
+  height: 40%;
+  width: 1px;
+  position: absolute;
+  left: 0;
+  top: 30%;
+  background: #494949;
+}
+/* line 116, ../sass/nav.mango.scss */
+.mango-header.has-top-hat-dividers .top-hat-header .menu-list-item:first-child .menu-list-item-link:after {
+  display: none;
+}
+/* line 120, ../sass/nav.mango.scss */
+.mango-header.has-top-hat-dividers .top-hat-header .menu-list-item:hover + .menu-list-item .menu-list-item-link:after {
+  display: none;
+}
+/* line 126, ../sass/nav.mango.scss */
+.mango-header .main-header .menu-list-item-link {
+  text-align: center;
+  font-size: 16px;
+  height: 100%;
+  width: 55px;
+  color: rgba(255, 255, 255, 0.8);
+}
+/* line 134, ../sass/nav.mango.scss */
+.mango-header .main-header .menu-list-item-link:hover {
+  color: white;
+}
+/* line 138, ../sass/nav.mango.scss */
+.mango-header .main-header .menu-list-item-link .icon-counter {
+  text-align: center;
+}
+/* line 143, ../sass/nav.mango.scss */
+.mango-header .main-header .marriott-logo .menu-list-item-link {
+  width: auto;
+}
+/* line 152, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link,
+.mango-header .find-a-hotel_button-label-and-icon .menu-list-item-link,
+.mango-header .account_sign-in-label-and-icon .menu-list-item-link,
+.mango-header .account_signed-in-label-and-icon .menu-list-item-link {
+  text-align: center;
+  height: 100%;
+  padding: 12px 0 0;
+  text-decoration: none;
+}
+/* line 158, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link:before,
+.mango-header .find-a-hotel_button-label-and-icon .menu-list-item-link:before,
+.mango-header .account_sign-in-label-and-icon .menu-list-item-link:before,
+.mango-header .account_signed-in-label-and-icon .menu-list-item-link:before {
+  display: none;
+}
+/* line 164, ../sass/nav.mango.scss */
+.mango-header .search-icon,
+.mango-header .profile-icon,
+.mango-header .search-icon,
+.mango-header .suitcase-icon,
+.mango-header .heart-icon {
+  display: inline;
+  height: 20px;
+  margin: 0;
+  fill: white;
+}
+/* line 175, ../sass/nav.mango.scss */
+.mango-header .menu-label,
+.mango-header .find-a-hotel-small-screen-label,
+.mango-header .sign-in-small-screen-label,
+.mango-header .signed-in-small-screen-label {
+  font-size: 11px;
+  display: block;
+  letter-spacing: 0;
+}
+/* line 184, ../sass/nav.mango.scss */
+.mango-header .menu-label,
+.mango-header .menu-label-open {
+  padding-top: 3px;
+}
+/* line 190, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link {
+  text-align: center;
+  height: 100%;
+  white-space: normal;
+  margin: 0;
+  padding-top: 12px;
+  text-decoration: none;
+  line-height: 16px;
+  border-right: solid 1px #494949;
+}
+/* line 201, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link .menu-label {
+  font-size: 11px;
+  display: block;
+}
+/* line 207, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link .menu-label-open {
+  display: none;
+}
+/* line 211, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link:before {
+  display: none;
+}
+/* line 215, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] {
+  background: #494949;
+  color: white;
+}
+/* line 219, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] svg {
+  fill: white;
+}
+/* line 223, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] .menu-label {
+  display: none;
+}
+/* line 227, ../sass/nav.mango.scss */
+.mango-header .menu-toggle_label-and-icon .menu-list-item-link[data-state='open'] .menu-label-open {
+  display: block;
+}
+/* line 235, ../sass/nav.mango.scss */
+.mango-header .find-a-hotel_button-label-and-icon .menu-list-item-link {
+  height: auto;
+  background: none;
+  text-align: center;
+  padding: 0;
+  height: 100%;
+  padding-top: 12px;
+}
+/* line 244, ../sass/nav.mango.scss */
+.mango-header .find-a-hotel_button-label-and-icon .menu-list-item-link:before {
+  display: none;
+}
+/* line 250, ../sass/nav.mango.scss */
+.mango-header .reservations_label-and-icon-panel {
+  right: auto;
+  left: 0;
+}
+/* line 255, ../sass/nav.mango.scss */
+.mango-header .menu-list-item-panel {
+  width: 94vw;
+  max-width: 680px;
+  text-align: left;
+}
+/* line 261, ../sass/nav.mango.scss */
+.mango-header .find-a-hotel_button-label-and-icon-panel {
+  right: calc(-55px + 2vw);
+  left: auto;
+}
+/* line 267, ../sass/nav.mango.scss */
+.mango-header .reservations_signed-in-label-and-icon-panel,
+.mango-header .reservations_label-and-icon-panel {
+  left: auto;
+  right: -110px;
+}
+/* line 273, ../sass/nav.mango.scss */
+.mango-header .caret-down-icon {
+  fill: rgba(255, 255, 255, 0.6);
+}
+/* line 277, ../sass/nav.mango.scss */
+.mango-header .main-header .menu-list-item-link:hover .caret-down-icon {
+  fill: white;
+}
+/* line 281, ../sass/nav.mango.scss */
+.mango-header .account_saved-hotels-icon .icon-counter-wrap,
+.mango-header .account_saved-hotels .icon-counter-wrap {
+  width: 23px;
+}
+/* line 285, ../sass/nav.mango.scss */
+.mango-header .account_saved-hotels-icon .icon-counter-wrap .heart-icon,
+.mango-header .account_saved-hotels .icon-counter-wrap .heart-icon {
+  position: relative;
+  top: 1px;
+}
+/* line 291, ../sass/nav.mango.scss */
+.mango-header .l-rewards {
+  width: auto;
+  float: none;
+}
+/* line 297, ../sass/nav.mango.scss */
+.is-homepage .mango-header .find-a-hotel_button-label-and-icon {
+  display: none;
+}
+/* line 304, ../sass/nav.mango.scss */
+.mango-header.is-hybrid .find-a-hotel_button-label-and-icon, .mango-header.is-brochure .find-a-hotel_button-label-and-icon {
+  display: inline-block;
+}
+/* line 310, ../sass/nav.mango.scss */
+.mango-header .account_join-rewards,
+.mango-header .account_saved-hotels,
+.mango-header .account_sign-in-form,
+.mango-header .find-a-hotel-large-screen-label,
+.mango-header .reservations_signed-in-label-and-icon,
+.mango-header .reservations_label-and-icon,
+.mango-header .sign-in-large-screen-label,
+.mango-header .signed-in-large-screen-label,
+.mango-header .top-hat-header,
+.mango-header .account_signed-in-label-and-icon .caret-down-icon,
+.mango-header .account_sign-in-label-and-icon .caret-down-icon {
+  display: none;
+}
+/* line 326, ../sass/nav.mango.scss */
+.mango-header.orange-header .reservations_label-and-icon, .is-homepage .mango-header.orange-header .reservations_label-and-icon {
+  display: inline-block;
+}
+/* line 330, ../sass/nav.mango.scss */
+.mango-header.orange-header .meetings-and-events-main-row, .is-homepage .mango-header.orange-header .meetings-and-events-main-row {
+  display: none;
+}
+/* line 335, ../sass/nav.mango.scss */
+.mango-header .account_remembered-name {
+  font-size: 16px;
+  display: inline-block;
+  color: white;
+  padding: 0 12px 0 0;
+  position: relative;
+  vertical-align: middle;
+  min-width: 90px;
+}
+/* line 346, ../sass/nav.mango.scss */
+.mango-header .account_remembered-sub-label {
+  position: absolute;
+  top: -16px;
+  left: 0;
+  color: #a4a4a4;
+  font-size: 12px;
+}
+/* line 355, ../sass/nav.mango.scss */
+.mango-header .full-form-visible .account_remembered-sub-label,
+.mango-header .full-form-visible .account_remembered-name {
+  color: #494949;
+}
+
+/* line 363, ../sass/nav.mango.scss */
+.mango-header.global .account_remembered-sub-label {
+  display: none;
+}
+/* line 367, ../sass/nav.mango.scss */
+.mango-header.global .account_remembered-name {
+  min-width: 0;
+}
+
+@media (min-width: 42em) {
+  /* line 383, ../sass/nav.mango.scss */
+  .mango-header .find-a-hotel-large-screen-label,
+  .mango-header .sign-in-large-screen-label,
+  .mango-header .signed-in-large-screen-label,
+  .mango-header .account_signed-in-label-and-icon .caret-down-icon,
+  .mango-header .account_sign-in-label-and-icon .caret-down-icon {
+    display: inline-block;
+  }
+  /* line 391, ../sass/nav.mango.scss */
+  .mango-header .find-a-hotel-small-screen-label,
+  .mango-header .sign-in-small-screen-label,
+  .mango-header .signed-in-small-screen-label {
+    display: none;
+  }
+  /* line 397, ../sass/nav.mango.scss */
+  .mango-header .top-hat-header {
+    display: block;
+  }
+  /* line 399, ../sass/nav.mango.scss */
+  .mango-header .top-hat-header .caret-down-icon {
+    fill: rgba(255, 255, 255, 0.5);
+  }
+  /* line 404, ../sass/nav.mango.scss */
+  .mango-header .main-header {
+    height: 68px;
+  }
+  /* line 408, ../sass/nav.mango.scss */
+  .mango-header .main-header .menu-list-item-link {
+    width: auto;
+    padding: 0 15px;
+    text-align: left;
+  }
+  /* line 415, ../sass/nav.mango.scss */
+  .mango-header .menu-toggle_label-and-icon .menu-list-item-link {
+    width: 68px;
+    text-align: center;
+    padding-top: 18px;
+  }
+  /* line 420, ../sass/nav.mango.scss */
+  .mango-header .menu-toggle_label-and-icon .menu-list-item-link:hover {
+    background: #494949;
+  }
+  /* line 426, ../sass/nav.mango.scss */
+  .mango-header .main-header .marriott-logo {
+    width: 160px;
+  }
+  /* line 429, ../sass/nav.mango.scss */
+  .mango-header .main-header .marriott-logo .menu-list-item-link {
+    padding-left: 20px;
+  }
+  /* line 434, ../sass/nav.mango.scss */
+  .mango-header .profile-icon,
+  .mango-header .suitcase-icon,
+  .mango-header .heart-icon {
+    margin-right: 8px;
+    fill: rgba(255, 255, 255, 0.25);
+  }
+  /* line 441, ../sass/nav.mango.scss */
+  .mango-header .search-icon {
+    margin-right: 8px;
+    fill: #d2d2d2;
+  }
+  /* line 447, ../sass/nav.mango.scss */
+  .mango-header .menu-list-item-link:hover .profile-icon,
+  .mango-header .menu-list-item-link:hover .suitcase-icon,
+  .mango-header .menu-list-item-link:hover .heart-icon {
+    fill: rgba(255, 255, 255, 0.4);
+  }
+  /* line 453, ../sass/nav.mango.scss */
+  .mango-header .menu-list-item-link:hover .search-icon {
+    fill: white;
+  }
+  /* line 461, ../sass/nav.mango.scss */
+  .mango-header .account_saved-hotels .icon-counter-wrap,
+  .mango-header .reservations_signed-in-label-and-icon .icon-counter-wrap {
+    margin-right: 8px;
+  }
+  /* line 466, ../sass/nav.mango.scss */
+  .mango-header .find-a-hotel_button-label-and-icon {
+    padding-right: 20px;
+  }
+  /* line 469, ../sass/nav.mango.scss */
+  .mango-header .find-a-hotel_button-label-and-icon:last-child {
+    padding-right: 15px;
+  }
+  /* line 473, ../sass/nav.mango.scss */
+  .mango-header .find-a-hotel_button-label-and-icon .menu-list-item-link {
+    text-transform: uppercase;
+    border: solid 1px white;
+    height: 40px;
+    min-width: 204px;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+  /* line 481, ../sass/nav.mango.scss */
+  .mango-header .find-a-hotel_button-label-and-icon .menu-list-item-link:hover {
+    background: #494949;
+  }
+  /* line 493, ../sass/nav.mango.scss */
+  .mango-header .find-a-hotel_button-label-and-icon .menu-list-item-link:before,
+  .mango-header .account_sign-in-label-and-icon .menu-list-item-link:before,
+  .mango-header .account_signed-in-label-and-icon .menu-list-item-link:before {
+    display: inline-block;
+  }
+  /* line 508, ../sass/nav.mango.scss */
+  .mango-header .main-header_right .account_join-rewards:after,
+  .mango-header .main-header_right .reservations_signed-in-label-and-icon:after,
+  .mango-header .main-header_right .reservations_label-and-icon:after,
+  .mango-header .main-header_right .account_signed-in-label:after,
+  .mango-header .main-header_right .reservations_signed-in-icon:after,
+  .mango-header .main-header_right .account_saved-hotels-icon:after,
+  .mango-header .main-header_right .account_saved-hotels:after,
+  .mango-header .main-header_right .meetings-and-events-main-row:after {
+    content: '';
+    color: white;
+    width: 1px;
+    display: inline-block;
+    vertical-align: middle;
+    height: 20px;
+    background: #494949;
+  }
+  /* line 520, ../sass/nav.mango.scss */
+  .mango-header .icon-counter {
+    color: white;
+    text-shadow: 0 0 3px black;
+  }
+  /* line 527, ../sass/nav.mango.scss */
+  .is-homepage .mango-header .account_sign-in-form,
+  .is-homepage .mango-header .account_saved-hotels-icon,
+  .is-homepage .mango-header .reservations_signed-in-label-and-icon {
+    display: inline-block;
+  }
+  /* line 533, ../sass/nav.mango.scss */
+  .is-homepage .mango-header .account_sign-in-label-and-icon,
+  .is-homepage .mango-header .account_join-rewards {
+    display: none;
+  }
+  /* line 539, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.is-hybrid .reservations_signed-in-label-and-icon,
+  .is-homepage .mango-header.is-hybrid .account_sign-in-form {
+    display: none;
+  }
+  /* line 544, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.is-hybrid .account_sign-in-label-and-icon {
+    display: inline-block;
+  }
+  /* line 551, ../sass/nav.mango.scss */
+  .mango-header .find-a-hotel_button-label-and-icon-panel {
+    right: -120px;
+    width: 600px;
+  }
+}
+@media (min-width: 48em) {
+  /* line 560, ../sass/nav.mango.scss */
+  .mango-header .account_saved-hotels-icon,
+  .mango-header .reservations_signed-in-icon {
+    display: inline-block;
+  }
+  /* line 566, ../sass/nav.mango.scss */
+  .is-homepage .mango-header .reservations_signed-in-icon,
+  .is-homepage .mango-header .account_saved-hotels-icon {
+    display: none;
+  }
+  /* line 571, ../sass/nav.mango.scss */
+  .is-homepage .mango-header .account_saved-hotels {
+    display: inline-block;
+  }
+  /* line 576, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.is-hybrid .account_join-rewards {
+    display: none;
+  }
+  /* line 583, ../sass/nav.mango.scss */
+  .mango-header.is-hybrid .account_saved-hotels {
+    display: none;
+  }
+  /* line 590, ../sass/nav.mango.scss */
+  .mango-header.orange-header .meetings-and-events-main-row, .is-homepage .mango-header.orange-header .meetings-and-events-main-row {
+    display: inline-block;
+  }
+}
+@media (min-width: 54em) {
+  /* line 600, ../sass/nav.mango.scss */
+  .is-homepage .mango-header .reservations_label-and-icon {
+    display: none;
+  }
+  /* line 604, ../sass/nav.mango.scss */
+  .is-homepage .mango-header .account_join-rewards {
+    display: inline-block;
+  }
+  /* line 613, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.is-hybrid .reservations_signed-in-label-and-icon,
+  .is-homepage .mango-header.is-hybrid .account_join-rewards {
+    display: inline-block;
+  }
+  /* line 620, ../sass/nav.mango.scss */
+  .mango-header.orange-header .account_join-rewards {
+    display: none;
+  }
+}
+@media (min-width: 60em) {
+  /* line 628, ../sass/nav.mango.scss */
+  .mango-header .account_sign-in-label,
+  .mango-header .reservations_signed-in-label-and-icon {
+    display: inline-block;
+  }
+  /* line 634, ../sass/nav.mango.scss */
+  .mango-header .account_sign-in-label-and-icon,
+  .mango-header .account_saved-hotels-icon,
+  .mango-header .reservations_signed-in-icon {
+    display: none;
+  }
+  /* line 640, ../sass/nav.mango.scss */
+  .mango-header .account_sign-in-form {
+    display: inline-block;
+  }
+  /* line 644, ../sass/nav.mango.scss */
+  .mango-header .reservations_signed-in-label-and-icon-panel,
+  .mango-header .reservations_label-and-icon-panel {
+    left: auto;
+    right: -1px;
+  }
+  /* line 652, ../sass/nav.mango.scss */
+  .is-homepage .mango-header .reservations_label-and-icon {
+    display: inline-block;
+  }
+  /* line 656, ../sass/nav.mango.scss */
+  .is-homepage .mango-header .reservations_label-and-icon-panel {
+    left: -140px;
+    right: auto;
+  }
+  /* line 662, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.is-hybrid .reservations_label-and-icon {
+    display: none;
+  }
+  /* line 669, ../sass/nav.mango.scss */
+  .mango-header.orange-header .account_sign-in-label-and-icon {
+    display: inline-block;
+  }
+  /* line 673, ../sass/nav.mango.scss */
+  .mango-header.orange-header .account_sign-in-form {
+    display: none;
+  }
+  /* line 679, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.orange-header .account_sign-in-label-and-icon {
+    display: none;
+  }
+  /* line 683, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.orange-header .account_sign-in-form {
+    display: inline-block;
+  }
+}
+@media (min-width: 64em) {
+  /* line 692, ../sass/nav.mango.scss */
+  .mango-header .account_join-rewards,
+  .mango-header .account_saved-hotels {
+    display: inline-block;
+  }
+  /* line 698, ../sass/nav.mango.scss */
+  .is-homepage .mango-header .reservations_label-and-icon-panel {
+    left: -1px;
+    right: auto;
+  }
+  /* line 703, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.is-hybrid .reservations_label-and-icon {
+    display: inline-block;
+  }
+  /* line 708, ../sass/nav.mango.scss */
+  .mango-header.is-hybrid .account_join-rewards {
+    display: none;
+  }
+  /* line 713, ../sass/nav.mango.scss */
+  .mango-header.orange-header .account_sign-in-label-and-icon {
+    display: none;
+  }
+  /* line 717, ../sass/nav.mango.scss */
+  .mango-header.orange-header .account_sign-in-form {
+    display: inline-block;
+  }
+}
+@media (min-width: 79.5em) {
+  /* line 728, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.is-hybrid .account_sign-in-form {
+    display: inline-block;
+  }
+  /* line 732, ../sass/nav.mango.scss */
+  .is-homepage .mango-header.is-hybrid .account_sign-in-label-and-icon {
+    display: none;
+  }
+  /* line 738, ../sass/nav.mango.scss */
+  .mango-header .account-points {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 16px;
+  }
+  /* line 743, ../sass/nav.mango.scss */
+  .mango-header .account-points:before {
+    content: '';
+    width: 3px;
+    height: 3px;
+    border-radius: 2px;
+    background: #777777;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  /* line 756, ../sass/nav.mango.scss */
+  .mango-header.is-hybrid .account_saved-hotels,
+  .mango-header.is-hybrid .account_join-rewards {
+    display: inline-block;
+  }
+  /* line 762, ../sass/nav.mango.scss */
+  .mango-header .reservations_label-and-icon,
+  .mango-header .reservations_signed-in-label-and-icon {
+    display: inline-block;
+  }
+  /* line 767, ../sass/nav.mango.scss */
+  .mango-header.orange-header .account_join-rewards {
+    display: inline-block;
+  }
+}
+/* line 774, ../sass/nav.mango.scss */
+.l-canvas {
+  padding-top: 16px;
+}
+
+/* line 799, ../sass/nav.mango.scss */
+.profile-icon {
+  width: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* line 805, ../sass/nav.mango.scss */
+.account-points,
+.subtext {
+  display: block;
+  color: #a4a4a4;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+/* line 813, ../sass/nav.mango.scss */
+.account-name {
+  padding-top: 2px;
+}
+
+/* line 817, ../sass/nav.mango.scss */
+.sign-in-icon_panel,
+.sign-in-label_panel,
+.sign-in-label-and-icon_panel {
+  top: 100%;
+  left: auto;
+  right: 0;
+  width: 100vw;
+}
+
+/* line 826, ../sass/nav.mango.scss */
+.signed-in-label-and-icon_panel,
+.signed-in-icon_panel {
+  width: 100vw;
+  left: auto;
+  right: 0;
+  top: 100%;
+}
+/* line 833, ../sass/nav.mango.scss */
+.signed-in-label-and-icon_panel .l-signed-in-panel,
+.signed-in-icon_panel .l-signed-in-panel {
+  display: block;
+}
+
+/* line 839, ../sass/nav.mango.scss */
+.account_signed-in-label-inline .account-points {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  top: 2px;
+  padding-left: 6px;
+}
+/* line 846, ../sass/nav.mango.scss */
+.account_signed-in-label-inline .account-points:before {
+  content: '';
+  display: inline-block;
+  height: 4px;
+  width: 4px;
+  vertical-align: middle;
+  margin-right: 5px;
+  background: #777777;
+  border-radius: 2px;
+  position: relative;
+  top: -1px;
+}
+
+/* line 862, ../sass/nav.mango.scss */
+.account-sign-in-form-wrap {
+  position: relative;
+  padding: 15px;
+}
+/* line 866, ../sass/nav.mango.scss */
+.full-form-visible .account-sign-in-form-wrap {
+  -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+  background: white;
+}
+
+/* line 872, ../sass/nav.mango.scss */
+.account-sign-in-full-form-wrap {
+  -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+  position: absolute;
+  top: 50px;
+  z-index: 10;
+  background: white;
+  padding: 5px 15px 10px;
+  left: 0;
+  right: 0;
+  display: none;
+}
+/* line 883, ../sass/nav.mango.scss */
+.full-form-visible .account-sign-in-full-form-wrap {
+  display: block;
+}
+
+/* line 889, ../sass/nav.mango.scss */
+.account-sign-in-form-wrap,
+.account_sign-in-input,
+.account_sign-in-form-submit {
+  font-family: 'Source Sans Pro', SourceSansPro-Regular, Calibri, Arial, Helvetica, Helvetica, 'Arial Unicode', sans-serif;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* line 897, ../sass/nav.mango.scss */
+.account_sign-in-email-form-input,
+.account_sign-in-password-form-input {
+  width: 160px;
+  background: #d2d2d2;
+  border: solid 1px #d2d2d2;
+}
+/* line 782, ../sass/nav.mango.scss */
+.account_sign-in-email-form-input::-webkit-input-placeholder,
+.account_sign-in-password-form-input::-webkit-input-placeholder {
+  color: #494949;
+}
+/* line 786, ../sass/nav.mango.scss */
+.account_sign-in-email-form-input:-moz-placeholder,
+.account_sign-in-password-form-input:-moz-placeholder {
+  color: #494949;
+}
+/* line 790, ../sass/nav.mango.scss */
+.account_sign-in-email-form-input::-moz-placeholder,
+.account_sign-in-password-form-input::-moz-placeholder {
+  color: #494949;
+}
+/* line 794, ../sass/nav.mango.scss */
+.account_sign-in-email-form-input:-ms-input-placeholder,
+.account_sign-in-password-form-input:-ms-input-placeholder {
+  color: #494949;
+}
+/* line 907, ../sass/nav.mango.scss */
+.full-form-visible .account_sign-in-email-form-input, .full-form-visible
+.account_sign-in-password-form-input {
+  background: white;
+}
+/* line 782, ../sass/nav.mango.scss */
+.full-form-visible .account_sign-in-email-form-input::-webkit-input-placeholder, .full-form-visible
+.account_sign-in-password-form-input::-webkit-input-placeholder {
+  color: #a4a4a4;
+}
+/* line 786, ../sass/nav.mango.scss */
+.full-form-visible .account_sign-in-email-form-input:-moz-placeholder, .full-form-visible
+.account_sign-in-password-form-input:-moz-placeholder {
+  color: #a4a4a4;
+}
+/* line 790, ../sass/nav.mango.scss */
+.full-form-visible .account_sign-in-email-form-input::-moz-placeholder, .full-form-visible
+.account_sign-in-password-form-input::-moz-placeholder {
+  color: #a4a4a4;
+}
+/* line 794, ../sass/nav.mango.scss */
+.full-form-visible .account_sign-in-email-form-input:-ms-input-placeholder, .full-form-visible
+.account_sign-in-password-form-input:-ms-input-placeholder {
+  color: #a4a4a4;
+}
+
+/* line 916, ../sass/nav.mango.scss */
+.account_sign-in-password-form-input {
+  width: 100px;
+}
+
+/* line 920, ../sass/nav.mango.scss */
+.account_sign-in-input {
+  height: 35px;
+  font-size: 14px;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+/* line 927, ../sass/nav.mango.scss */
+.account_sign-in-form-submit {
+  font-size: 16px;
+  background: #134f8f;
+  color: white;
+  border: none;
+  height: 35px;
+  padding: 0 10px;
+  cursor: pointer;
+}
+/* line 936, ../sass/nav.mango.scss */
+.account_sign-in-form-submit:hover {
+  background: #1968bc;
+}
+
+/* line 941, ../sass/nav.mango.scss */
+.account-sign-in-remember-me {
+  font-size: 12px;
+  margin-bottom: 10px;
+  display: block;
+}
+/* line 946, ../sass/nav.mango.scss */
+.account-sign-in-remember-me input {
+  margin-right: 5px;
+}
+
+/* line 951, ../sass/nav.mango.scss */
+.account-sign-in-util-links {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+@media (min-width: 42em) {
+  /* line 959, ../sass/nav.mango.scss */
+  .sign-in-icon_panel,
+  .sign-in-label_panel,
+  .sign-in-label-and-icon_panel,
+  .signed-in-icon_panel,
+  .signed-in-label_panel,
+  .signed-in-label-and-icon_panel {
+    width: 600px;
+  }
+}
+@media (min-width: 87.5em) {
+  /* line 970, ../sass/nav.mango.scss */
+  .sign-in-icon_panel,
+  .sign-in-label_panel,
+  .sign-in-label-and-icon_panel {
+    width: auto;
+  }
+}
+/* line 980, ../sass/nav.mango.scss */
+.mango-header .language-toggle_panel,
+.mango-hws-header .language-toggle_panel {
+  left: auto;
+  right: 0;
+  width: 200px;
+}
+/* line 986, ../sass/nav.mango.scss */
+.mango-header .language-flag-selector img,
+.mango-hws-header .language-flag-selector img {
+  width: 20px;
+}
+/* line 990, ../sass/nav.mango.scss */
+.mango-header .language-flag-selector,
+.mango-hws-header .language-flag-selector {
+  height: 13px;
+  vertical-align: middle;
+  display: inline-block;
+}
+/* line 996, ../sass/nav.mango.scss */
+.mango-header .language-flag-text,
+.mango-hws-header .language-flag-text {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 3px;
+}

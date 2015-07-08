@@ -1,11 +1,12 @@
 {
     "logging": "none",
     "components": {
-        "source": "test/components/",
+        "source": "spec/fixtures/components/",
         "replace_reference": true
     },
     "frames": {
-        "source": "base/spec/fixtures/frames"
+        "source": "base/spec/fixtures/frames",
+        "component-frame-template": "base/spec/fixtures/component_frame_template.html"
     },
     "template_data": {
         "base": {

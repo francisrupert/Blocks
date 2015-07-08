@@ -480,7 +480,7 @@ export class EsbComponent {
             triggerCallback();
           }
       } else {
-        window.debug.warn('JS resource is empty: ' + uri);
+        self.logger('debug', 'JS resource is empty: ' + uri);
       }
 
       notifyParent();

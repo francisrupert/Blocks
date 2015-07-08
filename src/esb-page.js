@@ -195,7 +195,7 @@ class EsbPage {
     self.name  = self.retrievePageTitle();
     self.$root = self.retrieveRootElement();
 
-    frames = self.$root[0].querySelectorAll('*[data-esb-frame]:not([data-esb-frame-config])');
+    frames = self.$root[0].querySelectorAll('*[data-esb-frame]:not([data-esb-frame-config]), *[data-frame-component]');
 
     for (i=0; i < frames.length; i++) {
       let uuid = EsbUtil.generateUUID();
@@ -242,6 +242,46 @@ class EsbPage {
 
   retrieveRootElement() {
     return $('body');
+  }
+
+  getUrlQueryString() {
+    return window.location.search;
+  }
+
+  renderComponentFromQueryStringParams() {
+    var self = this,
+        query_string = self.getUrlQueryString(),
+        query_params = EsbUtil.convertQueryStringToJson(query_string),
+        component = self.generateComponentElement(query_params),
+        target;
+
+    if (component && query_params['data-esb-target'] !== undefined) {
+      target = document.querySelector(query_params['data-esb-target']);
+      target.appendChild(component);
+    }
+  }
+
+  generateComponentElement(component_params) {
+    var i,
+    component = false,
+    params = [
+      'component',
+      'variation',
+      'place',
+      'source'
+    ];
+
+
+    if (component_params['data-esb-component'] !== undefined) {
+      component = document.createElement('div');
+      for (i=0; i < params.length; i++) {
+        if (component_params['data-esb-' + params[i]] !== undefined) {
+          component.setAttribute('data-' + params[i], component_params['data-esb-' + params[i]]);
+        }
+      }
+    }
+
+    return component;
   }
 
   /**
@@ -320,7 +360,8 @@ class EsbPage {
   }
 
   childDoneInjectingJS() {
-    var self = this;
+    var self = this,
+        event;
 
     self.child_js_injected++;
 
@@ -341,6 +382,16 @@ class EsbPage {
         self.logger('info', 'TRIGGERING blocks-done');
         $(document).trigger('blocks-done');
       }
+
+      // Trigger non-jQuery version of the blocks-done event
+      if (window.CustomEvent) {
+        event = new CustomEvent('blocks-done');
+      } else {
+        event = document.createEvent('CustomEvent');
+        event.initCustomEvent('blocks-done', true, true);
+      }
+
+      document.dispatchEvent(event);
 
       self.setBlocksDone();
 
