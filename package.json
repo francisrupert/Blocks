@@ -9,6 +9,7 @@
   "blocksVersion": {
     "blocks": "2.7.3"
   },
+  "engine": "node >= 0.12.2",
   "scripts": {
     "lint": "jshint src/*.js",
     "test": "",
