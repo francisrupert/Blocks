@@ -146,6 +146,7 @@ export class EsbFrame {
 			'variation': false,
 			'component-frame-template': 'component_frame_template.html',
 			'component-frame-template-target': 'body',
+			// 'component-frame-styles': ['http://cdn.example.com/base.css', '/path/to/fairfield.css'],
 			'component-source': '',
 			'place': 'replace',
 			'crop': false,
