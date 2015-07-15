@@ -122,7 +122,8 @@ export class EsbFrame {
 	}
 
 	get_default_options() {
-		var options = {
+		var self = this,
+			options = {
 			'frame': false,
 			'source': '',
 			'load-immediately': false,
@@ -149,9 +150,16 @@ export class EsbFrame {
 			'component-source': '',
 			'place': 'replace',
 			'crop': false,
-			'crop-offset-x': false,
-			'crop-offset-y': false
+			'offset-x': false,
+			'offset-y': false
 		};
+
+		if (self.is_component_frame) {
+			options.width = false;
+			options.scale = 1;
+			options['viewport-width'] = false;
+			options['viewport-aspect-ratio'] = false;
+		}
 
 		return options; 
 	}
@@ -192,10 +200,10 @@ export class EsbFrame {
 		}
 
 		//CROP
-		if (options.crop) {
-			// If the crop option is used, don't show the dimensions annotation
-			options.dimensions = false;
-		}
+		// if (options.crop) {
+		// 	// If the crop option is used, don't show the dimensions annotation
+		// 	options.dimensions = false;
+		// }
 
 		//VIEWPORT-DEVICE and VIEWPORT-DEVICE-ORIENTATION
 		if (options['viewport-device']) {
@@ -433,7 +441,7 @@ export class EsbFrame {
 			dimensions_value_scale_element,
 			scale = parseFloat((dimensions.scale*100).toFixed(1));
 		
-		if (self.options.dimensions && dimensions.width && dimensions.height && dimensions.scale) {
+		if (self.options.dimensions) {
 			dimensions_annotation = document.createElement('p');
 			EsbUtil.addClass(dimensions_annotation, 'esb-frame-dimensions-annotation esb-frame-dimensions--updating');
 			dimensions_annotation.appendChild(self.get_element_icon('dimensions'));
@@ -442,11 +450,15 @@ export class EsbFrame {
 			EsbUtil.addClass(dimensions_value_element, 'esb-frame-dimensions-value');
 			
 			dimensions_value_width_element = document.createElement('span');
-			dimensions_value_width_element.textContent = Math.round(dimensions.width);
+			if (dimensions.width) {
+				dimensions_value_width_element.textContent = Math.round(dimensions.width);
+			}
 			EsbUtil.addClass(dimensions_value_width_element, 'esb-frame-dimensions-width-value');
 			
 			dimensions_value_height_element = document.createElement('span');
-			dimensions_value_height_element.textContent = Math.round(dimensions.height);
+			if (dimensions.height) {
+				dimensions_value_height_element.textContent = Math.round(dimensions.height);
+			}
 			EsbUtil.addClass(dimensions_value_height_element, 'esb-frame-dimensions-height-value');
 
 			dimensions_value_element.appendChild(dimensions_value_width_element);
@@ -469,10 +481,7 @@ export class EsbFrame {
 	}
 
 	get_element_icon(icon_name) {
-		var icon = document.createElement('span');
-		EsbUtil.addClass(icon, 'esb-frame-' + icon_name + '-icon');
-		icon.appendChild(EsbUtil.get_svg_icon(icon_name));
-		return icon;
+		return EsbUtil.get_svg_icon(icon_name);
 	}
 
 	// BOTH - CORE
@@ -521,7 +530,7 @@ export class EsbFrame {
 		iframe.setAttribute('data-src', self.iframe_src);
 		iframe.setAttribute('scrolling', self.options.scrolling);
 		if (self.options['viewport-device']) { 
-			iframe.style.height = self.device_dimensions['iframe-height'];
+			iframe.style.height = self.device_dimensions['iframe-height'] + 'px';
 		}
 
 		return iframe;
@@ -542,16 +551,14 @@ export class EsbFrame {
 			width = self.options['viewport-width'] * self.options.scale;
 		}
 
-		if (self.options['viewport-aspect-ratio'] && self.options.width) {
-			if (self.options.height) {
-				height = self.options.height;
-			}
-			else if (self.is_component_frame) {
-				height = 180; //Set a nice default height so the loading animation displays
-			}
-			else {
-				height = width * self.options['viewport-aspect-ratio'];
-			}
+		if (self.options.height) {
+			height = self.options.height;
+		}
+		else if (self.is_component_frame) {
+			height = 180; //Set a nice default height so the loading animation displays
+		}
+		else if (width && self.options['viewport-aspect-ratio']) {
+			height = width * self.options['viewport-aspect-ratio'];
 		}
 
 		if (self.options['device-frame']) {
@@ -588,12 +595,12 @@ export class EsbFrame {
 		dimensions.webkitTransform = 'scale(' + dimensions.scale + ')';
 		delete dimensions.scale;
 
-		if (self.options['crop-offset-x']) {
-			dimensions.left = '-' + self.options['crop-offset-x'] + 'px';
+		if (self.options['offset-x']) {
+			dimensions.left = '-' + self.options['offset-x'] + 'px';
 		}
 		
-		if (self.options['crop-offset-y']) {
-			dimensions.top = '-' + self.options['crop-offset-y'] + 'px';
+		if (self.options['offset-y']) {
+			dimensions.top = '-' + self.options['offset-y'] + 'px';
 		}
 
 		return dimensions;
@@ -982,11 +989,8 @@ export class EsbFrame {
 		var self = this,
 			unloaded_frame = self.get_placeholder_element();
 
-		window.console.log(self.viewer_element);
 		self.viewer_element.parentNode.replaceChild(unloaded_frame, self.viewer_element);
-
-		// self.viewer_element.outerHTML = self.unloaded_iframe.outerHTML;
-		// EsbUtil.removeClass(self.viewer_element, 'esb-frame--is-loaded');
+		self.viewer_element = unloaded_frame;
 		self.iframe_element = self.viewer_element.querySelector('iframe');
 		self.set_iframe_onload_behavior();
 		self.iframe_is_loaded = false;
@@ -1027,7 +1031,7 @@ export class EsbFrame {
 
 			browser_ui = document.createElement('div');
 			EsbUtil.addClass(browser_ui, browser_ui_class);
-			browser_ui.style.height = browser_ui_height;
+			browser_ui.style.height = browser_ui_height + 'px';
 		}
 
 		return browser_ui;
