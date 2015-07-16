@@ -5,6 +5,25 @@
 	padding: 20px;
 	display: inline-block;
 
+	&.red {
+		background: #F22239;
+		h1 {
+			color: white;
+		}
+	}
+
+	&.blue {
+		background: skyblue;
+	}
+
+	&.green {
+		background: lightgreen;
+	
+		h1 {
+			color: darkgreen;
+		}
+	}
+
 	h1 {
 		color: #656565;
 		font-size: 1.5em;

@@ -4,6 +4,16 @@
   background: #efefef;
   padding: 20px;
   display: inline-block; }
+  .newsletter-sign-up-wrap.red {
+    background: #F22239; }
+    .newsletter-sign-up-wrap.red h1 {
+      color: white; }
+  .newsletter-sign-up-wrap.blue {
+    background: skyblue; }
+  .newsletter-sign-up-wrap.green {
+    background: lightgreen; }
+    .newsletter-sign-up-wrap.green h1 {
+      color: darkgreen; }
   .newsletter-sign-up-wrap h1 {
     color: #656565;
     font-size: 1.5em; }

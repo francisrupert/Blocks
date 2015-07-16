@@ -546,6 +546,11 @@ export class EsbFrame {
 			scale = parseFloat((dimensions.scale*100).toFixed(1));
 		
 		if (self.options.dimensions) {
+			if (self.options.crop === true) {
+				dimensions.width = self.options.width;
+				dimensions.height = self.options.height;
+			}
+			
 			dimensions_annotation = document.createElement('p');
 			EsbUtil.addClass(dimensions_annotation, 'esb-frame-dimensions-annotation esb-frame-dimensions--updating');
 			dimensions_annotation.appendChild(self.get_element_icon('dimensions'));
@@ -979,11 +984,11 @@ export class EsbFrame {
 		var self = this;
 
 		if (self.dimensions_annotation_element !== null) {
-			if (dimensions.width !== undefined) {
+			if (dimensions.width !== undefined && self.options.crop === false) {
 				self.dimensions_annotation_width_element.textContent = dimensions.width;
 			}
 
-			if (dimensions.height !== undefined) {
+			if (dimensions.height !== undefined && self.options.crop === false) {
 				self.dimensions_annotation_height_element.textContent = dimensions.height;
 			}
 			
@@ -1074,15 +1079,19 @@ export class EsbFrame {
 		self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = '';
 		self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).appendChild(wrapper_element);
 
-		content_height = EsbUtil.outerHeight(wrapper_element);
-		content_width = EsbUtil.outerWidth(wrapper_element);
-		self.set_frame_height(content_height);
-		self.set_frame_width(content_width);
+		// Add a slight delay so the dom can re-render correctly and we get accurate width and height calculations
+		setTimeout(function(){
+			content_height = EsbUtil.outerHeight(wrapper_element);
+			content_width = EsbUtil.outerWidth(wrapper_element);
+			self.set_frame_height(content_height);
+			self.set_frame_width(content_width);
 
-		// Unwrap contents
-		content = wrapper_element.innerHTML;
-		self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
-		EsbUtil.addClass(self.viewer_element, 'esb-frame--dynamically-resized');
+			// Unwrap contents
+			content = wrapper_element.innerHTML;
+			self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
+			EsbUtil.addClass(self.viewer_element, 'esb-frame--dynamically-resized');
+		}, 100);
+
 	}
 
 	// BOTH - CORE
