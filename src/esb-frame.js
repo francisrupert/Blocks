@@ -7,6 +7,8 @@ export class EsbFrame {
 	// BOTH - CORE
 	constructor(opts) {
 		var self = this;
+		self.placeholder_created_timeout = 5000;
+		self.placeholder_created = false;
 		self.original_element = opts.viewer_element;
 		self.original_snippet = opts.original_snippet;
 		self.uuid = opts.uuid;
@@ -24,6 +26,8 @@ export class EsbFrame {
 
 		self.state = 'not-loaded';
 		self.iframe_is_loaded = false;
+		self.has_loading_error = false;
+		self.loading_error_message = '';
 		
 		
 		self.placeholder_element = null;
@@ -42,7 +46,56 @@ export class EsbFrame {
 		self.options = self.get_frame_options();
 		self.iframe_src = self.options.iframe_src;
 
-		self.placeholder_element = self.get_placeholder_element();
+		if (self.is_component_frame) {
+			self.is_component_template_url_valid().then(function(){
+				self.placeholder_element = self.get_placeholder_element();
+				self.placeholder_created = true;
+			}, function(){
+				self.placeholder_element = self.get_placeholder_element();
+				self.placeholder_created = true;
+			});
+		}
+		else {
+			self.placeholder_element = self.get_placeholder_element();
+			self.placeholder_created = true;
+		}
+	}
+
+	get_placeholder_created() {
+		var self = this;
+		return self.placeholder_created;
+	}
+
+	is_placeholder_created() {
+	    var self = this,
+	      timeout_ms = self.get_placeholder_created_timeout(),
+	      polling_interval_ms = 500,
+	      polling_attempt_threshold = timeout_ms / polling_interval_ms,
+	      polling_attempts = 0,
+	      placeholder_created_interval = false;
+
+	    return new Promise(function(resolve, reject) {
+	      placeholder_created_interval = setInterval(function(){
+	        if (polling_attempts < polling_attempt_threshold) {
+	          if (self.get_placeholder_created()) {
+	            resolve(true);
+	            clearInterval(placeholder_created_interval);
+	          }
+	          else {
+	            polling_attempts++;
+	          }
+	        }
+	        else {
+	          self.logger('error', 'The Frame placeholder was not created before the timeout threshold: ' + timeout_ms + 'ms');
+	          reject('The Frame placeholder was not created before the timeout threshold: ' + timeout_ms + 'ms');
+	        }
+	      }, polling_interval_ms);
+	    });
+	}
+
+	get_placeholder_created_timeout() {
+		var self = this;
+		return self.placeholder_created_timeout;
 	}
 
 	get_global_config_option(option_name) {
@@ -226,6 +279,36 @@ export class EsbFrame {
 		return options;
 	}
 
+	is_component_template_url_valid() {
+		var self = this,
+			request = new XMLHttpRequest();
+
+	    return new Promise(function(resolve, reject) {
+
+			request.open('HEAD', self.options['component-frame-template'], true);
+
+			request.onload = function() {
+			  if (request.status >= 200 && request.status < 400) {
+			    resolve(true);
+			  } else {
+			    // We reached our target server, but it returned an error
+			    self.has_loading_error = true;
+			    self.loading_error_message = 'Could not load Component Frame, no component template found at: ' + self.options['component-frame-template'];
+			    reject(self.loading_error_message);
+			  }
+			};
+
+			request.onerror = function() {
+			  // There was a connection error of some sort
+			    self.has_loading_error = true;
+			    self.loading_error_message = 'Could not load Component Frame, a connection error occurred while attempting to load: ' + self.options['component-frame-template'];
+			    reject(self.loading_error_message);
+			};
+
+			request.send();
+	    });
+	}
+
 	build_iframe_src(options) {
 		var self = this,
 			iframe_src;
@@ -323,7 +406,8 @@ export class EsbFrame {
 			browser_ui_bottom = self.get_element_browser_ui('bottom'),
 			loading_animation = self.get_element_loading_animation(),
 			iframe_inner_wrap = self.get_element_iframe_inner_wrap(),
-			iframe = self.get_element_iframe();
+			iframe = self.get_element_iframe(),
+			loading_error = self.get_element_loading_error();
 
 		if (browser_ui_top !== undefined) { iframe_inner_wrap.appendChild(browser_ui_top); }
 
@@ -345,9 +429,28 @@ export class EsbFrame {
 		if (dimensions_annotation !== undefined) { inner_wrap.appendChild(dimensions_annotation); }
 
 		inner_wrap.appendChild(iframe_outer_wrap);
-		outer_wrap.appendChild(inner_wrap);
+
+		if (self.has_loading_error) {
+			outer_wrap.appendChild(loading_error);
+		}
+		else {
+			outer_wrap.appendChild(inner_wrap);
+		}
 
 		return outer_wrap;
+	}
+
+	get_element_loading_error() {
+		var self = this,
+			loading_error;
+
+		if (self.has_loading_error) {
+			loading_error = document.createElement('span');
+			EsbUtil.addClass(loading_error, 'esb-frame-loading-error');
+			loading_error.textContent = self.loading_error_message;
+		}
+
+		return loading_error;
 	}
 
 	get_element_outer_wrap() {
@@ -359,6 +462,7 @@ export class EsbFrame {
 
 		if (self.options.overlay) { EsbUtil.addClass(outer_wrap, 'esb-frame-has-overlay'); }
 		if (self.is_component_frame) { EsbUtil.addClass(outer_wrap, ' esb-frame--is-framed-component'); }
+		if (self.has_loading_error) { EsbUtil.addClass(outer_wrap, 'esb-frame--has-loading-error'); }
 		if (self.options['device-frame']) { 
 			EsbUtil.addClass(outer_wrap, 'esb-frame--has-device-frame esb-frame-device-frame-' + self.options['viewport-device']); 
 			EsbUtil.addClass(outer_wrap, 'esb-frame-device-orientation-' + self.options['viewport-device-orientation']); 
@@ -651,23 +755,32 @@ export class EsbFrame {
 		self.dimensions_annotation_scale_element = self.viewer_element.querySelector('.esb-frame-scale-value');
 		self.dimensions_annotation_element = self.viewer_element.querySelector('.esb-frame-dimensions-annotation');
 		
-		self.set_scrollable_ancestors();
-		self.set_event_listeners();
-		self.set_iframe_onload_behavior();
+		if (!self.has_loading_error) {
+			self.set_scrollable_ancestors();
+			self.set_event_listeners();
+			self.set_iframe_onload_behavior();
 
-		if (self.options['load-immediately'] === true) {
-			self.load_iframe();
+			if (self.options['load-immediately'] === true) {
+				self.load_iframe();
+			}
+			else {
+				EsbPage.blocksDone().then(
+					function(){
+						self.load_iframe_if_visible();
+					},
+					function() {
+						self.logger('error', 'EsbFrame ' + self.uuid + ' could not be loaded because Blocks Done did not fire within the Blocks Done Timeout Threshold of: ' + EsbPage.getBlocksDoneTimeout() + 'ms');
+					}
+				);
+			}
 		}
-		else {
-			EsbPage.blocksDone().then(
-				function(){
-					self.load_iframe_if_visible();
-				},
-				function() {
-					self.logger('error', 'EsbFrame ' + self.uuid + ' could not be loaded because Blocks Done did not fire within the Blocks Done Timeout Threshold of: ' + EsbPage.getBlocksDoneTimeout() + 'ms');
-				}
-			);
-		}
+	}
+
+	inject_placeholder_if_placeholder_is_created() {
+		var self = this;
+		self.is_placeholder_created().then(function(){
+			self.inject_placeholder();
+		});
 	}
 
 // MONITORING SCROLLING, VISIBILITY TO TRIGGER LOAD
@@ -817,8 +930,6 @@ export class EsbFrame {
 
 		return visible;
 	}
-
-
 
 	// BOTH - CORE
 	load_iframe() {

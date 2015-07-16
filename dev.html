@@ -12,67 +12,6 @@
 </head>
 
 <body>
-<div class="wrapper-element">
-        <div data-esb-frame="http://example.com"></div>
-        <a href="#link" id="unload-iframe-link" class="btn btn-danger">Unload this Frame</a>
-        <a href="#link" id="load-iframe-link" class="btn">Load this Frame</a>
-      </div>
-    
-      <script>
-        var unload_link = document.getElementById('unload-iframe-link');
-        var load_link = document.getElementById('load-iframe-link');
-
-        unload_link.addEventListener('click', function(){
-          var el = this,
-            uuid = false,
-            siblings = Array.prototype.filter.call(el.parentNode.children, function(child){
-                return child !== el;
-            });
-
-
-          Array.prototype.forEach.call(siblings, function(el, i){
-            if (el.getAttribute('data-esb-uuid') !== null) {
-              uuid = el.getAttribute('data-esb-uuid');
-            }
-          });
-
-          if (uuid) {
-            if (window.CustomEvent) {
-              var event = new CustomEvent('unload-esb-frame-' + uuid);
-            } else {
-              var event = document.createEvent('CustomEvent');
-              event.initCustomEvent('unload-esb-frame-' + uuid, true, true);
-            }
-
-            document.dispatchEvent(event);
-          }
-        });
-
-        load_link.addEventListener('click', function(){
-          var el = this,
-            uuid = false,
-            siblings = Array.prototype.filter.call(el.parentNode.children, function(child){
-                return child !== el;
-            });
-
-
-          Array.prototype.forEach.call(siblings, function(el, i){
-            if (el.getAttribute('data-esb-uuid') !== null) {
-              uuid = el.getAttribute('data-esb-uuid');
-            }
-          });
-
-          if (uuid) {
-            if (window.CustomEvent) {
-              var event = new CustomEvent('load-esb-frame-' + uuid);
-            } else {
-              var event = document.createEvent('CustomEvent');
-              event.initCustomEvent('load-esb-frame-' + uuid, true, true);
-            }
-
-            document.dispatchEvent(event);
-          }
-        });
-      </script>
+        <div data-esb-frame="header" data-esb-variation="base" data-esb-frame-component-source="text/components"></div>
 </body>
 </html>

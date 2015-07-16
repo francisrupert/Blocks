@@ -392,10 +392,10 @@ describe("EsbFrame", function(){
 			var loaded_interval,
 				frame = load_frame('frame-component-modern-syntax.html');
 			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-			jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+			jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
 
 			frame.options['load-immediately'] = true;
-			frame.inject_placeholder();
+			frame.inject_placeholder_if_placeholder_is_created();
 
 			loaded_interval = setInterval(function(){
 				if ($("#jasmine-fixtures .esb-frame--dynamically-resized").length === 1) {
@@ -423,10 +423,10 @@ describe("EsbFrame", function(){
 			var loaded_interval,
 				frame = load_frame('frame-component-modern-syntax-cropped.html');
 			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-			jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+			jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
 
 			frame.options['load-immediately'] = true;
-			frame.inject_placeholder();
+			frame.inject_placeholder_if_placeholder_is_created();
 
 			loaded_interval = setInterval(function(){
 				if ($("#jasmine-fixtures .esb-frame--dynamically-resized").length === 1) {
