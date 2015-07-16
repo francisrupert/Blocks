@@ -15,6 +15,13 @@ $viewer-scale: $viewer-width / $viewer-content-width;
   &.esb-frame--is-framed-component {
     min-width: 0;
   }
+
+  &.esb-frame--has-loading-error {
+    max-width: 300px;
+    border: solid 1px red;
+    padding: 10px;
+    background: lightcoral;
+  }
 }
 
 .esb-frame-inner-wrap {

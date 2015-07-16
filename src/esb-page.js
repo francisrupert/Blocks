@@ -62,7 +62,7 @@ class EsbPage {
     for (let idx in self.parsed_esb_frames) {
       let frame = self.parsed_esb_frames[idx];
 
-      frame.inject_placeholder();
+      frame.inject_placeholder_if_placeholder_is_created();
     }
   }
 
