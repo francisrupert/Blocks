@@ -257,6 +257,7 @@ class EsbPage {
 
     if (component && query_params['data-esb-target'] !== undefined) {
       target = document.querySelector(query_params['data-esb-target']);
+      EsbUtil.addClass(target, 'component-frame-template-wrapper');
       target.appendChild(component);
     }
   }
