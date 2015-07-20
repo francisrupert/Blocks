@@ -244,13 +244,9 @@ class EsbPage {
     return $('body');
   }
 
-  getUrlQueryString() {
-    return window.location.search;
-  }
-
   renderComponentFromQueryStringParams() {
     var self = this,
-        query_string = self.getUrlQueryString(),
+        query_string = EsbUtil.getUrlQueryString(),
         query_params = EsbUtil.convertQueryStringToJson(query_string),
         component = self.generateComponentElement(query_params),
         target;

@@ -214,8 +214,8 @@ describe("EsbPage", function(){
 	describe("when a component is passed via query string parameters on the URL", function(){
 
 		it ("should generate a component element", function(){
-			spyOn(EsbPage, 'getUrlQueryString').and.returnValue('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
-			var query_params = EsbUtil.convertQueryStringToJson(EsbPage.getUrlQueryString());
+			spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
+			var query_params = EsbUtil.convertQueryStringToJson(EsbUtil.getUrlQueryString());
 			var component = EsbPage.generateComponentElement(query_params);
 			expect(component.getAttribute('data-component')).toEqual("my-navbar");
 			expect(component.getAttribute('data-variation')).toEqual("foo");
@@ -224,7 +224,7 @@ describe("EsbPage", function(){
 		});
 
 		it ("should append the generated component to the target element", function(){
-			spyOn(EsbPage, 'getUrlQueryString').and.returnValue('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
+			spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
 			loadFixtures('page-with-no-components.html');
 			EsbPage.renderComponentFromQueryStringParams();
 		    expect($('#jasmine-fixtures div[data-component="my-navbar"]').length).toEqual(1);

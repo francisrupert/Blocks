@@ -181,4 +181,10 @@ describe("EsbMark config options", function(){
 		mark = load_mark('page-with-mark-data-attribute-options.html', uuid);		
 		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-right', 'outline': false, 'group': 'instance-style', 'visible-on-load': true, 'href': false});
 	});
+
+	it ("should use options from query string params when set", function(){
+		spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?mark-position=bottom-left&outline=true&visible-on-load=false');
+		mark = load_mark('page-with-mark-data-attribute-options.html', uuid);		
+		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-left', 'outline': true, 'group': 'instance-style', 'visible-on-load': false, 'href': false});
+	});
 });

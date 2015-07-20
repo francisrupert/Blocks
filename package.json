@@ -7,7 +7,7 @@
     "url": "https://github.com/EightShapes/Blocks.git"
   },
   "blocksVersion": {
-    "blocks": "2.7.3"
+    "blocks": "2.7.5"
   },
   "engine": "node >= 0.12.2",
   "scripts": {
