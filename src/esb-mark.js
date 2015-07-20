@@ -28,6 +28,8 @@ export class EsbMark {
 			},
 			option = null,
 			value = null,
+			query_params,
+			query_string,
 			el = self.mark_element,
 			page_level_config_element = false,
 			config_json_global_options = self.config.get('marks');
@@ -67,6 +69,19 @@ export class EsbMark {
 				options[option] = EsbUtil.booleanXorValue(value);
 			}
 		}
+
+		// Query string params
+		query_string = EsbUtil.getUrlQueryString();
+		if (query_string.length > 0) {
+			query_params = EsbUtil.convertQueryStringToJson(query_string);
+			for (option in options) {
+				value = query_params[option];
+				if (value !== undefined && value.length > 0) {
+					options[option] = EsbUtil.booleanXorValue(value);
+				}
+			}
+		}
+
 
 		self.options = options;
 	}

@@ -66,6 +66,10 @@ class EsbUtil {
     return width;
   }
 
+  getUrlQueryString() {
+    return window.location.search;
+  }
+
   convertQueryStringToJson(query_string) {
     var pairs,
         json = {};
