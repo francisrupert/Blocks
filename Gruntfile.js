@@ -46,7 +46,7 @@ module.exports = function(grunt) {
       }
     },
     exec: {
-      jspm_build: 'node_modules/.bin/jspm bundle-sfx --minify src/esb dist/esb.min.js'
+      jspm_build: 'node_modules/.bin/jspm bundle-sfx --minify src/esb dist/esb.min.js && node_modules/.bin/jspm bundle-sfx src/esb dist/esb.js'
     },
     cssmin: {
       minify: {
