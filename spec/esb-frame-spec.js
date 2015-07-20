@@ -392,7 +392,7 @@ describe("EsbFrame", function(){
 			var loaded_interval,
 				frame = load_frame('frame-component-modern-syntax.html');
 			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-			jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
+			jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
 			frame.options['load-immediately'] = true;
 			frame.inject_placeholder_if_placeholder_is_created();
@@ -423,7 +423,7 @@ describe("EsbFrame", function(){
 			var loaded_interval,
 				frame = load_frame('frame-component-modern-syntax-cropped.html');
 			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-			jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
+			jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
 			frame.options['load-immediately'] = true;
 			frame.inject_placeholder_if_placeholder_is_created();
