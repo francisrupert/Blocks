@@ -10,6 +10,8 @@ EsbConfig.load().then(function() {
       function(){
         EsbPage.parseEsbMarks();
         EsbPage.displayEsbMarks();
+        // Set basic window variable so other sources can poll and check
+        window.blocks_done = true;
       },
       function() {
         EsbUtil.logger('error', 'BlocksDone did not fire.');
