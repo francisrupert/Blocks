@@ -165,7 +165,7 @@ class EsbPage {
     self.name  = self.retrievePageTitle();
     self.$root = self.retrieveRootElement();
 
-    self.$root.find('*[data-component]').each(function () {
+    self.$root.find('*[data-component], *[data-esb-component]').each(function () {
       self.child_count++;
 
       $(this).attr('data-blocks-uuid', EsbUtil.generateUUID());
