@@ -84,8 +84,8 @@ describe("EsbPage", function(){
 			EsbPage.parse();
 		});
 
-		it ("should have a components count of 1", function(){
-			expect(EsbPage.parsed_esb_components.length).toEqual(1);
+		it ("should have a components count of 2 respecting both the old and new 'data-component' and 'data-esb-component' syntax", function(){
+			expect(EsbPage.parsed_esb_components.length).toEqual(2);
 		});
 	});
 
