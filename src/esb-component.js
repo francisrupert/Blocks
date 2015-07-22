@@ -42,8 +42,8 @@ export class EsbComponent {
 
     self._setID($component);
     self.$el = $component;
-    self.name = $component.attr('data-component');
-    self.source = $component.attr('data-source');
+    self.name = $component.attr('data-component') === null ? $component.attr('data-esb-component') : $component.attr('data-component');
+    self.source = $component.attr('data-source') === null ? $component.attr('data-esb-source') : $component.attr('data-source');
 
     self._setComponentPath();
     self._setVariationName($component);
@@ -161,7 +161,7 @@ export class EsbComponent {
     self.classes.push($header.attr('class'));
 
     // The not() here is to avoid finding nested component varations
-    self.$variation = $component_html.find('[data-variation="' + self.variation_name + '"]').not('[data-component]');
+    self.$variation = $component_html.find('[data-variation="' + self.variation_name + '"], [data-esb-variation="' + self.variation_name + '"]').not('[data-component], [data-esb-component]');
 
     // Collect variation classes for component
     self.classes.push(self.$variation.attr('class'));
@@ -185,14 +185,14 @@ export class EsbComponent {
       self.updateImgSrcPath();
     }
 
-    $nested_components = self.$variation.find('*[data-component]');
+    $nested_components = self.$variation.find('*[data-component], *[data-esb-component]');
 
     if ($nested_components !== undefined && $nested_components.length > 0) {
       $nested_components.each(function (idx, nested_component) {
         var $nested_component = $(nested_component),
           nested_component_id = EsbUtil.generateUUID();
 
-        self.logger('debug', 'FOUND nested component: ' + $nested_component.attr('data-component'));
+        self.logger('debug', 'FOUND nested component: ' + $nested_component.attr('data-component') === null ? $nested_component.attr('data-esb-component') : $nested_component.attr('data-component'));
         self.child_count++;
 
         // Assign a UUID to find the component in the DOM later
@@ -286,7 +286,7 @@ export class EsbComponent {
       self.logger('debug', 'CHILD RENDERED: ' + child.template_name());
 
       // Update your DOM with your kids' rendered templates
-      child_components = self.$el.find('[data-component]');
+      child_components = self.$el.find('[data-component], [data-esb-component]');
 
       if (child_components !== undefined && child_components.length > 0) {
         child_components.each(function (idx, nested_component) {
@@ -296,7 +296,7 @@ export class EsbComponent {
         // If we didn't find any child components we might be a
         // parent that should be replaced by a single child
         if (self.$el.length === 1) {
-          if (self.$el[0].hasAttribute('data-component')) {
+          if (self.$el[0].hasAttribute('data-component') || self.$el[0].hasAttribute('data-esb-component')) {
             if (self.replace_reference) {
               replaceWithChild(self.$el[0]);
             } else {
@@ -307,7 +307,7 @@ export class EsbComponent {
           // Our child is replaced and thus has no wrapper around the elements therein.
           // Therefore this an array of elements
           $.each(self.$el, function (idx, el) {
-            if ($(el)[0].hasAttribute('data-component')) {
+            if ($(el)[0].hasAttribute('data-component') || $(el)[0].hasAttribute('data-esb-component')) {
               self.$el[idx] = returnChildElement($(el));
             }
           });
@@ -638,23 +638,23 @@ export class EsbComponent {
       }
     }
 
-    if (self.$el.attr('data-place') !== undefined) {
-      if (self.$el.attr('data-place') === 'replace') {
+    if (self.$el.attr('data-place') !== undefined || self.$el.attr('data-esb-place') !== undefined) {
+      if (self.$el.attr('data-place') === 'replace' || self.$el.attr('data-esb-place') === 'replace') {
         self.replace_reference = true;
-      } else if (self.$el.attr('data-place') === 'inner') {
+      } else if (self.$el.attr('data-place') === 'inner' || self.$el.attr('data-esb-place') === 'inner') {
         self.replace_reference = false;
       }
     }
 
     if (self.replace_reference === true) {
-      self.comment_start = '<!-- #block data-component="' + self.name + '" data-variation="' + self.variation_name + '" -->';
-      self.comment_end = '<!-- /block data-component="' + self.name + '" data-variation="' + self.variation_name + '" -->';
+      self.comment_start = '<!-- #block data-esb-component="' + self.name + '" data-esb-variation="' + self.variation_name + '" -->';
+      self.comment_end = '<!-- /block data-esb-component="' + self.name + '" data-esb-variation="' + self.variation_name + '" -->';
     }
   }
 
   _setTemplateData($el) {
     var self = this,
-      content = $el.attr('data-content'),
+      content = $el.attr('data-content') === null ? $el.attr('data-esb-content') : $el.attr('data-content'),
       tmpl_data,
       getTemplateData = function (key_string, config_data) {
         var obj = config_data,
@@ -697,7 +697,7 @@ export class EsbComponent {
 
   // Sets two variation names: the original and the sanitized version
   _setVariationName($el) {
-    var name = $el.attr('data-variation'),
+    var name = $el.attr('data-variation') === null ? $el.attr('data-esb-variation') : $el.attr('data-variation'),
       tmpl_name = this._constructVariationName(name);
 
     this.variation_name = tmpl_name;
