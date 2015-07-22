@@ -2,14 +2,42 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Component Gallery</title>
+		<title>Components</title>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="../../../../dist/esb.min.css">
+		<link rel="stylesheet" href="css/base.css">
 		<script src="../../../../dist/esb.min.js"></script>
+		<script src="../../bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+		<style>
+			body {
+				padding-top: 50px;
+			}
+		</style>
 	</head>
 	<body>
+		<div data-esb-component="navbar"></div>
 		<div class="container">
-			<div data-component="page-header" data-variation="dynamic" data-content='{"header":"Component Gallery"}'></div>
+			<div data-esb-component="page-header" data-esb-variation="dynamic" data-esb-content='{"header":"Components"}'></div>
+			<div class="row" data-esb-frame-config data-esb-variation="stock" data-esb-width="340" data-esb-height="150" data-esb-crop="true" data-esb-viewport-width="1200">
+				<div class="col-md-4">
+					<div data-esb-frame="navbar" data-esb-title="Navbar" data-esb-href="component.navbar.html"></div>
+				</div>
+				<div class="col-md-4">
+					<div data-esb-frame="button-group" data-esb-title="Button Group" data-esb-href="component.button-group.html"></div>
+				</div>
+				<div class="col-md-4">
+					<div data-esb-frame="pagination" data-esb-title="Pagination" data-esb-href="component.pagination.html"></div>
+				</div>
+				<div class="col-md-4">
+					<div data-esb-frame="jumbotron" data-esb-title="Jumbotron" data-esb-offset-y="100" data-esb-href="component.jumbotron.html"></div>
+				</div>
+				<div class="col-md-4">
+					<div data-esb-frame="content-preview-row" data-esb-title="Content Preview Row" data-esb-scale="0.5" data-esb-offset-y="40" data-esb-href="component.content-preview-row.html"></div>
+				</div>
+				<div class="col-md-4">
+					<div data-esb-frame="alert" data-esb-title="Alert" data-esb-viewport-width="320" data-esb-href="component.alert.html"></div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>

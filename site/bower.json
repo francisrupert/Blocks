@@ -1,0 +1,20 @@
+{
+  "name": "EightShapes Blocks",
+  "version": "1.0.0",
+  "homepage": "https://github.com/EightShapes/Blocks",
+  "authors": [
+    "Kevin Powell <kevin@eightshapes.com>"
+  ],
+  "description": "The Github Pages site for the EightShapes Blocks toolkit",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bootstrap-sass": "~3.3.5"
+  }
+}

@@ -25,6 +25,21 @@ module.exports = function(grunt) {
             ext: '.css'
           }
         ]
+      },
+      bootstrap_demo_project: {
+        options: {
+          sourceMap: true,
+          includePaths: ['site/bower_components/bootstrap-sass/assets/stylesheets']
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'site/demo_projects/bootstrap/scss/',
+            src: '*.scss',
+            dest: 'site/demo_projects/bootstrap/css/',
+            ext: '.css'
+          }
+        ]
       }
     },
     autoprefixer: {
@@ -43,6 +58,12 @@ module.exports = function(grunt) {
         flatten: true,
         src: 'wiki-examples/components/css/*.css',
         dest: 'wiki-examples/components/css/'
+      },
+      bootstrap_demo_project: {
+        expand: true,
+        flatten: true,
+        src: 'site/demo_projects/bootstrap/css/*.css',
+        dest: 'site/demo_projects/bootstrap/css/'
       }
     },
     exec: {
@@ -64,7 +85,10 @@ module.exports = function(grunt) {
             'wiki-examples/**/*.html',
             'css/**/*.css',
             'wiki-examples/components/css/**/*.css',
-            'src/**/*.js'
+            'src/**/*.js',
+            'site/demo_projects/**/*.html',
+            'site/demo_projects/**/*.css',
+            'site/demo_projects/**/*.js'
           ]
         },
         options: {
@@ -101,7 +125,14 @@ module.exports = function(grunt) {
           'sass/*/*.scss',
           'wiki-examples/components/scss/*.scss'
         ],
-        tasks: ['sass', 'autoprefixer']
+        tasks: ['sass:dist', 'autoprefixer:project_css', 'autoprefixer:examples_css']
+      },
+      bootstrap_demo_project_styles: {
+        files: [
+          'site/demo_projects/bootstrap/scss/*/*.scss',
+          'site/demo_projects/bootstrap/scss/*.scss'
+        ],
+        tasks: ['sass:bootstrap_demo_project', 'autoprefixer:bootstrap_demo_project']
       }
     },
     karma: {
