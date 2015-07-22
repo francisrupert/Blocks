@@ -5997,5 +5997,10 @@ button.close {
 footer {
   background: #337ab7;
   padding: 6px;
-  color: white; }
+  color: white;
+  margin-top: 80px; }
+
+.sidebar.affix {
+  top: 6px;
+  width: 360px; }
 /*# sourceMappingURL=base.css.map */
