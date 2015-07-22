@@ -13506,8 +13506,8 @@ System.register('src/esb-component', ['npm:babel-runtime@5.2.9/helpers/create-cl
 
             self._setID($component);
             self.$el = $component;
-            self.name = $component.attr('data-component') === null ? $component.attr('data-esb-component') : $component.attr('data-component');
-            self.source = $component.attr('data-source') === null ? $component.attr('data-esb-source') : $component.attr('data-source');
+            self.name = $component.attr('data-component') === undefined ? $component.attr('data-esb-component') : $component.attr('data-component');
+            self.source = $component.attr('data-source') === undefined ? $component.attr('data-esb-source') : $component.attr('data-source');
 
             self._setComponentPath();
             self._setVariationName($component);
@@ -13660,7 +13660,7 @@ System.register('src/esb-component', ['npm:babel-runtime@5.2.9/helpers/create-cl
                 var $nested_component = $(nested_component),
                     nested_component_id = EsbUtil.generateUUID();
 
-                self.logger('debug', 'FOUND nested component: ' + $nested_component.attr('data-component') === null ? $nested_component.attr('data-esb-component') : $nested_component.attr('data-component'));
+                self.logger('debug', 'FOUND nested component: ' + $nested_component.attr('data-component') === undefined ? $nested_component.attr('data-esb-component') : $nested_component.attr('data-component'));
                 self.child_count++;
 
                 // Assign a UUID to find the component in the DOM later
@@ -13847,7 +13847,7 @@ System.register('src/esb-component', ['npm:babel-runtime@5.2.9/helpers/create-cl
                   self.$el.children().last().append(rendered_tmpl);
                 }
               } else {
-                self.$el = $(rendered_tmpl);
+                self.$el.replaceWith($(rendered_tmpl));
               }
 
               if (self.config.get('components').has('wrap_with_comments') && self.config.get('components').get('wrap_with_comments') === true) {
@@ -14138,7 +14138,7 @@ System.register('src/esb-component', ['npm:babel-runtime@5.2.9/helpers/create-cl
           key: '_setTemplateData',
           value: function _setTemplateData($el) {
             var self = this,
-                content = $el.attr('data-content') === null ? $el.attr('data-esb-content') : $el.attr('data-content'),
+                content = $el.attr('data-content') === undefined ? $el.attr('data-esb-content') : $el.attr('data-content'),
                 tmpl_data,
                 getTemplateData = function getTemplateData(key_string, config_data) {
               var obj = config_data,
@@ -14183,7 +14183,7 @@ System.register('src/esb-component', ['npm:babel-runtime@5.2.9/helpers/create-cl
 
           // Sets two variation names: the original and the sanitized version
           value: function _setVariationName($el) {
-            var name = $el.attr('data-variation') === null ? $el.attr('data-esb-variation') : $el.attr('data-variation'),
+            var name = $el.attr('data-variation') === undefined ? $el.attr('data-esb-variation') : $el.attr('data-variation'),
                 tmpl_name = this._constructVariationName(name);
 
             this.variation_name = tmpl_name;
