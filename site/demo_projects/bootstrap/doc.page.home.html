@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Page - Home</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../../../../dist/esb.min.css">
+		<link rel="stylesheet" href="css/base.css">
+		<script src="../../../../dist/esb.min.js"></script>
+		<script src="js/doc-page-annotation-toggle.js"></script>
+		<script src="../../bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+		<style>
+			body {
+				padding-top: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div data-esb-component="navbar"></div>
+		<div class="container">
+			<div data-esb-component="page-header" data-esb-variation="dynamic" data-esb-content='{"header":"Homepage"}'></div>
+			<h2>Responsive Behavior</h2>
+			<div data-esb-frame="page.home.html" data-esb-scale="0.3" data-esb-viewport-device="iphone-5" data-esb-device-frame="true" data-esb-scrolling="yes" data-esb-show-browser-ui="true"></div>
+			<div data-esb-frame="page.home.html" data-esb-scale="0.25" data-esb-viewport-device="ipad" data-esb-viewport-device-orientation="portrait" data-esb-show-browser-ui="true" data-esb-device-frame="true" data-esb-scrolling="yes"></div>
+			<div data-esb-frame="page.home.html" data-esb-scale="0.25" data-esb-viewport-device="ipad" data-esb-viewport-device-orientation="landscape" data-esb-show-browser-ui="true" data-esb-device-frame="true" data-esb-scrolling="yes"></div>
+			<!-- <div data-esb-frame="page.home.html" data-esb-scale="0.25" data-esb-viewport-width="1200" data-esb-caption="Desktop" data-esb-scrolling="yes"></div> -->
+			
+
+			<h2>Annotations</h2>
+			<div class="row page-annotation">
+				<div class="col-md-8">
+					<div data-esb-frame="page.home.html?visible-on-load=true" data-esb-scrolling="yes" data-esb-scale="0.6" data-esb-viewport-width="1200"></div>
+				</div>
+				<div class="col-md-4">
+					<p>
+						<span class="btn-group">
+							<button type="button" class="btn btn-default toggle-page-frame-marks">Toggle Annotation Markings</button>
+							<a href="page.home.html" class="btn btn-default">View Fullscreen <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
+						</span>
+					</p>
+
+					<dl class="page-annotations-list">
+						<dt>Jumbotron</dt>
+						<dd>
+							Used on the homepage to feature a primary call to action. See the <a href="doc.component.jumbotron.html">Jumbotron documentation</a> for more examples.
+						</dd>
+						<dt>Founder Photo</dt>
+						<dd>
+							Sensitizes potential customers by putting a face to the company. Prevents Ziddit.com from feeling impersonal.
+						</dd>
+						<dt>Content Preview Row</dt>
+						<dd>
+							Used on the homepage to show snippets of press coverage, but can be used for any type of content preview. See the <a href="doc.component.content-preview-row.html">Content Preview Row documentation</a> for more examples.
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
