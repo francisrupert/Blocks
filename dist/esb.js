@@ -12516,11 +12516,11 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						delete dimensions.scale;
 
 						if (self.options['offset-x']) {
-							dimensions.left = '-' + self.options['offset-x'] + 'px';
+							dimensions.left = self.options['offset-x'] + 'px';
 						}
 
 						if (self.options['offset-y']) {
-							dimensions.top = '-' + self.options['offset-y'] + 'px';
+							dimensions.top = self.options['offset-y'] + 'px';
 						}
 
 						return dimensions;
