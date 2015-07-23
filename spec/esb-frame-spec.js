@@ -377,6 +377,11 @@ describe("EsbFrame", function(){
 			expect(frame.iframe_src).toEqual('base/spec/fixtures/component_frame_template.html?data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
 		});
 
+		it ("should persist any existing query params on the component frame template", function(){
+			frame.options['component-frame-template'] = "component_frame_template.html?fuzzy=bunny&foo=bar";
+			expect(frame.build_iframe_src(frame.options)).toEqual('component_frame_template.html?fuzzy=bunny&foo=bar&data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body')
+		});
+
 		// it ("should use the same defaults as a regular Frame", function(){
 		// 	frame.options['load-immediately'] = true;
 		// 	frame.inject_placeholder();

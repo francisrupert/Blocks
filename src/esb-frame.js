@@ -362,7 +362,15 @@ export class EsbFrame {
 			component_place = options.place;
 		}
 
-		component_url += 	'?data-esb-component=' + component_name + 
+		if (component_url.indexOf('?') !== -1) {
+			// already has query params
+			component_url += '&';
+		}
+		else {
+			component_url += '?';
+		}
+
+		component_url += 	'data-esb-component=' + component_name + 
 							'&data-esb-variation=' + component_variation +
 							'&data-esb-source=' + component_source +
 							'&data-esb-place=' + component_place + 
