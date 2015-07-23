@@ -12124,7 +12124,14 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							component_place = options.place;
 						}
 
-						component_url += '?data-esb-component=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['component-frame-template-target'];
+						if (component_url.indexOf('?') !== -1) {
+							// already has query params
+							component_url += '&';
+						} else {
+							component_url += '?';
+						}
+
+						component_url += 'data-esb-component=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['component-frame-template-target'];
 
 						return encodeURI(component_url).replace(/#/, '%23');
 					}
