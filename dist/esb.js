@@ -11967,6 +11967,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 
 						if (self.is_component_frame) {
 							options.width = false;
+							options.height = 'auto';
 							options.scale = 1;
 							options['viewport-width'] = false;
 							options['viewport-aspect-ratio'] = false;
@@ -12123,7 +12124,14 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							component_place = options.place;
 						}
 
-						component_url += '?data-esb-component=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['component-frame-template-target'];
+						if (component_url.indexOf('?') !== -1) {
+							// already has query params
+							component_url += '&';
+						} else {
+							component_url += '?';
+						}
+
+						component_url += 'data-esb-component=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['component-frame-template-target'];
 
 						return encodeURI(component_url).replace(/#/, '%23');
 					}
@@ -12485,6 +12493,10 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							height: height + 'px'
 						};
 
+						if (height === 'auto') {
+							styles[height] = 'auto';
+						}
+
 						return styles;
 					}
 				}, {
@@ -12496,17 +12508,19 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						    dimensions = self.get_iframe_dimensions();
 
 						dimensions.width = dimensions.width + 'px';
-						dimensions.height = dimensions.height + 'px';
+						if (dimensions.height !== 'auto') {
+							dimensions.height = dimensions.height + 'px';
+						}
 						dimensions.transform = 'scale(' + dimensions.scale + ')';
 						dimensions.webkitTransform = 'scale(' + dimensions.scale + ')';
 						delete dimensions.scale;
 
 						if (self.options['offset-x']) {
-							dimensions.left = '-' + self.options['offset-x'] + 'px';
+							dimensions.left = self.options['offset-x'] + 'px';
 						}
 
 						if (self.options['offset-y']) {
-							dimensions.top = '-' + self.options['offset-y'] + 'px';
+							dimensions.top = self.options['offset-y'] + 'px';
 						}
 
 						return dimensions;
@@ -12531,10 +12545,12 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						}
 						width = self.options['viewport-width'];
 
-						if (self.options.height) {
-							height = self.options.height / scale;
-						} else {
-							height = self.options['viewport-aspect-ratio'] * width;
+						if (self.options.height !== 'auto') {
+							if (self.options.height) {
+								height = self.options.height / scale;
+							} else {
+								height = self.options['viewport-aspect-ratio'] * width;
+							}
 						}
 
 						dimensions.height = height;
@@ -12676,26 +12692,37 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						var self = this;
 
 						self.iframe_element.onload = function () {
+							self.iframe_onload();
+						};
+					}
+				}, {
+					key: 'iframe_onload',
+					value: function iframe_onload() {
+						var self = this;
+
+						if (!self.iframe_is_loaded) {
 							self.set_state('loaded');
 							self.iframe_is_loaded = true;
+
 							if (!self.options['unload-when-not-visible']) {
 								self.stop_monitoring_scrollable_ancestors();
 							}
 
 							if (self.is_component_frame) {
-								self.set_component_loaded_in_iframe_behavior();
+								self.component_loaded_in_iframe_behavior();
 							} else {
 								self.set_dimensions_annotation_status('updated');
 							}
-						};
+						}
 					}
 				}, {
-					key: 'set_component_loaded_in_iframe_behavior',
+					key: 'component_loaded_in_iframe_behavior',
 
 					// COMPONENT FRAME ONLY - REFACTOR
-					value: function set_component_loaded_in_iframe_behavior() {
+					value: function component_loaded_in_iframe_behavior() {
 						var self = this;
-						self.iframe_element.contentWindow.document.addEventListener('blocks-done', self.fit_frame_to_contents.bind(self));
+
+						self.fit_frame_to_contents();
 					}
 				}, {
 					key: 'is_visible',
@@ -12753,6 +12780,11 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						if (self.iframe_element.getAttribute('src') === null) {
 							self.set_state('loading');
 							self.iframe_element.setAttribute('src', self.iframe_element.getAttribute('data-src'));
+
+							// trigger onload behavior after a timeout in case the onload event doesn't fire (seems to randomly not fire)
+							setTimeout(function () {
+								self.iframe_onload();
+							}, 800);
 						}
 					}
 				}, {
@@ -12880,11 +12912,15 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 					// COMPONENT FRAME ONLY
 					value: function fit_frame_to_contents() {
 						var self = this,
-						    content = self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML,
+						    content,
 						    content_height,
 						    content_width,
+						    document_loaded_interval,
+						    blocks_done_interval,
+						    previous_width,
+						    previous_height,
+						    assets_done_loading_interval,
 						    wrapper_element = document.createElement('span');
-						self.set_dimensions_annotation_status('updating');
 
 						wrapper_element.style.display = 'inline-block';
 						wrapper_element.style.marginTop = '-1px;';
@@ -12894,25 +12930,50 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						if (self.is_option_overridden('viewport-width')) {
 							wrapper_element.style.width = self.options['viewport-width'] + 'px';
 						}
+						self.set_dimensions_annotation_status('updating');
 
-						wrapper_element.innerHTML = content;
+						document_loaded_interval = setInterval(function () {
+							// Make sure the document in the content window exists
+							if (self.iframe_element.contentWindow !== null) {
+								clearInterval(document_loaded_interval);
 
-						// Wrap contents with a display: inline-block; element to get an accurate height and width
-						self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = '';
-						self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).appendChild(wrapper_element);
+								blocks_done_interval = setInterval(function () {
+									// Make sure blocks has finished doing its thing
+									if (self.iframe_element.contentWindow.blocks_done) {
+										clearInterval(blocks_done_interval);
 
-						// Add a slight delay so the dom can re-render correctly and we get accurate width and height calculations
-						setTimeout(function () {
-							content_height = EsbUtil.outerHeight(wrapper_element);
-							content_width = EsbUtil.outerWidth(wrapper_element);
-							self.set_frame_height(content_height);
-							self.set_frame_width(content_width);
+										assets_done_loading_interval = setInterval(function () {
+											content = self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML;
+											wrapper_element.innerHTML = content;
+											// Wrap contents with a display: inline-block; element to get an accurate height and width
+											self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = '';
+											self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).appendChild(wrapper_element);
 
-							// Unwrap contents
-							content = wrapper_element.innerHTML;
-							self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
-							EsbUtil.addClass(self.viewer_element, 'esb-frame--dynamically-resized');
-						}, 100);
+											content_height = EsbUtil.outerHeight(wrapper_element);
+											content_width = EsbUtil.outerWidth(wrapper_element);
+
+											// Unwrap contents
+											content = wrapper_element.innerHTML;
+											self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
+
+											if (content_height === previous_height && content_width === previous_width) {
+												clearInterval(assets_done_loading_interval);
+												// Add a slight delay so the dom can re-render correctly and we get accurate width and height calculations
+												setTimeout(function () {
+													self.set_frame_height(content_height);
+													self.set_frame_width(content_width);
+
+													EsbUtil.addClass(self.viewer_element, 'esb-frame--dynamically-resized');
+												}, 100);
+											} else {
+												previous_height = content_height;
+												previous_width = content_width;
+											}
+										}, 50);
+									}
+								}, 10);
+							}
+						}, 10);
 					}
 				}, {
 					key: 'stop_monitoring_scrollable_ancestors',
