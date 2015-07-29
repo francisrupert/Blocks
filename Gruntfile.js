@@ -94,7 +94,10 @@ module.exports = function(grunt) {
         options: {
           startPath: 'dev.html',
           watchTask: true,
-          server: './'
+          server: './',
+          snippetOptions: {
+            ignoreFiles: ['site/demo_projects/bootstrap/component_frame_template.html?**']
+          }
         }
       }
     },
@@ -153,5 +156,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['jshint']);
   grunt.registerTask('test', ['karma']);
   grunt.registerTask('css', ['sass', 'cssmin']);
-  grunt.registerTask('build', ['jshint', 'exec', 'css']);
+  grunt.registerTask('build', ['jshint', 'exec', 'sass', 'css']);
 };

@@ -12942,21 +12942,24 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 									if (self.iframe_element.contentWindow.blocks_done) {
 										clearInterval(blocks_done_interval);
 
-										assets_done_loading_interval = setInterval(function () {
-											content = self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML;
-											wrapper_element.innerHTML = content;
-											// Wrap contents with a display: inline-block; element to get an accurate height and width
-											self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = '';
-											self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).appendChild(wrapper_element);
+										content = self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML;
+										wrapper_element.innerHTML = content;
+										// Wrap contents with a display: inline-block; element to get an accurate height and width
+										self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = '';
+										self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).appendChild(wrapper_element);
 
+										// Take a pause before assessing height since the appendChild causes the DOM to reload
+										// content_height = EsbUtil.outerHeight(wrapper_element);
+										// content_width = EsbUtil.outerWidth(wrapper_element);
+
+										assets_done_loading_interval = setInterval(function () {
 											content_height = EsbUtil.outerHeight(wrapper_element);
 											content_width = EsbUtil.outerWidth(wrapper_element);
 
-											// Unwrap contents
-											content = wrapper_element.innerHTML;
-											self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
-
 											if (content_height === previous_height && content_width === previous_width) {
+												// Unwrap contents
+												content = wrapper_element.innerHTML;
+												self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
 												clearInterval(assets_done_loading_interval);
 												// Add a slight delay so the dom can re-render correctly and we get accurate width and height calculations
 												setTimeout(function () {
@@ -12969,7 +12972,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 												previous_height = content_height;
 												previous_width = content_width;
 											}
-										}, 50);
+										}, 250);
 									}
 								}, 10);
 							}

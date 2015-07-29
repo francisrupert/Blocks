@@ -1,3 +1,7 @@
+.esb-mark-label {
+	z-index: 100;
+}
+
 .esb-frame-iframe-wrap {
 	background: white;
 }
@@ -8,13 +12,6 @@
 	}
 
 	dt {
-		border-radius: 4px;
-		background: #e76822;
-		color: #fff;
-		opacity: 1;
-		padding: 5px 10px;
-		width: auto;
-		display: inline-block;
-		margin-bottom: 5px;
+		font-size: $font-size-h4;
 	}
 }

@@ -250,11 +250,17 @@
   background: none;
   box-shadow: none; }
   .esb-frame--has-device-frame .esb-frame-iframe-wrap {
-    background: none; }
+    background: none;
+    margin: 0; }
   .esb-frame--has-device-frame .esb-frame-iframe {
     z-index: 2;
     background: gray;
     padding: 2px; }
+  .esb-frame--has-device-frame .esb-frame-dimensions-annotation,
+  .esb-frame--has-device-frame .esb-frame-device-annotation,
+  .esb-frame--has-device-frame .esb-frame-caption,
+  .esb-frame--has-device-frame .esb-frame-title {
+    padding-left: 0; }
 
 .esb-frame-browser-ui-top {
   background: #efefef;

@@ -287,12 +287,20 @@ $device-offsets: (
 
   .esb-frame-iframe-wrap {
     background: none;
+    margin: 0;
   }
 
   .esb-frame-iframe {
     z-index: 2;
     background: gray;
     padding: 2px;
+  }
+
+  .esb-frame-dimensions-annotation,
+  .esb-frame-device-annotation,
+  .esb-frame-caption,
+  .esb-frame-title {
+    padding-left: 0;
   }
 }
 

@@ -1,0 +1,73 @@
+@import '_docs_variables';
+@import 'esb_overrides';
+@import 'bootstrap';
+
+html {
+  background-color: $gray-lighter;
+}
+
+// body {
+//   font-family: $proxima_nova_light;
+//   color: $darkgray;
+//   font-family: $proxima_nova_regular;
+//   font-size: $type-P;
+//   line-height: 1.25em;
+// }
+h1 {
+  // font-size: $type-H1;
+  font-family: $proxima_nova_light;
+  line-height: 1.1em;
+  // color: $charcoal;
+  // margin-bottom: $normpx;
+  // margin-top: $normpx * 2;
+  // &:first-child {
+  //   margin-top: 0;
+  // }
+}
+h2 {
+  // font-size: $type-H2;
+  font-family: $proxima_nova_regular;
+  line-height: 1.1em;
+  // color: $charcoal;
+  // margin-bottom: $normpx * 0.75;
+  // margin-top: $normpx * 2;
+  // &:first-child {
+  //   margin-top: 0;
+  // }
+}
+h3 {
+  // font-size: $type-H3;
+  font-family: $proxima_nova_semibold;
+  line-height: 1.1em;
+  // color: $charcoal;
+  // margin-bottom: $normpx * 0.5;
+  // margin-top: $normpx * 1.5;
+  // &:first-child {
+  //   margin-top: 0;
+  // }
+}
+h4 {
+  // font-size: $type-H4;
+  font-family: $proxima_nova_semibold;
+  line-height: 1.1em;
+  // color: $charcoal;
+  // margin-bottom: $normpx * 0.5;
+}
+// p {
+//   margin-bottom: $normpx;
+// }
+// ul {
+//   margin-bottom: $normpx;
+// }
+// p.leading {
+//   font-size: $type-H3;
+//   font-family: $proxima-nova-regular;
+//   line-height: 1.1em;
+// }
+// a {
+//   color: $blue;
+//   text-decoration: none;
+//   &:hover {
+//     text-decoration: underline;
+//   }
+// }

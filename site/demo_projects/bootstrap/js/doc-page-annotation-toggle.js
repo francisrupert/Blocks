@@ -1,5 +1,5 @@
-$(document).on("click", ".toggle-page-frame-marks", function(){
-	var $esb_frames = $(document).find(".page-annotation .esb-frame");
+$(document).on("click", ".mark-annotation-toggle", function(){
+	var $esb_frames = $(document).find(".page-annotation .esb-frame, .pages-gallery .esb-frame");
 
 	$esb_frames.each(function(){
 		$iframe_dom = $($(this).find("iframe")[0].contentWindow.document);

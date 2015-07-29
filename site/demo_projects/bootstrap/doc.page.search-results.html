@@ -1,0 +1,58 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Page - Search Results</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../../../dist/esb.min.css">
+	<link rel="stylesheet" href="css/docs.css">
+	<script src="../../../../dist/esb.min.js"></script>
+	<script src="js/doc-page-annotation-toggle.js"></script>
+	<script src="../../bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+	<style>
+		body {
+			padding-top: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div data-esb-component="navbar"></div>
+	<div class="container-fluid">
+		<div class="page-header">
+			<p class="pull-right">
+				<button type="button" class="btn btn-primary mark-annotation-toggle active" data-toggle="button" aria-pressed="true">Toggle Marks</button>
+				<a href="page.search-results.html" class="btn btn-info">&nbsp;<span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>&nbsp;</a>
+			</p>
+			<h1>Search Results</h1>
+		</div>
+		<div class="row page-annotation">
+			<div class="col-md-8">
+				<div data-esb-frame="page.search-results.html?visible-on-load=true" data-esb-scrolling="yes" data-esb-scale="0.6" data-esb-viewport-width="1200" data-esb-height="800"></div>
+			</div>
+			<div class="col-md-4">
+				<p>
+				</p>
+
+				<dl class="page-annotations-list">
+					<dt>Search Result</dt>
+					<dd>
+						Shows matched text, title and date of content
+					</dd>
+					<dt>Pagination</dt>
+					<dd>
+						Allows paging through the larger search results list
+					</dd>
+				</dl>
+			</div>
+		</div>
+		<h2>Responsive Behavior</h2>
+		<div data-esb-frame-config data-esb-device-frame="true" data-esb-scrolling="yes" data-esb-show-browser-ui="true">
+			<div data-esb-frame="page.search-results.html" data-esb-scale="0.5" data-esb-viewport-device="iphone-5"></div>
+			<div data-esb-frame="page.search-results.html" data-esb-scale="0.35" data-esb-viewport-device="ipad" data-esb-viewport-device-orientation="portrait"></div>
+			<div data-esb-frame="page.search-results.html" data-esb-scale="0.45" data-esb-viewport-device="ipad" data-esb-viewport-device-orientation="landscape"></div>
+		</div>
+		<!-- <div data-esb-frame="page.search-results.html" data-esb-scale="0.25" data-esb-viewport-width="1200" data-esb-caption="Desktop" data-esb-scrolling="yes"></div> -->
+
+	</div>
+</body>
+</html>

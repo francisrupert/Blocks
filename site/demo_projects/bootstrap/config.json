@@ -1,5 +1,5 @@
 {
-  "logging": "info",
+  "logging": false,
   "components": {
     "replace_reference": true
   }
