@@ -40,6 +40,21 @@ module.exports = function(grunt) {
             ext: '.css'
           }
         ]
+      },
+      foundation_demo_project: {
+        options: {
+          sourceMap: true,
+          includePaths: ['site/bower_components/foundation/scss']
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'site/demo_projects/foundation/scss/',
+            src: '*.scss',
+            dest: 'site/demo_projects/foundation/css/',
+            ext: '.css'
+          }
+        ]
       }
     },
     autoprefixer: {
@@ -64,6 +79,12 @@ module.exports = function(grunt) {
         flatten: true,
         src: 'site/demo_projects/bootstrap/css/*.css',
         dest: 'site/demo_projects/bootstrap/css/'
+      },
+      foundation_demo_project: {
+        expand: true,
+        flatten: true,
+        src: 'site/demo_projects/foundation/css/*.css',
+        dest: 'site/demo_projects/foundation/css/'
       }
     },
     exec: {
@@ -96,7 +117,7 @@ module.exports = function(grunt) {
           watchTask: true,
           server: './',
           snippetOptions: {
-            ignoreFiles: ['site/demo_projects/bootstrap/component_frame_template.html?**']
+            ignoreFiles: ['site/demo_projects/bootstrap/component_frame_template.html?**', 'site/demo_projects/foundation/component_frame_template.html?**']
           }
         }
       }
@@ -136,6 +157,13 @@ module.exports = function(grunt) {
           'site/demo_projects/bootstrap/scss/*.scss'
         ],
         tasks: ['sass:bootstrap_demo_project', 'autoprefixer:bootstrap_demo_project']
+      },
+      foundation_demo_project_styles: {
+        files: [
+          'site/demo_projects/foundation/scss/*/*.scss',
+          'site/demo_projects/foundation/scss/*.scss'
+        ],
+        tasks: ['sass:foundation_demo_project', 'autoprefixer:foundation_demo_project']
       }
     },
     karma: {
