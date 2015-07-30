@@ -2,6 +2,23 @@
 	z-index: 100;
 }
 
+.esb-frame {
+	background: $gray-light;
+	min-width: 0;
+}
+
+.esb-frame-title {
+	color: $gray-dark;
+}
+
+.esb-frame-link .esb-frame-title {
+	color: $link-color;
+
+	&:hover {
+		color: lighten($link-color, 10%);
+	}
+}
+
 .esb-frame-iframe-wrap {
 	background: white;
 }
