@@ -10,7 +10,11 @@ $viewer-scale: $viewer-width / $viewer-content-width;
 	box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   min-width: 200px;
   font-family: $esb-font-family;
-  margin: 10px;
+  margin: 10px 0;
+
+  & + .esb-frame {
+    margin-left: 20px;
+  }
 
   &.esb-frame--is-framed-component {
     min-width: 0;

@@ -5,7 +5,9 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   min-width: 200px;
   font-family: "Proxima Nova", "Arial", sans-serif;
-  margin: 10px; }
+  margin: 10px 0; }
+  .esb-frame + .esb-frame {
+    margin-left: 20px; }
   .esb-frame.esb-frame--is-framed-component {
     min-width: 0; }
   .esb-frame.esb-frame--has-loading-error {
