@@ -14,13 +14,26 @@
 // 	white-space: normal;
 // }
 
-footer {
-	background: $primary-color;
-	padding: 20px 0;
-	color: white;
-	margin-top: 80px;
+html {
+    position: relative;
+    min-height: 100%;
+    height: auto;
 }
-
+body {
+    margin: 0 0 100px; /* bottom = footer height */
+    height: auto;
+    position: static;
+}
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    padding: 20px 0;
+    background: $primary-color;
+    color: white;
+}
 // .sidebar.affix {
 // 	position: static;
 // }

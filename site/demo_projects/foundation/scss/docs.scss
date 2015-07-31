@@ -3,6 +3,14 @@
 @import 'esb_overrides';
 @import 'foundation';
 
+.top-bar .row {
+	max-width: $row-width;
+}
+
+.top-bar .name h1 a {
+	padding-left: 0;
+}
+
 // html {
 //   background-color: $gray-lighter;
 // }
