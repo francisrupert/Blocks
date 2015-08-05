@@ -95,38 +95,53 @@ $row-width: rem-calc(1200);
 // $font-weight-normal: normal;
 // $font-weight-bold: bold;
 
-// $white       : #FFFFFF;
-// $ghost       : #FAFAFA;
-// $snow        : #F9F9F9;
-// $vapor       : #F6F6F6;
-// $white-smoke : #F5F5F5;
-// $silver      : #EFEFEF;
-// $smoke       : #EEEEEE;
-// $gainsboro   : #DDDDDD;
-// $iron        : #CCCCCC;
-// $base        : #AAAAAA;
-// $aluminum    : #999999;
-// $jumbo       : #888888;
-// $monsoon     : #777777;
-// $steel       : #666666;
-// $charcoal    : #555555;
-// $tuatara     : #444444;
-// $oil         : #333333;
-// $jet         : #222222;
-// $black       : #000000;
+$white       : #FFFFFF;
+$ghost       : #FAFAFA;
+$snow        : #F9F9F9;
+$vapor       : #F6F6F6;
+$white-smoke : #F5F5F5;
+$silver      : #EFEFEF;
+$smoke       : #EEEEEE;
+$gainsboro   : #DDDDDD;
+$iron        : #CCCCCC;
+$base        : #AAAAAA;
+$aluminum    : #999999;
+$jumbo       : #888888;
+$monsoon     : #777777;
+$steel       : #666666;
+$charcoal    : #555555;
+$tuatara     : #444444;
+$oil         : #333333;
+$jet         : #222222;
+$black       : #000000;
+
+// $gray-base:              #333333;
+// $gray-darker:            #555555;
+// $gray-dark:              #777777;
+// $gray:                   #999999;
+// $gray-light:             #cccccc;
+// $gray-lighter:           #eeeeee;
 
 // We use these as default colors throughout
-// $primary-color: #008CBA;
-// $secondary-color: #e7e7e7;
+$primary-color: #e76822;
+$secondary-color: #127fc2;
 // $alert-color: #f04124;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
 
+
+
+
 // We use these to control various global styles
 // $body-bg: $white;
-// $body-font-color: $jet;
-// $body-font-family: $font-family-sans-serif;
+$proxima_nova_light: "ProximaNovaLight", "ProximaNovaThin", Arial, "Helvetica Neue", Helvetica, sans-serif;
+$proxima_nova_thin: "ProximaNovaThin", "ProximaNovaLight", Arial, "Helvetica Neue", Helvetica, sans-serif;
+$proxima_nova_regular: "ProximaNovaRegular", Arial, "Helvetica Neue", Helvetica, sans-serif;
+$proxima_nova_semibold: "ProximaNovaSemibold", Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+$body-font-color: #333333;
+$body-font-family: $proxima_nova_regular;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 
@@ -270,7 +285,7 @@ $row-width: rem-calc(1200);
 // We use these to style anchors
 // $anchor-text-decoration: none;
 // $anchor-text-decoration-hover: none;
-// $anchor-font-color: $primary-color;
+$anchor-font-color: #127fc2;
 // $anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -14%);
 
 // We use these to style the <hr> element
@@ -1400,7 +1415,7 @@ $row-width: rem-calc(1200);
 // $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-// $topbar-bg-color: $oil;
+$topbar-bg-color: $primary-color;
 // $topbar-bg: $topbar-bg-color;
 
 // Height and margin
@@ -1420,9 +1435,9 @@ $row-width: rem-calc(1200);
 // $topbar-link-font-size: rem-calc(13);
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
 // $topbar-link-bg: $topbar-bg;
-// $topbar-link-bg-hover: $jet;
-// $topbar-link-bg-color-hover: $charcoal;
-// $topbar-link-bg-active: $primary-color;
+$topbar-link-bg-hover: darken($primary-color, 30%);
+$topbar-link-bg-color-hover: white;
+$topbar-link-bg-active: darken($primary-color, 20%);
 // $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
 // $topbar-link-font-family: $body-font-family;
 // $topbar-link-text-transform: none;

@@ -3,25 +3,29 @@
 // }
 
 .esb-frame {
-	// background: $gray-light;
+	background: $smoke;
 	min-width: 0;
+
+	&.esb-frame--has-device-frame {
+		background: none;
+	}
 }
 
-// .esb-frame-title {
-// 	color: $gray-dark;
-// }
+.esb-frame-title {
+	color: $charcoal;
+}
 
-// .esb-frame-link .esb-frame-title {
-// 	color: $link-color;
+.esb-frame-link .esb-frame-title {
+	color: $anchor-font-color;
 
-// 	&:hover {
-// 		color: lighten($link-color, 10%);
-// 	}
-// }
+	&:hover {
+		color: lighten($anchor-font-color, 10%);
+	}
+}
 
-// .esb-frame-iframe-wrap {
-// 	background: white;
-// }
+.esb-frame-iframe-wrap {
+	background: white;
+}
 
 // .page-annotations-list {
 // 	dd {
