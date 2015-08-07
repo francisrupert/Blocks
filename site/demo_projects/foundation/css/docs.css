@@ -6289,4 +6289,8 @@ th.hide-for-touch {
 
 .new-section {
   margin-top: 40px; }
+
+code {
+  background-color: transparent;
+  border: none; }
 /*# sourceMappingURL=docs.css.map */

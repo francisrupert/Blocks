@@ -6252,4 +6252,9 @@ footer {
   padding: 20px 0;
   background: #008CBA;
   color: white; }
+
+.top-bar.inverted {
+  background: white; }
+  .top-bar.inverted .name h1 a {
+    color: #222222 !important; }
 /*# sourceMappingURL=base.css.map */
