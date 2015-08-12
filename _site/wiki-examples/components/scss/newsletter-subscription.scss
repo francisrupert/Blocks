@@ -1,0 +1,67 @@
+.newsletter-sign-up-wrap {
+	font-family: 'Helvetica', 'Arial', sans-serif;
+	box-sizing: border-box;
+	background: #efefef;
+	padding: 20px;
+	display: inline-block;
+
+	&.red {
+		background: #F22239;
+		h1 {
+			color: white;
+		}
+	}
+
+	&.blue {
+		background: skyblue;
+	}
+
+	&.green {
+		background: lightgreen;
+	
+		h1 {
+			color: darkgreen;
+		}
+	}
+
+	h1 {
+		color: #656565;
+		font-size: 1.5em;
+	}
+
+	input {
+		box-sizing: border-box;
+		display: block;
+		margin-bottom: 20px;
+		font-size: 18px;
+		padding: 10px;
+		border: solid 1px #656565;
+		width: 100%;
+	}
+
+	button {
+		background: darken(lightblue, 20%);
+		color: white;
+		font-size: 24px;
+		border: none;
+		padding: 10px 20px;
+		cursor: pointer;
+		width: 100%;
+
+		&:hover {
+			background: lightblue;
+		}
+	}
+}
+
+@media (min-width: 321px) {
+	.newsletter-sign-up-wrap {
+		h1 {
+			font-size: 2em;
+		}
+
+		button {
+			width: auto;
+		}
+	}
+}

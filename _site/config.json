@@ -1,0 +1,25 @@
+{
+  "logging": "info",
+  "components": {
+    "source": "spec/fixtures/components/",
+    "replace_reference": true
+  },
+  "template_data": {
+    "base": {
+      "user": {
+        "one": {
+          "name": "Nathan Curtis",
+          "title": "Founder",
+          "email": "nathan@eightshapes.com",
+          "username": "nathan"
+        },
+        "two": {
+          "name": "Dan Brown",
+          "title": "Founder",
+          "email": "dan@eightshapes.com",
+          "username": "dan"
+        }
+      }
+    }
+  }
+}

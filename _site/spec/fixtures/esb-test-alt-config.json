@@ -1,0 +1,43 @@
+{
+    "logging": "none",
+    "components": {
+        "source": "test/components/",
+        "replace_reference": true
+    },
+    "frames": {
+        "frame": "set_in_config_json.html",
+        "load-immediately": false, 
+        "title": "Global Page Viewer Title", 
+        "caption": "Global Page Viewer Caption",
+        "dimensions": false,
+        "href": "#link", 
+        "scrolling": "yes", 
+        "overlay": false, 
+        "viewport-width": 500, 
+        "viewport-aspect-ratio": 0.5, 
+        "width": 300
+    },
+    "marks": {
+        "outline": false,
+        "mark-position": "top-right",
+        "group": "alternate-style"
+    },
+    "template_data": {
+        "base": {
+            "user": {
+                "one": {
+                    "name": "Nathan Curtis",
+                    "title": "Founder",
+                    "email": "nathan@eightshapes.com",
+                    "username": "nathan"
+                },
+                "two": {
+                    "name": "Dan Brown",
+                    "title": "Founder",
+                    "email": "dan@eightshapes.com",
+                    "username": "dan"
+                }
+            }
+        }
+    }
+}

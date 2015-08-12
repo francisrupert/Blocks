@@ -5,13 +5,7 @@
 .esb-frame {
 	background: $gray-lighter;
 	min-width: 0;
-	// margin-left: 0;
-	// margin-right: 0;
-
-	// & + .esb-frame {
-	// 	margin-left: $padding-base-horizontal;
-	// }
-
+	
 	&.esb-frame--has-device-frame {
 		background: none;
 	}

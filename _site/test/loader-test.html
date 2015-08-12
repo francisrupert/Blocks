@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Blocks Loader Test - Jasmine Spec Runner v2.0.0</title>
+
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.0.0/jasmine_favicon.png">
+  <link rel="stylesheet" type="text/css" href="lib/jasmine-2.0.0/jasmine.css">
+
+  <script type="text/javascript" src="lib/jasmine-2.0.0/jasmine.js"></script>
+  <script type="text/javascript" src="lib/jasmine-2.0.0/jasmine-html.js"></script>
+  <script type="text/javascript" src="lib/jasmine-2.0.0/boot.js"></script>
+
+  <!-- include source files here... -->
+  <!-- script src="../jspm_packages/system.js"></script>
+  <script src="config.js"></script>
+  <script>
+    System.import('../src/blocks-loader');
+  </script -->
+
+  <script type="text/javascript" src="../dist/esb.js"></script>
+  <script type="text/javascript" src="lib/jasmine-jquery.js"></script>
+
+  <!-- include spec files here... -->
+  <script type="text/javascript" src="spec/loader/base.js"></script>
+</head>
+
+<body>
+  <div id="base">
+    <header data-component="header" data-variation="base" class="initial-class"></header>
+    <header data-component="header" data-variation="with-content" class="json-from-config" data-content="base.user.one"></header>
+    <header data-component="header" data-variation="with-content" class="json-raw" data-content='{"name": "Ziggy Ignots"}'></header>
+
+    <!-- This tests two identical nested children -->
+    <div data-component="parent" data-variation="v01"></div>
+    <div data-component="parent" data-variation="v02"></div>
+
+    <!-- This tests that data-place works as expected -->
+    <div data-component="child" data-variation="v02" data-place="replace" class="i-should-not-appear" data-object="child"></div>
+
+    <!-- This tests nested children with replace -->
+    <div data-component="parent" data-variation="v03" data-place="replace" class="i-also-should-not-appear"></div>
+
+    <!-- This tests nested children with replace that refer to dynamic variations within their own file -->
+    <div data-component="parent" data-variation="v04" data-place="replace"></div>
+
+    <div data-component="library" data-variation="v01" data-source="test-source/components/"></div>
+
+    <div data-esb-frame="http://craigslist.org"></div>
+
+    <!-- Exploring issue #92 -->
+    <table>
+      <tr>
+        <div data-component="table" data-variation="row"></div>
+      </tr>
+    </table>
+
+    <footer data-component="footer" data-variation="v01"></footer>
+  </div>
+</body>
+</html>
