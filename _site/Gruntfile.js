@@ -4,6 +4,11 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    jekyll: {
+      build: {
+        dest: '_site'
+      }
+    },
     sass: {
       dist: {
         options: {
@@ -130,7 +135,8 @@ module.exports = function(grunt) {
             'src/**/*.js',
             'site/demo_projects/**/*.html',
             'site/demo_projects/**/*.css',
-            'site/demo_projects/**/*.js'
+            'site/demo_projects/**/*.js',
+            '_site/**/*'
           ]
         },
         options: {
