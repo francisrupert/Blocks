@@ -111,7 +111,6 @@ describe("EsbInclude", function(){
 		include.compiled_html = nested_include_html();
 		include.child_include_snippets = include.find_include_snippets();
 		include.render_child_includes().then(function(child_includes_array){
-			// window.console.log(child_includes_array);
 			expect(child_includes_array[0].compiled_html).toMatch(/<h2>I'm the nested part!<\/h2>/);
 			expect(child_includes_array[1].compiled_html).toMatch(/<h3>Me too!<\/h3>/);
 			done();
@@ -124,9 +123,22 @@ describe("EsbInclude", function(){
 		include = load_include('page-with-include-nested.html', uuid);
 		include.render_include().then(function(rendered_include){
 			expect(rendered_include.compiled_html).toMatch(/<h2>I'm the nested part!<\/h2>/);
+			expect(rendered_include.compiled_html).toMatch(/<h3>Me too!<\/h3>/);
 			done();
 		}, function(err){
 			console.log(err);
 		});
+	});
+
+	it ("should render a component to the dom", function(done){
+		include = load_include('page-with-include-nested.html', uuid);
+		include.render();
+		var render_timeout = setTimeout(function(){
+			if (include.rendered) {
+				clearTimeout(render_timeout);
+			    expect($('#jasmine-fixtures h1:contains("Nested includes")')).toBeInDOM();
+				done();
+			}
+		}, 100);
 	});
 });

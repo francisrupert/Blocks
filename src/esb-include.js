@@ -15,6 +15,7 @@ export class EsbInclude {
 		self.parent_include = opts.parent_include === undefined ? false : opts.parent_include;
 		self.child_include_snippets = false;
 		self.compiled_html = false;
+		self.rendered = false;
 
 
 		self.overridden_options = [];
@@ -237,7 +238,6 @@ export class EsbInclude {
 
 		temp_dom.innerHTML = self.compiled_html;
 		include_snippets = temp_dom.querySelectorAll('*[data-esb-component], *[data-component], *[data-esb-include]');
-		window.console.log(include_snippets);
 
 		if (include_snippets === undefined) {
 			include_snippets = [];
@@ -245,7 +245,7 @@ export class EsbInclude {
 		else {
 			for (i=0; i<include_snippets.length; i++) {
 				uuid = EsbUtil.generateUUID();
-				include_snippets[0].setAttribute('data-esb-uuid', uuid);
+				include_snippets[i].setAttribute('data-esb-uuid', uuid);
 			}
 			// write compiled_html back after adding uuids to all child includes
 			self.compiled_html = temp_dom.getElementsByTagName('body')[0].innerHTML;
@@ -284,7 +284,6 @@ export class EsbInclude {
 			self.retrieve_html().then(function(html){
 				variation_html = self.parse_variation(html);
 				self.compiled_html = self.compile_html_with_content(variation_html);
-
 				self.child_include_snippets = self.find_include_snippets();
 				if (self.child_include_snippets.length === 0) {
 					rendered_include = self.compiled_html;
@@ -304,11 +303,26 @@ export class EsbInclude {
 						}
 						self.compiled_html = temp_dom.getElementsByTagName('body')[0].innerHTML;
 						resolve(self);
+					}, function(error){
+						reject(error);
 					});
 				}
 			}, function(error){
 				reject(error);
 			});
+		});
+	}
+
+	render() {
+		var self = this;
+		self.render_include().then(function(rendered_include){
+			window.console.log("GOT THIS FARTHER");
+			// All children have been rendered at this point, actually render the parent include to the dom
+			// Outer HTML is a "replace", TODO: Add innerHTML for insert inside behavior
+			document.querySelector('[data-esb-uuid="' + self.uuid + '"]').outerHTML = self.compiled_html;
+			self.rendered = true;
+		}, function(err){
+			self.logger('error', err);
 		});
 	}
 }
