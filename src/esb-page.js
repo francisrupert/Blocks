@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import EsbUtil from './esb-util';
-import { EsbComponent } from './esb-component';
+import { EsbInclude } from './esb-include';
 import { EsbFrame } from 'src/esb-frame';
 import { EsbMark } from 'src/esb-mark';
 
@@ -13,7 +13,7 @@ class EsbPage {
     self.blocks_done = false;
     self.blocks_done_timeout_ms = 15000;
 
-    self.parsed_esb_components = [];
+    self.parsed_esb_includes = [];
     self.parsed_esb_frames = [];
     self.parsed_esb_marks = [];
     self.esb_mark_auto_id = 1;
@@ -46,14 +46,23 @@ class EsbPage {
    */
   display() {
     var self = this,
-        parsed_esb_components = self.getParsedEsbComponents();
+        parsed_esb_includes = self.get_parsed_esb_includes(),
+        rendered_includes = [],
+        all_includes_rendered;
 
-    if (parsed_esb_components.length > 0) {
-      for (let idx in parsed_esb_components) {
-        let page_component = self.parsed_esb_components[idx];
-
-        page_component.load();
+    if (parsed_esb_includes.length > 0) {
+      for (let idx in parsed_esb_includes) {
+        let include = self.parsed_esb_includes[idx];
+        rendered_includes.push(include.render());
       }
+
+      all_includes_rendered = Promise.all(rendered_includes);
+      all_includes_rendered.then(function(){
+        self.setBlocksDone();
+      },
+      function(err){
+        self.logger('error', err);
+      });
     }
     else {
       self.setBlocksDone();
@@ -138,9 +147,9 @@ class EsbPage {
     return self.parsed_esb_marks;
   }
 
-  getParsedEsbComponents() {
+  get_parsed_esb_includes() {
     var self = this;
-    return self.parsed_esb_components;
+    return self.parsed_esb_includes;
   }
 
   getEsbMarkAutoId() {
@@ -154,37 +163,29 @@ class EsbPage {
 
   parse() {
     var self = this;
-    self.parseEsbComponents();
+    self.parse_esb_includes();
     self.parseEsbFrames();
   }
 
-  parseEsbComponents() {
+  parse_esb_includes() {
     var self = this,
-      queued_components = [];
+      includes = [],
+      i;
 
     self.name  = self.retrievePageTitle();
     self.$root = self.retrieveRootElement();
 
-    self.$root.find('*[data-component], *[data-esb-component]').each(function () {
-      self.child_count++;
-
-      $(this).attr('data-blocks-uuid', EsbUtil.generateUUID());
-
-      // MUST queue the components to get an accurate child count
-      queued_components.push({ page: self, component: $(this) });
-    });
-
-    self.logger('info', 'PAGE ' + self.name + ' has ' + self.child_count + ' children');
-
-    queued_components.forEach(function (queued_component) {
-      let component = new EsbComponent({
-        page: queued_component.page,
-        parent: queued_component.page, // This component's parent is this page
-        component: queued_component.component
+    includes = self.$root[0].querySelectorAll('*[data-component], *[data-esb-component], *[data-esb-include]');
+    for (i=0; i < includes.length; i++) {
+      let uuid = EsbUtil.generateUUID();
+      includes[i].setAttribute('data-esb-uuid', uuid);
+      let include = new EsbInclude({
+        include_snippet: includes[i],
+        uuid: uuid
       });
 
-      self.parsed_esb_components.push(component);
-    });
+      self.parsed_esb_includes.push(include);
+    }
   }
 
   parseEsbFrames() {
@@ -244,41 +245,41 @@ class EsbPage {
     return $('body');
   }
 
-  renderComponentFromQueryStringParams() {
+  renderIncludeSnippetFromQueryStringParams() {
     var self = this,
         query_string = EsbUtil.getUrlQueryString(),
         query_params = EsbUtil.convertQueryStringToJson(query_string),
-        component = self.generateComponentElement(query_params),
+        include_snippet = self.generateIncludeSnippet(query_params),
         target;
 
-    if (component && query_params['data-esb-target'] !== undefined) {
+    if (include_snippet && query_params['data-esb-target'] !== undefined) {
       target = document.querySelector(query_params['data-esb-target']);
       EsbUtil.addClass(target, 'component-frame-template-wrapper');
-      target.appendChild(component);
+      target.appendChild(include_snippet);
     }
   }
 
-  generateComponentElement(component_params) {
+  generateIncludeSnippet(query_params) {
     var i,
-    component = false,
+    include_snippet = false,
     params = [
-      'component',
+      'include',
       'variation',
       'place',
       'source'
     ];
 
 
-    if (component_params['data-esb-component'] !== undefined) {
-      component = document.createElement('div');
+    if (query_params['data-esb-include'] !== undefined) {
+      include_snippet = document.createElement('div');
       for (i=0; i < params.length; i++) {
-        if (component_params['data-esb-' + params[i]] !== undefined) {
-          component.setAttribute('data-' + params[i], component_params['data-esb-' + params[i]]);
+        if (query_params['data-esb-' + params[i]] !== undefined) {
+          include_snippet.setAttribute('data-esb-' + params[i], query_params['data-esb-' + params[i]]);
         }
       }
     }
 
-    return component;
+    return include_snippet;
   }
 
   /**

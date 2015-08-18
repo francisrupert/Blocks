@@ -370,7 +370,7 @@ export class EsbFrame {
 			component_url += '?';
 		}
 
-		component_url += 	'data-esb-component=' + component_name + 
+		component_url += 	'data-esb-include=' + component_name + 
 							'&data-esb-variation=' + component_variation +
 							'&data-esb-source=' + component_source +
 							'&data-esb-place=' + component_place + 

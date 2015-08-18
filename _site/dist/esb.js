@@ -6943,68 +6943,6 @@ function define(){};  define.amd = {};
   return jQuery;
 }));
 })();
-System.register("npm:core-js@0.9.6/library/modules/es6.array.from", ["npm:core-js@0.9.6/library/modules/$", "npm:core-js@0.9.6/library/modules/$.ctx", "npm:core-js@0.9.6/library/modules/$.def", "npm:core-js@0.9.6/library/modules/$.iter", "npm:core-js@0.9.6/library/modules/$.iter-call", "npm:core-js@0.9.6/library/modules/$.iter-detect"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  var $ = require("npm:core-js@0.9.6/library/modules/$"),
-      ctx = require("npm:core-js@0.9.6/library/modules/$.ctx"),
-      $def = require("npm:core-js@0.9.6/library/modules/$.def"),
-      $iter = require("npm:core-js@0.9.6/library/modules/$.iter"),
-      call = require("npm:core-js@0.9.6/library/modules/$.iter-call");
-  $def($def.S + $def.F * !require("npm:core-js@0.9.6/library/modules/$.iter-detect")(function(iter) {
-    Array.from(iter);
-  }), 'Array', {from: function from(arrayLike) {
-      var O = Object($.assertDefined(arrayLike)),
-          mapfn = arguments[1],
-          mapping = mapfn !== undefined,
-          f = mapping ? ctx(mapfn, arguments[2], 2) : undefined,
-          index = 0,
-          length,
-          result,
-          step,
-          iterator;
-      if ($iter.is(O)) {
-        iterator = $iter.get(O);
-        result = new (typeof this == 'function' ? this : Array);
-        for (; !(step = iterator.next()).done; index++) {
-          result[index] = mapping ? call(iterator, f, [step.value, index], true) : step.value;
-        }
-      } else {
-        result = new (typeof this == 'function' ? this : Array)(length = $.toLength(O.length));
-        for (; length > index; index++) {
-          result[index] = mapping ? f(O[index], index) : O[index];
-        }
-      }
-      result.length = index;
-      return result;
-    }});
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:core-js@0.9.6/library/modules/es6.set", ["npm:core-js@0.9.6/library/modules/$.collection-strong", "npm:core-js@0.9.6/library/modules/$.collection"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var strong = require("npm:core-js@0.9.6/library/modules/$.collection-strong");
-  require("npm:core-js@0.9.6/library/modules/$.collection")('Set', {add: function add(value) {
-      return strong.def(this, value = value === 0 ? 0 : value, value);
-    }}, strong);
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:core-js@0.9.6/library/modules/es7.set.to-json", ["npm:core-js@0.9.6/library/modules/$.collection-to-json"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  require("npm:core-js@0.9.6/library/modules/$.collection-to-json")('Set');
-  global.define = __define;
-  return module.exports;
-});
-
 System.register("npm:handlebars@2.0.0/dist/cjs/handlebars/safe-string", [], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -10453,31 +10391,6 @@ System.register("github:components/jquery@2.1.3", ["github:components/jquery@2.1
   }).call(this, __require('github:components/jquery@2.1.3/jquery'));
 });
 })();
-System.register("npm:core-js@0.9.6/library/fn/array/from", ["npm:core-js@0.9.6/library/modules/es6.string.iterator", "npm:core-js@0.9.6/library/modules/es6.array.from", "npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  require("npm:core-js@0.9.6/library/modules/es6.string.iterator");
-  require("npm:core-js@0.9.6/library/modules/es6.array.from");
-  module.exports = require("npm:core-js@0.9.6/library/modules/$").core.Array.from;
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:core-js@0.9.6/library/fn/set", ["npm:core-js@0.9.6/library/modules/es6.object.to-string", "npm:core-js@0.9.6/library/modules/es6.string.iterator", "npm:core-js@0.9.6/library/modules/web.dom.iterable", "npm:core-js@0.9.6/library/modules/es6.set", "npm:core-js@0.9.6/library/modules/es7.set.to-json", "npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  require("npm:core-js@0.9.6/library/modules/es6.object.to-string");
-  require("npm:core-js@0.9.6/library/modules/es6.string.iterator");
-  require("npm:core-js@0.9.6/library/modules/web.dom.iterable");
-  require("npm:core-js@0.9.6/library/modules/es6.set");
-  require("npm:core-js@0.9.6/library/modules/es7.set.to-json");
-  module.exports = require("npm:core-js@0.9.6/library/modules/$").core.Set;
-  global.define = __define;
-  return module.exports;
-});
-
 System.register("npm:handlebars@2.0.0/dist/cjs/handlebars/utils", ["npm:handlebars@2.0.0/dist/cjs/handlebars/safe-string"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -10692,30 +10605,6 @@ System.register("npm:core-js@0.9.6/library/fn/map", ["npm:core-js@0.9.6/library/
   require("npm:core-js@0.9.6/library/modules/es6.map");
   require("npm:core-js@0.9.6/library/modules/es7.map.to-json");
   module.exports = require("npm:core-js@0.9.6/library/modules/$").core.Map;
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:babel-runtime@5.2.9/core-js/array/from", ["npm:core-js@0.9.6/library/fn/array/from"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = {
-    "default": require("npm:core-js@0.9.6/library/fn/array/from"),
-    __esModule: true
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:babel-runtime@5.2.9/core-js/set", ["npm:core-js@0.9.6/library/fn/set"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = {
-    "default": require("npm:core-js@0.9.6/library/fn/set"),
-    __esModule: true
-  };
   global.define = __define;
   return module.exports;
 });
@@ -10986,27 +10875,6 @@ System.register("npm:babel-runtime@5.2.9/core-js/map", ["npm:core-js@0.9.6/libra
     "default": require("npm:core-js@0.9.6/library/fn/map"),
     __esModule: true
   };
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:babel-runtime@5.2.9/helpers/to-consumable-array", ["npm:babel-runtime@5.2.9/core-js/array/from"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  "use strict";
-  var _Array$from = require("npm:babel-runtime@5.2.9/core-js/array/from")["default"];
-  exports["default"] = function(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0,
-          arr2 = Array(arr.length); i < arr.length; i++)
-        arr2[i] = arr[i];
-      return arr2;
-    } else {
-      return _Array$from(arr);
-    }
-  };
-  exports.__esModule = true;
   global.define = __define;
   return module.exports;
 });
@@ -11725,6 +11593,16 @@ System.register('src/esb-util', ['npm:babel-runtime@5.2.9/helpers/create-class',
 
             return svg_icon;
           }
+        }, {
+          key: 'is_json',
+          value: function is_json(str) {
+            try {
+              JSON.parse(str);
+            } catch (e) {
+              return false;
+            }
+            return true;
+          }
         }]);
 
         return EsbUtil;
@@ -12131,7 +12009,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							component_url += '?';
 						}
 
-						component_url += 'data-esb-component=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['component-frame-template-target'];
+						component_url += 'data-esb-include=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['component-frame-template-target'];
 
 						return encodeURI(component_url).replace(/#/, '%23');
 					}
@@ -13499,782 +13377,386 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 		}
 	};
 });
-System.register('src/esb-component', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/helpers/to-consumable-array', 'npm:babel-runtime@5.2.9/core-js/map', 'npm:babel-runtime@5.2.9/core-js/array/from', 'npm:babel-runtime@5.2.9/core-js/set', 'github:components/jquery@2.1.3', 'npm:handlebars@2.0.0', 'src/esb-config', 'src/esb-util'], function (_export) {
-  var _createClass, _classCallCheck, _toConsumableArray, _Map, _Array$from, _Set, $, handlebars, EsbConfig, EsbUtil, EsbComponent;
-
-  return {
-    setters: [function (_npmBabelRuntime529HelpersCreateClass) {
-      _createClass = _npmBabelRuntime529HelpersCreateClass['default'];
-    }, function (_npmBabelRuntime529HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime529HelpersClassCallCheck['default'];
-    }, function (_npmBabelRuntime529HelpersToConsumableArray) {
-      _toConsumableArray = _npmBabelRuntime529HelpersToConsumableArray['default'];
-    }, function (_npmBabelRuntime529CoreJsMap) {
-      _Map = _npmBabelRuntime529CoreJsMap['default'];
-    }, function (_npmBabelRuntime529CoreJsArrayFrom) {
-      _Array$from = _npmBabelRuntime529CoreJsArrayFrom['default'];
-    }, function (_npmBabelRuntime529CoreJsSet) {
-      _Set = _npmBabelRuntime529CoreJsSet['default'];
-    }, function (_githubComponentsJquery213) {
-      $ = _githubComponentsJquery213['default'];
-    }, function (_npmHandlebars200) {
-      handlebars = _npmHandlebars200['default'];
-    }, function (_srcEsbConfig) {
-      EsbConfig = _srcEsbConfig['default'];
-    }, function (_srcEsbUtil) {
-      EsbUtil = _srcEsbUtil['default'];
-    }],
-    execute: function () {
-      'use strict';
-
-      EsbComponent = (function () {
-        function EsbComponent(opts) {
-          _classCallCheck(this, EsbComponent);
-
-          var self = this;
-
-          self.logger = EsbUtil.logger;
-
-          self.has_nested = false;
-          self.classes = [];
-          self.attributes = {};
-          self.has_nested = false;
-
-          // Kids!
-          self.children = new _Map();
-
-          // This is irritating but, we need to track the header classes for
-          // nested components for when it comes time to render
-          self.child_classes = {};
-          self.child_attributes = {};
-
-          // Keep count of child dependencies (nested components)
-          self.child_count = 0;
-          self.children_loaded = 0;
-          self.children_rendered = 0;
-          // For components with no children we can skip ahead
-          self.no_children = false;
-
-          self.init(opts);
-        }
-
-        _createClass(EsbComponent, [{
-          key: 'init',
-          value: function init(opts) {
-            var self = this,
-                $component = opts.component;
-
-            self.config = EsbConfig.getConfig();
-            self.parent = opts.parent;
-            self.page = opts.page;
-
-            self._setID($component);
-            self.$el = $component;
-            self.name = $component.attr('data-component') === undefined ? $component.attr('data-esb-component') : $component.attr('data-component');
-            self.source = $component.attr('data-source') === undefined ? $component.attr('data-esb-source') : $component.attr('data-source');
-
-            self._setComponentPath();
-            self._setVariationName($component);
-            self._setTemplateData($component);
-            self._setWrappingMarkup($component);
-
-            // Rendering configuration
-            self._setRenderingConfig();
-
-            self.is_nested = self.parent.type === undefined || self.parent.type === 'component';
-            self.classes.push($component.attr('class'));
-          }
-        }, {
-          key: 'load',
-          value: function load() {
-            var self = this;
-
-            $.when(self.fetch()).then(function (data) {
-              self.parse(data).done(function () {
-                self.parent.childDoneLoading(self);
-              });
-            });
-          }
-        }, {
-          key: 'addTemplate',
-          value: function addTemplate(variation) {
-            var self = this,
-                variation_html = variation.html(),
-                tmpl;
-
-            if (variation_html !== undefined && variation_html.length > 0) {
-              tmpl = $.trim(variation_html).replace(/\n\s*/g, '');
-
-              if (!self.template) {
-                self.template = handlebars.compile(tmpl);
-                self.logger('debug', 'Added fetched template: ' + self.template_name());
-              }
-            } else {
-              self.logger('error', 'FAILED TO FIND VARIATION: ' + self.variation_name + ' in ' + self.name);
-            }
-          }
-        }, {
-          key: 'fetch',
-          value: function fetch() {
-            var self = this,
-                uri = self.template_uri(),
-                fetch_opts = {
-              type: 'GET',
-              url: uri,
-              dataType: 'html',
-              cache: false,
-              timeout: 15000
-            },
-                promise;
-
-            // TODO: This cache key name needs to handle library conflicts
-            promise = self.page.cache[self.name];
-
-            if (promise === undefined) {
-              promise = $.ajax(fetch_opts);
-              self.page.cache[self.name] = promise;
-              self.logger('debug', 'Queued component template: ' + self.name);
-
-              self._injectCSS();
-            }
-
-            promise.done(function (results) {
-              if (results !== undefined && results !== '') {
-                self.fetched_data = results;
-
-                // Collects a unique list of page components fetched
-                // Used to inject JS once all page components are fully loaded
-                self.page.components[self.name] = self;
-
-                self.logger('debug', 'Returned component template: ' + self.name);
-              }
-            });
-
-            promise.fail(function () {
-              // Returns: jqXHR, textStatus, error
-              // var error_message = document.createElement('div');
-              var body = document.querySelectorAll('body')[0],
-                  el = document.createElement('div');
-              el.textContent = 'Blocks Error - Component template not found: ' + self.name;
-              el.classList.add('esb-component-loading-error');
-              body.insertBefore(el, body.firstChild);
-              self.logger('error', 'FAILED TO FETCH TEMPLATE: ' + self.name);
-            });
-
-            return promise;
-          }
-        }, {
-          key: 'parse',
-          value: function parse(results) {
-            var self = this,
-                $component_html,
-                $header,
-                $documentation,
-                $nested_components,
-                queued_components = [];
-
-            self.parse_deferred = new $.Deferred();
-
-            self.logger('debug', 'PARSING ' + self.template_uri());
-
-            // Yes, it needs to be wrapped.
-            results = '<div>' + results + '</div>';
-
-            // Split the file by variation
-            $component_html = $($(results).children('#variations'));
-
-            $header = $($(results).children('header'));
-            self.$header = $header;
-
-            $documentation = $($(results).children('#documentation'));
-            self.$documentation = $documentation;
-
-            // Collect header classes for component
-            self.classes.push($header.attr('class'));
-
-            // The not() here is to avoid finding nested component varations
-            self.$variation = $component_html.find('[data-variation="' + self.variation_name + '"], [data-esb-variation="' + self.variation_name + '"]').not('[data-component], [data-esb-component]');
-
-            // Collect variation classes for component
-            self.classes.push(self.$variation.attr('class'));
-
-            // Collect variation data attributes for component
-            _Array$from(self.$variation.prop('attributes')).forEach(function (attr) {
-              if (attr.name === 'class') {
-                return true;
-              }
-              self.attributes[attr.name] = attr.value;
-            });
-
-            // Nested components need to put their classes in a special place
-            if (self.is_nested) {
-              self.parent.child_classes[self.template_name()] = self.classes;
-              self.parent.child_attributes[self.template_name()] = self.attributes;
-            }
-
-            // Update img src path for library components
-            if (self.source === 'library') {
-              self.updateImgSrcPath();
-            }
-
-            $nested_components = self.$variation.find('*[data-component], *[data-esb-component]');
-
-            if ($nested_components !== undefined && $nested_components.length > 0) {
-              $nested_components.each(function (idx, nested_component) {
-                var $nested_component = $(nested_component),
-                    nested_component_id = EsbUtil.generateUUID();
-
-                self.logger('debug', 'FOUND nested component: ' + $nested_component.attr('data-component') === undefined ? $nested_component.attr('data-esb-component') : $nested_component.attr('data-component'));
-                self.child_count++;
-
-                // Assign a UUID to find the component in the DOM later
-                $nested_component.attr('data-blocks-uuid', nested_component_id);
-
-                // MUST queue the components to get an accurate child count
-                // Otherwise a race condition is created where the child count doesn't
-                // fully increment (never gets beyond 1) before child fetches start returning
-                // (especially for a cached component)
-                queued_components.push({ parent: self, component: $nested_component });
-              });
-            } else {
-              self.no_children = true;
-            }
-
-            // Render our template now that the UUIDs have been set on the nested components
-            self.addTemplate(self.$variation);
-
-            // If we've got no children then we can resolve the parsing promise
-            if (self.no_children === true) {
-              self.parse_deferred.resolve();
-            }
-
-            if (self.child_count > 0) {
-              self.logger('debug', 'TMPL ' + self.template_name() + ' has ' + self.child_count + ' children');
-
-              _Array$from(queued_components).forEach(function (queued_component) {
-                var component;
-
-                component = new EsbComponent({
-                  parent: queued_component.parent,
-                  component: queued_component.component,
-                  page: queued_component.parent.page
-                });
-
-                // This is new and probably not the desired behavior. The EsbPage.display() loads each
-                // page-level component whereas before we just autoloaded each component.
-                // But now we would need to rip apart load and rely on EsbPage to do all of that.
-                // Circumnavigating this for now.
-                component.load();
-              });
-            }
-
-            return self.parse_deferred;
-          }
-        }, {
-          key: 'childDoneLoading',
-          value: function childDoneLoading(child) {
-            var self = this;
-
-            self.logger('debug', 'CHILD LOADED: ' + child.template_name());
-            self.children_loaded++;
-
-            self.children.set(child.uuid, child);
-
-            if (self.child_count === self.children_loaded) {
-              if (self.parent !== undefined) {
-                self.parent.childDoneLoading(self);
-              }
-            }
-          }
-        }, {
-          key: 'childDoneRendering',
-          value: function childDoneRendering(child) {
-            var self = this,
-                child_components,
-                replaceWithChild = function replaceWithChild(nested_component) {
-              var $nested_component = $(nested_component),
-                  uuid = self._getIDFromVariation($nested_component),
-                  target_child = self.children.get(uuid);
-
-              self.$el = target_child.$el;
-            },
-                returnChildElement = function returnChildElement(nested_component) {
-              var $nested_component = $(nested_component),
-                  uuid = self._getIDFromVariation($nested_component),
-                  target_child = self.children.get(uuid);
-
-              return target_child.$el[0];
-            },
-                updateChild = function updateChild(nested_component) {
-              var $nested_component = $(nested_component),
-                  uuid = self._getIDFromVariation($nested_component),
-                  target_child = self.children.get(uuid);
-
-              $(nested_component).replaceWith(target_child.$el);
-            };
-
-            self.children_rendered++;
-
-            if (self.child_count === self.children_rendered) {
-              self.renderTemplate();
-              self.logger('debug', 'CHILD RENDERED: ' + child.template_name());
-
-              // Update your DOM with your kids' rendered templates
-              child_components = self.$el.find('[data-component], [data-esb-component]');
-
-              if (child_components !== undefined && child_components.length > 0) {
-                child_components.each(function (idx, nested_component) {
-                  updateChild(nested_component);
-                });
-              } else {
-                // If we didn't find any child components we might be a
-                // parent that should be replaced by a single child
-                if (self.$el.length === 1) {
-                  if (self.$el[0].hasAttribute('data-component') || self.$el[0].hasAttribute('data-esb-component')) {
-                    if (self.replace_reference) {
-                      replaceWithChild(self.$el[0]);
-                    } else {
-                      updateChild(self.$el[0]);
-                    }
-                  }
-                } else if (self.$el.length > 1) {
-                  // Our child is replaced and thus has no wrapper around the elements therein.
-                  // Therefore this an array of elements
-                  $.each(self.$el, function (idx, el) {
-                    if ($(el)[0].hasAttribute('data-component') || $(el)[0].hasAttribute('data-esb-component')) {
-                      self.$el[idx] = returnChildElement($(el));
-                    }
-                  });
-                }
-              }
-
-              self.parent.childDoneRendering(self);
-            }
-          }
-        }, {
-          key: 'render',
-          value: function render() {
-            var self = this;
-
-            if (self.no_children === true || self.children_rendered === self.children_loaded) {
-
-              self.renderTemplate();
-
-              if (self.parent) {
-                self.parent.childDoneRendering(self);
-              }
-            } else {
-              // Render each child down the tree
-              self.children.forEach(function (child) {
-                child.render();
-              });
-            }
-          }
-        }, {
-          key: 'renderTemplate',
-          value: function renderTemplate() {
-            var self = this,
-                rendered_tmpl = self.template(self.template_data),
-                addClasses = function addClasses() {
-              // Sets must have unique keys thus this can replace _.uniq()
-              self.$el.attr('class', [].concat(_toConsumableArray(new _Set(self.classes))).join(' '));
-            },
-                setAttributes = function setAttributes() {
-              for (var attribute in self.attributes) {
-                self.$el.attr(attribute, self.attributes[attribute]);
-              }
-            },
-                wrapWithComments = function wrapWithComments() {
-              self.$el.prepend(self.comment_start);
-              self.$el.append(self.comment_end);
-            },
-                wrapWithDocFrame = function wrapWithDocFrame() {
-              var $doc_frame = self.documentationFrame(),
-                  $component = self.$el.clone();
-
-              if ($doc_frame !== undefined) {
-                $doc_frame.find('*').contents().filter(function () {
-                  return this.nodeType === 8;
-                }).replaceWith($component);
-
-                self.$el.replaceWith($doc_frame.children());
-              }
-            };
-
-            if (self.replace_reference === true) {
-              if (self.enclose !== undefined && self.enclose.length > 0) {
-                self.$el = self.enclose;
-
-                if (self.$el.children().length === 0) {
-                  self.$el.append(rendered_tmpl);
-                } else {
-                  self.$el.children().last().append(rendered_tmpl);
-                }
-              } else {
-                self.$el.replaceWith($(rendered_tmpl));
-              }
-
-              if (self.config.get('components').has('wrap_with_comments') && self.config.get('components').get('wrap_with_comments') === true) {
-                wrapWithComments();
-              }
-            } else {
-              if (self.enclose !== undefined && self.enclose.length > 0) {
-                self.$el = self.enclose;
-
-                if (self.$el.children().length === 0) {
-                  self.$el.append(rendered_tmpl);
-                  addClasses();
-                  setAttributes();
-                } else {
-                  self.$el.children().last().append(rendered_tmpl);
-                }
-              } else {
-                self.$el.append(rendered_tmpl);
-                addClasses();
-                setAttributes();
-              }
-            }
-
-            if (self.hasDocumentation() && self.hasDocumentationFrame()) {
-              wrapWithDocFrame();
-              // Signal to the Page to replace the componet with the doc frame
-              self.frame_with_documentation = true;
-            }
-          }
-        }, {
-          key: 'css_uri',
-          value: function css_uri() {
-            return this.component_path + 'css/' + this.name + '.css';
-          }
-        }, {
-          key: 'documentationFrame',
-          value: function documentationFrame() {
-            var self = this,
-                variation_name = self.$el.attr('data-frame-variation'),
-                $variation;
-
-            if (self.hasDocumentation() && self.hasDocumentationFrame()) {
-              $variation = self.$documentation.find('*[data-variation="' + variation_name + '"]');
-
-              if (variation_name !== undefined && $variation !== undefined && (variation_name.length > 0 && $variation.length > 0)) {
-                return $variation;
-              }
-            }
-          }
-        }, {
-          key: 'hasDocumentation',
-          value: function hasDocumentation() {
-            var self = this;
-            return self.$documentation !== undefined && self.$documentation.length > 0;
-          }
-        }, {
-          key: 'hasDocumentationFrame',
-          value: function hasDocumentationFrame() {
-            var self = this,
-                variation_name = self.$el.attr('data-frame-variation');
-
-            return variation_name !== undefined && variation_name.length > 0;
-          }
-        }, {
-          key: 'injectJS',
-          value: function injectJS(page) {
-            var self = this,
-                uri = self.js_uri(),
-                event_name = self.template_name(),
-                triggerCallback = function triggerCallback() {
-              self.logger('debug', 'Triggering ' + event_name);
-              $(document).trigger(event_name);
-            },
-                notifyParent = function notifyParent() {
-              page.childDoneInjectingJS();
-            },
-                fetch_config = {
-              type: 'HEAD',
-              url: uri,
-              dataType: 'html', // DO NOT set to 'script'. jQuery will use $.getScript() which automatically inserts the JS into the DOM thus all component JS will execute twice
-              cache: false
-            },
-                promise;
-
-            promise = $.ajax(fetch_config);
-
-            promise.done(function () {
-              // Note: Content-Length isn't present when Blocks is loaded via file://
-              // and responseText isn't present when Blocks is loaded via http://.
-
-              // The Content-Encoding check should not be needed, however some servers are not
-              // reliably sending the Content-Length header when serving our prototype's css files as of 1/10/14
-              if (promise.getResponseHeader('Content-Length') > 0 || promise.responseText.length > 0 || promise.getResponseHeader('Content-Encoding') === 'gzip') {
-                if (self.config.get('wrap_injected_js_with_comments')) {
-                  $('head').append('<!--<script data-blocks-injected-js="true" src="' + uri + '"></script>-->'); //config option will wrap injected scripts inside a comment preventing them from executing. Useful when using blocks with other processing tools that can later uncomment the scripts
-                } else {
-                  $('head').append('<script src="' + uri + '"></script>');
-                  triggerCallback();
-                }
-              } else {
-                self.logger('debug', 'JS resource is empty: ' + uri);
-              }
-
-              notifyParent();
-            });
-
-            promise.fail(function () {
-              // Returns: jqXHR, textStatus, error
-              self.logger('debug', 'JS resource is missing: ' + uri);
-              notifyParent();
-            });
-          }
-        }, {
-          key: 'js_uri',
-          value: function js_uri() {
-            return this.component_path + 'js/' + this.name + '.js';
-          }
-        }, {
-          key: 'template_name',
-
-          /**
-           * @method: template_name
-           *
-           * This is the sanitized and unique compound of the component and variation name
-           * The template system requires this.
-           */
-          value: function template_name() {
-            return [this.name, this.sanitized_variation_name].join('_');
-          }
-        }, {
-          key: 'template_uri',
-          value: function template_uri() {
-            return this.component_path + this.name + '.html';
-          }
-        }, {
-          key: '_constructVariationName',
-
-          // "PRIVATE" methods
-          value: function _constructVariationName(name) {
-            return name !== undefined ? name : 'default';
-          }
-        }, {
-          key: '_getIDFromVariation',
-          value: function _getIDFromVariation($component) {
-            return $component.attr('data-blocks-uuid');
-          }
-        }, {
-          key: '_isJSON',
-
-          /**
-           * @method: _isJSON
-           *
-           * Wraps a call to parseJSON
-           */
-          value: function _isJSON(str) {
-            try {
-              $.parseJSON(str);
-            } catch (e) {
-              return false;
-            }
-            return true;
-          }
-        }, {
-          key: '_injectCSS',
-
-          /**
-           * @method: _injectCSS
-           *
-           * Performs a HEAD request so that we only append links to CSS files that
-           * actually exist.
-           * Note: Content-Length isn't present when Blocks is loaded via file://
-           * and responseText isn't present when Blocks is loaded via http://.
-           *
-           * The Content-Encoding check should not be needed, however some servers
-           * are not reliably sending the Content-Length header when serving our prototype's css files
-           * as of 1/10/14.
-           */
-          value: function _injectCSS() {
-            var self = this,
-                uri = self.css_uri(),
-                $head = $('head'),
-                fetch_config = {
-              type: 'HEAD',
-              url: uri,
-              dataType: 'html',
-              cache: false
-            },
-                promise;
-
-            promise = $.ajax(fetch_config);
-
-            promise.done(function () {
-              if (promise.getResponseHeader('Content-Length') > 0 || promise.responseText.length > 0 || promise.getResponseHeader('Content-Encoding') === 'gzip') {
-                $head.append('<link rel="stylesheet" href="' + uri + '" />');
-              } else {
-                self.logger('warn', 'CSS resource is empty: ' + uri);
-              }
-            });
-
-            promise.fail(function () {
-              // Returns: jqXHR, textStatus, error
-              self.logger('debug', 'CSS resource is missing: ' + uri);
-            });
-          }
-        }, {
-          key: '_sanitizeVariationName',
-          value: function _sanitizeVariationName(name) {
-            return name.replace(/-/g, '_');
-          }
-        }, {
-          key: '_setComponentPath',
-
-          /*
-           * @method: _setComponentPath
-           *
-           * Uses the data-source attribute or components.source from
-           * the config to obtain the path to the component template files.
-           * If your parent is in the library then, you are too.
-           */
-          value: function _setComponentPath() {
-            var self = this,
-                source = self.source,
-                path = 'components/';
-
-            if (source !== undefined && source.length > 0) {
-              path = source;
-            } else if (self.config.get('components') !== undefined) {
-              if (self.config.get('components').get('source') !== undefined) {
-                path = self.config.get('components').get('source');
-              }
-            } else {
-              self.logger('error', 'Could not determine path to components.');
-            }
-
-            if (self.parent !== undefined && self.parent.type !== 'page') {
-              if (self.parent.source === 'library') {
-                path = 'library';
-              }
-            }
-
-            if (path === 'library') {
-              self.source = path;
-              path = 'library/components/';
-            }
-
-            self.component_path = path;
-          }
-        }, {
-          key: '_setID',
-          value: function _setID($el) {
-            var self = this;
-            self.uuid = $el.attr('data-blocks-uuid');
-          }
-        }, {
-          key: '_setRenderingConfig',
-
-          /*
-           * @method: setRenderingConfig
-           *
-           * If either the data-place attribute or components.replace_reference
-           * is set to true then the element, a component, will be replaced
-           * rather than appended to.
-           *
-           */
-          value: function _setRenderingConfig() {
-            var self = this;
-
-            if (self.config.has('components')) {
-              if (self.config.get('components').get('replace_reference') === true) {
-                self.replace_reference = true;
-              }
-            }
-
-            if (self.$el.attr('data-place') !== undefined || self.$el.attr('data-esb-place') !== undefined) {
-              if (self.$el.attr('data-place') === 'replace' || self.$el.attr('data-esb-place') === 'replace') {
-                self.replace_reference = true;
-              } else if (self.$el.attr('data-place') === 'inner' || self.$el.attr('data-esb-place') === 'inner') {
-                self.replace_reference = false;
-              }
-            }
-
-            if (self.replace_reference === true) {
-              self.comment_start = '<!-- #block data-esb-component="' + self.name + '" data-esb-variation="' + self.variation_name + '" -->';
-              self.comment_end = '<!-- /block data-esb-component="' + self.name + '" data-esb-variation="' + self.variation_name + '" -->';
-            }
-          }
-        }, {
-          key: '_setTemplateData',
-          value: function _setTemplateData($el) {
-            var self = this,
-                content = $el.attr('data-content') === undefined ? $el.attr('data-esb-content') : $el.attr('data-content'),
-                tmpl_data,
-                getTemplateData = function getTemplateData(key_string, config_data) {
-              var obj = config_data,
-                  data = false,
-                  keys = key_string.split('.'),
-                  key,
-                  key_exists = function key_exists(obj, key) {
-                return obj.hasOwnProperty(key);
-              };
-
-              for (var i = 0; i < keys.length; i++) {
-                key = keys[i];
-
-                if (key_exists(obj, key)) {
-                  obj = obj[key];
-
-                  if (i === keys.length - 1) {
-                    data = obj;
-                  }
-                } else {
-                  break;
-                }
-              }
-              return data;
-            };
-
-            if (content !== undefined && self._isJSON(content)) {
-              // Raw JSON passed in as the data-content-param
-              tmpl_data = $.parseJSON(content);
-              self.content = content;
-            } else if (self.config.has('template_data')) {
-              if (content !== undefined) {
-                tmpl_data = getTemplateData(content, self.config.get('template_data'));
-                self.content = content;
-              }
-            }
-
-            self.template_data = tmpl_data;
-          }
-        }, {
-          key: '_setVariationName',
-
-          // Sets two variation names: the original and the sanitized version
-          value: function _setVariationName($el) {
-            var name = $el.attr('data-variation') === undefined ? $el.attr('data-esb-variation') : $el.attr('data-variation'),
-                tmpl_name = this._constructVariationName(name);
-
-            this.variation_name = tmpl_name;
-            this.sanitized_variation_name = this._sanitizeVariationName(tmpl_name);
-          }
-        }, {
-          key: '_setWrappingMarkup',
-
-          /*
-           * @method: setWrappingMarkup
-           *
-           * If a component has a data-enclose attribute the value will be used
-           * to generate markup that will wrap the component.
-           *
-           */
-          value: function _setWrappingMarkup() {}
-        }]);
-
-        return EsbComponent;
-      })();
-
-      _export('EsbComponent', EsbComponent);
-    }
-  };
+System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/promise', 'npm:handlebars@2.0.0', 'src/esb-config', 'src/esb-util'], function (_export) {
+	var _createClass, _classCallCheck, _Promise, handlebars, EsbConfig, EsbUtil, EsbInclude;
+
+	return {
+		setters: [function (_npmBabelRuntime529HelpersCreateClass) {
+			_createClass = _npmBabelRuntime529HelpersCreateClass['default'];
+		}, function (_npmBabelRuntime529HelpersClassCallCheck) {
+			_classCallCheck = _npmBabelRuntime529HelpersClassCallCheck['default'];
+		}, function (_npmBabelRuntime529CoreJsPromise) {
+			_Promise = _npmBabelRuntime529CoreJsPromise['default'];
+		}, function (_npmHandlebars200) {
+			handlebars = _npmHandlebars200['default'];
+		}, function (_srcEsbConfig) {
+			EsbConfig = _srcEsbConfig['default'];
+		}, function (_srcEsbUtil) {
+			EsbUtil = _srcEsbUtil['default'];
+		}],
+		execute: function () {
+			'use strict';
+
+			EsbInclude = (function () {
+				// SETUP
+
+				function EsbInclude(opts) {
+					_classCallCheck(this, EsbInclude);
+
+					var self = this;
+					self.config = EsbConfig.getConfig();
+					self.logger = EsbUtil.logger;
+
+					self.original_element = opts.viewer_element;
+					self.include_snippet = opts.include_snippet;
+					self.uuid = opts.uuid;
+					self.parent_include = opts.parent_include === undefined ? false : opts.parent_include;
+					self.child_include_snippets = false;
+					self.compiled_html = false;
+					self.rendered = false;
+
+					self.overridden_options = [];
+					self.options = self.get_include_options();
+					self.include_file_path = self.get_include_file_path();
+					self.content_object = self.get_content_object();
+				}
+
+				_createClass(EsbInclude, [{
+					key: 'get_default_options',
+					value: function get_default_options() {
+						var options = {
+							variation: 'default',
+							source: 'includes/',
+							replace_snippet: true,
+							include: false,
+							component: false,
+							content: false
+						};
+
+						return options;
+					}
+				}, {
+					key: 'get_global_config_option',
+					value: function get_global_config_option(option_name) {
+						var self = this,
+						    option_value,
+						    config_json_global_options = self.config.get('includes');
+
+						// Backward compatibility with config.json 'components'
+						if (config_json_global_options === undefined && self.config.get('components') !== undefined) {
+							config_json_global_options = self.config.get('components');
+						}
+
+						if (config_json_global_options !== undefined) {
+							option_value = config_json_global_options.get(option_name);
+							if (option_value !== undefined && option_value.toString().length > 0) {
+								option_value = EsbUtil.booleanXorValue(option_value);
+							}
+						}
+
+						return option_value;
+					}
+				}, {
+					key: 'get_page_level_config_element',
+					value: function get_page_level_config_element() {
+						var self = this,
+						    el = self.original_element,
+						    page_level_config_element = false;
+
+						while (el.parentNode) {
+							el = el.parentNode;
+							if (el.tagName !== undefined && el.getAttribute('data-esb-include-config') !== null) {
+								page_level_config_element = el;
+								break;
+							}
+						}
+
+						return page_level_config_element;
+					}
+				}, {
+					key: 'get_page_level_config_option',
+					value: function get_page_level_config_option(option_name) {
+						var self = this,
+						    option_value;
+
+						if (self.page_level_config_element) {
+							option_value = self.page_level_config_element.getAttribute('data-esb-' + option_name);
+							if (option_value !== null && option_value.length > 0) {
+								option_value = EsbUtil.booleanXorValue(option_value);
+							} else {
+								option_value = undefined;
+							}
+						}
+
+						return option_value;
+					}
+				}, {
+					key: 'get_element_level_config_option',
+					value: function get_element_level_config_option(option_name) {
+						var self = this,
+						    option_value;
+
+						option_value = self.include_snippet.getAttribute('data-esb-' + option_name);
+						if (option_value !== null && option_value.length > 0) {
+							option_value = EsbUtil.booleanXorValue(option_value);
+						} else {
+							option_value = undefined;
+						}
+
+						return option_value;
+					}
+				}, {
+					key: 'get_include_options',
+					value: function get_include_options() {
+						var self = this,
+						    options = self.get_default_options(),
+						    option = null,
+						    value = null;
+
+						// Check each tier of options to see if any overrides exist
+						for (option in options) {
+							// Instance Level
+							value = self.get_element_level_config_option(option);
+							if (value === undefined) {
+								// Page Level
+								value = self.get_page_level_config_option(option);
+
+								// Global Level
+								if (value === undefined) {
+									value = self.get_global_config_option(option);
+								}
+							}
+
+							if (value !== undefined) {
+								options[option] = value;
+								self.overridden_options.push(option);
+							}
+						}
+
+						// Support legacy data-component syntax
+						if (!options.include && !options.component) {
+							if (self.include_snippet.getAttribute('data-component') !== undefined) {
+								options.component = self.include_snippet.getAttribute('data-component');
+							} else {
+								self.logger('error', 'Include was instantiated but none of the following attributes were found: data-esb-include, data-esb-component, or data-component');
+							}
+						}
+
+						return options;
+					}
+				}, {
+					key: 'get_include_file_path',
+					value: function get_include_file_path() {
+						var self = this,
+						    file_path;
+						if (!self.options.source.match(/\/$/)) {
+							self.options.source += '/';
+						}
+
+						if (self.options.include) {
+							file_path = self.options.source + self.options.include;
+						} else if (self.options.component) {
+							file_path = self.options.source + self.options.component;
+						}
+
+						if (!file_path.match(/.html$/)) {
+							file_path += '.html';
+						}
+
+						return file_path;
+					}
+				}, {
+					key: 'get_content_object',
+					value: function get_content_object() {
+						var self = this,
+						    content_object = {},
+						    data_keys,
+						    content_data,
+						    i;
+
+						if (self.options.content) {
+							if (EsbUtil.is_json(self.options.content)) {
+								content_object = JSON.parse(self.options.content);
+							} else {
+								data_keys = self.options.content.split('.');
+								content_data = self.config.get('template_data');
+
+								if (content_data !== undefined) {
+									content_object = content_data;
+									for (i = 0; i < data_keys.length; i++) {
+										content_object = content_object[data_keys[i]];
+									}
+								}
+							}
+						}
+
+						return content_object;
+					}
+				}, {
+					key: 'retrieve_html',
+
+					// RENDERING
+					value: function retrieve_html() {
+						var self = this,
+						    uri,
+						    req;
+
+						return new _Promise(function (resolve, reject) {
+							uri = self.include_file_path;
+							req = new XMLHttpRequest();
+
+							req.open('GET', uri);
+
+							req.onload = function () {
+								if (req.status === 200 || req.readyState === 4) {
+									resolve(req.response);
+								} else {
+									self.logger('error', 'FAILED TO FETCH INCLUDE FILE: ' + uri + ' returned ' + req.statusText);
+									resolve(Error(req.statusText));
+								}
+							};
+
+							req.onerror = function () {
+								reject(Error('Network Error'));
+							};
+
+							req.send();
+						});
+					}
+				}, {
+					key: 'parse_variation',
+					value: function parse_variation(full_include_html) {
+						// Given the raw HTML out of an include file, find just the variation we're looking for
+						var self = this,
+						    temp_dom = document.createElement('html'),
+						    variation_html;
+
+						temp_dom.innerHTML = full_include_html;
+						variation_html = temp_dom.querySelectorAll('section[data-esb-variation="' + self.options.variation + '"], section[data-variation="' + self.options.variation + '"]');
+						if (variation_html.length > 1) {
+							self.logger('error', 'Multiple matches found in ' + self.include_file_path + ' for ' + 'data-esb-variation="' + self.options.variation + '", desired variation is ambiguous');
+						} else if (variation_html.length === 0) {
+							self.logger('error', 'No variation found in ' + self.include_file_path + ' matching ' + 'data-esb-variation="' + self.options.variation + '"');
+						}
+						return variation_html[0].innerHTML;
+					}
+				}, {
+					key: 'compile_html_with_content',
+					value: function compile_html_with_content(variation_html) {
+						var self = this;
+						return handlebars.compile(variation_html)(self.content_object);
+					}
+				}, {
+					key: 'find_include_snippets',
+					value: function find_include_snippets() {
+						var self = this,
+						    temp_dom = document.createElement('html'),
+						    include_snippets,
+						    uuid,
+						    i;
+
+						temp_dom.innerHTML = self.compiled_html;
+						include_snippets = temp_dom.querySelectorAll('*[data-esb-component], *[data-component], *[data-esb-include]');
+						if (include_snippets === undefined) {
+							include_snippets = [];
+						} else {
+							for (i = 0; i < include_snippets.length; i++) {
+								uuid = EsbUtil.generateUUID();
+								include_snippets[i].setAttribute('data-esb-uuid', uuid);
+							}
+							// write compiled_html back after adding uuids to all child includes
+							self.compiled_html = temp_dom.getElementsByTagName('body')[0].innerHTML;
+						}
+						return include_snippets;
+					}
+				}, {
+					key: 'render_child_includes',
+					value: function render_child_includes() {
+						var self = this,
+						    i,
+						    child_include_promises = [],
+						    include_snippet,
+						    include,
+						    uuid;
+
+						for (i = 0; i < self.child_include_snippets.length; i++) {
+							include_snippet = self.child_include_snippets[i];
+							uuid = include_snippet.getAttribute('data-esb-uuid');
+							include = new EsbInclude({ include_snippet: include_snippet, uuid: uuid, parent_include: self });
+							child_include_promises.push(include.render_include());
+						}
+
+						return _Promise.all(child_include_promises);
+					}
+				}, {
+					key: 'render_include',
+					value: function render_include() {
+						var self = this,
+						    variation_html,
+						    rendered_include,
+						    child_include,
+						    temp_dom,
+						    i;
+
+						return new _Promise(function (resolve, reject) {
+							self.retrieve_html().then(function (html) {
+								variation_html = self.parse_variation(html);
+								self.compiled_html = self.compile_html_with_content(variation_html);
+								// window.console.log(self.options.variation);
+								// window.console.log(html);
+								self.child_include_snippets = self.find_include_snippets();
+								if (self.child_include_snippets.length === 0) {
+									rendered_include = self.compiled_html;
+									// No children, replace/insert compiled_html where snippet is and resolve
+									// self.insert_rendered_include(rendered_include);
+									resolve(self);
+								} else {
+									// Recursion here somehow
+									self.render_child_includes().then(function (rendered_include_array) {
+										temp_dom = document.createElement('html');
+										temp_dom.innerHTML = self.compiled_html;
+										for (i = 0; i < rendered_include_array.length; i++) {
+											child_include = rendered_include_array[i];
+											// Find the location of each child snippet within the parent and replace it with the compiled html
+											temp_dom.querySelector('[data-esb-uuid="' + child_include.uuid + '"]').outerHTML = child_include.compiled_html;
+										}
+										self.compiled_html = temp_dom.getElementsByTagName('body')[0].innerHTML;
+										resolve(self);
+									}, function (error) {
+										reject(error);
+									});
+								}
+							}, function (error) {
+								reject(error);
+							});
+						});
+					}
+				}, {
+					key: 'render',
+					value: function render() {
+						var self = this;
+						return new _Promise(function (resolve, reject) {
+							self.render_include().then(function () {
+								// All children have been rendered at this point, actually render the parent include to the dom
+								// Outer HTML is a "replace", TODO: Add innerHTML for insert inside behavior
+								document.querySelector('[data-esb-uuid="' + self.uuid + '"]').outerHTML = self.compiled_html;
+								self.rendered = true;
+								resolve(self);
+							}, function (err) {
+								self.logger('error', err);
+								reject(err);
+							});
+						});
+					}
+				}]);
+
+				return EsbInclude;
+			})();
+
+			_export('EsbInclude', EsbInclude);
+		}
+	};
 });
-
-// This is just a no-op for now. Pretty sure no one uses this functionality.
 System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/promise', 'npm:babel-runtime@5.2.9/core-js/map', 'github:components/jquery@2.1.3', 'src/esb-util'], function (_export) {
   var _createClass, _classCallCheck, _Promise, _Map, $, EsbUtil, EsbConfig;
 
@@ -14426,8 +13908,8 @@ System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class
     }
   };
 });
-System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/promise', 'github:components/jquery@2.1.3', 'src/esb-util', 'src/esb-component', 'src/esb-frame', 'src/esb-mark'], function (_export) {
-  var _createClass, _classCallCheck, _Promise, $, EsbUtil, EsbComponent, EsbFrame, EsbMark, EsbPage;
+System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/promise', 'github:components/jquery@2.1.3', 'src/esb-util', 'src/esb-include', 'src/esb-frame', 'src/esb-mark'], function (_export) {
+  var _createClass, _classCallCheck, _Promise, $, EsbUtil, EsbInclude, EsbFrame, EsbMark, EsbPage;
 
   return {
     setters: [function (_npmBabelRuntime529HelpersCreateClass) {
@@ -14440,8 +13922,8 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
       $ = _githubComponentsJquery213['default'];
     }, function (_srcEsbUtil) {
       EsbUtil = _srcEsbUtil['default'];
-    }, function (_srcEsbComponent) {
-      EsbComponent = _srcEsbComponent.EsbComponent;
+    }, function (_srcEsbInclude) {
+      EsbInclude = _srcEsbInclude.EsbInclude;
     }, function (_srcEsbFrame) {
       EsbFrame = _srcEsbFrame.EsbFrame;
     }, function (_srcEsbMark) {
@@ -14461,7 +13943,7 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
           self.blocks_done = false;
           self.blocks_done_timeout_ms = 15000;
 
-          self.parsed_esb_components = [];
+          self.parsed_esb_includes = [];
           self.parsed_esb_frames = [];
           self.parsed_esb_marks = [];
           self.esb_mark_auto_id = 1;
@@ -14497,14 +13979,22 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
            */
           value: function display() {
             var self = this,
-                parsed_esb_components = self.getParsedEsbComponents();
+                parsed_esb_includes = self.get_parsed_esb_includes(),
+                rendered_includes = [],
+                all_includes_rendered;
 
-            if (parsed_esb_components.length > 0) {
-              for (var idx in parsed_esb_components) {
-                var page_component = self.parsed_esb_components[idx];
-
-                page_component.load();
+            if (parsed_esb_includes.length > 0) {
+              for (var idx in parsed_esb_includes) {
+                var include = self.parsed_esb_includes[idx];
+                rendered_includes.push(include.render());
               }
+
+              all_includes_rendered = _Promise.all(rendered_includes);
+              all_includes_rendered.then(function () {
+                self.setBlocksDone();
+              }, function (err) {
+                self.logger('error', err);
+              });
             } else {
               self.setBlocksDone();
             }
@@ -14593,10 +14083,10 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
             return self.parsed_esb_marks;
           }
         }, {
-          key: 'getParsedEsbComponents',
-          value: function getParsedEsbComponents() {
+          key: 'get_parsed_esb_includes',
+          value: function get_parsed_esb_includes() {
             var self = this;
-            return self.parsed_esb_components;
+            return self.parsed_esb_includes;
           }
         }, {
           key: 'getEsbMarkAutoId',
@@ -14612,38 +14102,30 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
           key: 'parse',
           value: function parse() {
             var self = this;
-            self.parseEsbComponents();
+            self.parse_esb_includes();
             self.parseEsbFrames();
           }
         }, {
-          key: 'parseEsbComponents',
-          value: function parseEsbComponents() {
+          key: 'parse_esb_includes',
+          value: function parse_esb_includes() {
             var self = this,
-                queued_components = [];
+                includes = [],
+                i;
 
             self.name = self.retrievePageTitle();
             self.$root = self.retrieveRootElement();
 
-            self.$root.find('*[data-component], *[data-esb-component]').each(function () {
-              self.child_count++;
-
-              $(this).attr('data-blocks-uuid', EsbUtil.generateUUID());
-
-              // MUST queue the components to get an accurate child count
-              queued_components.push({ page: self, component: $(this) });
-            });
-
-            self.logger('info', 'PAGE ' + self.name + ' has ' + self.child_count + ' children');
-
-            queued_components.forEach(function (queued_component) {
-              var component = new EsbComponent({
-                page: queued_component.page,
-                parent: queued_component.page, // This component's parent is this page
-                component: queued_component.component
+            includes = self.$root[0].querySelectorAll('*[data-component], *[data-esb-component], *[data-esb-include]');
+            for (i = 0; i < includes.length; i++) {
+              var uuid = EsbUtil.generateUUID();
+              includes[i].setAttribute('data-esb-uuid', uuid);
+              var include = new EsbInclude({
+                include_snippet: includes[i],
+                uuid: uuid
               });
 
-              self.parsed_esb_components.push(component);
-            });
+              self.parsed_esb_includes.push(include);
+            }
           }
         }, {
           key: 'parseEsbFrames',
@@ -14707,37 +14189,37 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
             return $('body');
           }
         }, {
-          key: 'renderComponentFromQueryStringParams',
-          value: function renderComponentFromQueryStringParams() {
+          key: 'renderIncludeSnippetFromQueryStringParams',
+          value: function renderIncludeSnippetFromQueryStringParams() {
             var self = this,
                 query_string = EsbUtil.getUrlQueryString(),
                 query_params = EsbUtil.convertQueryStringToJson(query_string),
-                component = self.generateComponentElement(query_params),
+                include_snippet = self.generateIncludeSnippet(query_params),
                 target;
 
-            if (component && query_params['data-esb-target'] !== undefined) {
+            if (include_snippet && query_params['data-esb-target'] !== undefined) {
               target = document.querySelector(query_params['data-esb-target']);
               EsbUtil.addClass(target, 'component-frame-template-wrapper');
-              target.appendChild(component);
+              target.appendChild(include_snippet);
             }
           }
         }, {
-          key: 'generateComponentElement',
-          value: function generateComponentElement(component_params) {
+          key: 'generateIncludeSnippet',
+          value: function generateIncludeSnippet(query_params) {
             var i,
-                component = false,
-                params = ['component', 'variation', 'place', 'source'];
+                include_snippet = false,
+                params = ['include', 'variation', 'place', 'source'];
 
-            if (component_params['data-esb-component'] !== undefined) {
-              component = document.createElement('div');
+            if (query_params['data-esb-include'] !== undefined) {
+              include_snippet = document.createElement('div');
               for (i = 0; i < params.length; i++) {
-                if (component_params['data-esb-' + params[i]] !== undefined) {
-                  component.setAttribute('data-' + params[i], component_params['data-esb-' + params[i]]);
+                if (query_params['data-esb-' + params[i]] !== undefined) {
+                  include_snippet.setAttribute('data-esb-' + params[i], query_params['data-esb-' + params[i]]);
                 }
               }
             }
 
-            return component;
+            return include_snippet;
           }
         }, {
           key: 'childDoneLoading',
@@ -14927,7 +14409,7 @@ System.register('src/esb', ['src/esb-config', 'src/esb-page', 'src/esb-util'], f
       'use strict';
 
       EsbConfig.load().then(function () {
-        EsbPage.renderComponentFromQueryStringParams(); //Used by Frame to generate a component snippet from query string params
+        EsbPage.renderIncludeSnippetFromQueryStringParams(); //Used by Frame to generate a component snippet from query string params
         EsbPage.parse(); //Finds all blocks components, viewers, etc. and preps them for loading/display
         EsbPage.display();
         EsbPage.blocksDone().then(function () {

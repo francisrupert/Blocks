@@ -169,17 +169,6 @@ module.exports = function(grunt) {
       ],
       gruntfile: 'Gruntfile.js'
     },
-    jekyll: {                             // Task
-      options: {                          // Universal options
-        bundleExec: true,
-        src : '<%= app %>'
-      },
-      gh_pages: {
-        options: {
-          dest: '_site'
-        }
-      }
-    },
     watch: {
       styles: {
         files: [

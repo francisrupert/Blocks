@@ -374,12 +374,12 @@ describe("EsbFrame", function(){
 		});
 
 		it ("should create a dynamic component url", function() {
-			expect(frame.iframe_src).toEqual('base/spec/fixtures/component_frame_template.html?data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
+			expect(frame.iframe_src).toEqual('base/spec/fixtures/component_frame_template.html?data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
 		});
 
 		it ("should persist any existing query params on the component frame template", function(){
 			frame.options['component-frame-template'] = "component_frame_template.html?fuzzy=bunny&foo=bar";
-			expect(frame.build_iframe_src(frame.options)).toEqual('component_frame_template.html?fuzzy=bunny&foo=bar&data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body')
+			expect(frame.build_iframe_src(frame.options)).toEqual('component_frame_template.html?fuzzy=bunny&foo=bar&data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body')
 		});
 
 		// it ("should use the same defaults as a regular Frame", function(){
@@ -417,7 +417,6 @@ describe("EsbFrame", function(){
 		it ("should conform the frame to the size of the component by default", function(){
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").height()).toEqual(100);
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").width()).toEqual(400);
-
 		});
 	});
 

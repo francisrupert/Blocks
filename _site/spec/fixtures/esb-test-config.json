@@ -1,8 +1,11 @@
 {
     "logging": "none",
     "components": {
-        "source": "spec/fixtures/components/",
+        "source": "base/spec/fixtures/components/",
         "replace_reference": true
+    },
+    "includes": {
+        "source": "base/spec/fixtures/includes/"
     },
     "frames": {
         "source": "base/spec/fixtures/frames",

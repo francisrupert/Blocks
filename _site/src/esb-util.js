@@ -200,6 +200,15 @@ class EsbUtil {
 
     return svg_icon;
   }
+
+  is_json(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
 }
 
 export default new EsbUtil();

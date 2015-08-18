@@ -44,7 +44,7 @@ describe("EsbPage", function(){
 	});
 
 	it("should resolve the blocksDone promise immediately if no components are found on the page", function(){
-		spyOn(EsbPage, 'getParsedEsbComponents').and.returnValue([]);
+		spyOn(EsbPage, 'get_parsed_esb_includes').and.returnValue([]);
 		EsbPage.display();
 		var promise = EsbPage.blocksDone();
 
@@ -54,9 +54,9 @@ describe("EsbPage", function(){
 		});
 	});
 
-	describe("when there are no blocks components found", function(){
+	describe("when there are no blocks includes found", function(){
 		beforeEach(function(){
-			loadFixtures('page-with-no-components.html');
+			loadFixtures('page-with-no-includes.html');
 			spyOn(EsbPage, 'retrievePageTitle').and.returnValue('Jasmine Test Title');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();
@@ -72,20 +72,20 @@ describe("EsbPage", function(){
 			expect(EsbPage.retrieveRootElement().html()).toEqual('<div id="outer-wrap"></div>');
 		});
 
-		it ("should have a components count of 0", function(){
-			expect(EsbPage.parsed_esb_components.length).toEqual(0);
+		it ("should have a includes count of 0", function(){
+			expect(EsbPage.parsed_esb_includes.length).toEqual(0);
 		});
 	});
 
 	describe("when there is an esb-component on the page", function(){
 		beforeEach(function(){
-			loadFixtures('page-with-component.html');
+			loadFixtures('page-with-include-all-syntaxes.html');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();
 		});
 
-		it ("should have a components count of 2 respecting both the old and new 'data-component' and 'data-esb-component' syntax", function(){
-			expect(EsbPage.parsed_esb_components.length).toEqual(2);
+		it ("should have an includes count of 3 respecting both the 'data-component', 'data-esb-component', and 'data-esb-include' syntax", function(){
+			expect(EsbPage.parsed_esb_includes.length).toEqual(3);
 		});
 	});
 
@@ -211,23 +211,37 @@ describe("EsbPage", function(){
 		});
 	});
 
-	describe("when a component is passed via query string parameters on the URL", function(){
+	describe("when an include is passed via query string parameters on the URL", function(){
 
-		it ("should generate a component element", function(){
-			spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
+		it ("should generate the include snippet", function(){
+			spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?data-esb-include=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
 			var query_params = EsbUtil.convertQueryStringToJson(EsbUtil.getUrlQueryString());
-			var component = EsbPage.generateComponentElement(query_params);
-			expect(component.getAttribute('data-component')).toEqual("my-navbar");
-			expect(component.getAttribute('data-variation')).toEqual("foo");
-			expect(component.getAttribute('data-place')).toEqual("replace");
-			expect(component.getAttribute('data-source')).toEqual("library");
+			var include_snippet = EsbPage.generateIncludeSnippet(query_params);
+			expect(include_snippet.getAttribute('data-esb-include')).toEqual("my-navbar");
+			expect(include_snippet.getAttribute('data-esb-variation')).toEqual("foo");
+			expect(include_snippet.getAttribute('data-esb-place')).toEqual("replace");
+			expect(include_snippet.getAttribute('data-esb-source')).toEqual("library");
 		});
 
-		it ("should append the generated component to the target element", function(){
-			spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
-			loadFixtures('page-with-no-components.html');
-			EsbPage.renderComponentFromQueryStringParams();
-		    expect($('#jasmine-fixtures div[data-component="my-navbar"]').length).toEqual(1);
+		it ("should append the include to the target element", function(){
+			spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?data-esb-include=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
+			loadFixtures('page-with-no-includes.html');
+			EsbPage.renderIncludeSnippetFromQueryStringParams();
+		    expect($('#jasmine-fixtures div[data-esb-include="my-navbar"]').length).toEqual(1);
+		});
+	});
+
+	describe("rendering of an include into the dom", function(){
+		it ("should parse the includes on the page and render them to the dom", function(done){
+			loadFixtures('page-with-include.html');
+			EsbPage.parse();
+			EsbPage.display();
+			EsbPage.blocksDone().then(function(){
+			    expect($('#jasmine-fixtures h1:contains("Hello Includes!")').length).toEqual(1);
+				done();
+			}, function(err){
+				console.log(err);
+			});
 		});
 	});
 });

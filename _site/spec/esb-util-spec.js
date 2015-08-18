@@ -31,4 +31,12 @@ describe("EsbUtil", function(){
 			"data-esb-place": "replace"
 		})
 	});
+
+	it ("should know when a string is valid JSON", function(){
+		expect(EsbUtil.is_json('{"valid":"json", "for-sure":1, "boolean":true}')).toEqual(true);
+	});
+
+	it ("should know when a string is NOT valid JSON", function(){
+		expect(EsbUtil.is_json('data.key')).toEqual(false);
+	});
 });

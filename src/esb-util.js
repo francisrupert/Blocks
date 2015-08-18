@@ -203,11 +203,15 @@ class EsbUtil {
 
   is_json(str) {
     try {
-      $.parseJSON(str);
+      JSON.parse(str);
     } catch (e) {
       return false;
     }
     return true;
+  }
+
+  dom_contains_element(selector) {
+    return document.querySelectorAll(selector).length > 0;
   }
 }
 
