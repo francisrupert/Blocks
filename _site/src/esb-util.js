@@ -209,6 +209,10 @@ class EsbUtil {
     }
     return true;
   }
+
+  dom_contains_element(selector) {
+    return document.querySelectorAll(selector).length > 0;
+  }
 }
 
 export default new EsbUtil();

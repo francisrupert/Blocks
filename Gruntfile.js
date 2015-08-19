@@ -199,15 +199,15 @@ module.exports = function(grunt) {
         ],
         tasks: ['sass:gh_pages_styles', 'autoprefixer:gh_pages_styles']
       },
-      gh_pages_content: {
-        files: [
-          'index.md',
-          '_layouts/**/*',
-          'site/*.html',
-          'site/*.md'
-        ],
-        tasks: ['jekyll']
-      }
+      // gh_pages_content: {
+      //   files: [
+      //     'index.md',
+      //     '_layouts/**/*',
+      //     'site/*.html',
+      //     'site/*.md'
+      //   ],
+      //   tasks: ['jekyll']
+      // }
     },
     karma: {
       unit: {
@@ -223,7 +223,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('dev', ['jekyll', 'sass', 'autoprefixer', 'browserSync', 'watch']);
+  grunt.registerTask('dev', ['sass', 'autoprefixer', 'browserSync', 'watch']);
   grunt.registerTask('default', ['jshint']);
   grunt.registerTask('test', ['karma']);
   grunt.registerTask('css', ['sass', 'cssmin']);

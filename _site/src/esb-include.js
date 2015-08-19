@@ -20,7 +20,16 @@ export class EsbInclude {
 
 		self.overridden_options = [];
 		self.options = self.get_include_options();
+		self.base_file_path = undefined;
+		self.component_name = undefined;
 		self.include_file_path = self.get_include_file_path();
+		self.stylesheet_file_path = self.get_stylesheet_file_path();
+		self.script_file_path = self.get_script_file_path();
+		// These arrays are used with "parent" includes that may have "child" includes with their own styles and scripts,
+		// The recursive part of rendering adds child styles and scripts to these arrays along with these "parent" style and script paths,
+		// Then when the parent is rendered, all the child assets are rendered as well
+		self.stylesheet_file_paths = [self.stylesheet_file_path];
+		self.script_file_paths = [self.script_file_path];
 		self.content_object = self.get_content_object();
 	}
 
@@ -144,25 +153,82 @@ export class EsbInclude {
 		return options;
 	}
 
-	get_include_file_path() {
+	get_base_file_path() {
 		var self = this,
-			file_path;
-		if (!self.options.source.match(/\/$/)) {
-			self.options.source += '/';
+			base_file_path;
+
+		if (self.base_file_path === undefined) {
+			base_file_path = self.options.source;
+
+			if (!base_file_path.match(/\/$/)) {
+				base_file_path += '/';
+			}
+			self.base_file_path = base_file_path;			
 		}
 
-		if (self.options.include) {
-			file_path = self.options.source + self.options.include;
+		return self.base_file_path;
+	}
+
+	get_component_name() {
+		var self = this,
+			component_name;
+		
+		if (self.component_name === undefined) {
+			component_name = self.options.include;
+
+			if (!component_name) {
+				component_name = self.options.component;
+			}
+
+			self.component_name = component_name;
 		}
-		else if (self.options.component) {
-			file_path = self.options.source + self.options.component;
-		}
+
+		return self.component_name;
+	}
+
+	get_include_file_path() {
+		var self = this,
+			base_file_path = self.get_base_file_path(),
+			component_name = self.get_component_name(),
+			file_path;
+
+		file_path = base_file_path + component_name;
 
 		if (!file_path.match(/.html$/)) {
 			file_path += '.html';
 		}
 
 		return file_path;
+	}
+
+	get_stylesheet_file_path() {
+		var self = this,
+			base_file_path = self.get_base_file_path(),
+			component_name = self.get_component_name(),
+			stylesheet_path;
+
+		stylesheet_path = base_file_path + 'css/' + component_name;
+
+		if (!stylesheet_path.match(/.css$/)) {
+			stylesheet_path += '.css';
+		}
+
+		return stylesheet_path;
+	}
+
+	get_script_file_path() {
+		var self = this,
+			base_file_path = self.get_base_file_path(),
+			component_name = self.get_component_name(),
+			script_path;
+
+		script_path = base_file_path + 'js/' + component_name;
+
+		if (!script_path.match(/.js$/)) {
+			script_path += '.js';
+		}
+
+		return script_path;
 	}
 
 	get_content_object() {
@@ -193,6 +259,40 @@ export class EsbInclude {
 	}
 
 // RENDERING
+	render_asset_tags() {
+		var self = this,
+			link,
+			script,
+			head = document.getElementsByTagName('head'),
+			i;
+
+		return new Promise(function(resolve, reject){
+			if (head.length !== 1) {
+				self.logger('error', 'Could not find <head> element to inject script and style for ' + self.component_name + ', ' + self.options.variation);
+				reject('Could not find <head> element to inject script and style for ' + self.component_name + ', ' + self.options.variation);
+			}
+			else {
+				for (i=0; i < self.stylesheet_file_paths.length; i++) {
+					link = document.createElement('link');
+					link.href = self.stylesheet_file_paths[i];
+					link.rel = 'stylesheet';
+					if (!EsbUtil.dom_contains_element('link[href="' + self.stylesheet_file_paths[i] + '"]')){
+						head[0].appendChild(link);
+					}
+				}
+				
+				for (i=0; i < self.script_file_paths.length; i++) {
+					script = document.createElement('script');
+					script.src = self.script_file_paths[i];
+					if (!EsbUtil.dom_contains_element('script[src="' + self.script_file_paths[i] + '"]')){
+						head[0].appendChild(script);
+					}
+				}
+				resolve(true);
+			}
+		});
+	}
+
 	retrieve_html() {
 		var self = this,
 			uri,
@@ -236,7 +336,10 @@ export class EsbInclude {
 			else if (variation_html.length === 0) {
 				self.logger('error', 'No variation found in ' + self.include_file_path + ' matching ' + 'data-esb-variation="' + self.options.variation + '"');
 			}
-		return variation_html[0].innerHTML;
+			else {
+				variation_html = variation_html[0].innerHTML;
+			}
+		return variation_html;
 	}
 
 	compile_html_with_content(variation_html) {
@@ -297,13 +400,9 @@ export class EsbInclude {
 			self.retrieve_html().then(function(html){
 				variation_html = self.parse_variation(html);
 				self.compiled_html = self.compile_html_with_content(variation_html);
-				// window.console.log(self.options.variation);
-				// window.console.log(html);
 				self.child_include_snippets = self.find_include_snippets();
 				if (self.child_include_snippets.length === 0) {
 					rendered_include = self.compiled_html;
-					// No children, replace/insert compiled_html where snippet is and resolve
-					// self.insert_rendered_include(rendered_include);
 					resolve(self);
 				}
 				else {
@@ -315,6 +414,8 @@ export class EsbInclude {
 							child_include = rendered_include_array[i];
 							// Find the location of each child snippet within the parent and replace it with the compiled html
 							temp_dom.querySelector('[data-esb-uuid="' + child_include.uuid + '"]').outerHTML = child_include.compiled_html;
+							self.stylesheet_file_paths.push(child_include.stylesheet_file_path);
+							self.script_file_paths.push(child_include.script_file_path);
 						}
 						self.compiled_html = temp_dom.getElementsByTagName('body')[0].innerHTML;
 						resolve(self);
@@ -336,10 +437,16 @@ export class EsbInclude {
 				// Outer HTML is a "replace", TODO: Add innerHTML for insert inside behavior
 				document.querySelector('[data-esb-uuid="' + self.uuid + '"]').outerHTML = self.compiled_html;
 				self.rendered = true;
-				resolve(self);
+				return self.render_asset_tags();
 			}, function(err){
 				self.logger('error', err);
 				reject(err);
+			}).then(function(){
+				// render_asset_tags succeeded, resolve the render() promise
+				resolve(self);
+			}, function(err){
+				// error occurred while loading assets
+				self.logger('error', err);
 			});
 		});
 	}

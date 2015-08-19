@@ -336,7 +336,10 @@ export class EsbInclude {
 			else if (variation_html.length === 0) {
 				self.logger('error', 'No variation found in ' + self.include_file_path + ' matching ' + 'data-esb-variation="' + self.options.variation + '"');
 			}
-		return variation_html[0].innerHTML;
+			else {
+				variation_html = variation_html[0].innerHTML;
+			}
+		return variation_html;
 	}
 
 	compile_html_with_content(variation_html) {

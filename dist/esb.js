@@ -13747,8 +13747,10 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 							self.logger('error', 'Multiple matches found in ' + self.include_file_path + ' for ' + 'data-esb-variation="' + self.options.variation + '", desired variation is ambiguous');
 						} else if (variation_html.length === 0) {
 							self.logger('error', 'No variation found in ' + self.include_file_path + ' matching ' + 'data-esb-variation="' + self.options.variation + '"');
+						} else {
+							variation_html = variation_html[0].innerHTML;
 						}
-						return variation_html[0].innerHTML;
+						return variation_html;
 					}
 				}, {
 					key: 'compile_html_with_content',

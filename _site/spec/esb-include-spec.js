@@ -53,6 +53,12 @@ describe("EsbInclude", function(){
 		include = load_include('page-with-include.html', uuid);
 	});
 
+	afterEach(function(){
+		// Remove dynamically added script and link tags from test so they don't persist in future tests 
+		$('script[src="base/spec/fixtures/includes/js/test-include.js"]').remove();
+		$('link[href="base/spec/fixtures/includes/css/test-include.css"]').remove();
+	});
+
 	it ("should have a uuid", function(){
 		expect(include.uuid).toEqual(uuid);
 	});
@@ -85,6 +91,14 @@ describe("EsbInclude", function(){
 		expect(include.include_file_path).toEqual('base/spec/fixtures/includes/test-include.html');
 	});
 
+	it ("should have a stylesheet file path", function(){
+		expect(include.stylesheet_file_path).toEqual('base/spec/fixtures/includes/css/test-include.css');
+	});
+
+	it ("should have a script file path", function(){
+		expect(include.script_file_path).toEqual('base/spec/fixtures/includes/js/test-include.js');
+	});
+
 	it ("should be able to retrieve the html within the include file", function(done){
 		include.retrieve_html(include.include_file_path).then(function(html){
 			expect(html).toMatch(/<h1>Hello Includes!<\/h1>/);
@@ -115,6 +129,17 @@ describe("EsbInclude", function(){
 		expect(nested_include_snippets[1].outerHTML).toMatch(/data-esb-variation="two"/);
 	});
 
+	it ("should write script and style tags to the dom", function(done){
+		include.render_asset_tags().then(function(){
+			expect($('script[src="base/spec/fixtures/includes/js/test-include.js"]').length).toEqual(1);
+			expect($('link[href="base/spec/fixtures/includes/css/test-include.css"]').length).toEqual(1);
+			done();
+		},
+		function(err){
+			console.log(err);
+		});
+	});
+
 	it ("should render child includes", function(done){
 		include.compiled_html = nested_include_html();
 		include.child_include_snippets = include.find_include_snippets();
@@ -138,10 +163,16 @@ describe("EsbInclude", function(){
 		});
 	});
 
-	it ("should render a component to the dom", function(done){
+	it ("should render a component to the dom along with its assets", function(done){
 		include = load_include('page-with-include-nested.html', uuid);
 		include.render().then(function(rendered_include){
 		    expect($('#jasmine-fixtures h1:contains("Nested includes")')).toBeInDOM();
+    		expect($('script[src="base/spec/fixtures/includes/js/test-include.js"]').length).toEqual(1);
+			expect($('link[href="base/spec/fixtures/includes/css/test-include.css"]').length).toEqual(1);
+
+			// There are two child includes, but the script and style should only be inserted once
+    		expect($('script[src="base/spec/fixtures/includes/js/child-include.js"]').length).toEqual(1);
+			expect($('link[href="base/spec/fixtures/includes/css/child-include.css"]').length).toEqual(1);
 			done();		
 		});
 	});
@@ -149,7 +180,6 @@ describe("EsbInclude", function(){
 	it ("should be able to pass variables to nested components", function(done){
 		include = load_include('page-with-include-nested-variables.html');
 		include.render().then(function(rendered_include){
-			console.log($('#jasmine-fixtures').html());
 		    expect($('#jasmine-fixtures p:contains("The nested variable value is: x-wing")')).toBeInDOM();
 			done();		
 		});
