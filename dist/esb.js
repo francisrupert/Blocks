@@ -11656,7 +11656,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 					self.config_json_global_options = self.config.get('frames');
 					self.page_level_config_element = self.get_page_level_config_element();
 
-					self.is_component_frame = self.get_component_frame_status();
+					self.is_include_frame = self.get_include_frame_status();
 					self.default_options = self.get_default_options();
 
 					self.set_device_presets();
@@ -11682,8 +11682,8 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 					self.options = self.get_frame_options();
 					self.iframe_src = self.options.iframe_src;
 
-					if (self.is_component_frame) {
-						self.is_component_template_url_valid().then(function () {
+					if (self.is_include_frame) {
+						self.is_include_template_url_valid().then(function () {
 							self.placeholder_element = self.get_placeholder_element();
 							self.placeholder_created = true;
 						}, function () {
@@ -11799,19 +11799,19 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						return option_value;
 					}
 				}, {
-					key: 'get_component_frame_status',
-					value: function get_component_frame_status() {
+					key: 'get_include_frame_status',
+					value: function get_include_frame_status() {
 						var self = this,
-						    is_component_frame = false,
+						    is_include_frame = false,
 						    global_config_json_variation = self.get_global_config_option('variation'),
 						    page_level_config_variation = self.get_page_level_config_option('variation'),
 						    element_level_config_variation = self.get_element_level_config_option('variation');
 
 						if (element_level_config_variation !== undefined || page_level_config_variation !== undefined || global_config_json_variation !== undefined) {
-							is_component_frame = true;
+							is_include_frame = true;
 						}
 
-						return is_component_frame;
+						return is_include_frame;
 					}
 				}, {
 					key: 'get_default_options',
@@ -11841,14 +11841,14 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							'variation': false,
 							'include-frame-template': 'include_frame_template.html',
 							'include-frame-template-target': 'body',
-							'component-source': '',
+							'include-source': '',
 							'place': 'replace',
 							'crop': false,
 							'offset-x': false,
 							'offset-y': false
 						};
 
-						if (self.is_component_frame) {
+						if (self.is_include_frame) {
 							options.width = false;
 							options.height = 'auto';
 							options.scale = 1;
@@ -11922,8 +11922,8 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						return options;
 					}
 				}, {
-					key: 'is_component_template_url_valid',
-					value: function is_component_template_url_valid() {
+					key: 'is_include_template_url_valid',
+					value: function is_include_template_url_valid() {
 						var self = this,
 						    request = new XMLHttpRequest();
 
@@ -11937,7 +11937,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 								} else {
 									// We reached our target server, but it returned an error
 									self.has_loading_error = true;
-									self.loading_error_message = 'Could not load Component Frame, no component template found at: ' + self.options['include-frame-template'];
+									self.loading_error_message = 'Could not load Include in Frame, no include template found at: ' + self.options['include-frame-template'];
 									reject(self.loading_error_message);
 								}
 							};
@@ -11945,7 +11945,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							request.onerror = function () {
 								// There was a connection error of some sort
 								self.has_loading_error = true;
-								self.loading_error_message = 'Could not load Component Frame, a connection error occurred while attempting to load: ' + self.options['include-frame-template'];
+								self.loading_error_message = 'Could not load Include in Frame, a connection error occurred while attempting to load: ' + self.options['include-frame-template'];
 								reject(self.loading_error_message);
 							};
 
@@ -11958,9 +11958,9 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						var self = this,
 						    iframe_src;
 
-						// COMPONENT FRAME
-						if (self.is_component_frame) {
-							iframe_src = self.build_component_iframe_src(options);
+						// INCLUDE FRAME
+						if (self.is_include_frame) {
+							iframe_src = self.build_include_iframe_src(options);
 						}
 						// REGULAR FRAME
 						else {
@@ -11979,44 +11979,44 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						return iframe_src;
 					}
 				}, {
-					key: 'build_component_iframe_src',
+					key: 'build_include_iframe_src',
 
-					// COMPONENT FRAME ONLY
-					value: function build_component_iframe_src(options) {
+					// INCLUDE FRAME ONLY
+					value: function build_include_iframe_src(options) {
 						// Support legacy 'data-frame-component' syntax
 						var self = this,
-						    component_url = options['include-frame-template'],
-						    component_name = self.original_element.getAttribute('data-frame-component'),
-						    component_variation = self.original_element.getAttribute('data-variation'),
-						    component_source = self.original_element.getAttribute('data-source'),
-						    component_place = self.original_element.getAttribute('data-place');
+						    include_url = options['include-frame-template'],
+						    include_name = self.original_element.getAttribute('data-frame-component'),
+						    include_variation = self.original_element.getAttribute('data-variation'),
+						    include_source = self.original_element.getAttribute('data-source'),
+						    include_place = self.original_element.getAttribute('data-place');
 
-						if (component_name === null) {
-							component_name = options.frame;
+						if (include_name === null) {
+							include_name = options.frame;
 						}
 
-						if (component_variation === null) {
-							component_variation = options.variation;
+						if (include_variation === null) {
+							include_variation = options.variation;
 						}
 
-						if (component_source === null) {
-							component_source = options['component-source'];
+						if (include_source === null) {
+							include_source = options['include-source'];
 						}
 
-						if (component_place === null) {
-							component_place = options.place;
+						if (include_place === null) {
+							include_place = options.place;
 						}
 
-						if (component_url.indexOf('?') !== -1) {
+						if (include_url.indexOf('?') !== -1) {
 							// already has query params
-							component_url += '&';
+							include_url += '&';
 						} else {
-							component_url += '?';
+							include_url += '?';
 						}
 
-						component_url += 'data-esb-include=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['include-frame-template-target'];
+						include_url += 'data-esb-include=' + include_name + '&data-esb-variation=' + include_variation + '&data-esb-source=' + include_source + '&data-esb-place=' + include_place + '&data-esb-target=' + options['include-frame-template-target'];
 
-						return encodeURI(component_url).replace(/#/, '%23');
+						return encodeURI(include_url).replace(/#/, '%23');
 					}
 				}, {
 					key: 'is_option_overridden',
@@ -12131,8 +12131,8 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						if (self.options.overlay) {
 							EsbUtil.addClass(outer_wrap, 'esb-frame-has-overlay');
 						}
-						if (self.is_component_frame) {
-							EsbUtil.addClass(outer_wrap, ' esb-frame--is-framed-component');
+						if (self.is_include_frame) {
+							EsbUtil.addClass(outer_wrap, ' esb-frame--is-framed-include');
 						}
 						if (self.has_loading_error) {
 							EsbUtil.addClass(outer_wrap, 'esb-frame--has-loading-error');
@@ -12350,7 +12350,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 
 						if (self.options.height) {
 							height = self.options.height;
-						} else if (self.is_component_frame) {
+						} else if (self.is_include_frame) {
 							height = 180; //Set a nice default height so the loading animation displays
 						} else if (width && self.options['viewport-aspect-ratio']) {
 							height = width * self.options['viewport-aspect-ratio'];
@@ -12366,7 +12366,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							width = self.options.width;
 						}
 
-						if (!self.options.crop && self.is_component_frame) {
+						if (!self.options.crop && self.is_include_frame) {
 							width = 100;
 							height = 100;
 						}
@@ -12591,18 +12591,18 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 								self.stop_monitoring_scrollable_ancestors();
 							}
 
-							if (self.is_component_frame) {
-								self.component_loaded_in_iframe_behavior();
+							if (self.is_include_frame) {
+								self.include_loaded_in_iframe_behavior();
 							} else {
 								self.set_dimensions_annotation_status('updated');
 							}
 						}
 					}
 				}, {
-					key: 'component_loaded_in_iframe_behavior',
+					key: 'include_loaded_in_iframe_behavior',
 
-					// COMPONENT FRAME ONLY - REFACTOR
-					value: function component_loaded_in_iframe_behavior() {
+					// INCLUDE FRAME ONLY - REFACTOR
+					value: function include_loaded_in_iframe_behavior() {
 						var self = this;
 
 						self.fit_frame_to_contents();
@@ -12792,7 +12792,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 				}, {
 					key: 'fit_frame_to_contents',
 
-					// COMPONENT FRAME ONLY
+					// INCLUDE FRAME ONLY
 					value: function fit_frame_to_contents() {
 						var self = this,
 						    content,
@@ -13412,7 +13412,6 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 					self.config = EsbConfig.getConfig();
 					self.logger = EsbUtil.logger;
 
-					self.original_element = opts.viewer_element;
 					self.include_snippet = opts.include_snippet;
 					self.uuid = opts.uuid;
 					self.parent_include = opts.parent_include === undefined ? false : opts.parent_include;
@@ -13423,7 +13422,7 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 					self.overridden_options = [];
 					self.options = self.get_include_options();
 					self.base_file_path = undefined;
-					self.component_name = undefined;
+					self.include_name = undefined;
 					self.include_file_path = self.get_include_file_path();
 					self.stylesheet_file_path = self.get_stylesheet_file_path();
 					self.script_file_path = self.get_script_file_path();
@@ -13474,7 +13473,7 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 					key: 'get_page_level_config_element',
 					value: function get_page_level_config_element() {
 						var self = this,
-						    el = self.original_element,
+						    el = self.include_snippet,
 						    page_level_config_element = false;
 
 						while (el.parentNode) {
@@ -13491,10 +13490,11 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 					key: 'get_page_level_config_option',
 					value: function get_page_level_config_option(option_name) {
 						var self = this,
-						    option_value;
+						    option_value,
+						    page_level_config_element = self.get_page_level_config_element();
 
-						if (self.page_level_config_element) {
-							option_value = self.page_level_config_element.getAttribute('data-esb-' + option_name);
+						if (page_level_config_element) {
+							option_value = page_level_config_element.getAttribute('data-esb-' + option_name);
 							if (option_value !== null && option_value.length > 0) {
 								option_value = EsbUtil.booleanXorValue(option_value);
 							} else {
@@ -13576,32 +13576,32 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 						return self.base_file_path;
 					}
 				}, {
-					key: 'get_component_name',
-					value: function get_component_name() {
+					key: 'get_include_name',
+					value: function get_include_name() {
 						var self = this,
-						    component_name;
+						    include_name;
 
-						if (self.component_name === undefined) {
-							component_name = self.options.include;
+						if (self.include_name === undefined) {
+							include_name = self.options.include;
 
-							if (!component_name) {
-								component_name = self.options.component;
+							if (!include_name) {
+								include_name = self.options.component;
 							}
 
-							self.component_name = component_name;
+							self.include_name = include_name;
 						}
 
-						return self.component_name;
+						return self.include_name;
 					}
 				}, {
 					key: 'get_include_file_path',
 					value: function get_include_file_path() {
 						var self = this,
 						    base_file_path = self.get_base_file_path(),
-						    component_name = self.get_component_name(),
+						    include_name = self.get_include_name(),
 						    file_path;
 
-						file_path = base_file_path + component_name;
+						file_path = base_file_path + include_name;
 
 						if (!file_path.match(/.html$/)) {
 							file_path += '.html';
@@ -13614,10 +13614,10 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 					value: function get_stylesheet_file_path() {
 						var self = this,
 						    base_file_path = self.get_base_file_path(),
-						    component_name = self.get_component_name(),
+						    include_name = self.get_include_name(),
 						    stylesheet_path;
 
-						stylesheet_path = base_file_path + 'css/' + component_name;
+						stylesheet_path = base_file_path + 'css/' + include_name;
 
 						if (!stylesheet_path.match(/.css$/)) {
 							stylesheet_path += '.css';
@@ -13630,10 +13630,10 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 					value: function get_script_file_path() {
 						var self = this,
 						    base_file_path = self.get_base_file_path(),
-						    component_name = self.get_component_name(),
+						    include_name = self.get_include_name(),
 						    script_path;
 
-						script_path = base_file_path + 'js/' + component_name;
+						script_path = base_file_path + 'js/' + include_name;
 
 						if (!script_path.match(/.js$/)) {
 							script_path += '.js';
@@ -13681,8 +13681,8 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 
 						return new _Promise(function (resolve, reject) {
 							if (head.length !== 1) {
-								self.logger('error', 'Could not find <head> element to inject script and style for ' + self.component_name + ', ' + self.options.variation);
-								reject('Could not find <head> element to inject script and style for ' + self.component_name + ', ' + self.options.variation);
+								self.logger('error', 'Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
+								reject('Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
 							} else {
 								for (i = 0; i < self.stylesheet_file_paths.length; i++) {
 									link = document.createElement('link');
@@ -13983,14 +13983,14 @@ System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class
             var self = this;
 
             var defaults = new _Map();
-            var components = new _Map();
+            var includes = new _Map();
 
-            components.set('source', 'components/');
+            includes.set('source', 'includes/');
 
             // Defaults
             defaults.set('backward_compatible', false);
             defaults.set('path', '');
-            defaults.set('components', components);
+            defaults.set('includes', includes);
 
             self.config = defaults;
           }
@@ -14055,7 +14055,6 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
           var self = this;
 
           self.logger = EsbUtil.logger;
-          self.timer = EsbUtil.timer();
           self.blocks_done = false;
           self.blocks_done_timeout_ms = 15000;
 
@@ -14064,24 +14063,6 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
           self.parsed_esb_marks = [];
           self.esb_mark_auto_id = 1;
 
-          // page cache of components
-          self.components = {};
-          self.component_variations = {};
-          self.cache = {};
-          self.time_start = self.timer();
-          self.time_duration = null;
-
-          // Keep track of kids purely to know when the page is finished rendering
-          // in order to fire off JS at the end and trigger a page done event
-          self.child_count = 0;
-          self.children_loaded = 0;
-          self.children_rendered = 0;
-          self.child_count_js = 0;
-          self.child_js_injected = 0;
-
-          // A flag for children to know that there are no more parents to notify
-          // The 'page' type is the root
-          self.type = 'page';
           self.setEventListeners();
         }
 
@@ -14338,126 +14319,6 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
             return include_snippet;
           }
         }, {
-          key: 'childDoneLoading',
-
-          /**
-           * @method: childDoneLoading
-           * @params: child
-           *
-           * Takes a EsbComponent object, tracks that it is finished loading,
-           * and calls render on that object.
-           *
-           * This function is recursive in that it will render children
-           * nested inside this child.
-           */
-          value: function childDoneLoading(child) {
-            var self = this;
-
-            self.children_loaded++;
-
-            self.logger('debug', 'READY TO RENDER PAGE LEVEL CHILDREN: ' + child.template_name());
-
-            child.render();
-          }
-        }, {
-          key: 'childDoneRendering',
-
-          /**
-           * @method: childDoneRendering
-           * @params: child
-           *
-           * Takes a EsbComponent object, tracks that it has finished rendering
-           * itself.
-           * Replaces components on the page with their child's rendered elements.
-           * Then injects the component Javascript.
-           */
-          value: function childDoneRendering(child) {
-            var self = this,
-                $page_component;
-
-            if (child.content !== undefined) {
-              $page_component = self.$root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"][data-content=\'' + child.content + '\']');
-            } else {
-              $page_component = self.$root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"]').not('[data-content]');
-            }
-
-            self.children_rendered++;
-
-            self.logger('debug', 'READY TO RENDER PAGE LEVEL Component: ' + child.template_name());
-
-            if (child.replace_reference || child.frame_with_documentation) {
-              $page_component.replaceWith(child.$el);
-            } else {
-              $page_component.append(child.$el);
-            }
-
-            // Once all of the kids are done we'll spawn all JS
-            if (self.child_count === self.children_rendered) {
-              self.injectComponentJS();
-            }
-
-            // Exposing just the page level component variations
-            // to pages using Blocks
-            self.component_variations[child.template_name()] = child;
-          }
-        }, {
-          key: 'getIDFromVariation',
-          value: function getIDFromVariation($component) {
-            return $component.attr('data-blocks-uuid');
-          }
-        }, {
-          key: 'injectComponentJS',
-          value: function injectComponentJS() {
-            var self = this;
-
-            for (var name in self.components) {
-              var component = self.components[name];
-              component.injectJS(self);
-              self.child_count_js++;
-            }
-          }
-        }, {
-          key: 'childDoneInjectingJS',
-          value: function childDoneInjectingJS() {
-            var self = this,
-                event;
-
-            self.child_js_injected++;
-
-            if (self.child_count_js === self.child_js_injected) {
-              if (window.self !== window.top) {
-                // If blocks is being run inside an iFrame (Blocks Viewer)
-                self.logger('debug', 'TRIGGERING blocks-done on parent body from within iFrame');
-                parent.$('body').trigger('blocks-done');
-
-                self.logger('debug', 'TRIGGERING blocks-done-inside-viewer on parent body from within iFrame');
-                parent.$('body').trigger('blocks-done-inside-viewer', { 'iframe_id': window.frameElement.id });
-
-                // This triggers blocks-done within the iFrame itself. BlocksViewer has a listener for this event so the height and width of the iframe can be dynamically set after BlocksLoader has finished
-                $('body').trigger('blocks-done');
-              } else {
-                // Blocks loader is being used without BlocksViewer
-                self.logger('info', 'TRIGGERING blocks-done');
-                $(document).trigger('blocks-done');
-              }
-
-              // Trigger non-jQuery version of the blocks-done event
-              if (window.CustomEvent) {
-                event = new CustomEvent('blocks-done');
-              } else {
-                event = document.createEvent('CustomEvent');
-                event.initCustomEvent('blocks-done', true, true);
-              }
-
-              document.dispatchEvent(event);
-
-              self.setBlocksDone();
-
-              self.time_duration = self.timer() - self.time_start;
-              self.logger('info', 'TOTAL DURATION: ' + self.time_duration);
-            }
-          }
-        }, {
           key: 'setBlocksDone',
           value: function setBlocksDone() {
             var self = this;
@@ -14525,8 +14386,8 @@ System.register('src/esb', ['src/esb-config', 'src/esb-page', 'src/esb-util'], f
       'use strict';
 
       EsbConfig.load().then(function () {
-        EsbPage.renderIncludeSnippetFromQueryStringParams(); //Used by Frame to generate a component snippet from query string params
-        EsbPage.parse(); //Finds all blocks components, viewers, etc. and preps them for loading/display
+        EsbPage.renderIncludeSnippetFromQueryStringParams(); //Used by Frame to generate a include snippet from query string params
+        EsbPage.parse(); //Finds all blocks includes, viewers, etc. and preps them for loading/display
         EsbPage.display();
         EsbPage.blocksDone().then(function () {
           EsbPage.parseEsbMarks();
