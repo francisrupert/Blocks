@@ -368,7 +368,7 @@ describe("EsbFrame", function(){
 		});
 	});
 
-	describe("for a framed component", function() {
+	describe("for a framed include", function() {
 		beforeEach(function(){
 			frame = load_frame('frame-include-modern-syntax.html');
 		});
@@ -390,7 +390,7 @@ describe("EsbFrame", function(){
 		// });
 	});
 
-	describe("for a framed component that has loaded", function(){
+	describe("for a framed include that has loaded", function(){
 		var originalTimeout;
 
 		beforeEach(function(done){
@@ -414,13 +414,13 @@ describe("EsbFrame", function(){
 	      jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	    });
 
-		it ("should conform the frame to the size of the component by default", function(){
+		it ("should conform the frame to the size of the include by default", function(){
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").height()).toEqual(100);
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").width()).toEqual(400);
 		});
 	});
 
-	describe("for a cropped framed component that has loaded", function(){
+	describe("for a cropped framed include that has loaded", function(){
 		var originalTimeout;
 
 		beforeEach(function(done){

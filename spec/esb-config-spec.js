@@ -16,8 +16,8 @@ describe("EsbConfig default config", function(){
 		expect(config.get("path")).toEqual('');
 	});
 
-	it("should define components as a map with source = components/", function(){
-		expect(config.get("components").get("source")).toEqual('components/');
+	it("should define includes as a map with source = includes/", function(){
+		expect(config.get("includes").get("source")).toEqual('includes/');
 	});
 });
 
@@ -36,9 +36,5 @@ describe("EsbConfig with config.json loaded", function(){
 
 	it("should have a logging level of 'none'", function(){
 		expect(config.get("logging")).toEqual("none");
-	});
-
-	it("should components as a map with replace_reference = true", function(){
-		expect(config.get("components").get("replace_reference")).toEqual(true);
 	});
 });

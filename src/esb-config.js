@@ -84,14 +84,14 @@ class EsbConfig {
     var self = this;
 
     let defaults = new Map();
-    let components = new Map();
+    let includes = new Map();
 
-    components.set('source', 'components/');
+    includes.set('source', 'includes/');
 
     // Defaults
     defaults.set('backward_compatible', false);
     defaults.set('path', '');
-    defaults.set('components', components);
+    defaults.set('includes', includes);
 
     self.config = defaults;
   }

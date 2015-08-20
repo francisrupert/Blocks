@@ -200,7 +200,7 @@ export class EsbFrame {
 			'variation': false,
 			'include-frame-template': 'include_frame_template.html',
 			'include-frame-template-target': 'body',
-			'component-source': '',
+			'include-source': '',
 			'place': 'replace',
 			'crop': false,
 			'offset-x': false,
@@ -343,7 +343,7 @@ export class EsbFrame {
 			component_url = options['include-frame-template'],
 			component_name = self.original_element.getAttribute('data-frame-component'),
 			component_variation = self.original_element.getAttribute('data-variation'),
-			component_source = self.original_element.getAttribute('data-source'),
+			include_source = self.original_element.getAttribute('data-source'),
 			component_place = self.original_element.getAttribute('data-place');
 
 		if (component_name === null) {
@@ -354,8 +354,8 @@ export class EsbFrame {
 			component_variation = options.variation;
 		}
 
-		if (component_source === null) {
-			component_source = options['component-source'];
+		if (include_source === null) {
+			include_source = options['include-source'];
 		}
 
 		if (component_place === null) {
@@ -372,7 +372,7 @@ export class EsbFrame {
 
 		component_url += 	'data-esb-include=' + component_name + 
 							'&data-esb-variation=' + component_variation +
-							'&data-esb-source=' + component_source +
+							'&data-esb-source=' + include_source +
 							'&data-esb-place=' + component_place + 
 							'&data-esb-target=' + options['include-frame-template-target'];
 
