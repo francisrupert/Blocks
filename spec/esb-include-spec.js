@@ -78,6 +78,11 @@ describe("EsbInclude", function(){
 		expect(include.options.source).toEqual('base/spec/fixtures/includes/');
 	});
 
+	it ("should use options from page-level config when present", function(){
+		include = load_include('include-with-page-level-config.html');
+		expect(include.options.variation).toEqual('set-at-page-level-variation');
+	});
+
 	it ("should use JSON passed in as the data-esb-content attribute", function(){
 		expect(include.content_object.fuzzy_bunny_replacement).toEqual("Fluffy Rabbit's Day Out");
 	});

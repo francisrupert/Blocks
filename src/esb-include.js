@@ -9,7 +9,6 @@ export class EsbInclude {
 		self.config = EsbConfig.getConfig();
 	    self.logger = EsbUtil.logger;
 
-		self.original_element = opts.viewer_element;
 		self.include_snippet = opts.include_snippet;
 		self.uuid = opts.uuid;
 		self.parent_include = opts.parent_include === undefined ? false : opts.parent_include;
@@ -68,7 +67,7 @@ export class EsbInclude {
 
 	get_page_level_config_element() {
 		var self = this,
-			el = self.original_element,
+			el = self.include_snippet,
 			page_level_config_element = false;
 		
 		while (el.parentNode) {
@@ -84,10 +83,11 @@ export class EsbInclude {
 
 	get_page_level_config_option(option_name) {
 		var self = this,
-			option_value;
+			option_value,
+			page_level_config_element = self.get_page_level_config_element();
 
-		if (self.page_level_config_element) {
-			option_value = self.page_level_config_element.getAttribute('data-esb-' + option_name);
+		if (page_level_config_element) {
+			option_value = page_level_config_element.getAttribute('data-esb-' + option_name);
 			if (option_value !== null && option_value.length > 0) {
 				option_value = EsbUtil.booleanXorValue(option_value);
 			}
