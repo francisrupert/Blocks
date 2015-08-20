@@ -57,6 +57,8 @@ describe("EsbInclude", function(){
 		// Remove dynamically added script and link tags from test so they don't persist in future tests 
 		$('script[src="base/spec/fixtures/includes/js/test-include.js"]').remove();
 		$('link[href="base/spec/fixtures/includes/css/test-include.css"]').remove();
+		$('script[src="base/spec/fixtures/includes/js/child-include.js"]').remove();
+		$('link[href="base/spec/fixtures/includes/css/child-include.css"]').remove();
 	});
 
 	it ("should have a uuid", function(){
@@ -187,6 +189,52 @@ describe("EsbInclude", function(){
 		include.render().then(function(rendered_include){
 		    expect($('#jasmine-fixtures p:contains("The nested variable value is: x-wing")')).toBeInDOM();
 			done();		
+		});
+	});
+
+	it ("should wrap injected javascript files in comments if set in config", function(done){
+		include = load_include('include-nested.html', uuid);
+		include.config.set('wrap_injected_js_with_comments', true);
+		include.render().then(function(rendered_include){
+			var comments = [];
+			var head_nodes = document.head.childNodes;
+			for (var i=0; i < head_nodes.length; i++) {
+				var node = head_nodes[i];
+				if (node.nodeType === 8) {
+					comments.push(node);
+				}
+			}
+
+			for (i=0; i < comments.length; i++) {
+				if (comments[i].textContent.match(/test-include.js/)){
+					expect(comments[i].textContent).toEqual('<script src="base/spec/fixtures/includes/js/test-include.js" data-blocks-injected-js="true"></script>');
+					done();
+				}
+			}
+		});
+	});
+
+	xit ("should inject javascript assets only once per include even when wrapped in comments", function(done){
+		include = load_include('include-nested.html', uuid);
+		include.config.set('wrap_injected_js_with_comments', true);
+		include.render().then(function(rendered_include){
+			var comments = [];
+			var comment_count = 0;
+			var head_nodes = document.head.childNodes;
+			for (var i=0; i < head_nodes.length; i++) {
+				var node = head_nodes[i];
+				if (node.nodeType === 8) {
+					comments.push(node);
+				}
+			}
+
+			for (i=0; i < comments.length; i++) {
+				if (comments[i].textContent.match(/child-include.js/)){
+					comment_count++;
+				}
+			}
+			expect(comment_count).toEqual(1);
+			done();
 		});
 	});
 });

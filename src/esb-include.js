@@ -263,6 +263,7 @@ export class EsbInclude {
 		var self = this,
 			link,
 			script,
+			comment,
 			head = document.getElementsByTagName('head'),
 			i;
 
@@ -285,7 +286,14 @@ export class EsbInclude {
 					script = document.createElement('script');
 					script.src = self.script_file_paths[i];
 					if (!EsbUtil.dom_contains_element('script[src="' + self.script_file_paths[i] + '"]')){
-						head[0].appendChild(script);
+						if (self.config.get('wrap_injected_js_with_comments') === true) {
+							script.setAttribute('data-blocks-injected-js', 'true');
+							comment = document.createComment(script.outerHTML);
+							head[0].appendChild(comment);
+						}
+						else {
+							head[0].appendChild(script);
+						}
 					}
 				}
 				resolve(true);
