@@ -50,7 +50,7 @@ describe("EsbInclude", function(){
 
 	beforeEach(function(){
 		uuid = EsbUtil.generateUUID();
-		include = load_include('page-with-include.html', uuid);
+		include = load_include('include.html', uuid);
 	});
 
 	afterEach(function(){
@@ -88,7 +88,7 @@ describe("EsbInclude", function(){
 	});
 
 	it ("should reference template_data in config.json when a key string is passed as the data-esb-content attribute", function(){
-		include = load_include('page-with-include-using-template-data.html');
+		include = load_include('include-using-template-data.html');
 		expect(include.content_object.name).toEqual("Nathan Curtis");
 	});
 
@@ -158,7 +158,7 @@ describe("EsbInclude", function(){
 	});
 
 	it ("should include children within a parent include", function(done){
-		include = load_include('page-with-include-nested.html', uuid);
+		include = load_include('include-nested.html', uuid);
 		include.render_include().then(function(rendered_include){
 			expect(rendered_include.compiled_html).toMatch(/<h2>I'm the nested part!<\/h2>/);
 			expect(rendered_include.compiled_html).toMatch(/<h3>Me too!<\/h3>/);
@@ -169,7 +169,7 @@ describe("EsbInclude", function(){
 	});
 
 	it ("should render a component to the dom along with its assets", function(done){
-		include = load_include('page-with-include-nested.html', uuid);
+		include = load_include('include-nested.html', uuid);
 		include.render().then(function(rendered_include){
 		    expect($('#jasmine-fixtures h1:contains("Nested includes")')).toBeInDOM();
     		expect($('script[src="base/spec/fixtures/includes/js/test-include.js"]').length).toEqual(1);
@@ -183,7 +183,7 @@ describe("EsbInclude", function(){
 	});
 
 	it ("should be able to pass variables to nested components", function(done){
-		include = load_include('page-with-include-nested-variables.html');
+		include = load_include('include-nested-variables.html');
 		include.render().then(function(rendered_include){
 		    expect($('#jasmine-fixtures p:contains("The nested variable value is: x-wing")')).toBeInDOM();
 			done();		

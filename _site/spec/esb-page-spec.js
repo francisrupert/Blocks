@@ -233,7 +233,7 @@ describe("EsbPage", function(){
 
 	describe("rendering of an include into the dom", function(){
 		it ("should parse the includes on the page and render them to the dom", function(done){
-			loadFixtures('page-with-include.html');
+			loadFixtures('include.html');
 			EsbPage.parse();
 			EsbPage.display();
 			EsbPage.blocksDone().then(function(){

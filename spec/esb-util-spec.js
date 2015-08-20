@@ -42,7 +42,7 @@ describe("EsbUtil", function(){
 	});
 
 	it ("should know if the dom contains an element", function(){
-		loadFixtures('page-for-esb-util-testing.html');
+		loadFixtures('util-testing.html');
 		expect(EsbUtil.dom_contains_element('h1')).toEqual(true);
 		expect(EsbUtil.dom_contains_element('h6')).toEqual(false);
 	});

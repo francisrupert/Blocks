@@ -35,7 +35,7 @@ describe("EsbMark", function(){
 
 	beforeEach(function(){
 		uuid = EsbUtil.generateUUID();
-		mark = load_mark('page-with-mark.html', uuid);
+		mark = load_mark('mark.html', uuid);
 		EsbPage.esb_mark_auto_id = 1;
 	});
 
@@ -129,7 +129,7 @@ describe("EsbMark", function(){
 	});
 
 	it ("should wrap the marked element with a new element when the element being marked cannot have children appended", function(){
-		mark = load_mark('page-with-input-mark.html', uuid);
+		mark = load_mark('mark-input.html', uuid);
 		mark.render();
 		expect($("#jasmine-fixtures .esb-mark input").length).toEqual(1);
 	});
@@ -154,7 +154,7 @@ describe("EsbMark config options", function(){
 
 	beforeEach(function(){
 		uuid = EsbUtil.generateUUID();
-		mark = load_mark('page-with-mark.html', uuid);
+		mark = load_mark('mark.html', uuid);
 		EsbPage.esb_mark_auto_id = 1;
 	});
 
@@ -173,18 +173,18 @@ describe("EsbMark config options", function(){
 	});
 
 	it ("should use options from page level config when set", function(){
-		mark = load_mark('page-with-mark-page-level-config.html', uuid);		
+		mark = load_mark('mark-page-level-config.html', uuid);		
 		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-left', 'outline': true, 'group': 'page-level-style', 'visible-on-load': true, 'href': false});
 	});
 
 	it ("should use options from instance level data attributes when set", function(){
-		mark = load_mark('page-with-mark-data-attribute-options.html', uuid);		
+		mark = load_mark('mark-data-attribute-options.html', uuid);		
 		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-right', 'outline': false, 'group': 'instance-style', 'visible-on-load': true, 'href': false});
 	});
 
 	it ("should use options from query string params when set", function(){
 		spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?mark-position=bottom-left&outline=true&visible-on-load=false');
-		mark = load_mark('page-with-mark-data-attribute-options.html', uuid);		
+		mark = load_mark('mark-data-attribute-options.html', uuid);		
 		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-left', 'outline': true, 'group': 'instance-style', 'visible-on-load': false, 'href': false});
 	});
 });

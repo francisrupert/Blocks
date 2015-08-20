@@ -56,7 +56,7 @@ describe("EsbPage", function(){
 
 	describe("when there are no blocks includes found", function(){
 		beforeEach(function(){
-			loadFixtures('page-with-no-includes.html');
+			loadFixtures('no-blocks-elements.html');
 			spyOn(EsbPage, 'retrievePageTitle').and.returnValue('Jasmine Test Title');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();
@@ -79,7 +79,7 @@ describe("EsbPage", function(){
 
 	describe("when there is an esb-component on the page", function(){
 		beforeEach(function(){
-			loadFixtures('page-with-include-all-syntaxes.html');
+			loadFixtures('include-all-syntaxes.html');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();
 		});
@@ -91,7 +91,7 @@ describe("EsbPage", function(){
 
 	describe("when there is an esb-frame on the page", function(){
 		beforeEach(function(){
-			loadFixtures('page-with-frame.html');
+			loadFixtures('frame.html');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();
 		});
@@ -107,7 +107,7 @@ describe("EsbPage", function(){
 
 	describe("when there are multiple esb-frame-components on the page", function(){
 		beforeEach(function(){
-			loadFixtures('page-with-frame-components.html');
+			loadFixtures('frame-components.html');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parsed_esb_frames = [];
 			EsbPage.parse();
@@ -120,7 +120,7 @@ describe("EsbPage", function(){
 
 	describe("when there is an esb-mark on the page", function(){
 		beforeEach(function(){
-			loadFixtures('page-with-mark.html');
+			loadFixtures('mark.html');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parseEsbMarks();
 			EsbPage.esb_mark_auto_id = 1;
@@ -225,7 +225,7 @@ describe("EsbPage", function(){
 
 		it ("should append the include to the target element", function(){
 			spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?data-esb-include=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
-			loadFixtures('page-with-no-includes.html');
+			loadFixtures('no-blocks-elements.html');
 			EsbPage.renderIncludeSnippetFromQueryStringParams();
 		    expect($('#jasmine-fixtures div[data-esb-include="my-navbar"]').length).toEqual(1);
 		});
@@ -233,7 +233,7 @@ describe("EsbPage", function(){
 
 	describe("rendering of an include into the dom", function(){
 		it ("should parse the includes on the page and render them to the dom", function(done){
-			loadFixtures('page-with-include.html');
+			loadFixtures('include.html');
 			EsbPage.parse();
 			EsbPage.display();
 			EsbPage.blocksDone().then(function(){

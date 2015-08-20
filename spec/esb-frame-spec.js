@@ -37,7 +37,7 @@ describe("EsbFrame", function(){
 	
 	beforeEach(function(){
 		uuid = EsbUtil.generateUUID();
-		frame = load_frame('page-with-frame.html', uuid);
+		frame = load_frame('frame.html', uuid);
 	});
 
 
