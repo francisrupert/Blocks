@@ -18,7 +18,7 @@ export class EsbFrame {
 		self.config_json_global_options = self.config.get('frames');
 		self.page_level_config_element = self.get_page_level_config_element();
 		
-		self.is_component_frame = self.get_component_frame_status();
+		self.is_include_frame = self.get_include_frame_status();
 		self.default_options = self.get_default_options();
 		
 		self.set_device_presets();
@@ -46,8 +46,8 @@ export class EsbFrame {
 		self.options = self.get_frame_options();
 		self.iframe_src = self.options.iframe_src;
 
-		if (self.is_component_frame) {
-			self.is_component_template_url_valid().then(function(){
+		if (self.is_include_frame) {
+			self.is_include_template_url_valid().then(function(){
 				self.placeholder_element = self.get_placeholder_element();
 				self.placeholder_created = true;
 			}, function(){
@@ -160,18 +160,18 @@ export class EsbFrame {
 		return option_value;
 	}
 
-	get_component_frame_status() {
+	get_include_frame_status() {
 		var self = this,
-			is_component_frame = false,
+			is_include_frame = false,
 			global_config_json_variation = self.get_global_config_option('variation'),
 			page_level_config_variation = self.get_page_level_config_option('variation'),
 			element_level_config_variation = self.get_element_level_config_option('variation');
 
 		if (element_level_config_variation !== undefined || page_level_config_variation !== undefined || global_config_json_variation !== undefined ) {
-			is_component_frame = true;
+			is_include_frame = true;
 		}
 
-		return is_component_frame;
+		return is_include_frame;
 	}
 
 	get_default_options() {
@@ -207,7 +207,7 @@ export class EsbFrame {
 			'offset-y': false
 		};
 
-		if (self.is_component_frame) {
+		if (self.is_include_frame) {
 			options.width = false;
 			options.height = 'auto';
 			options.scale = 1;
@@ -280,7 +280,7 @@ export class EsbFrame {
 		return options;
 	}
 
-	is_component_template_url_valid() {
+	is_include_template_url_valid() {
 		var self = this,
 			request = new XMLHttpRequest();
 
@@ -294,7 +294,7 @@ export class EsbFrame {
 			  } else {
 			    // We reached our target server, but it returned an error
 			    self.has_loading_error = true;
-			    self.loading_error_message = 'Could not load Component Frame, no component template found at: ' + self.options['include-frame-template'];
+			    self.loading_error_message = 'Could not load Include in Frame, no include template found at: ' + self.options['include-frame-template'];
 			    reject(self.loading_error_message);
 			  }
 			};
@@ -302,7 +302,7 @@ export class EsbFrame {
 			request.onerror = function() {
 			  // There was a connection error of some sort
 			    self.has_loading_error = true;
-			    self.loading_error_message = 'Could not load Component Frame, a connection error occurred while attempting to load: ' + self.options['include-frame-template'];
+			    self.loading_error_message = 'Could not load Include in Frame, a connection error occurred while attempting to load: ' + self.options['include-frame-template'];
 			    reject(self.loading_error_message);
 			};
 
@@ -314,9 +314,9 @@ export class EsbFrame {
 		var self = this,
 			iframe_src;
 
-		// COMPONENT FRAME
-		if (self.is_component_frame) {
-			iframe_src = self.build_component_iframe_src(options);
+		// INCLUDE FRAME
+		if (self.is_include_frame) {
+			iframe_src = self.build_include_iframe_src(options);
 		}
 		// REGULAR FRAME
 		else {
@@ -336,47 +336,47 @@ export class EsbFrame {
 		return iframe_src;
 	}
 
-	// COMPONENT FRAME ONLY
-	build_component_iframe_src(options) {
+	// INCLUDE FRAME ONLY
+	build_include_iframe_src(options) {
 		// Support legacy 'data-frame-component' syntax
 		var self = this,
-			component_url = options['include-frame-template'],
-			component_name = self.original_element.getAttribute('data-frame-component'),
-			component_variation = self.original_element.getAttribute('data-variation'),
+			include_url = options['include-frame-template'],
+			include_name = self.original_element.getAttribute('data-frame-component'),
+			include_variation = self.original_element.getAttribute('data-variation'),
 			include_source = self.original_element.getAttribute('data-source'),
-			component_place = self.original_element.getAttribute('data-place');
+			include_place = self.original_element.getAttribute('data-place');
 
-		if (component_name === null) {
-			component_name = options.frame;
+		if (include_name === null) {
+			include_name = options.frame;
 		}
 
-		if (component_variation === null) {
-			component_variation = options.variation;
+		if (include_variation === null) {
+			include_variation = options.variation;
 		}
 
 		if (include_source === null) {
 			include_source = options['include-source'];
 		}
 
-		if (component_place === null) {
-			component_place = options.place;
+		if (include_place === null) {
+			include_place = options.place;
 		}
 
-		if (component_url.indexOf('?') !== -1) {
+		if (include_url.indexOf('?') !== -1) {
 			// already has query params
-			component_url += '&';
+			include_url += '&';
 		}
 		else {
-			component_url += '?';
+			include_url += '?';
 		}
 
-		component_url += 	'data-esb-include=' + component_name + 
-							'&data-esb-variation=' + component_variation +
+		include_url += 	'data-esb-include=' + include_name + 
+							'&data-esb-variation=' + include_variation +
 							'&data-esb-source=' + include_source +
-							'&data-esb-place=' + component_place + 
+							'&data-esb-place=' + include_place + 
 							'&data-esb-target=' + options['include-frame-template-target'];
 
-		return encodeURI(component_url).replace(/#/, '%23');
+		return encodeURI(include_url).replace(/#/, '%23');
 	}
 
 	// BOTH - CORE
@@ -470,7 +470,7 @@ export class EsbFrame {
 		outer_wrap.setAttribute('data-esb-uuid', self.uuid);
 
 		if (self.options.overlay) { EsbUtil.addClass(outer_wrap, 'esb-frame-has-overlay'); }
-		if (self.is_component_frame) { EsbUtil.addClass(outer_wrap, ' esb-frame--is-framed-component'); }
+		if (self.is_include_frame) { EsbUtil.addClass(outer_wrap, ' esb-frame--is-framed-include'); }
 		if (self.has_loading_error) { EsbUtil.addClass(outer_wrap, 'esb-frame--has-loading-error'); }
 		if (self.options['device-frame']) { 
 			EsbUtil.addClass(outer_wrap, 'esb-frame--has-device-frame esb-frame-device-frame-' + self.options['viewport-device']); 
@@ -672,7 +672,7 @@ export class EsbFrame {
 		if (self.options.height) {
 			height = self.options.height;
 		}
-		else if (self.is_component_frame) {
+		else if (self.is_include_frame) {
 			height = 180; //Set a nice default height so the loading animation displays
 		}
 		else if (width && self.options['viewport-aspect-ratio']) {
@@ -689,7 +689,7 @@ export class EsbFrame {
 			width = self.options.width;
 		}
 
-		if (!self.options.crop && self.is_component_frame) {
+		if (!self.options.crop && self.is_include_frame) {
 			width = 100;
 			height = 100;
 		}
@@ -898,8 +898,8 @@ export class EsbFrame {
 				self.stop_monitoring_scrollable_ancestors();
 			}
 
-			if (self.is_component_frame) {
-				self.component_loaded_in_iframe_behavior();
+			if (self.is_include_frame) {
+				self.include_loaded_in_iframe_behavior();
 			}
 			else {
 				self.set_dimensions_annotation_status('updated');
@@ -907,8 +907,8 @@ export class EsbFrame {
 		}
 	}
 
-	// COMPONENT FRAME ONLY - REFACTOR
-	component_loaded_in_iframe_behavior() {
+	// INCLUDE FRAME ONLY - REFACTOR
+	include_loaded_in_iframe_behavior() {
 		var self = this;
 
 		self.fit_frame_to_contents();
@@ -1087,7 +1087,7 @@ export class EsbFrame {
 		self.update_dimensions_annotation({width: width});
 	}
 
-	// COMPONENT FRAME ONLY
+	// INCLUDE FRAME ONLY
 	fit_frame_to_contents() {
 		var self = this,
 			content,

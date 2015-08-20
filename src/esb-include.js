@@ -20,7 +20,7 @@ export class EsbInclude {
 		self.overridden_options = [];
 		self.options = self.get_include_options();
 		self.base_file_path = undefined;
-		self.component_name = undefined;
+		self.include_name = undefined;
 		self.include_file_path = self.get_include_file_path();
 		self.stylesheet_file_path = self.get_stylesheet_file_path();
 		self.script_file_path = self.get_script_file_path();
@@ -169,30 +169,30 @@ export class EsbInclude {
 		return self.base_file_path;
 	}
 
-	get_component_name() {
+	get_include_name() {
 		var self = this,
-			component_name;
+			include_name;
 		
-		if (self.component_name === undefined) {
-			component_name = self.options.include;
+		if (self.include_name === undefined) {
+			include_name = self.options.include;
 
-			if (!component_name) {
-				component_name = self.options.component;
+			if (!include_name) {
+				include_name = self.options.component;
 			}
 
-			self.component_name = component_name;
+			self.include_name = include_name;
 		}
 
-		return self.component_name;
+		return self.include_name;
 	}
 
 	get_include_file_path() {
 		var self = this,
 			base_file_path = self.get_base_file_path(),
-			component_name = self.get_component_name(),
+			include_name = self.get_include_name(),
 			file_path;
 
-		file_path = base_file_path + component_name;
+		file_path = base_file_path + include_name;
 
 		if (!file_path.match(/.html$/)) {
 			file_path += '.html';
@@ -204,10 +204,10 @@ export class EsbInclude {
 	get_stylesheet_file_path() {
 		var self = this,
 			base_file_path = self.get_base_file_path(),
-			component_name = self.get_component_name(),
+			include_name = self.get_include_name(),
 			stylesheet_path;
 
-		stylesheet_path = base_file_path + 'css/' + component_name;
+		stylesheet_path = base_file_path + 'css/' + include_name;
 
 		if (!stylesheet_path.match(/.css$/)) {
 			stylesheet_path += '.css';
@@ -219,10 +219,10 @@ export class EsbInclude {
 	get_script_file_path() {
 		var self = this,
 			base_file_path = self.get_base_file_path(),
-			component_name = self.get_component_name(),
+			include_name = self.get_include_name(),
 			script_path;
 
-		script_path = base_file_path + 'js/' + component_name;
+		script_path = base_file_path + 'js/' + include_name;
 
 		if (!script_path.match(/.js$/)) {
 			script_path += '.js';
@@ -268,8 +268,8 @@ export class EsbInclude {
 
 		return new Promise(function(resolve, reject){
 			if (head.length !== 1) {
-				self.logger('error', 'Could not find <head> element to inject script and style for ' + self.component_name + ', ' + self.options.variation);
-				reject('Could not find <head> element to inject script and style for ' + self.component_name + ', ' + self.options.variation);
+				self.logger('error', 'Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
+				reject('Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
 			}
 			else {
 				for (i=0; i < self.stylesheet_file_paths.length; i++) {
