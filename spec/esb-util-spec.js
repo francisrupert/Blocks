@@ -24,8 +24,8 @@ describe("EsbUtil", function(){
 	});
 
 	it ("should be able to convert a query string to a JSON object", function() {
-		expect(EsbUtil.convertQueryStringToJson('?data-esb-component=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace')).toEqual({
-			"data-esb-component": "my-navbar",
+		expect(EsbUtil.convertQueryStringToJson('?data-esb-include=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace')).toEqual({
+			"data-esb-include": "my-navbar",
 			"data-esb-variation": "foo",
 			"data-esb-source": "library",
 			"data-esb-target": "#jasmine-fixtures",

@@ -168,7 +168,7 @@ describe("EsbInclude", function(){
 		});
 	});
 
-	it ("should render a component to the dom along with its assets", function(done){
+	it ("should render an include to the dom along with its assets", function(done){
 		include = load_include('include-nested.html', uuid);
 		include.render().then(function(rendered_include){
 		    expect($('#jasmine-fixtures h1:contains("Nested includes")')).toBeInDOM();
@@ -182,7 +182,7 @@ describe("EsbInclude", function(){
 		});
 	});
 
-	it ("should be able to pass variables to nested components", function(done){
+	it ("should be able to pass variables to nested includes", function(done){
 		include = load_include('include-nested-variables.html');
 		include.render().then(function(rendered_include){
 		    expect($('#jasmine-fixtures p:contains("The nested variable value is: x-wing")')).toBeInDOM();

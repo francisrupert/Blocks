@@ -373,7 +373,7 @@ describe("EsbFrame", function(){
 			frame = load_frame('frame-include-modern-syntax.html');
 		});
 
-		it ("should create a dynamic component url", function() {
+		it ("should create a dynamic include url", function() {
 			expect(frame.iframe_src).toEqual('base/spec/fixtures/include_frame_template.html?data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
 		});
 
@@ -381,13 +381,6 @@ describe("EsbFrame", function(){
 			frame.options['include-frame-template'] = "include_frame_template.html?fuzzy=bunny&foo=bar";
 			expect(frame.build_iframe_src(frame.options)).toEqual('include_frame_template.html?fuzzy=bunny&foo=bar&data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body')
 		});
-
-		// it ("should use the same defaults as a regular Frame", function(){
-		// 	frame.options['load-immediately'] = true;
-		// 	frame.inject_placeholder();
-		// 	expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").width()).toEqual(1000);
-		// 	expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-wrap").width()).toEqual(200);
-		// });
 	});
 
 	describe("for a framed include that has loaded", function(){
@@ -476,9 +469,9 @@ describe("EsbFrame with alternate config", function(){
 			expect(frame.iframe_src).toEqual('base/spec/fixtures/frames/just-a-default-example.html');
 		});
 
-		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the component level", function() {
+		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the instance level", function() {
 			expect(frame.options.title).toEqual("Global Page Viewer Title");
-			expect(frame.options.caption).toEqual("This caption is unique to the component");
+			expect(frame.options.caption).toEqual("This caption is unique to the instance");
 			expect(frame.options.source).toEqual("");
 			expect(frame.options.scrolling).toEqual("yes");
 			expect(frame.options.overlay).toEqual(false);

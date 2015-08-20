@@ -5,8 +5,6 @@ import EsbUtil from 'src/esb-util';
 import { EsbFrame } from 'src/esb-frame';
 
 describe("EsbPage", function(){
-	var components = null;
-
 	beforeEach(function(done){
 		jasmine.getFixtures().fixturesPath = 'base/spec/fixtures';
 		EsbConfig.load('base/spec/fixtures/esb-test-config.json').then(function(data){
@@ -43,7 +41,7 @@ describe("EsbPage", function(){
 		);
 	});
 
-	it("should resolve the blocksDone promise immediately if no components are found on the page", function(){
+	it("should resolve the blocksDone promise immediately if no includes are found on the page", function(){
 		spyOn(EsbPage, 'get_parsed_esb_includes').and.returnValue([]);
 		EsbPage.display();
 		var promise = EsbPage.blocksDone();
@@ -77,7 +75,7 @@ describe("EsbPage", function(){
 		});
 	});
 
-	describe("when there is an esb-component on the page", function(){
+	describe("when there is an esb-include on the page", function(){
 		beforeEach(function(){
 			loadFixtures('include-all-syntaxes.html');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
