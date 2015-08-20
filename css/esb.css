@@ -272,7 +272,7 @@
 .esb-frame-browser-ui-top + .esb-frame-iframe {
   padding-top: 0; }
 
-.component-frame-template-wrapper {
+.include-frame-template-wrapper {
   padding-top: 1px;
   padding-bottom: 1px;
   margin: -1px 0; }

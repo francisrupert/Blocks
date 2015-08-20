@@ -370,16 +370,16 @@ describe("EsbFrame", function(){
 
 	describe("for a framed component", function() {
 		beforeEach(function(){
-			frame = load_frame('frame-component-modern-syntax.html');
+			frame = load_frame('frame-include-modern-syntax.html');
 		});
 
 		it ("should create a dynamic component url", function() {
-			expect(frame.iframe_src).toEqual('base/spec/fixtures/component_frame_template.html?data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
+			expect(frame.iframe_src).toEqual('base/spec/fixtures/include_frame_template.html?data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
 		});
 
-		it ("should persist any existing query params on the component frame template", function(){
-			frame.options['component-frame-template'] = "component_frame_template.html?fuzzy=bunny&foo=bar";
-			expect(frame.build_iframe_src(frame.options)).toEqual('component_frame_template.html?fuzzy=bunny&foo=bar&data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body')
+		it ("should persist any existing query params on the Include Frame Template", function(){
+			frame.options['include-frame-template'] = "include_frame_template.html?fuzzy=bunny&foo=bar";
+			expect(frame.build_iframe_src(frame.options)).toEqual('include_frame_template.html?fuzzy=bunny&foo=bar&data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body')
 		});
 
 		// it ("should use the same defaults as a regular Frame", function(){
@@ -395,7 +395,7 @@ describe("EsbFrame", function(){
 
 		beforeEach(function(done){
 			var loaded_interval,
-				frame = load_frame('frame-component-modern-syntax.html');
+				frame = load_frame('frame-include-modern-syntax.html');
 			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 			jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
@@ -425,7 +425,7 @@ describe("EsbFrame", function(){
 
 		beforeEach(function(done){
 			var loaded_interval,
-				frame = load_frame('frame-component-modern-syntax-cropped.html');
+				frame = load_frame('frame-include-modern-syntax-cropped.html');
 			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 			jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 

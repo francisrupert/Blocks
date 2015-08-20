@@ -144,7 +144,7 @@ module.exports = function(grunt) {
           watchTask: true,
           server: './',
           snippetOptions: {
-            ignoreFiles: ['site/demo_projects/bootstrap/component_frame_template.html?**', 'site/demo_projects/foundation/component_frame_template.html?**']
+            ignoreFiles: ['site/demo_projects/bootstrap/include_frame_template.html?**', 'site/demo_projects/foundation/include_frame_template.html?**']
           }
         }
       }

@@ -105,9 +105,9 @@ describe("EsbPage", function(){
 		});
 	});
 
-	describe("when there are multiple esb-frame-components on the page", function(){
+	describe("when there are multiple esb-frame-includes on the page", function(){
 		beforeEach(function(){
-			loadFixtures('frame-components.html');
+			loadFixtures('frame-includes.html');
 			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parsed_esb_frames = [];
 			EsbPage.parse();

@@ -11839,8 +11839,8 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							'device-frame': false,
 							'show-browser-ui': false,
 							'variation': false,
-							'component-frame-template': 'component_frame_template.html',
-							'component-frame-template-target': 'body',
+							'include-frame-template': 'include_frame_template.html',
+							'include-frame-template-target': 'body',
 							'component-source': '',
 							'place': 'replace',
 							'crop': false,
@@ -11929,7 +11929,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 
 						return new _Promise(function (resolve, reject) {
 
-							request.open('HEAD', self.options['component-frame-template'], true);
+							request.open('HEAD', self.options['include-frame-template'], true);
 
 							request.onload = function () {
 								if (request.status >= 200 && request.status < 400) {
@@ -11937,7 +11937,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 								} else {
 									// We reached our target server, but it returned an error
 									self.has_loading_error = true;
-									self.loading_error_message = 'Could not load Component Frame, no component template found at: ' + self.options['component-frame-template'];
+									self.loading_error_message = 'Could not load Component Frame, no component template found at: ' + self.options['include-frame-template'];
 									reject(self.loading_error_message);
 								}
 							};
@@ -11945,7 +11945,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							request.onerror = function () {
 								// There was a connection error of some sort
 								self.has_loading_error = true;
-								self.loading_error_message = 'Could not load Component Frame, a connection error occurred while attempting to load: ' + self.options['component-frame-template'];
+								self.loading_error_message = 'Could not load Component Frame, a connection error occurred while attempting to load: ' + self.options['include-frame-template'];
 								reject(self.loading_error_message);
 							};
 
@@ -11985,7 +11985,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 					value: function build_component_iframe_src(options) {
 						// Support legacy 'data-frame-component' syntax
 						var self = this,
-						    component_url = options['component-frame-template'],
+						    component_url = options['include-frame-template'],
 						    component_name = self.original_element.getAttribute('data-frame-component'),
 						    component_variation = self.original_element.getAttribute('data-variation'),
 						    component_source = self.original_element.getAttribute('data-source'),
@@ -12014,7 +12014,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							component_url += '?';
 						}
 
-						component_url += 'data-esb-include=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['component-frame-template-target'];
+						component_url += 'data-esb-include=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['include-frame-template-target'];
 
 						return encodeURI(component_url).replace(/#/, '%23');
 					}
@@ -12825,11 +12825,11 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 									if (self.iframe_element.contentWindow.blocks_done) {
 										clearInterval(blocks_done_interval);
 
-										content = self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML;
+										content = self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML;
 										wrapper_element.innerHTML = content;
 										// Wrap contents with a display: inline-block; element to get an accurate height and width
-										self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = '';
-										self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).appendChild(wrapper_element);
+										self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML = '';
+										self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).appendChild(wrapper_element);
 
 										// Take a pause before assessing height since the appendChild causes the DOM to reload
 										// content_height = EsbUtil.outerHeight(wrapper_element);
@@ -12842,7 +12842,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 											if (content_height === previous_height && content_width === previous_width) {
 												// Unwrap contents
 												content = wrapper_element.innerHTML;
-												self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
+												self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML = content;
 												clearInterval(assets_done_loading_interval);
 												// Add a slight delay so the dom can re-render correctly and we get accurate width and height calculations
 												setTimeout(function () {
@@ -14315,7 +14315,7 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
 
             if (include_snippet && query_params['data-esb-target'] !== undefined) {
               target = document.querySelector(query_params['data-esb-target']);
-              EsbUtil.addClass(target, 'component-frame-template-wrapper');
+              EsbUtil.addClass(target, 'include-frame-template-wrapper');
               target.appendChild(include_snippet);
             }
           }
