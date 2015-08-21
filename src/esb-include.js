@@ -285,7 +285,8 @@ export class EsbInclude {
 				for (i=0; i < self.script_file_paths.length; i++) {
 					script = document.createElement('script');
 					script.src = self.script_file_paths[i];
-					if (!EsbUtil.dom_contains_element('script[src="' + self.script_file_paths[i] + '"]')){
+					// Ensure the the script doesn't already exist in the DOM, either as a <script> tag or wrapped in a <!--comment-->
+					if (!EsbUtil.dom_contains_element('script[src="' + self.script_file_paths[i] + '"]') && !EsbUtil.head_comment_matches(self.script_file_paths[i])){
 						if (self.config.get('wrap_injected_js_with_comments') === true) {
 							script.setAttribute('data-blocks-injected-js', 'true');
 							comment = document.createComment(script.outerHTML);

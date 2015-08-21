@@ -214,7 +214,7 @@ describe("EsbInclude", function(){
 		});
 	});
 
-	xit ("should inject javascript assets only once per include even when wrapped in comments", function(done){
+	it ("should inject javascript assets only once per include even when wrapped in comments", function(done){
 		include = load_include('include-nested.html', uuid);
 		include.config.set('wrap_injected_js_with_comments', true);
 		include.render().then(function(rendered_include){

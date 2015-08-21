@@ -46,4 +46,12 @@ describe("EsbUtil", function(){
 		expect(EsbUtil.dom_contains_element('h1')).toEqual(true);
 		expect(EsbUtil.dom_contains_element('h6')).toEqual(false);
 	});
+
+	it ("should know if the head has a comment matching a value", function(){
+		loadFixtures('util-testing.html');
+		var comment = document.createComment('find me please!')
+		document.head.appendChild(comment);
+		expect(EsbUtil.head_comment_matches('find me please!')).toEqual(true);
+		expect(EsbUtil.head_comment_matches("you won't find me!")).toEqual(false);
+	});
 });

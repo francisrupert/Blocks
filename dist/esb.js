@@ -11608,6 +11608,29 @@ System.register('src/esb-util', ['npm:babel-runtime@5.2.9/helpers/create-class',
           value: function dom_contains_element(selector) {
             return document.querySelectorAll(selector).length > 0;
           }
+        }, {
+          key: 'head_comment_matches',
+          value: function head_comment_matches(value_to_match) {
+            var value_found = false,
+                comments = [],
+                head_nodes = document.head.childNodes,
+                i,
+                node;
+
+            for (i = 0; i < head_nodes.length; i++) {
+              node = head_nodes[i];
+              if (node.nodeType === 8) {
+                comments.push(node);
+              }
+            }
+
+            for (i = 0; i < comments.length; i++) {
+              if (comments[i].textContent.indexOf(value_to_match) > -1) {
+                value_found = true;
+              }
+            }
+            return value_found;
+          }
         }]);
 
         return EsbUtil;
@@ -13676,6 +13699,7 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 						var self = this,
 						    link,
 						    script,
+						    comment,
 						    head = document.getElementsByTagName('head'),
 						    i;
 
@@ -13696,8 +13720,15 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 								for (i = 0; i < self.script_file_paths.length; i++) {
 									script = document.createElement('script');
 									script.src = self.script_file_paths[i];
-									if (!EsbUtil.dom_contains_element('script[src="' + self.script_file_paths[i] + '"]')) {
-										head[0].appendChild(script);
+									// Ensure the the script doesn't already exist in the DOM, either as a <script> tag or wrapped in a <!--comment-->
+									if (!EsbUtil.dom_contains_element('script[src="' + self.script_file_paths[i] + '"]') && !EsbUtil.head_comment_matches(self.script_file_paths[i])) {
+										if (self.config.get('wrap_injected_js_with_comments') === true) {
+											script.setAttribute('data-blocks-injected-js', 'true');
+											comment = document.createComment(script.outerHTML);
+											head[0].appendChild(comment);
+										} else {
+											head[0].appendChild(script);
+										}
 									}
 								}
 								resolve(true);
