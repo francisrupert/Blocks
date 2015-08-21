@@ -1,0 +1,1 @@
+exclude: [jspm_packages, node_modules, sass, spec]

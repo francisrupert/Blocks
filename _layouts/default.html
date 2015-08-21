@@ -13,11 +13,14 @@
         <link rel="stylesheet" href="site/css/blocks_site.css">
         <!-- <link rel="stylesheet" href="css/main.css"> -->
         <!-- <script src="js/vendor/modernizr-2.8.3.min.js"></script> -->
+        <script src="dist/esb.js"></script>
+        <link rel="stylesheet" href="dist/esb.min.css"/>
     </head>
     <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+        {% include navbar.html %}
         <div class="container-fluid">
             {{ content }}
         </div>

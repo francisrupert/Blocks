@@ -1,0 +1,8 @@
+.esb-sign-in-form {
+  padding: 40px;
+  display: inline-block; }
+  .esb-sign-in-form label {
+    display: block; }
+  .esb-sign-in-form button {
+    min-width: 100px; }
+/*# sourceMappingURL=sign-in-form.css.map */
