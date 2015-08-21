@@ -1,0 +1,6 @@
+{
+  "logging": "info",
+  "includes": {
+    "source": "esb-includes"
+  }
+}

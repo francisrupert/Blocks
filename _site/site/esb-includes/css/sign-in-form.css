@@ -1,8 +1,18 @@
 .esb-sign-in-form {
-  padding: 40px;
+  padding: 0 30px 40px;
   display: inline-block; }
+  .esb-sign-in-form[data-esb-mark] {
+    padding-top: 40px; }
   .esb-sign-in-form label {
-    display: block; }
+    display: block;
+    font-size: 18px; }
   .esb-sign-in-form button {
-    min-width: 100px; }
+    min-width: 100px;
+    border-radius: 0;
+    color: #eeeeee;
+    background: #777777; }
+  .esb-sign-in-form input {
+    border: solid 2px #999999;
+    font-size: 24px;
+    padding: 5px 10px; }
 /*# sourceMappingURL=sign-in-form.css.map */

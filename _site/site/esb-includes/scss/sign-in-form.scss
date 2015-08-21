@@ -1,12 +1,28 @@
+@import '../../scss/_variables';
+
 .esb-sign-in-form {
-	padding: 40px;
+	padding: 0 30px 40px;
 	display: inline-block;
-	
+
+	&[data-esb-mark] {
+		padding-top: 40px;
+	}
+
 	label {
 		display: block;
+		font-size: $font-size-large;
 	}
 
 	button {
 		min-width: 100px;
+		border-radius: 0;
+		color: $gray-lighter;
+		background: $gray-dark;
+	}
+
+	input {
+		border: solid 2px $gray;
+		font-size: $font-size-h3;
+		padding: $spacing-small-vertical $spacing-small-horizontal;
 	}
 }

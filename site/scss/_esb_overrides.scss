@@ -1,5 +1,7 @@
 .esb-mark-label {
 	z-index: 100;
+	border-radius: 0;
+	font-family: $font-family-light;
 }
 
 .esb-frame {
@@ -11,8 +13,15 @@
 	}
 }
 
+.esb-frame {
+	box-shadow: none;
+	border: solid 1px $gray;
+}
+
 .esb-frame-title {
+	font-family: $font-family-light;
 	color: $gray-dark;
+	font-size: $font-size-base;
 }
 
 .esb-frame-link .esb-frame-title {
@@ -25,14 +34,4 @@
 
 .esb-frame-iframe-wrap {
 	background: white;
-}
-
-.page-annotations-list {
-	dd {
-		margin-bottom: 30px;
-	}
-
-	dt {
-		font-size: $font-size-h4;
-	}
 }

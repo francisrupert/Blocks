@@ -51,7 +51,7 @@ $proxima_nova_semibold: "ProximaNovaSemibold", Arial, "Helvetica Neue", Helvetic
 $font-family-sans-serif:  $proxima_nova_thin;
 $font-family-light: 	  $proxima_nova_light;
 $font-family-bold: 		  $proxima_nova_semibold;
-$font-familly-regular:    $proxima_nova_regular;
+$font-family-regular:    $proxima_nova_regular;
 $font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
@@ -108,6 +108,8 @@ $spacing-base-vertical: 		6px;
 $spacing-base-horizontal: 		12px;
 $spacing-large-vertical: 		10px;
 $spacing-large-horizontal: 		16px;
+$spacing-xl-vertical: 			20px;
+$spacing-xl-horizontal: 		32px;
 $spacing-small-vertical: 		5px;
 $spacing-small-horizontal: 		10px;
 $spacing-xs-vertical: 			1px;
@@ -198,9 +200,9 @@ $btn-danger-border:              darken($btn-danger-bg, 5%) !default;
 $btn-link-disabled-color:        $gray-light !default;
 
 // Allows for customizing button radius independently from global border radius
-$btn-border-radius-base:         $border-radius-base !default;
-$btn-border-radius-large:        $border-radius-large !default;
-$btn-border-radius-small:        $border-radius-small !default;
+$btn-border-radius-base:         0;
+$btn-border-radius-large:        0;
+$btn-border-radius-small:        0;
 
 
 //== Forms

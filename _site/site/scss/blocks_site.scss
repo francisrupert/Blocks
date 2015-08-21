@@ -35,6 +35,11 @@ $fa-font-path:        "../bower_components/font-awesome/fonts"; // for referenci
 	}
 }
 
+@mixin full-bleed {
+	margin-left: -($grid-gutter-width / 2);
+	margin-right: -($grid-gutter-width / 2);
+}
+
 h1,
 h2,
 h3,
@@ -46,22 +51,17 @@ h6 {
 	}
 }
 
-h2 {
-	text-transform: uppercase;
-}
-
 sup {
 	top: -0.2em;
 	color: $brand-primary;
 }
 
 .container-fluid .jumbotron {
+	@include full-bleed;
 	background: $brand-primary;
 	color: white;
 	text-align: center;
 	border-radius: 0;
-	margin-left: -($grid-gutter-width / 2);
-	margin-right: -($grid-gutter-width / 2);
 	margin-bottom: $spacing-separating-vertical;
 
 	.lead {
@@ -107,19 +107,122 @@ hr {
 	@include border-bottom-styleized;
 	padding-top: $spacing-separating-vertical;
 	padding-bottom: $spacing-separating-vertical;
+
+	&:last-child {
+		border-bottom: none;
+	}
+
+	h2,
+	h4 {
+		text-transform: uppercase;
+	}
 }
 
 .esb-tool-overview-nav {
 	text-align: right;
+	margin-bottom: $spacing-xl-vertical;
 
 	a {
-		@include link-bullets($brand-primary, 12px);
+		@include link-bullets($gray, 12px);
 		display: inline-block;
 		text-transform: uppercase;
 		padding: $spacing-base-vertical $spacing-large-horizontal;
+
+		&.active {
+			color: $gray;
+			font-family: $font-family-light;
+		}
 	}
 
 	i {
 		font-size: $font-size-xs;
+	}
+}
+
+.esb-include-explanation {
+	background: $gray-lighter;
+	padding: $spacing-xl-vertical $spacing-base-horizontal;
+	position: relative;
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			font-family: $font-family-monospace;
+			margin-bottom: $spacing-large-vertical;
+			vertical-align: middle;
+			
+			span {
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		i {
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: $spacing-xs-horizontal;
+			font-size: $font-size-h3;
+		}
+	}
+
+	.esb-include-explanation_injected {
+		position: absolute;
+		top: 25%;
+		right: -$spacing-large-horizontal;
+		width: 80px;
+		font-size: $font-size-large;
+	
+		i {
+			position: absolute;
+			top: 100%;
+			right: -30px;
+			transform: rotate(25deg);
+			font-size: $font-size-h2;
+		}
+	}
+}
+
+.painted-row {
+	@include full-bleed;
+	padding-top: $spacing-separating-vertical;
+	padding-bottom: $spacing-separating-vertical;
+
+	&.light-bg {
+		background: $gray-lighter;
+	}
+
+	&.dark-bg {
+		background: $gray-darker;
+	}
+
+	&.darkest-bg {
+		background: $gray-base;
+	}
+}
+
+.painted-row-inner {
+	@include restrict-width;
+
+	h1 {
+		margin-bottom: $spacing-separating-vertical;
+	}
+
+	.row {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+.ui-framework-demo-link {
+	img {
+		display: inline-block;
+		max-width: 80px;
 	}
 }

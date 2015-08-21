@@ -17,146 +17,80 @@ layout: default
 <div class="page-header">
 	<h1>Independent Tools for Modular Designs</h1>
 </div>
-<div class="row esb-tool-overview">
-	<div class="col-md-5">
+<div class="esb-product-summaries">
+	{% include homepage/include_summary.html %}
+	{% include homepage/mark_summary.html %}
+	{% include homepage/frame_summary.html %}
+	{% include homepage/page_frame_summary.html %}
+</div>
+<section class="painted-row light-bg">
+	<div class="painted-row-inner">
 		<div class="row">
-			<div class="col-xs-3">
-				<img src="http://placehold.it/80x80" alt="" class="img-responsive">
+			<div class="col-md-12">
+				<h1>Use Blocks with Any Design Library&hellip;</h1>
 			</div>
-			<div class="col-xs-9">
-				<h2>Include</h2>
-				<p>
-					Dynamically inject a component's HTML and its associated CSS and JS in page layouts with advanced controls using only a browser<sup>*</sup>. No server needed.
-				</p>
-				<p>
-					<sup>*</sup>except older IE, yawn.
+			<div class="col-md-6">
+				<p class="lead">
+					At EightShapes, we typically build libraries from scratch. But EightShapes Blocks is built to be incorporated into HTML/CSS libraries of any form.
+				</p>	
+				<p class="lead">
+					To help you understand how Blocks works, we've incorporated it into two very popular frameworks.
 				</p>
 			</div>
-
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-6 text-center ui-framework-demo-link">
+						<img src="site/images/bootstrap_logo.png" class="img-responsive">
+						<h2>Bootstrap</h2>
+						<a href="site/demo_projects/bootstrap/index.html" class="btn btn-primary">See Example</a>	
+					</div>
+					<div class="col-md-6 text-center ui-framework-demo-link">
+						<img src="site/images/foundation_logo.png" class="img-responsive">
+						<h2>Foundation</h2>
+						<a href="site/demo_projects/bootstrap/index.html" class="btn btn-primary">See Example</a>	
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="col-md-7">
-		<div class="esb-tool-overview-nav">
-			<a href="#">Example</a>
-			<a href="#">Code</a>
-			<a href="#">Tutorial &amp; Doc <i class="fa fa-chevron-right"></i></a>
-		</div>
-		<div class="row">
-			<div class="col-md-7">
-				<img src="http://placehold.it/400x200" alt="" class="img-responsive">
+</section>
+<section class="painted-row dark-bg">
+	<div class="painted-row-inner">
+		<div class="row text-center" data-esb-frame-config data-esb-viewport-width="1200">
+			<div class="col-md-12">
+				<h1 class="text-right">&hellip;to Build Your Own Living Style Guide</h1>
 			</div>
+			<div class="col-md-3">
+				<div data-esb-frame="site/demo_projects/bootstrap/doc.pages.html"></div>
+			</div>
+			<div class="col-md-3">
+				<div data-esb-frame="site/demo_projects/bootstrap/doc.page.home.html"></div>
+			</div>
+			<div class="col-md-3">
+				<div data-esb-frame="site/demo_projects/bootstrap/doc.components.html"></div>
+			</div>
+			<div class="col-md-3">
+				<div data-esb-frame="site/demo_projects/bootstrap/doc.component.navbar.html"></div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="painted-row darkest-bg">
+	<div class="painted-row-inner">
+		<div class="row">
 			<div class="col-md-5">
-				<div data-esb-include="sign-in-form"></div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<div class="row esb-tool-overview">
-	<div class="col-md-5">
-		<div class="row">
-			<div class="col-xs-3">
-				<img src="http://placehold.it/80x80" alt="" class="img-responsive">
-			</div>
-			<div class="col-xs-9">
-				<h2>Mark</h2>
+				<h3>About EightShapes Blocks</h3>
+				<p>EightShapes created Blocks to ease the process of prototyping in HTML &amp; CSS and delivering responsive web designs to our clients starting in 2011. While mainly used as a tool for our team, we shared and spoke about the first version with the design community.</p>
 				<p>
-					Mark components in layouts with names and/or IDs.
+					Since then, we rewrote a v2 and expanded Blocks to include other tooling to flexibly deliver modular design systems to our clients and stand up living style guides on their behalf.
 				</p>
-				<h4>Use To</h4>
-				<ul>
-					<li>Illustrate page composition</li>
-					<li>Demonstrate component use</li>
-					<li>Link to documentation</li>
-				</ul>
-			</div>
-
-		</div>
-	</div>
-	<div class="col-md-7">
-		<div class="esb-tool-overview-nav">
-			<a href="#">Example</a>
-			<a href="#">Code</a>
-			<a href="#">Tutorial &amp; Doc <i class="fa fa-chevron-right"></i></a>
-		</div>
-		<div class="row">
-			<div class="col-md-4 col-md-offset-3">
-				<div data-esb-include="sign-in-form" data-esb-variation="marked"></div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<div class="row esb-tool-overview">
-	<div class="col-md-5">
-		<div class="row">
-			<div class="col-xs-3">
-				<img src="http://placehold.it/80x80" alt="" class="img-responsive">
-			</div>
-			<div class="col-xs-9">
-				<h2>Frame</h2>
 				<p>
-					Frame components in a responsive context.
+					We welcome your feedback and input on how to improve the system. You can reach out to us <a href="http://twitter.com/8sblocks">@8sblocks</a>.
 				</p>
-				<h4>Use To</h4>
-				<ul>
-					<li>Show and compare variations &amp; states</li>
-					<li>Compare as small multiples</li>
-					<li>Demonstrate responsiveness across widths</li>
-					<li>Present in <a href="#">gallery or list formats</a></li>
-				</ul>
 			</div>
-
-		</div>
-	</div>
-	<div class="col-md-7">
-		<div class="esb-tool-overview-nav">
-			<a href="#">Example</a>
-			<a href="#">Code</a>
-			<a href="#">Tutorial &amp; Doc <i class="fa fa-chevron-right"></i></a>
-		</div>
-		<div class="row">
-			<div class="col-md-4 col-md-offset-3">
-				<div data-esb-frame="sign-in-form" data-esb-variation="default" data-esb-title="G24 Sign In" data-esb-scale="0.5"></div>
+			<div class="col-md-5 col-md-offset-2">
+				<h3>Credits</h3>
 			</div>
 		</div>
 	</div>
-</div>
-
-<div class="row esb-tool-overview">
-	<div class="col-md-5">
-		<div class="row">
-			<div class="col-xs-3">
-				<img src="http://placehold.it/80x80" alt="" class="img-responsive">
-			</div>
-			<div class="col-xs-9">
-				<h2>Page Frame</h2>
-				<p>
-					Frame a scaled page layout in a predictable responsive context.
-				</p>
-				<h4>Use To</h4>
-				<ul>
-					<li>Embed in documentation, avoiding screenshots</li>
-					<li>Display adjacent to notes or specs</li>
-					<li>Compare as small multiples or in device frames</li>
-					<li>Present in <a href="#">gallery or list formats</a></li>
-				</ul>
-			</div>
-
-		</div>
-	</div>
-	<div class="col-md-7">
-		<div class="esb-tool-overview-nav">
-			<a href="#">Example</a>
-			<a href="#">Code</a>
-			<a href="#">Tutorial &amp; Doc <i class="fa fa-chevron-right"></i></a>
-		</div>
-		<div class="row">
-			<div class="col-md-4 col-md-offset-3">
-				<div data-esb-frame="http://eightshapes.com" data-esb-title="Sign In Page"></div>
-			</div>
-		</div>
-	</div>
-</div>
+</section>
