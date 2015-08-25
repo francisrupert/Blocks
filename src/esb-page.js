@@ -247,7 +247,8 @@ class EsbPage {
       'include',
       'variation',
       'place',
-      'source'
+      'source',
+      'content'
     ];
 
 

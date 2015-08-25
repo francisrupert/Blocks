@@ -374,12 +374,12 @@ describe("EsbFrame", function(){
 		});
 
 		it ("should create a dynamic include url", function() {
-			expect(frame.iframe_src).toEqual('base/spec/fixtures/include_frame_template.html?data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
+			expect(frame.iframe_src).toEqual('base/spec/fixtures/include_frame_template.html?data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body&data-esb-content=%7B%22brand%22:%22Community%22%7D');
 		});
 
 		it ("should persist any existing query params on the Include Frame Template", function(){
 			frame.options['include-frame-template'] = "include_frame_template.html?fuzzy=bunny&foo=bar";
-			expect(frame.build_iframe_src(frame.options)).toEqual('include_frame_template.html?fuzzy=bunny&foo=bar&data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body')
+			expect(frame.build_iframe_src(frame.options)).toEqual('include_frame_template.html?fuzzy=bunny&foo=bar&data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body&data-esb-content=%7B%22brand%22:%22Community%22%7D');
 		});
 	});
 

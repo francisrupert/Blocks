@@ -212,13 +212,14 @@ describe("EsbPage", function(){
 	describe("when an include is passed via query string parameters on the URL", function(){
 
 		it ("should generate the include snippet", function(){
-			spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?data-esb-include=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace');
+			spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?data-esb-include=my-navbar&data-esb-variation=foo&data-esb-source=library&data-esb-target=#jasmine-fixtures&data-esb-place=replace&data-esb-content=%7B%22brand%22:%22Community%22%7D');
 			var query_params = EsbUtil.convertQueryStringToJson(EsbUtil.getUrlQueryString());
 			var include_snippet = EsbPage.generateIncludeSnippet(query_params);
 			expect(include_snippet.getAttribute('data-esb-include')).toEqual("my-navbar");
 			expect(include_snippet.getAttribute('data-esb-variation')).toEqual("foo");
 			expect(include_snippet.getAttribute('data-esb-place')).toEqual("replace");
 			expect(include_snippet.getAttribute('data-esb-source')).toEqual("library");
+			expect(include_snippet.getAttribute('data-esb-content')).toEqual('{"brand":"Community"}');
 		});
 
 		it ("should append the include to the target element", function(){
