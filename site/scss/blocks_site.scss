@@ -6,7 +6,7 @@ $fa-font-path:        "../bower_components/font-awesome/fonts"; // for referenci
 @import 'bootstrap';
 
 @mixin restrict-width {
-	max-width: $screen-lg;
+	max-width: $screen-xl;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -68,23 +68,25 @@ sup {
 		max-width: 400px;
 		margin-left: auto;
 		margin-right: auto;
+		padding: 0 $spacing-base-horizontal;
 	}
 
-	.jumbotron-action-links {
-		background: lighten($brand-primary, 5%);
-		width: auto;
-		display: inline-block;
-		margin: 0 auto;
-		padding: $spacing-large-vertical $spacing-base-horizontal;
-	
-		a {
-			@include link-bullets(white);
-			color: white;
-			padding: 0 $spacing-large-horizontal;
-			font-family: $font-family-light;
-			display: inline-block;
+}
 
-		}
+.jumbotron-action-links {
+	background: lighten($brand-primary, 5%);
+	width: auto;
+	display: inline-block;
+	margin: 0 auto;
+	padding: $spacing-large-vertical $spacing-base-horizontal;
+
+	a {
+		color: white;
+		padding: 0 $spacing-large-horizontal;
+		font-family: $font-family-light;
+		display: block;
+		height: 40px;
+		line-height: 40px;
 	}
 }
 
@@ -119,18 +121,26 @@ hr {
 }
 
 .esb-tool-overview-nav {
-	text-align: right;
+	// text-align: right;
 	margin-bottom: $spacing-xl-vertical;
 
 	a {
 		@include link-bullets($gray, 12px);
 		display: inline-block;
 		text-transform: uppercase;
-		padding: $spacing-base-vertical $spacing-large-horizontal;
+		padding: $spacing-base-vertical ($spacing-base-horizontal / 2);
 
 		&.active {
 			color: $gray;
 			font-family: $font-family-light;
+		}
+
+		&:first-child {
+			padding-left: 0;
+		}
+
+		&:last-child {
+			padding-right: 0;
 		}
 	}
 
@@ -143,6 +153,7 @@ hr {
 	background: $gray-lighter;
 	padding: $spacing-xl-vertical $spacing-base-horizontal;
 	position: relative;
+	margin-bottom: $spacing-separating-vertical;
 
 	ul {
 		list-style: none;
@@ -171,21 +182,25 @@ hr {
 			font-size: $font-size-h3;
 		}
 	}
+}
 
-	.esb-include-explanation_injected {
+.esb-include-explanation_injected {
+	transition: bottom 1s ease, right 1s ease, transform 1s ease; 
+	position: absolute;
+	bottom: -30px;
+	right: 0;
+	width: 80px;
+	font-size: $font-size-large;
+	color: $brand-primary;
+	transform: rotate(10deg);
+
+	i {
+		transition: bottom 1s ease, left 1s ease, transform 1s ease; 
 		position: absolute;
-		top: 25%;
-		right: -$spacing-large-horizontal;
-		width: 80px;
-		font-size: $font-size-large;
-	
-		i {
-			position: absolute;
-			top: 100%;
-			right: -30px;
-			transform: rotate(25deg);
-			font-size: $font-size-h2;
-		}
+		bottom: -30px;
+		left: -20px;
+		transform: rotate(135deg);
+		font-size: $font-size-h2;
 	}
 }
 
@@ -221,8 +236,58 @@ hr {
 }
 
 .ui-framework-demo-link {
+	margin-bottom: $spacing-separating-vertical;
+
+	h2 {
+		margin-top: 0;
+	}
+
 	img {
 		display: inline-block;
 		max-width: 80px;
 	}
+}
+
+.esb-tool-overview-content {
+	margin-bottom: $spacing-separating-vertical;
+}
+
+@media screen and (min-width: $screen-sm) {
+	.esb-include-explanation_injected {
+		position: absolute;
+		bottom: 50px;
+		right: -50px;
+		width: 80px;
+		font-size: $font-size-large;
+		color: $brand-primary;
+		transform: rotate(-10deg);
+
+		i {
+			position: absolute;
+			bottom: -30px;
+			left: 20px;
+			transform: rotate(45deg);
+			font-size: $font-size-h2;
+		}
+	}
+	.jumbotron-action-links {
+		a {
+			@include link-bullets(white);
+			display: inline-block;
+			height: auto;
+			line-height: 17px;
+		}
+	}
+}
+
+@media screen and (min-width: $screen-md) {
+	.container-fluid .jumbotron {
+		@include full-bleed;
+	}
+}
+
+@media screen and (min-width: $screen-lg) {
+	.esb-tool-overview-nav {
+		text-align: right;
+	}	
 }

@@ -1,6 +1,7 @@
 .esb-sign-in-form {
   padding: 0 30px 40px;
-  display: inline-block; }
+  display: inline-block;
+  max-width: 260px; }
   .esb-sign-in-form[data-esb-mark] {
     padding-top: 40px; }
   .esb-sign-in-form label {
@@ -14,5 +15,6 @@
   .esb-sign-in-form input {
     border: solid 2px #999999;
     font-size: 24px;
-    padding: 5px 10px; }
+    padding: 5px 10px;
+    width: 100%; }
 /*# sourceMappingURL=sign-in-form.css.map */

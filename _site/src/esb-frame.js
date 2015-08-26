@@ -204,7 +204,8 @@ export class EsbFrame {
 			'place': 'replace',
 			'crop': false,
 			'offset-x': false,
-			'offset-y': false
+			'offset-y': false,
+			'content': false
 		};
 
 		if (self.is_include_frame) {
@@ -344,7 +345,8 @@ export class EsbFrame {
 			include_name = self.original_element.getAttribute('data-frame-component'),
 			include_variation = self.original_element.getAttribute('data-variation'),
 			include_source = self.original_element.getAttribute('data-source'),
-			include_place = self.original_element.getAttribute('data-place');
+			include_place = self.original_element.getAttribute('data-place'),
+			include_content = self.original_element.getAttribute('data-content');
 
 		if (include_name === null) {
 			include_name = options.frame;
@@ -362,6 +364,10 @@ export class EsbFrame {
 			include_place = options.place;
 		}
 
+		if (include_content === null) {
+			include_content = options.content;
+		}
+
 		if (include_url.indexOf('?') !== -1) {
 			// already has query params
 			include_url += '&';
@@ -375,6 +381,9 @@ export class EsbFrame {
 							'&data-esb-source=' + include_source +
 							'&data-esb-place=' + include_place + 
 							'&data-esb-target=' + options['include-frame-template-target'];
+		if (include_content) {
+			include_url += 	'&data-esb-content=' + include_content;
+		}
 
 		return encodeURI(include_url).replace(/#/, '%23');
 	}

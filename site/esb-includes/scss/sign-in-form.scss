@@ -3,6 +3,7 @@
 .esb-sign-in-form {
 	padding: 0 30px 40px;
 	display: inline-block;
+	max-width: 260px;
 
 	&[data-esb-mark] {
 		padding-top: 40px;
@@ -24,5 +25,6 @@
 		border: solid 2px $gray;
 		font-size: $font-size-h3;
 		padding: $spacing-small-vertical $spacing-small-horizontal;
+		width: 100%;
 	}
 }

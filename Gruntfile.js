@@ -157,6 +157,7 @@ module.exports = function(grunt) {
         },
         options: {
           startPath: '_site/index.html',
+          index: '_site/index.html',
           watchTask: true,
           server: './',
           snippetOptions: {

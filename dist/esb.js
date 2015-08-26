@@ -11868,7 +11868,8 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							'place': 'replace',
 							'crop': false,
 							'offset-x': false,
-							'offset-y': false
+							'offset-y': false,
+							'content': false
 						};
 
 						if (self.is_include_frame) {
@@ -12012,7 +12013,8 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						    include_name = self.original_element.getAttribute('data-frame-component'),
 						    include_variation = self.original_element.getAttribute('data-variation'),
 						    include_source = self.original_element.getAttribute('data-source'),
-						    include_place = self.original_element.getAttribute('data-place');
+						    include_place = self.original_element.getAttribute('data-place'),
+						    include_content = self.original_element.getAttribute('data-content');
 
 						if (include_name === null) {
 							include_name = options.frame;
@@ -12030,6 +12032,10 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							include_place = options.place;
 						}
 
+						if (include_content === null) {
+							include_content = options.content;
+						}
+
 						if (include_url.indexOf('?') !== -1) {
 							// already has query params
 							include_url += '&';
@@ -12038,6 +12044,9 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						}
 
 						include_url += 'data-esb-include=' + include_name + '&data-esb-variation=' + include_variation + '&data-esb-source=' + include_source + '&data-esb-place=' + include_place + '&data-esb-target=' + options['include-frame-template-target'];
+						if (include_content) {
+							include_url += '&data-esb-content=' + include_content;
+						}
 
 						return encodeURI(include_url).replace(/#/, '%23');
 					}
@@ -14336,7 +14345,7 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
           value: function generateIncludeSnippet(query_params) {
             var i,
                 include_snippet = false,
-                params = ['include', 'variation', 'place', 'source'];
+                params = ['include', 'variation', 'place', 'source', 'content'];
 
             if (query_params['data-esb-include'] !== undefined) {
               include_snippet = document.createElement('div');

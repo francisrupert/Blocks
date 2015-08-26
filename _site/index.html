@@ -27,10 +27,14 @@
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".main-menu-links">
+				<span class="sr-only">Toggle navigation</span>
+				<i class="fa fa-bars"></i>
+			</button>
 			<a class="navbar-brand" href="#">eightshapes | blocks</a>
 		</div>
 
-		<div class="collapse navbar-collapse">
+		<div class="collapse navbar-collapse main-menu-links">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#">Home</a></li>
 				<li><a href="#">Include</a></li>
@@ -59,12 +63,12 @@
 </div>
 <div class="esb-product-summaries">
 	<div class="row esb-tool-overview">
-	<div class="col-md-5">
+	<div class="col-lg-5 esb-tool-overview-content">
 		<div class="row">
-			<div class="col-xs-3">
+			<div class="col-xs-3 col-sm-2 col-lg-3">
 				<img src="site/images/include_icon.png" alt="" class="img-responsive" />
 			</div>
-			<div class="col-xs-9">
+			<div class="col-xs-9 col-sm-10 col-lg-9">
 				<h2>Include</h2>
 				<p>
 					Dynamically inject a component's HTML and its associated CSS and JS in page layouts with advanced controls using only a browser<sup>*</sup>. No server needed.
@@ -75,7 +79,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-7">
+	<div class="col-lg-7">
 		<div class="esb-tool-overview-nav">
 			<a class="active" href="#esb-include-example" aria-controls="esb-include-example" role="tab" data-toggle="tab">Example</a>
 		    <a href="#esb-include-code" aria-controls="esb-include-code" role="tab" data-toggle="tab">Code</a>
@@ -85,7 +89,7 @@
 			
 			<div role="tabpanel" class="tab-pane fade in active" id="esb-include-example">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-sm-7">
 						<div class="esb-include-explanation">
 							<ul>
 								<li><i class="fa fa-file"></i> <span>/includes/sign-in.html</span></li>
@@ -98,7 +102,7 @@
 							</div>						
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-sm-5">
 						<div data-esb-include="sign-in-form"></div>
 					</div>
 				</div>
@@ -112,12 +116,12 @@
 	</div>
 </div>
 	<div class="row esb-tool-overview">
-	<div class="col-md-5">
+	<div class="col-lg-5 esb-tool-overview-content">
 		<div class="row">
-			<div class="col-xs-3">
+			<div class="col-xs-3 col-sm-2 col-lg-3">
 				<img src="site/images/mark_icon.png" alt="" class="img-responsive" />
 			</div>
-			<div class="col-xs-9">
+			<div class="col-xs-9 col-sm-10 col-lg-9">
 				<h2>Mark</h2>
 				<p>
 					Mark components in layouts with names and/or IDs.
@@ -132,7 +136,7 @@
 
 		</div>
 	</div>
-	<div class="col-md-7">
+	<div class="col-lg-7">
 		<div class="esb-tool-overview-nav">
 			<a class="active" href="#esb-mark-example" aria-controls="esb-mark-example" role="tab" data-toggle="tab">Example</a>
 			<a href="#esb-mark-code" aria-controls="esb-mark-code" role="tab" data-toggle="tab">Code</a>
@@ -141,7 +145,7 @@
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane fade in active" id="esb-mark-example">
 				<div class="row">
-					<div class="col-md-4 col-md-offset-3">
+					<div class="col-lg-9 col-lg-offset-3">
 						<div data-esb-include="sign-in-form" data-esb-variation="marked"></div>
 					</div>
 				</div>
@@ -164,7 +168,7 @@
 	</div>
 </div>
 	<div class="row esb-tool-overview">
-	<div class="col-md-5">
+	<div class="col-lg-5 esb-tool-overview-content">
 		<div class="row">
 			<div class="col-xs-3">
 				<img src="site/images/frame_icon.png" alt="" class="img-responsive" />
@@ -185,7 +189,7 @@
 
 		</div>
 	</div>
-	<div class="col-md-7">
+	<div class="col-lg-7">
 		<div class="esb-tool-overview-nav">
 			<a class="active" href="#esb-frame-example" aria-controls="esb-frame-example" role="tab" data-toggle="tab">Example</a>
 			<a href="#esb-frame-code" aria-controls="esb-frame-code" role="tab" data-toggle="tab">Code</a>
@@ -194,7 +198,7 @@
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane fade in active" id="esb-frame-example">
 				<div class="row">
-					<div class="col-md-4 col-md-offset-3">
+					<div class="col-lg-9 col-lg-offset-3">
 						<div data-esb-frame="sign-in-form" data-esb-variation="default" data-esb-title="G24 Sign In" data-esb-scale="0.5" data-esb-href="false" data-esb-offset-y="10"></div>
 					</div>
 				</div>
@@ -210,7 +214,7 @@
 	</div>
 </div>
 	<div class="row esb-tool-overview">
-	<div class="col-md-5">
+	<div class="col-lg-5 esb-tool-overview-content">
 		<div class="row">
 			<div class="col-xs-3">
 				<img src="site/images/page_frame_icon.png" alt="" class="img-responsive" />
@@ -231,7 +235,7 @@
 
 		</div>
 	</div>
-	<div class="col-md-7">
+	<div class="col-lg-7">
 		<div class="esb-tool-overview-nav">
 			<a class="active" href="#esb-page-frame-example" aria-controls="esb-page-frame-example" role="tab" data-toggle="tab">Example</a>
 			<a href="#esb-page-frame-code" aria-controls="esb-page-frame-code" role="tab" data-toggle="tab">Code</a>
@@ -240,7 +244,7 @@
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane fade in active" id="esb-page-frame-example">
 				<div class="row">
-					<div class="col-md-4 col-md-offset-3">
+					<div class="col-lg-9 col-lg-offset-3">
 						<div data-esb-frame="site/sign-in-page.html" data-esb-title="Sign In Page" data-esb-height="200" data-esb-href="false"></div>
 					</div>
 				</div>
