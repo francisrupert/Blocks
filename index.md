@@ -1,5 +1,5 @@
 ---
-title: This is my title
+title: EightShapes Blocks
 layout: default
 ---
 
@@ -47,7 +47,7 @@ layout: default
 					<div class="col-md-6 text-center ui-framework-demo-link">
 						<img src="site/images/foundation_logo.png" class="img-responsive">
 						<h2>Foundation</h2>
-						<a href="site/demo_projects/bootstrap/index.html" class="btn btn-primary">See Example</a>	
+						<a href="site/demo_projects/foundation/index.html" class="btn btn-primary">See Example</a>	
 					</div>
 				</div>
 			</div>

@@ -8117,6 +8117,7 @@ sup {
   text-align: center; }
 
 hr {
+  border-top: 0;
   border-bottom: dashed 1px #cccccc; }
 
 .esb-tool-overview {
@@ -8238,6 +8239,11 @@ hr {
 
 .esb-tool-overview-content {
   margin-bottom: 40px; }
+
+.docs-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto; }
 
 @media screen and (min-width: 540px) {
   .esb-include-explanation_injected {

@@ -101,6 +101,7 @@ sup {
 }
 
 hr {
+	border-top: 0;
 	@include border-bottom-styleized;
 }
 
@@ -250,6 +251,10 @@ hr {
 
 .esb-tool-overview-content {
 	margin-bottom: $spacing-separating-vertical;
+}
+
+.docs-container {
+	@include restrict-width;
 }
 
 @media screen and (min-width: $screen-sm) {
