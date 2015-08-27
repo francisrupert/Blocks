@@ -237,4 +237,16 @@ describe("EsbInclude", function(){
 			done();
 		});
 	});
+
+	it ("should not inject assets if specified anywhere in the config", function(done){
+		include = load_include('include-nested.html', uuid);
+		include.options.inject_asset_tags = false;
+		include.render().then(function(rendered_include){
+    		expect($('script[src="base/spec/fixtures/includes/js/child-include.js"]').length).toEqual(0);
+    		expect($('script[src="base/spec/fixtures/includes/css/child-include.css"]').length).toEqual(0);
+    		expect($('script[src="base/spec/fixtures/includes/js/test-include.js"]').length).toEqual(0);
+			expect($('link[href="base/spec/fixtures/includes/css/test-include.css"]').length).toEqual(0);
+			done();
+		});
+	});
 });
