@@ -6943,6 +6943,26 @@ function define(){};  define.amd = {};
   return jQuery;
 }));
 })();
+System.register("npm:core-js@0.9.6/library/modules/$.enum-keys", ["npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/library/modules/$");
+  module.exports = function(it) {
+    var keys = $.getKeys(it),
+        getDesc = $.getDesc,
+        getSymbols = $.getSymbols;
+    if (getSymbols)
+      $.each.call(getSymbols(it), function(key) {
+        if (getDesc(it, key).enumerable)
+          keys.push(key);
+      });
+    return keys;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:handlebars@2.0.0/dist/cjs/handlebars/safe-string", [], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -10391,6 +10411,31 @@ System.register("github:components/jquery@2.1.3", ["github:components/jquery@2.1
   }).call(this, __require('github:components/jquery@2.1.3/jquery'));
 });
 })();
+System.register("npm:core-js@0.9.6/library/modules/$.assign", ["npm:core-js@0.9.6/library/modules/$", "npm:core-js@0.9.6/library/modules/$.enum-keys"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/library/modules/$"),
+      enumKeys = require("npm:core-js@0.9.6/library/modules/$.enum-keys");
+  module.exports = Object.assign || function assign(target, source) {
+    var T = Object($.assertDefined(target)),
+        l = arguments.length,
+        i = 1;
+    while (l > i) {
+      var S = $.ES5Object(arguments[i++]),
+          keys = enumKeys(S),
+          length = keys.length,
+          j = 0,
+          key;
+      while (length > j)
+        T[key = keys[j++]] = S[key];
+    }
+    return T;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:handlebars@2.0.0/dist/cjs/handlebars/utils", ["npm:handlebars@2.0.0/dist/cjs/handlebars/safe-string"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -10605,6 +10650,16 @@ System.register("npm:core-js@0.9.6/library/fn/map", ["npm:core-js@0.9.6/library/
   require("npm:core-js@0.9.6/library/modules/es6.map");
   require("npm:core-js@0.9.6/library/modules/es7.map.to-json");
   module.exports = require("npm:core-js@0.9.6/library/modules/$").core.Map;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/library/modules/es6.object.assign", ["npm:core-js@0.9.6/library/modules/$.def", "npm:core-js@0.9.6/library/modules/$.assign"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/library/modules/$.def");
+  $def($def.S, 'Object', {assign: require("npm:core-js@0.9.6/library/modules/$.assign")});
   global.define = __define;
   return module.exports;
 });
@@ -10879,6 +10934,16 @@ System.register("npm:babel-runtime@5.2.9/core-js/map", ["npm:core-js@0.9.6/libra
   return module.exports;
 });
 
+System.register("npm:core-js@0.9.6/library/fn/object/assign", ["npm:core-js@0.9.6/library/modules/es6.object.assign", "npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.6/library/modules/es6.object.assign");
+  module.exports = require("npm:core-js@0.9.6/library/modules/$").core.Object.assign;
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:handlebars@2.0.0/dist/cjs/handlebars.runtime", ["npm:handlebars@2.0.0/dist/cjs/handlebars/base", "npm:handlebars@2.0.0/dist/cjs/handlebars/safe-string", "npm:handlebars@2.0.0/dist/cjs/handlebars/exception", "npm:handlebars@2.0.0/dist/cjs/handlebars/utils", "npm:handlebars@2.0.0/dist/cjs/handlebars/runtime"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -11024,6 +11089,18 @@ System.register("npm:core-js@0.9.6/library/modules/$.task", ["npm:core-js@0.9.6/
       clear: clearTask
     };
   })(require("github:jspm/nodelibs-process@0.1.1"));
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:babel-runtime@5.2.9/core-js/object/assign", ["npm:core-js@0.9.6/library/fn/object/assign"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.6/library/fn/object/assign"),
+    __esModule: true
+  };
   global.define = __define;
   return module.exports;
 });
@@ -13414,14 +13491,16 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 		}
 	};
 });
-System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/promise', 'npm:handlebars@2.0.0', 'src/esb-config', 'src/esb-util'], function (_export) {
-	var _createClass, _classCallCheck, _Promise, handlebars, EsbConfig, EsbUtil, EsbInclude;
+System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/object/assign', 'npm:babel-runtime@5.2.9/core-js/promise', 'npm:handlebars@2.0.0', 'src/esb-config', 'src/esb-util'], function (_export) {
+	var _createClass, _classCallCheck, _Object$assign, _Promise, handlebars, EsbConfig, EsbUtil, EsbInclude;
 
 	return {
 		setters: [function (_npmBabelRuntime529HelpersCreateClass) {
 			_createClass = _npmBabelRuntime529HelpersCreateClass['default'];
 		}, function (_npmBabelRuntime529HelpersClassCallCheck) {
 			_classCallCheck = _npmBabelRuntime529HelpersClassCallCheck['default'];
+		}, function (_npmBabelRuntime529CoreJsObjectAssign) {
+			_Object$assign = _npmBabelRuntime529CoreJsObjectAssign['default'];
 		}, function (_npmBabelRuntime529CoreJsPromise) {
 			_Promise = _npmBabelRuntime529CoreJsPromise['default'];
 		}, function (_npmHandlebars200) {
@@ -13476,6 +13555,7 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 							include: false,
 							component: false,
 							content: false,
+							'content-overrides': false,
 							inject_asset_tags: true
 						};
 
@@ -13681,6 +13761,7 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 						    content_object = {},
 						    data_keys,
 						    content_data,
+						    content_overrides = false,
 						    i;
 
 						if (self.options.content) {
@@ -13697,6 +13778,26 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 									}
 								}
 							}
+						}
+
+						if (self.options['content-overrides']) {
+							if (EsbUtil.is_json(self.options['content-overrides'])) {
+								content_overrides = JSON.parse(self.options['content-overrides']);
+							} else {
+								data_keys = self.options['content-overrides'].split('.');
+								content_data = self.config.get('template_data');
+
+								if (content_data !== undefined) {
+									content_overrides = content_data;
+									for (i = 0; i < data_keys.length; i++) {
+										content_overrides = content_overrides[data_keys[i]];
+									}
+								}
+							}
+						}
+
+						if (content_overrides) {
+							content_object = _Object$assign(content_object, content_overrides);
 						}
 
 						return content_object;

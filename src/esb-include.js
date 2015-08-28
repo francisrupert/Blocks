@@ -40,6 +40,7 @@ export class EsbInclude {
 				include: false,
 				component: false,
 				content: false,
+				'content-overrides': false,
 				inject_asset_tags: true
 			};
 
@@ -237,6 +238,7 @@ export class EsbInclude {
 			content_object = {},
 			data_keys,
 			content_data,
+			content_overrides = false,
 			i;
 
 		if (self.options.content) {
@@ -254,6 +256,27 @@ export class EsbInclude {
 					}
 				}
 			}
+		}
+
+		if (self.options['content-overrides']) {
+			if (EsbUtil.is_json(self.options['content-overrides'])) {
+				content_overrides = JSON.parse(self.options['content-overrides']);
+			}
+			else {
+				data_keys = self.options['content-overrides'].split('.');
+				content_data = self.config.get('template_data');
+				
+				if (content_data !== undefined) {
+					content_overrides = content_data;
+					for (i=0; i < data_keys.length; i++) {
+						content_overrides = content_overrides[data_keys[i]];
+					}
+				}
+			}
+		}
+
+		if (content_overrides) {
+			content_object = Object.assign(content_object, content_overrides);
 		}
 
 		return content_object;

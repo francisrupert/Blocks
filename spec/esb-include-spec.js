@@ -94,6 +94,12 @@ describe("EsbInclude", function(){
 		expect(include.content_object.name).toEqual("Nathan Curtis");
 	});
 
+	it ("should allow overrides of the data-esb-content attribute with the data-esb-content-overrides attribute (to use both instance-specific content alongside config.json content)", function(){
+		include = load_include('include-using-content-override.html');
+		expect(include.content_object.name).toEqual("Nathan Curtis");
+		expect(include.content_object.title).toEqual("Founder & Principal (overridden at the instance level)");
+	});
+
 	it ("should have an include file path", function(){
 		expect(include.include_file_path).toEqual('base/spec/fixtures/includes/test-include.html');
 	});
