@@ -13475,7 +13475,8 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 							replace_snippet: true,
 							include: false,
 							component: false,
-							content: false
+							content: false,
+							inject_asset_tags: true
 						};
 
 						return options;
@@ -13713,33 +13714,39 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 						    i;
 
 						return new _Promise(function (resolve, reject) {
-							if (head.length !== 1) {
-								self.logger('error', 'Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
-								reject('Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
-							} else {
-								for (i = 0; i < self.stylesheet_file_paths.length; i++) {
-									link = document.createElement('link');
-									link.href = self.stylesheet_file_paths[i];
-									link.rel = 'stylesheet';
-									if (!EsbUtil.dom_contains_element('link[href="' + self.stylesheet_file_paths[i] + '"]')) {
-										head[0].appendChild(link);
-									}
-								}
-
-								for (i = 0; i < self.script_file_paths.length; i++) {
-									script = document.createElement('script');
-									script.src = self.script_file_paths[i];
-									// Ensure the the script doesn't already exist in the DOM, either as a <script> tag or wrapped in a <!--comment-->
-									if (!EsbUtil.dom_contains_element('script[src="' + self.script_file_paths[i] + '"]') && !EsbUtil.head_comment_matches(self.script_file_paths[i])) {
-										if (self.config.get('wrap_injected_js_with_comments') === true) {
-											script.setAttribute('data-blocks-injected-js', 'true');
-											comment = document.createComment(script.outerHTML);
-											head[0].appendChild(comment);
-										} else {
-											head[0].appendChild(script);
+							// If inject_asset_tags is true and this either is a parent include, or the parent include also has inject_asset_tags set to true
+							if (self.options.inject_asset_tags && (!self.parent_include || self.parent_include.options.inject_asset_tags)) {
+								if (head.length !== 1) {
+									self.logger('error', 'Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
+									reject('Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
+								} else {
+									for (i = 0; i < self.stylesheet_file_paths.length; i++) {
+										link = document.createElement('link');
+										link.href = self.stylesheet_file_paths[i];
+										link.rel = 'stylesheet';
+										if (!EsbUtil.dom_contains_element('link[href="' + self.stylesheet_file_paths[i] + '"]')) {
+											head[0].appendChild(link);
 										}
 									}
+
+									for (i = 0; i < self.script_file_paths.length; i++) {
+										script = document.createElement('script');
+										script.src = self.script_file_paths[i];
+										// Ensure the the script doesn't already exist in the DOM, either as a <script> tag or wrapped in a <!--comment-->
+										if (!EsbUtil.dom_contains_element('script[src="' + self.script_file_paths[i] + '"]') && !EsbUtil.head_comment_matches(self.script_file_paths[i])) {
+											if (self.config.get('wrap_injected_js_with_comments') === true) {
+												script.setAttribute('data-blocks-injected-js', 'true');
+												comment = document.createComment(script.outerHTML);
+												head[0].appendChild(comment);
+											} else {
+												head[0].appendChild(script);
+											}
+										}
+									}
+									resolve(true);
 								}
+							} else {
+								self.logger('info', 'inject_asset_tags set to false for ' + self.include_name + ', ' + self.options.variation);
 								resolve(true);
 							}
 						});

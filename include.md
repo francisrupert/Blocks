@@ -90,8 +90,8 @@ my_prototype.html</code></pre>
 				Update <code>my_prototype.html</code> with include snippets. Include snippets are simply HTML elements with specific <code>data-</code> attributes that tell Blocks where to inject your include. In this example we're using <code>&lt;div&gt;</code>'s but you can use any HTML element, it's the <code>data-</code> attributes that are the important part.
 			</p>
 
-						<h6 class="code-filename-header">my_prototype.html</h6>
-<pre class="language-markup" data-line="7,8">
+			<h6 class="code-filename-header">my_prototype.html</h6>
+			<pre class="language-markup" data-line="7,8">
 <code>&lt;html&gt;
     &lt;head&gt;
         &lt;link rel=&quot;stylesheet&quot; href=&quot;esb.min.css&quot;/&gt;
@@ -103,6 +103,55 @@ my_prototype.html</code></pre>
     &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
+			<p>
+				Two include snippets have been added to <code>my_prototype.html</code>. Note that the first snippet does not specify a data-esb-variation attribute, but the second does. Blocks Include will look for a variation called "default" if no data-esb-variation attribute is specified on the snippet. The following two snippets will produce the same output:
+			</p>
+			<pre class="language-markup">
+<code>&lt;div data-esb-component=&quot;call-to-action&quot;&gt;&lt;/div&gt;
+&lt;div data-esb-component=&quot;call-to-action&quot; data-esb-variation=&quot;default&quot;&gt;&lt;/div&gt;</code></pre>
+			
+			<p>When <code>my_prototype.html</code> loads in your browser, Blocks Include will find the includes and replace the snippets with the HTML from the include:</p>
+
+<h6 class="code-filename-header">my_prototype.html - After Blocks Include executes</h6>
+			<pre class="language-markup" data-line="7-18">
+<code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;esb.min.css&quot;/&gt;
+        &lt;script src=&quot;esb.min.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class=&quot;call-to-action&quot;&gt;
+            &lt;img class=&quot;call-to-action-image&quot; src=&quot;http://placehold.it/242x200&quot; alt=&quot;cta image&quot;&gt;
+            &lt;div class=&quot;call-to-action-copy-wrap&quot;&gt;
+                &lt;h1 class=&quot;call-to-action-header&quot;&gt;Look at this amazing offer!&lt;/h1&gt;
+                &lt;p class=&quot;call-to-action-body&quot;&gt;Time&#039;s running out. Act fast to make it yours.&lt;/p&gt;
+                &lt;a href=&quot;#link&quot; class=&quot;call-to-action-button&quot;&gt;Buy Now!&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;call-to-action secondary-call-to-action&quot;&gt;
+            &lt;h1 class=&quot;call-to-action-header&quot;&gt;This offer&#039;s good too!&lt;/h1&gt;
+            &lt;a href=&quot;#link&quot; class=&quot;call-to-action-button&quot;&gt;Buy Now!&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+			<h4>data-esb-include-method</h4>
+			<p>
+				Replacing the snippet with the include markup is the default behavior of Blocks Include. If you'd prefer the include markup be inserted inside the the include snippet instead of replacing it, just add <code>data-esb-include-method='insert'</code> to the snippet.
+			</p>
+
+			<h6 class="code-filename-header">my_prototype.html</h6>
+			<pre class="language-markup" data-line="7,8">
+<code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;esb.min.css&quot;/&gt;
+        &lt;script src=&quot;esb.min.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+		&lt;div data-esb-include-method=&quot;insert&quot; data-esb-include=&quot;call-to-action&quot;&gt;&lt;/div&gt;
+		&lt;div data-esb-include-method=&quot;insert&quot; data-esb-include=&quot;call-to-action&quot; data-esb-variation=&quot;secondary&quot;&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
 		</div>
 		<div class="col-md-3">
 			<div class="list-group">
