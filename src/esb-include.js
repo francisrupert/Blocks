@@ -236,6 +236,7 @@ export class EsbInclude {
 	get_content_object() {
 		var self = this,
 			content_object = {},
+			final_content_object = {},
 			data_keys,
 			content_data,
 			content_overrides = false,
@@ -256,6 +257,8 @@ export class EsbInclude {
 					}
 				}
 			}
+
+			content_object = JSON.parse(JSON.stringify(content_object)); //Convert to JSON and then back to an object to hack our way to a "deep" object clone
 		}
 
 		if (self.options['content-overrides']) {
@@ -273,13 +276,18 @@ export class EsbInclude {
 					}
 				}
 			}
+			
+			content_overrides = JSON.parse(JSON.stringify(content_overrides)); //Convert to JSON and then back to an object to hack our way to a "deep" object clone
 		}
 
 		if (content_overrides) {
-			content_object = Object.assign(content_object, content_overrides);
+			final_content_object = Object.assign(content_object, content_overrides);
+		}
+		else {
+			final_content_object = content_object;
 		}
 
-		return content_object;
+		return final_content_object;
 	}
 
 // RENDERING
@@ -384,6 +392,9 @@ export class EsbInclude {
 
 	compile_html_with_content(variation_html) {
 		var self = this;
+		 handlebars.registerHelper('json', function(obj) {
+		    return JSON.stringify(obj);
+		  });
         return handlebars.compile(variation_html)(self.content_object);
 	}
 

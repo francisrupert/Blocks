@@ -11955,6 +11955,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							options.scale = 1;
 							options['viewport-width'] = false;
 							options['viewport-aspect-ratio'] = false;
+							options['fit-frame-to-contents'] = true;
 						}
 
 						return options;
@@ -12714,7 +12715,9 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 					value: function include_loaded_in_iframe_behavior() {
 						var self = this;
 
-						self.fit_frame_to_contents();
+						if (self.options['fit-frame-to-contents']) {
+							self.fit_frame_to_contents();
+						}
 					}
 				}, {
 					key: 'is_visible',
@@ -13759,6 +13762,7 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 					value: function get_content_object() {
 						var self = this,
 						    content_object = {},
+						    final_content_object = {},
 						    data_keys,
 						    content_data,
 						    content_overrides = false,
@@ -13778,6 +13782,8 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 									}
 								}
 							}
+
+							content_object = JSON.parse(JSON.stringify(content_object)); //Convert to JSON and then back to an object to hack our way to a "deep" object clone
 						}
 
 						if (self.options['content-overrides']) {
@@ -13794,13 +13800,17 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 									}
 								}
 							}
+
+							content_overrides = JSON.parse(JSON.stringify(content_overrides)); //Convert to JSON and then back to an object to hack our way to a "deep" object clone
 						}
 
 						if (content_overrides) {
-							content_object = _Object$assign(content_object, content_overrides);
+							final_content_object = _Object$assign(content_object, content_overrides);
+						} else {
+							final_content_object = content_object;
 						}
 
-						return content_object;
+						return final_content_object;
 					}
 				}, {
 					key: 'render_asset_tags',
@@ -13904,6 +13914,9 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 					key: 'compile_html_with_content',
 					value: function compile_html_with_content(variation_html) {
 						var self = this;
+						handlebars.registerHelper('json', function (obj) {
+							return JSON.stringify(obj);
+						});
 						return handlebars.compile(variation_html)(self.content_object);
 					}
 				}, {

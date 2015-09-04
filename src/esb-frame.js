@@ -214,6 +214,7 @@ export class EsbFrame {
 			options.scale = 1;
 			options['viewport-width'] = false;
 			options['viewport-aspect-ratio'] = false;
+			options['fit-frame-to-contents'] = true;
 		}
 
 		return options; 
@@ -920,7 +921,9 @@ export class EsbFrame {
 	include_loaded_in_iframe_behavior() {
 		var self = this;
 
-		self.fit_frame_to_contents();
+		if (self.options['fit-frame-to-contents']) {
+			self.fit_frame_to_contents();
+		}
 	}
 
 	// BOTH - CORE
