@@ -45,7 +45,7 @@ describe("EsbMark", function(){
 	});
 
 	it ("should have default options", function(){
-		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'top-left', 'outline': true, 'group': null, 'visible-on-load': true, 'href': false});
+		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'top-left', 'outline': true, 'group': null, 'visible-on-load': true, 'href': false, 'show-label': true, 'mark-id': false});
 	});
 
 	it("should inject an esb-mark-label into the DOM", function(){
@@ -61,6 +61,11 @@ describe("EsbMark", function(){
 	it ("should have a class of esb-mark--has-outline by default", function(){
 		mark.render();
 	    expect($('#jasmine-fixtures .esb-mark--has-outline').length).toEqual(1);
+	});
+
+	it ("should have a class of esb-mark--has-label by default", function(){
+		mark.render();
+	    expect($('#jasmine-fixtures .esb-mark--has-label').length).toEqual(1);
 	});
 
 	it ("should add additional classes when the group option is used", function(){
@@ -169,22 +174,28 @@ describe("EsbMark config options", function(){
 	});
 
 	it ("should use options from global config", function(){
-		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'top-right', 'outline': false, 'group': 'alternate-style', 'visible-on-load': true, 'href': false});
+		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'top-right', 'outline': false, 'group': 'alternate-style', 'visible-on-load': true, 'href': false, 'show-label': true, 'mark-id': false});
 	});
 
 	it ("should use options from page level config when set", function(){
 		mark = load_mark('mark-page-level-config.html', uuid);		
-		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-left', 'outline': true, 'group': 'page-level-style', 'visible-on-load': true, 'href': false});
+		expect(mark.options).toEqual({'mark': null, 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-left', 'outline': true, 'group': 'page-level-style', 'visible-on-load': true, 'href': false, 'show-label': true, 'mark-id': false});
 	});
 
 	it ("should use options from instance level data attributes when set", function(){
 		mark = load_mark('mark-data-attribute-options.html', uuid);		
-		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-right', 'outline': false, 'group': 'instance-style', 'visible-on-load': true, 'href': false});
+		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-right', 'outline': false, 'group': 'instance-style', 'visible-on-load': true, 'href': false, 'show-label': true, 'mark-id': 'this-is-my-mark'});
 	});
 
 	it ("should use options from query string params when set", function(){
-		spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?mark-position=bottom-left&outline=true&visible-on-load=false');
+		spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?mark-position=bottom-left&outline=true&visible-on-load=false&mark-id=query-string-param-mark-id');
 		mark = load_mark('mark-data-attribute-options.html', uuid);		
-		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-left', 'outline': true, 'group': 'instance-style', 'visible-on-load': false, 'href': false});
+		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-left', 'outline': true, 'group': 'instance-style', 'visible-on-load': false, 'href': false, 'show-label': true, 'mark-id': 'query-string-param-mark-id'});
+	});
+
+	it ("should override visible on load if the mark-id of a particular mark is passed on the query string", function(){
+		spyOn(EsbUtil, 'getUrlQueryString').and.returnValue('?mark-position=bottom-left&outline=true&visible-on-load=query-string-param-mark-id&mark-id=query-string-param-mark-id');
+		mark = load_mark('mark-data-attribute-options.html', uuid);		
+		expect(mark.options).toEqual({'mark': 'Call To Action Button', 'id': null, 'show-id-with-name': false, 'mark-position': 'bottom-left', 'outline': true, 'group': 'instance-style', 'visible-on-load': true, 'href': false, 'show-label': true, 'mark-id': 'query-string-param-mark-id'});
 	});
 });
