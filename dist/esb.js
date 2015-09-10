@@ -13335,6 +13335,8 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 
 							if (visible_on_load_marks.length > 0 && visible_on_load_marks.indexOf(options['mark-id']) !== -1) {
 								options['visible-on-load'] = true;
+							} else {
+								options['visible-on-load'] = false;
 							}
 						}
 
