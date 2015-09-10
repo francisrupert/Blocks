@@ -13261,6 +13261,7 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 					key: 'set_mark_options',
 					value: function set_mark_options() {
 						var self = this,
+						    visible_on_load_marks,
 						    options = {
 							'mark': null,
 							'id': null,
@@ -13269,7 +13270,9 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 							'outline': true,
 							'group': null,
 							'visible-on-load': true,
-							'href': false
+							'href': false,
+							'show-label': true,
+							'mark-id': false
 						},
 						    option = null,
 						    value = null,
@@ -13327,6 +13330,14 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 							}
 						}
 
+						if (typeof options['visible-on-load'] === 'string') {
+							visible_on_load_marks = options['visible-on-load'].split(',');
+
+							if (visible_on_load_marks.length > 0 && visible_on_load_marks.indexOf(options['mark-id']) !== -1) {
+								options['visible-on-load'] = true;
+							}
+						}
+
 						self.options = options;
 					}
 				}, {
@@ -13355,6 +13366,10 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 
 						if (self.options.outline) {
 							EsbUtil.addClass(mark_wrapper, 'esb-mark--has-outline');
+						}
+
+						if (self.options['show-label']) {
+							EsbUtil.addClass(mark_wrapper, 'esb-mark--has-label');
 						}
 
 						if (self.options.group !== null) {
