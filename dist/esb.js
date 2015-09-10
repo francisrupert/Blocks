@@ -12514,6 +12514,9 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 
 						if (self.options['offset-y']) {
 							dimensions.top = self.options['offset-y'] + 'px';
+							if (self.options['offset-y'] < 0) {
+								dimensions.height = dimensions.height.replace(/px/, '') * 1 + Math.abs(self.options['offset-y']) + 'px';
+							}
 						}
 
 						return dimensions;
@@ -12867,9 +12870,14 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						var self = this,
 						    inner_wrap = self.viewer_element.querySelector('.esb-frame-iframe-inner-wrap'),
 						    scale = self.options.scale,
-						    wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap');
+						    wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap'),
+						    offset_height_adjust = 0;
 
-						inner_wrap.style.height = height + 'px';
+						if (self.options['offset-y'] < 0) {
+							offset_height_adjust = Math.abs(self.options['offset-y']);
+						}
+
+						inner_wrap.style.height = height + offset_height_adjust + 'px';
 
 						if (!self.options.crop) {
 							if (!scale) {

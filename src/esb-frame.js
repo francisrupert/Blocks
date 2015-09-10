@@ -735,6 +735,9 @@ export class EsbFrame {
 		
 		if (self.options['offset-y']) {
 			dimensions.top = self.options['offset-y'] + 'px';
+			if (self.options['offset-y'] < 0) {
+				dimensions.height = ((dimensions.height.replace(/px/, '') * 1) + Math.abs(self.options['offset-y'])) + 'px';
+			}
 		}
 
 		return dimensions;
@@ -1065,9 +1068,14 @@ export class EsbFrame {
 		var self = this,
 			inner_wrap = self.viewer_element.querySelector('.esb-frame-iframe-inner-wrap'),
 			scale = self.options.scale,
-			wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap');
+			wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap'),
+			offset_height_adjust = 0;
+
+		if (self.options['offset-y'] < 0) {
+			offset_height_adjust = Math.abs(self.options['offset-y']);
+		}
 		
-		inner_wrap.style.height = height + 'px';
+		inner_wrap.style.height = (height + offset_height_adjust) + 'px';
 		
 		if (!self.options.crop) {
 			if (!scale) {
@@ -1147,7 +1155,7 @@ export class EsbFrame {
 						assets_done_loading_interval = setInterval(function(){
 							content_height = EsbUtil.outerHeight(wrapper_element);
 							content_width = EsbUtil.outerWidth(wrapper_element);
-							
+
 							if (content_height === previous_height && content_width === previous_width) {
 								// Unwrap contents
 								content = wrapper_element.innerHTML;
