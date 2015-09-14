@@ -1,6 +1,7 @@
 import handlebars from 'handlebars';
 import EsbConfig from './esb-config';
 import EsbUtil from './esb-util';
+import 'babel/polyfill';
 
 export class EsbInclude {
 // SETUP
