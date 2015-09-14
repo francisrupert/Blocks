@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/EightShapes/Blocks.git"
   },
-  "license": "GNU",
+  "license": "GPL-3.0",
   "engine": "node >= 0.12.2",
   "scripts": {
     "lint": "jshint src/*.js",
