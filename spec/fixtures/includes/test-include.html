@@ -1,0 +1,12 @@
+<section data-esb-variation="v1">
+	<h1>Hello Includes!</h1>
+</section>
+<section data-esb-variation="nested">
+	<h1>Nested includes</h1>
+	<div data-esb-include="child-include" data-esb-variation="one"></div>
+	<div data-esb-include="child-include" data-esb-variation="two"></div>
+</section>
+<section data-esb-variation="nested-variable-pass-through">
+	<h1>Nested with variable pass-through</h1>
+	<div data-esb-include="child-include" data-esb-variation="nested-variables" data-esb-content='{"nested-variable-value":"{{variable-value-to-be-rekeyed}}"}'></div>
+</section>

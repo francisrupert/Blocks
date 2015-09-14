@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Pages</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../../../dist/esb.min.css">
+		<link rel="stylesheet" href="css/docs.css">
+		<script src="../../../dist/esb.min.js"></script>
+		<script src="js/doc-page-annotation-toggle.js"></script>
+		<script src="../../bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+		<style>
+			body {
+				padding-top: 70px;
+			}
+		</style>
+	</head>
+	<body>
+		<div data-esb-include="navbar"></div>
+		<div class="container">
+			<div class="page-header">
+				<button type="button" class="btn btn-primary pull-right mark-annotation-toggle" data-toggle="button" aria-pressed="false">Marks</button>
+				<h1>Pages</h1>
+			</div>
+			<div class="row pages-gallery" data-esb-frame-config data-esb-width="300" data-esb-height="350">
+				<div class="col-md-4">
+					<div data-esb-frame="page.home.html" data-esb-title="Homepage" data-esb-href="doc.page.home.html"></div>
+				</div>
+				<div class="col-md-4">
+					<div data-esb-frame="page.article.html" data-esb-title="Article (Basic)" data-esb-href="doc.page.article.html"></div>
+				</div>
+				<div class="col-md-4">
+					<div data-esb-frame="page.article-complex.html" data-esb-title="Article (Complex)" data-esb-href="doc.page.article-complex.html"></div>
+				</div>
+				<div class="col-md-4">
+					<div data-esb-frame="page.search-results.html" data-esb-title="Search Results" data-esb-href="doc.page.search-results.html"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

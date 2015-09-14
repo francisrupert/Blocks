@@ -1,0 +1,37 @@
+.esb-mark-label {
+	z-index: 100;
+	border-radius: 0;
+	font-family: $font-family-light;
+}
+
+.esb-frame {
+	background: $gray-lighter;
+	min-width: 0;
+
+	&.esb-frame--has-device-frame {
+		background: none;
+	}
+}
+
+.esb-frame {
+	box-shadow: none;
+	border: solid 1px $gray;
+}
+
+.esb-frame-title {
+	font-family: $font-family-light;
+	color: $gray-dark;
+	font-size: $font-size-base;
+}
+
+.esb-frame-link .esb-frame-title {
+	color: $link-color;
+
+	&:hover {
+		color: lighten($link-color, 10%);
+	}
+}
+
+.esb-frame-iframe-wrap {
+	background: white;
+}

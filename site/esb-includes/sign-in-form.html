@@ -1,0 +1,27 @@
+<section data-esb-variation="default">
+	{{#if esb-mark}}
+		<form action="#" class="esb-sign-in-form" data-esb-mark="{{esb-mark}}">
+			<div data-esb-include="sign-in-form" data-esb-variation="_inner-form-contents"></div>
+		</form>
+	{{else}}
+		<form action="#" class="esb-sign-in-form">
+			<div data-esb-include="sign-in-form" data-esb-variation="_inner-form-contents"></div>
+		</form>
+	{{/if}}
+</section>
+
+<section data-esb-variation="_inner-form-contents">
+	<div class="form-group">
+		<label for="username">Username</label>
+		<input type="text" id="username" name="username">
+	</div>
+	<div class="form-group">
+		<label for="password">Password</label>
+		<input type="password" id="password" name="password">
+	</div>
+	<button type="submit" class="btn">Go</button>
+</section>
+
+<section data-esb-variation="marked">
+	<div data-esb-include="sign-in-form" data-esb-content='{"esb-mark":"G24 Sign In"}'></div>
+</section>

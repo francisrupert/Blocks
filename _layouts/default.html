@@ -1,0 +1,32 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>EightShapes Blocks</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="dist/esb.min.css"/>
+    <link rel="stylesheet" href="site/css/prism.css">
+    <link rel="stylesheet" href="site/css/blocks_site.css">
+    <script src="dist/esb.js"></script>
+    <script src="site/bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+    <script src="site/js/blocks_site.js"></script>
+    <script src="site/js/prism.min.js"></script>
+
+
+</head>
+<body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+            {% include navbar.html %}
+            <div class="container-fluid">
+                {{ content }}
+            </div>
+
+    </body>
+</html>

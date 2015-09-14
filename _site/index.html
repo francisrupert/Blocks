@@ -1,0 +1,337 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>EightShapes Blocks</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="dist/esb.min.css"/>
+    <link rel="stylesheet" href="site/css/prism.css">
+    <link rel="stylesheet" href="site/css/blocks_site.css">
+    <script src="dist/esb.js"></script>
+    <script src="site/bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
+    <script src="site/js/blocks_site.js"></script>
+    <script src="site/js/prism.min.js"></script>
+
+
+</head>
+<body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".main-menu-links">
+				<span class="sr-only">Toggle navigation</span>
+				<i class="fa fa-bars"></i>
+			</button>
+			<a class="navbar-brand" href="#">eightshapes | blocks</a>
+		</div>
+
+		<div class="collapse navbar-collapse main-menu-links">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#">Home</a></li>
+				<li><a href="include.html">Include</a></li>
+				<li><a href="#">Mark</a></li>
+				<li><a href="#">Frame</a></li>
+				<li><a href="#">Page Frame</a></li>
+				<li><a href="#">About</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+            <div class="container-fluid">
+                <div class="jumbotron">
+	<h1>Blocks</h1>
+	<p class="lead">
+		Lightweight javascript tooling to organize, communicate, and deliver modular design systems and living style guides.
+	</p>
+	<div class="jumbotron-action-links">
+		<a href="#">Download Kit</a>
+		<a href="http://github.com/eightshapes/blocks">View On Github</a>
+		<a href="http://twitter.com/8sblocks">@8sblocks</a>
+	</div>
+</div>
+<div class="page-header">
+	<h1>Independent Tools for Modular Designs</h1>
+</div>
+<div class="esb-product-summaries">
+	<div class="row esb-tool-overview">
+	<div class="col-lg-5 esb-tool-overview-content">
+		<div class="row">
+			<div class="col-xs-3 col-sm-2 col-lg-3">
+				<img src="site/images/include_icon.png" alt="" class="img-responsive" />
+			</div>
+			<div class="col-xs-9 col-sm-10 col-lg-9">
+				<h2>Include</h2>
+				<p>
+					Dynamically inject a component's HTML and its associated CSS and JS in page layouts with advanced controls using only a browser<sup>*</sup>. No server needed.
+				</p>
+				<p>
+					<sup>*</sup>except older IE, yawn.
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-7">
+		<div class="esb-tool-overview-nav">
+			<a class="active" href="#esb-include-example" aria-controls="esb-include-example" role="tab" data-toggle="tab">Example</a>
+		    <a href="#esb-include-code" aria-controls="esb-include-code" role="tab" data-toggle="tab">Code</a>
+		    <a href="include.html">Tutorial &amp; Doc <i class="fa fa-chevron-right"></i></a>
+		</div>
+		<div class="tab-content">
+			
+			<div role="tabpanel" class="tab-pane fade in active" id="esb-include-example">
+				<div class="row">
+					<div class="col-sm-7">
+						<div class="esb-include-explanation">
+							<ul>
+								<li><i class="fa fa-file"></i> <span>/includes/sign-in.html</span></li>
+								<li><i class="fa fa-file"></i> <span>/includes/sign-in.css</span></li>
+								<li><i class="fa fa-file"></i> <span>/includes/sign-in.js</span></li>
+							</ul>	
+							<div class="esb-include-explanation_injected">
+								Injected in this page!
+								<i class="fa fa-arrow-right"></i>
+							</div>						
+						</div>
+					</div>
+					<div class="col-sm-5">
+						<div data-esb-include="sign-in-form"></div>
+					</div>
+				</div>
+			</div>
+			
+			<div role="tabpanel" class="tab-pane fade" id="esb-include-code">
+<pre class="language-markup">
+<code>&lt;div data-esb-include=&quot;sign-in-form&quot;&gt;&lt;/div&gt;</code></pre>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="row esb-tool-overview">
+	<div class="col-lg-5 esb-tool-overview-content">
+		<div class="row">
+			<div class="col-xs-3 col-sm-2 col-lg-3">
+				<img src="site/images/mark_icon.png" alt="" class="img-responsive" />
+			</div>
+			<div class="col-xs-9 col-sm-10 col-lg-9">
+				<h2>Mark</h2>
+				<p>
+					Mark components in layouts with names and/or IDs.
+				</p>
+				<h4>Use To</h4>
+				<ul>
+					<li>Illustrate page composition</li>
+					<li>Demonstrate component use</li>
+					<li>Link to documentation</li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-lg-7">
+		<div class="esb-tool-overview-nav">
+			<a class="active" href="#esb-mark-example" aria-controls="esb-mark-example" role="tab" data-toggle="tab">Example</a>
+			<a href="#esb-mark-code" aria-controls="esb-mark-code" role="tab" data-toggle="tab">Code</a>
+			<a href="#">Tutorial &amp; Doc <i class="fa fa-chevron-right"></i></a>
+		</div>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="esb-mark-example">
+				<div class="row">
+					<div class="col-lg-9 col-lg-offset-3">
+						<div data-esb-include="sign-in-form" data-esb-variation="marked"></div>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="esb-mark-code">
+				<pre class="language-markup" data-line="1">
+<code>&lt;form action=&quot;#&quot; class=&quot;esb-sign-in-form&quot; data-esb-mark=&quot;G24 Sign In&quot;&gt;
+	&lt;div class=&quot;form-group&quot;&gt;
+		&lt;label for=&quot;username&quot;&gt;Username&lt;/label&gt;
+		&lt;input type=&quot;text&quot; id=&quot;username&quot; name=&quot;username&quot;&gt;
+	&lt;/div&gt;
+	&lt;div class=&quot;form-group&quot;&gt;
+		&lt;label for=&quot;password&quot;&gt;Password&lt;/label&gt;
+		&lt;input type=&quot;password&quot; id=&quot;password&quot; name=&quot;password&quot;&gt;
+	&lt;/div&gt;
+	&lt;button type=&quot;submit&quot; class=&quot;btn&quot;&gt;Go&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="row esb-tool-overview">
+	<div class="col-lg-5 esb-tool-overview-content">
+		<div class="row">
+			<div class="col-xs-3">
+				<img src="site/images/frame_icon.png" alt="" class="img-responsive" />
+			</div>
+			<div class="col-xs-9">
+				<h2>Frame</h2>
+				<p>
+					Frame components in a responsive context.
+				</p>
+				<h4>Use To</h4>
+				<ul>
+					<li>Show and compare variations &amp; states</li>
+					<li>Compare as small multiples</li>
+					<li>Demonstrate responsiveness across widths</li>
+					<li>Present in <a href="#">gallery or list formats</a></li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-lg-7">
+		<div class="esb-tool-overview-nav">
+			<a class="active" href="#esb-frame-example" aria-controls="esb-frame-example" role="tab" data-toggle="tab">Example</a>
+			<a href="#esb-frame-code" aria-controls="esb-frame-code" role="tab" data-toggle="tab">Code</a>
+			<a href="#">Tutorial &amp; Doc <i class="fa fa-chevron-right"></i></a>
+		</div>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="esb-frame-example">
+				<div class="row">
+					<div class="col-lg-9 col-lg-offset-3">
+						<div data-esb-frame="sign-in-form" data-esb-variation="default" data-esb-title="G24 Sign In" data-esb-scale="0.5" data-esb-href="false" data-esb-offset-y="10"></div>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="esb-frame-code">
+				<pre class="language-markup">
+<code>&lt;div data-esb-frame=&quot;sign-in-form&quot; 
+     data-esb-variation=&quot;default&quot; 
+     data-esb-title=&quot;G24 Sign In&quot; 
+     data-esb-scale=&quot;0.5&quot;&gt;&lt;/div&gt;</code></pre>
+			</div>
+		</div>
+	</div>
+</div>
+	<div class="row esb-tool-overview">
+	<div class="col-lg-5 esb-tool-overview-content">
+		<div class="row">
+			<div class="col-xs-3">
+				<img src="site/images/page_frame_icon.png" alt="" class="img-responsive" />
+			</div>
+			<div class="col-xs-9">
+				<h2>Page Frame</h2>
+				<p>
+					Frame a scaled page layout in a predictable responsive context.
+				</p>
+				<h4>Use To</h4>
+				<ul>
+					<li>Embed in documentation, avoiding screenshots</li>
+					<li>Display adjacent to notes or specs</li>
+					<li>Compare as small multiples or in device frames</li>
+					<li>Present in <a href="#">gallery or list formats</a></li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-lg-7">
+		<div class="esb-tool-overview-nav">
+			<a class="active" href="#esb-page-frame-example" aria-controls="esb-page-frame-example" role="tab" data-toggle="tab">Example</a>
+			<a href="#esb-page-frame-code" aria-controls="esb-page-frame-code" role="tab" data-toggle="tab">Code</a>
+			<a href="#">Tutorial &amp; Doc <i class="fa fa-chevron-right"></i></a>
+		</div>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="esb-page-frame-example">
+				<div class="row">
+					<div class="col-lg-9 col-lg-offset-3">
+						<div data-esb-frame="site/sign-in-page.html" data-esb-title="Sign In Page" data-esb-height="200" data-esb-href="false"></div>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="esb-page-frame-code">
+				<pre class="language-markup">
+<code>&lt;div data-esb-frame=&quot;site/sign-in-page.html&quot; 
+     data-esb-title=&quot;Sign In Page&quot; 
+     data-esb-height=&quot;200&quot;&gt;&lt;/div&gt;</code></pre>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<section class="painted-row light-bg">
+	<div class="painted-row-inner">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>Use Blocks with Any Design Library&hellip;</h1>
+			</div>
+			<div class="col-md-6">
+				<p class="lead">
+					At EightShapes, we typically build libraries from scratch. But EightShapes Blocks is built to be incorporated into HTML/CSS libraries of any form.
+				</p>	
+				<p class="lead">
+					To help you understand how Blocks works, we've incorporated it into two very popular frameworks.
+				</p>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-6 text-center ui-framework-demo-link">
+						<img src="site/images/bootstrap_logo.png" class="img-responsive" />
+						<h2>Bootstrap</h2>
+						<a href="site/demo_projects/bootstrap/index.html" class="btn btn-primary">See Example</a>	
+					</div>
+					<div class="col-md-6 text-center ui-framework-demo-link">
+						<img src="site/images/foundation_logo.png" class="img-responsive" />
+						<h2>Foundation</h2>
+						<a href="site/demo_projects/foundation/index.html" class="btn btn-primary">See Example</a>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="painted-row dark-bg">
+	<div class="painted-row-inner">
+		<div class="row text-center" data-esb-frame-config="" data-esb-viewport-width="1200">
+			<div class="col-md-12">
+				<h1 class="text-right">&hellip;to Build Your Own Living Style Guide</h1>
+			</div>
+			<div class="col-md-3">
+				<div data-esb-frame="site/demo_projects/bootstrap/doc.pages.html"></div>
+			</div>
+			<div class="col-md-3">
+				<div data-esb-frame="site/demo_projects/bootstrap/doc.page.home.html"></div>
+			</div>
+			<div class="col-md-3">
+				<div data-esb-frame="site/demo_projects/bootstrap/doc.components.html"></div>
+			</div>
+			<div class="col-md-3">
+				<div data-esb-frame="site/demo_projects/bootstrap/doc.component.navbar.html"></div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="painted-row darkest-bg">
+	<div class="painted-row-inner">
+		<div class="row">
+			<div class="col-md-5">
+				<h3>About EightShapes Blocks</h3>
+				<p>EightShapes created Blocks to ease the process of prototyping in HTML &amp; CSS and delivering responsive web designs to our clients starting in 2011. While mainly used as a tool for our team, we shared and spoke about the first version with the design community.</p>
+				<p>
+					Since then, we rewrote a v2 and expanded Blocks to include other tooling to flexibly deliver modular design systems to our clients and stand up living style guides on their behalf.
+				</p>
+				<p>
+					We welcome your feedback and input on how to improve the system. You can reach out to us <a href="http://twitter.com/8sblocks">@8sblocks</a>.
+				</p>
+			</div>
+			<div class="col-md-5 col-md-offset-2">
+				<h3>Credits</h3>
+			</div>
+		</div>
+	</div>
+</section>
+
+            </div>
+
+    </body>
+</html>

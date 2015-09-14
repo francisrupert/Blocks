@@ -1,8 +1,7 @@
 {
     "logging": "none",
-    "components": {
-        "source": "test/components/",
-        "replace_reference": true
+    "includes": {
+        "source": "test/includes/"
     },
     "frames": {
         "frame": "set_in_config_json.html",
