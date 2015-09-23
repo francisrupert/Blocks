@@ -1,7 +1,7 @@
 import handlebars from 'handlebars';
 import EsbConfig from './esb-config';
 import EsbUtil from './esb-util';
-import 'babel/polyfill';
+import 'babel/polyfill'; //Without explicitly importing this module, CodeShip tests fail on 'Object.assign()'
 
 export class EsbInclude {
 // SETUP

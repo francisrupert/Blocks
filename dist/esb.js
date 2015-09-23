@@ -17593,6 +17593,8 @@ System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-clas
 		execute: function () {
 			'use strict';
 
+			//Without explicitly importing this module, CodeShip tests fail on 'Object.assign()'
+
 			EsbInclude = (function () {
 				// SETUP
 

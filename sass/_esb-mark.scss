@@ -83,7 +83,7 @@ $default-border-radius: 4px;
 }
 
 .esb-mark.esb-mark--is-hidden {
-	.esb-mark-label {
+	> .esb-mark-label {
 		opacity: 0;
 	}
 

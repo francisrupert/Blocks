@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import EsbUtil from './esb-util';
 import { EsbInclude } from './esb-include';
 import { EsbFrame } from 'src/esb-frame';
@@ -154,9 +153,8 @@ class EsbPage {
       i;
 
     self.name  = self.retrievePageTitle();
-    self.$root = self.retrieveRootElement();
 
-    includes = self.$root[0].querySelectorAll('*[data-component], *[data-esb-component], *[data-esb-include]');
+    includes = document.querySelectorAll('*[data-component], *[data-esb-component], *[data-esb-include]');
     for (i=0; i < includes.length; i++) {
       let uuid = EsbUtil.generateUUID();
       includes[i].setAttribute('data-esb-uuid', uuid);
@@ -175,9 +173,8 @@ class EsbPage {
         i = 0;
 
     self.name  = self.retrievePageTitle();
-    self.$root = self.retrieveRootElement();
 
-    frames = self.$root[0].querySelectorAll('*[data-esb-frame]:not([data-esb-frame-config]), *[data-frame-component]');
+    frames = document.querySelectorAll('*[data-esb-frame]:not([data-esb-frame-config]), *[data-frame-component]');
 
     for (i=0; i < frames.length; i++) {
       let uuid = EsbUtil.generateUUID();
@@ -200,9 +197,8 @@ class EsbPage {
         i = 0;
 
     self.name  = self.retrievePageTitle();
-    self.$root = self.retrieveRootElement();
 
-    marks = self.$root[0].querySelectorAll('*[data-esb-mark]:not([data-esb-mark-config])');
+    marks = document.querySelectorAll('*[data-esb-mark]:not([data-esb-mark-config])');
 
     for (i=0; i < marks.length; i++) {
       let uuid = EsbUtil.generateUUID();
@@ -219,11 +215,7 @@ class EsbPage {
   }
 
   retrievePageTitle() {
-    return $(document).find('head title').text();
-  }
-
-  retrieveRootElement() {
-    return $('body');
+    return document.title;
   }
 
   renderIncludeSnippetFromQueryStringParams() {

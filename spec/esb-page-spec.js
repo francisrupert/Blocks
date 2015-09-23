@@ -56,18 +56,12 @@ describe("EsbPage", function(){
 		beforeEach(function(){
 			loadFixtures('no-blocks-elements.html');
 			spyOn(EsbPage, 'retrievePageTitle').and.returnValue('Jasmine Test Title');
-			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();
 		});
 
 		it("should call retrievePageTitle", function(){
 			expect(EsbPage.retrievePageTitle).toHaveBeenCalled();
 			expect(EsbPage.retrievePageTitle()).toEqual('Jasmine Test Title');
-		});
-
-		it("should call retrieveRootElement", function(){
-			expect(EsbPage.retrieveRootElement).toHaveBeenCalled();
-			expect(EsbPage.retrieveRootElement().html()).toEqual('<div id="outer-wrap"></div>');
 		});
 
 		it ("should have a includes count of 0", function(){
@@ -78,7 +72,6 @@ describe("EsbPage", function(){
 	describe("when there is an esb-include on the page", function(){
 		beforeEach(function(){
 			loadFixtures('include-all-syntaxes.html');
-			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();
 		});
 
@@ -90,7 +83,6 @@ describe("EsbPage", function(){
 	describe("when there is an esb-frame on the page", function(){
 		beforeEach(function(){
 			loadFixtures('frame.html');
-			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parse();
 		});
 
@@ -106,7 +98,6 @@ describe("EsbPage", function(){
 	describe("when there are multiple esb-frame-includes on the page", function(){
 		beforeEach(function(){
 			loadFixtures('frame-includes.html');
-			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parsed_esb_frames = [];
 			EsbPage.parse();
 		});
@@ -119,7 +110,6 @@ describe("EsbPage", function(){
 	describe("when there is an esb-mark on the page", function(){
 		beforeEach(function(){
 			loadFixtures('mark.html');
-			spyOn(EsbPage, 'retrieveRootElement').and.returnValue($("#jasmine-fixtures"));
 			EsbPage.parseEsbMarks();
 			EsbPage.esb_mark_auto_id = 1;
 		});

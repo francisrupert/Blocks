@@ -336,7 +336,7 @@
 .esb-mark-group-secondary .esb-mark-label {
   background: #801608; }
 
-.esb-mark.esb-mark--is-hidden .esb-mark-label {
+.esb-mark.esb-mark--is-hidden > .esb-mark-label {
   opacity: 0; }
 
 .esb-mark.esb-mark--is-hidden.esb-mark--has-outline {
