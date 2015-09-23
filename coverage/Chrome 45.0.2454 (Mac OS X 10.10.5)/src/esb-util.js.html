@@ -12,13 +12,13 @@
     </style>
 </head>
 <body>
-<div class="header high">
+<div class="header medium">
     <h1>Code coverage report for <span class="entity">src/esb-util.js</span></h1>
     <h2>
-        Statements: <span class="metric">81.45% <small>(101 / 124)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">58.46% <small>(38 / 65)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">82.14% <small>(23 / 28)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">80.37% <small>(86 / 107)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">76.38% <small>(97 / 127)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">50.75% <small>(34 / 67)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">82.76% <small>(24 / 29)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">74.55% <small>(82 / 110)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; esb-util.js</div>
@@ -296,13 +296,22 @@
 269
 270
 271
-272</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-yes">18</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -320,28 +329,28 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">63</span>
+<span class="cline-any cline-yes">62</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">63</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">63</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">62</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">62</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -563,6 +572,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -575,7 +593,7 @@ Object.defineProperty(exports, '__esModule', {
 &nbsp;
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i &lt; props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; <span class="missing-if-branch" title="else path not taken" >E</span>if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { <span class="missing-if-branch" title="else path not taken" >E</span>if (protoProps) defineProperties(Constructor.prototype, protoProps); <span class="missing-if-branch" title="if path not taken" >I</span>if (staticProps) <span class="cstat-no" title="statement not covered" >defineProperties(Constructor, staticProps); </span>return Constructor; }; })();
 &nbsp;
-function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? obj : <span class="branch-1 cbranch-no" title="branch not covered" >{ 'default': obj };</span> }
+function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? <span class="branch-0 cbranch-no" title="branch not covered" >obj </span>: { 'default': obj }; }
 &nbsp;
 function _classCallCheck(instance, Constructor) { <span class="missing-if-branch" title="if path not taken" >I</span>if (!(instance instanceof Constructor)) { <span class="cstat-no" title="statement not covered" >throw new TypeError('Cannot call a class as a function'); </span>} }
 &nbsp;
@@ -595,24 +613,24 @@ var EsbUtil = (function () {
           logging_level = _esbConfig2['default'].getConfig().get('logging_level'),
           level_text;
 &nbsp;
-      if (logging_level === undefined) {
-        logging_level = 'info';
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (logging_level === undefined) {
+<span class="cstat-no" title="statement not covered" >        logging_level = 'info';</span>
       }
 &nbsp;
-      if (levels.indexOf(level) &gt;= levels.indexOf(logging_level)) {
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof message !== 'string') {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (levels.indexOf(level) &gt;= levels.indexOf(logging_level)) {
+<span class="cstat-no" title="statement not covered" >        if (typeof message !== 'string') {</span>
 <span class="cstat-no" title="statement not covered" >          message = JSON.stringify(message);</span>
         }
 &nbsp;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (level === 'error') {
+<span class="cstat-no" title="statement not covered" >        if (level === 'error') {</span>
 <span class="cstat-no" title="statement not covered" >          level_text = 'ERROR';</span>
-        } else <span class="missing-if-branch" title="if path not taken" >I</span>if (level === 'warn') {
+        } else <span class="cstat-no" title="statement not covered" >if (level === 'warn') {</span>
 <span class="cstat-no" title="statement not covered" >          level_text = 'WARN';</span>
         } else {
-          level_text = level[0].toUpperCase() + level.slice(1);
+<span class="cstat-no" title="statement not covered" >          level_text = level[0].toUpperCase() + level.slice(1);</span>
         }
 &nbsp;
-        window.console[level](level_text + ': ' + message);
+<span class="cstat-no" title="statement not covered" >        window.console[level](level_text + ': ' + message);</span>
       }
     }
   }, {
@@ -832,6 +850,15 @@ var EsbUtil = (function () {
       }
       return value_found;
     }
+  }, {
+    key: 'dom_ready',
+    value: function dom_ready(fn) {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (document.readyState != 'loading') {
+        fn();
+      } else {
+<span class="cstat-no" title="statement not covered" >        document.addEventListener('DOMContentLoaded', fn);</span>
+      }
+    }
   }]);
 &nbsp;
   return EsbUtil;
@@ -843,7 +870,7 @@ module.exports = exports['default'];</pre></td></tr>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 23 2015 12:02:11 GMT-0500 (CDT)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 23 2015 14:25:15 GMT-0500 (CDT)</div>
 </div>
 <script src="../prettify.js"></script>
 <script>
