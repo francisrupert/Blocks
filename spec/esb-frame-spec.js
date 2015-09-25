@@ -67,6 +67,10 @@ describe("EsbFrame", function(){
 		expect(frame.get_device_dimensions('iphone-5', 'landscape')).toEqual({"width":568, "height":320, "iframe-height": 320, "aspect-ratio":'0.56338'});
 	});
 
+	it ("should get the correct width, height, and aspect ratio options when given a device of 'desktop'", function(){
+		expect(frame.get_device_dimensions('desktop', 'landscape')).toEqual({"width":1400, "height":788, "iframe-height": 788, "aspect-ratio":'0.56286'});
+	});
+
 	describe("with option overrides", function(){
 		beforeEach(function(){
 			frame = load_frame('frame-with-option-overrides.html');

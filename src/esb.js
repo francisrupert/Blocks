@@ -3,9 +3,9 @@ import EsbPage from './esb-page';
 import EsbUtil from './esb-util';
 
 EsbConfig.load().then(function() {
-  EsbUtil.dom_ready(blocks_execute);
+    EsbUtil.dom_ready(blocks_execute);
   }, function(err) {
-	window.console.log('Couldn\'t load EsbConfig: ' + err);
+	 window.console.log('Couldn\'t load EsbConfig: ' + err);
 });
 
 var blocks_execute = function(){
@@ -20,6 +20,6 @@ var blocks_execute = function(){
   function() {
     EsbUtil.logger('error', 'BlocksDone did not fire.');
   });
-}
+};
 
 export default {};

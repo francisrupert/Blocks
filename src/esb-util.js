@@ -237,7 +237,7 @@ class EsbUtil {
   }
 
   dom_ready(fn) {
-    if (document.readyState != 'loading'){
+    if (document.readyState !== 'loading'){
       fn();
     } else {
       document.addEventListener('DOMContentLoaded', fn);

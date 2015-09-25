@@ -63,7 +63,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  transform: scale(0.2);
+  -webkit-transform: scale(0.2);
+          transform: scale(0.2);
   transform-origin: 0 0;
   -webkit-transform-origin: 0 0; }
 
@@ -153,7 +154,6 @@
   position: relative;
   font-size: 11px;
   -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
   transform: translateZ(0);
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s; }
@@ -247,6 +247,14 @@
 .esb-frame--has-device-frame.esb-frame-device-frame-galaxy-s6.esb-frame-device-orientation-landscape .esb-frame-iframe-inner-wrap {
   top: 4.2%;
   left: 10.3%; }
+
+.esb-frame--has-device-frame.esb-frame-device-frame-desktop .esb-frame-iframe-inner-wrap {
+  top: 4.55%;
+  left: 5.7%; }
+
+.esb-frame--has-device-frame.esb-frame-device-frame-desktop.esb-frame-device-orientation-landscape .esb-frame-iframe-inner-wrap {
+  top: 5.7%;
+  left: 4.55%; }
 
 .esb-frame--has-device-frame {
   background: none;
@@ -406,5 +414,4 @@
   padding: 10px;
   font-size: 18px;
   font-family: Helvetica, Arial, sans-serif; }
-
 /*# sourceMappingURL=esb.css.map */

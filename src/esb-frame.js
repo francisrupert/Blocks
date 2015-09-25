@@ -263,6 +263,10 @@ export class EsbFrame {
 
 		//VIEWPORT-DEVICE and VIEWPORT-DEVICE-ORIENTATION
 		if (options['viewport-device']) {
+			if (options['viewport-device'] === 'desktop') {
+				options['viewport-device-orientation'] = 'landscape';
+			}
+
 			device_dimensions = self.get_device_dimensions(options['viewport-device'], options['viewport-device-orientation'], options['show-browser-ui']);
 			if (device_dimensions) {
 				options['viewport-width'] = device_dimensions.width;
@@ -543,7 +547,7 @@ export class EsbFrame {
 		if (self.options['viewport-device'] && self.options['device-annotation']) {
 			device_annotation = document.createElement('p');
 			annotation_text = self.device_presets[self.options['viewport-device']]['annotation-name'];
-			if (self.options['viewport-device-orientation'] === 'landscape') {
+			if (self.options['viewport-device-orientation'] === 'landscape' && self.options['viewport-device'] !== 'desktop') {
 				annotation_text += ', Landscape';
 			}
 			device_annotation.textContent = annotation_text;
@@ -1408,6 +1412,18 @@ export class EsbFrame {
 				'svg-landscape':'<svg class="esb-frame-device" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 335 163" enable-background="new 0 0 335 163" xml:space="preserve"> <g> <path fill="#FFFFFF" stroke="#808285" d="M308.5,0.5c14.359,0,26,11.641,26,26v110c0,14.359-11.641,26-26,26h-282 c-14.359,0-26-11.641-26-26v-110c0-14.359,11.641-26,26-26H308.5z"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M316.5,62.166c4.418,0,8,3.582,8,8v22.667c0,4.418-3.582,8-8,8 l0,0c-4.418,0-8-3.582-8-8V70.166C308.5,65.748,312.083,62.166,316.5,62.166L316.5,62.166z"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M13.042,65.508c1.381,0,2.5,1.119,2.5,2.5v26.984 c0,1.381-1.119,2.5-2.5,2.5l0,0c-1.381,0-2.5-1.119-2.5-2.5V68.008C10.542,66.627,11.661,65.508,13.042,65.508L13.042,65.508z"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.354" cy="112.635" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.354" cy="105.01" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.229" cy="42.572" r="4.125"/> </g> </svg>',
 				'frame-width-multiplier':'1.098',
 				'frame-height-multiplier':'1.268'
+			},
+			'desktop': {
+				'annotation-name': 'Desktop',
+				'width':788,
+				'height':1400,
+				'browser-ui-top-portrait': 20,
+				'browser-ui-bottom-portrait': 0,
+				'browser-ui-top-landscape': 20,
+				'browser-ui-bottom-landscape': 0,
+				'svg-landscape':'<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="2.084 2 550.917 428.055" enable-background="new 2.084 2 550.917 428.055" xml:space="preserve"><g id="IPAD" transform="translate(681.000000, 55.000000)"><path id="bezel-2" fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M-136.749,324.034h-533.417c-4.28,0-7.75-3.469-7.75-7.748V-44.253c0-4.278,3.469-7.747,7.75-7.747h533.417c4.28,0,7.75,3.469,7.75,7.747v360.539C-128.999,320.565-132.468,324.034-136.749,324.034z"/></g><path fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M336.246,380.968v25.508c0,8.906-7.221,16.127-16.127,16.127h-85.152c-8.906,0-16.127-7.221-16.127-16.127v-25.508H336.246z"/><path fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M277.542,420.668"/><path fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M367.533,419.055c0,5.522-4.477,9.999-9.999,9.999H197.552	c-5.523,0-10-4.477-10-9.999l0,0c0-5.522,4.477-9.999,10-9.999h159.981C363.056,409.056,367.533,413.533,367.533,419.055L367.533,419.055z"/></svg>',
+				'frame-width-multiplier':'1.518',
+				'frame-height-multiplier':'1.1'
 			}
 		};
 	}
