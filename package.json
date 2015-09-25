@@ -1,6 +1,6 @@
 {
   "name": "Blocks",
-  "version": "2.8.2",
+  "version": "2.8.3",
   "description": "EightShapes Blocks is a toolkit to organize, annotate, and modularize HTML prototypes created by EightShapes, LLC (http://www.eightshapes.com).",
   "repository": {
     "type": "git",
