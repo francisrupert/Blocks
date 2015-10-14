@@ -205,7 +205,8 @@ export class EsbFrame {
 			'crop': false,
 			'offset-x': false,
 			'offset-y': false,
-			'content': false
+			'content': false,
+			'fit-frame-to-contents': false
 		};
 
 		if (self.is_include_frame) {
@@ -915,21 +916,12 @@ export class EsbFrame {
 				self.stop_monitoring_scrollable_ancestors();
 			}
 
-			if (self.is_include_frame) {
-				self.include_loaded_in_iframe_behavior();
+			if (self.options['fit-frame-to-contents']) {
+				self.fit_frame_to_contents();
 			}
 			else {
 				self.set_dimensions_annotation_status('updated');
 			}
-		}
-	}
-
-	// INCLUDE FRAME ONLY - REFACTOR
-	include_loaded_in_iframe_behavior() {
-		var self = this;
-
-		if (self.options['fit-frame-to-contents']) {
-			self.fit_frame_to_contents();
 		}
 	}
 
@@ -1143,9 +1135,11 @@ export class EsbFrame {
 				blocks_done_interval = setInterval(function(){
 					// Make sure blocks has finished doing its thing
 					if (self.iframe_element.contentWindow.blocks_done) {
+						window.console.log("BLOCKS DONE");
 						clearInterval(blocks_done_interval);
 
 						content = self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML;
+						window.console.log(content);
 						wrapper_element.innerHTML = content;
 						// Wrap contents with a display: inline-block; element to get an accurate height and width
 						self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML = '';
