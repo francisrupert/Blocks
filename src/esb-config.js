@@ -1,11 +1,7 @@
-import $ from 'jquery';
-import EsbUtil from './esb-util';
-
 class EsbConfig {
   constructor() {
     this.url = 'config.json';
     this.setDefaults();
-    this.logger = EsbUtil.logger;
   }
 
   getConfig() {
@@ -35,19 +31,22 @@ class EsbConfig {
             data = JSON.parse(req.response);
           }catch(e){
             //If no valid JSON Config is found, set config to an empty object and log the message
-            self.logger('info', 'No valid JSON config found at: ' + uri + ', setting config to be an empty {}');
+            window.console.log('info', 'No valid JSON config found at: ' + uri + ', setting config to be an empty {}');
             data = {};
           }
 
           self.merge(data);
           self.setLoggingLevel();
-          self.makeAvailable(data);
-          $(document).trigger('blocks-config_loaded');
+          if (window.$ !== undefined) {
+            window.$(document).trigger('blocks-config_loaded');
+          }
           resolve(data);
         }
         else {
           window.console.error('FAILED TO FETCH CONFIG: ' + uri + ' returned ' + JSON.stringify(req.statusText));
-          $(document).trigger('blocks-config_loaded'); // We continue on with default options
+          if (window.$ !== undefined) {
+            window.$(document).trigger('blocks-config_loaded'); // We continue on with default options
+          }
           resolve(Error(req.statusText)); // Resolve the promise so Blocks can function without a config.json
         }
       };
@@ -58,10 +57,6 @@ class EsbConfig {
 
       req.send();
     });
-  }
-
-  makeAvailable(data) {
-    $.data(document.body, 'config', data);
   }
 
   merge(data) {
@@ -84,14 +79,14 @@ class EsbConfig {
     var self = this;
 
     let defaults = new Map();
-    let components = new Map();
+    let includes = new Map();
 
-    components.set('source', 'components/');
+    includes.set('source', 'includes/');
 
     // Defaults
     defaults.set('backward_compatible', false);
     defaults.set('path', '');
-    defaults.set('components', components);
+    defaults.set('includes', includes);
 
     self.config = defaults;
   }

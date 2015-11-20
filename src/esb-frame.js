@@ -18,7 +18,7 @@ export class EsbFrame {
 		self.config_json_global_options = self.config.get('frames');
 		self.page_level_config_element = self.get_page_level_config_element();
 		
-		self.is_component_frame = self.get_component_frame_status();
+		self.is_include_frame = self.get_include_frame_status();
 		self.default_options = self.get_default_options();
 		
 		self.set_device_presets();
@@ -46,8 +46,8 @@ export class EsbFrame {
 		self.options = self.get_frame_options();
 		self.iframe_src = self.options.iframe_src;
 
-		if (self.is_component_frame) {
-			self.is_component_template_url_valid().then(function(){
+		if (self.is_include_frame) {
+			self.is_include_template_url_valid().then(function(){
 				self.placeholder_element = self.get_placeholder_element();
 				self.placeholder_created = true;
 			}, function(){
@@ -160,18 +160,18 @@ export class EsbFrame {
 		return option_value;
 	}
 
-	get_component_frame_status() {
+	get_include_frame_status() {
 		var self = this,
-			is_component_frame = false,
+			is_include_frame = false,
 			global_config_json_variation = self.get_global_config_option('variation'),
 			page_level_config_variation = self.get_page_level_config_option('variation'),
 			element_level_config_variation = self.get_element_level_config_option('variation');
 
 		if (element_level_config_variation !== undefined || page_level_config_variation !== undefined || global_config_json_variation !== undefined ) {
-			is_component_frame = true;
+			is_include_frame = true;
 		}
 
-		return is_component_frame;
+		return is_include_frame;
 	}
 
 	get_default_options() {
@@ -198,21 +198,24 @@ export class EsbFrame {
 			'device-frame': false,
 			'show-browser-ui': false,
 			'variation': false,
-			'component-frame-template': 'component_frame_template.html',
-			'component-frame-template-target': 'body',
-			'component-source': '',
+			'include-frame-template': 'include_frame_template.html',
+			'include-frame-template-target': 'body',
+			'include-source': '',
 			'place': 'replace',
 			'crop': false,
 			'offset-x': false,
-			'offset-y': false
+			'offset-y': false,
+			'content': false,
+			'fit-frame-to-contents': false
 		};
 
-		if (self.is_component_frame) {
+		if (self.is_include_frame) {
 			options.width = false;
 			options.height = 'auto';
 			options.scale = 1;
 			options['viewport-width'] = false;
 			options['viewport-aspect-ratio'] = false;
+			options['fit-frame-to-contents'] = true;
 		}
 
 		return options; 
@@ -261,6 +264,10 @@ export class EsbFrame {
 
 		//VIEWPORT-DEVICE and VIEWPORT-DEVICE-ORIENTATION
 		if (options['viewport-device']) {
+			if (options['viewport-device'] === 'desktop') {
+				options['viewport-device-orientation'] = 'landscape';
+			}
+
 			device_dimensions = self.get_device_dimensions(options['viewport-device'], options['viewport-device-orientation'], options['show-browser-ui']);
 			if (device_dimensions) {
 				options['viewport-width'] = device_dimensions.width;
@@ -280,13 +287,13 @@ export class EsbFrame {
 		return options;
 	}
 
-	is_component_template_url_valid() {
+	is_include_template_url_valid() {
 		var self = this,
 			request = new XMLHttpRequest();
 
 	    return new Promise(function(resolve, reject) {
 
-			request.open('HEAD', self.options['component-frame-template'], true);
+			request.open('HEAD', self.options['include-frame-template'], true);
 
 			request.onload = function() {
 			  if (request.status >= 200 && request.status < 400) {
@@ -294,7 +301,7 @@ export class EsbFrame {
 			  } else {
 			    // We reached our target server, but it returned an error
 			    self.has_loading_error = true;
-			    self.loading_error_message = 'Could not load Component Frame, no component template found at: ' + self.options['component-frame-template'];
+			    self.loading_error_message = 'Could not load Include in Frame, no include template found at: ' + self.options['include-frame-template'];
 			    reject(self.loading_error_message);
 			  }
 			};
@@ -302,7 +309,7 @@ export class EsbFrame {
 			request.onerror = function() {
 			  // There was a connection error of some sort
 			    self.has_loading_error = true;
-			    self.loading_error_message = 'Could not load Component Frame, a connection error occurred while attempting to load: ' + self.options['component-frame-template'];
+			    self.loading_error_message = 'Could not load Include in Frame, a connection error occurred while attempting to load: ' + self.options['include-frame-template'];
 			    reject(self.loading_error_message);
 			};
 
@@ -314,9 +321,9 @@ export class EsbFrame {
 		var self = this,
 			iframe_src;
 
-		// COMPONENT FRAME
-		if (self.is_component_frame) {
-			iframe_src = self.build_component_iframe_src(options);
+		// INCLUDE FRAME
+		if (self.is_include_frame) {
+			iframe_src = self.build_include_iframe_src(options);
 		}
 		// REGULAR FRAME
 		else {
@@ -336,47 +343,55 @@ export class EsbFrame {
 		return iframe_src;
 	}
 
-	// COMPONENT FRAME ONLY
-	build_component_iframe_src(options) {
+	// INCLUDE FRAME ONLY
+	build_include_iframe_src(options) {
 		// Support legacy 'data-frame-component' syntax
 		var self = this,
-			component_url = options['component-frame-template'],
-			component_name = self.original_element.getAttribute('data-frame-component'),
-			component_variation = self.original_element.getAttribute('data-variation'),
-			component_source = self.original_element.getAttribute('data-source'),
-			component_place = self.original_element.getAttribute('data-place');
+			include_url = options['include-frame-template'],
+			include_name = self.original_element.getAttribute('data-frame-component'),
+			include_variation = self.original_element.getAttribute('data-variation'),
+			include_source = self.original_element.getAttribute('data-source'),
+			include_place = self.original_element.getAttribute('data-place'),
+			include_content = self.original_element.getAttribute('data-content');
 
-		if (component_name === null) {
-			component_name = options.frame;
+		if (include_name === null) {
+			include_name = options.frame;
 		}
 
-		if (component_variation === null) {
-			component_variation = options.variation;
+		if (include_variation === null) {
+			include_variation = options.variation;
 		}
 
-		if (component_source === null) {
-			component_source = options['component-source'];
+		if (include_source === null) {
+			include_source = options['include-source'];
 		}
 
-		if (component_place === null) {
-			component_place = options.place;
+		if (include_place === null) {
+			include_place = options.place;
 		}
 
-		if (component_url.indexOf('?') !== -1) {
+		if (include_content === null) {
+			include_content = options.content;
+		}
+
+		if (include_url.indexOf('?') !== -1) {
 			// already has query params
-			component_url += '&';
+			include_url += '&';
 		}
 		else {
-			component_url += '?';
+			include_url += '?';
 		}
 
-		component_url += 	'data-esb-component=' + component_name + 
-							'&data-esb-variation=' + component_variation +
-							'&data-esb-source=' + component_source +
-							'&data-esb-place=' + component_place + 
-							'&data-esb-target=' + options['component-frame-template-target'];
+		include_url += 	'data-esb-include=' + include_name + 
+							'&data-esb-variation=' + include_variation +
+							'&data-esb-source=' + include_source +
+							'&data-esb-place=' + include_place + 
+							'&data-esb-target=' + options['include-frame-template-target'];
+		if (include_content) {
+			include_url += 	'&data-esb-content=' + include_content;
+		}
 
-		return encodeURI(component_url).replace(/#/, '%23');
+		return encodeURI(include_url).replace(/#/, '%23');
 	}
 
 	// BOTH - CORE
@@ -470,7 +485,7 @@ export class EsbFrame {
 		outer_wrap.setAttribute('data-esb-uuid', self.uuid);
 
 		if (self.options.overlay) { EsbUtil.addClass(outer_wrap, 'esb-frame-has-overlay'); }
-		if (self.is_component_frame) { EsbUtil.addClass(outer_wrap, ' esb-frame--is-framed-component'); }
+		if (self.is_include_frame) { EsbUtil.addClass(outer_wrap, ' esb-frame--is-framed-include'); }
 		if (self.has_loading_error) { EsbUtil.addClass(outer_wrap, 'esb-frame--has-loading-error'); }
 		if (self.options['device-frame']) { 
 			EsbUtil.addClass(outer_wrap, 'esb-frame--has-device-frame esb-frame-device-frame-' + self.options['viewport-device']); 
@@ -533,7 +548,7 @@ export class EsbFrame {
 		if (self.options['viewport-device'] && self.options['device-annotation']) {
 			device_annotation = document.createElement('p');
 			annotation_text = self.device_presets[self.options['viewport-device']]['annotation-name'];
-			if (self.options['viewport-device-orientation'] === 'landscape') {
+			if (self.options['viewport-device-orientation'] === 'landscape' && self.options['viewport-device'] !== 'desktop') {
 				annotation_text += ', Landscape';
 			}
 			device_annotation.textContent = annotation_text;
@@ -672,7 +687,7 @@ export class EsbFrame {
 		if (self.options.height) {
 			height = self.options.height;
 		}
-		else if (self.is_component_frame) {
+		else if (self.is_include_frame) {
 			height = 180; //Set a nice default height so the loading animation displays
 		}
 		else if (width && self.options['viewport-aspect-ratio']) {
@@ -689,7 +704,7 @@ export class EsbFrame {
 			width = self.options.width;
 		}
 
-		if (!self.options.crop && self.is_component_frame) {
+		if (!self.options.crop && self.is_include_frame) {
 			width = 100;
 			height = 100;
 		}
@@ -725,6 +740,9 @@ export class EsbFrame {
 		
 		if (self.options['offset-y']) {
 			dimensions.top = self.options['offset-y'] + 'px';
+			if (self.options['offset-y'] < 0) {
+				dimensions.height = ((dimensions.height.replace(/px/, '') * 1) + Math.abs(self.options['offset-y'])) + 'px';
+			}
 		}
 
 		return dimensions;
@@ -898,20 +916,13 @@ export class EsbFrame {
 				self.stop_monitoring_scrollable_ancestors();
 			}
 
-			if (self.is_component_frame) {
-				self.component_loaded_in_iframe_behavior();
+			if (self.options['fit-frame-to-contents']) {
+				self.fit_frame_to_contents();
 			}
 			else {
 				self.set_dimensions_annotation_status('updated');
 			}
 		}
-	}
-
-	// COMPONENT FRAME ONLY - REFACTOR
-	component_loaded_in_iframe_behavior() {
-		var self = this;
-
-		self.fit_frame_to_contents();
 	}
 
 	// BOTH - CORE
@@ -1053,9 +1064,14 @@ export class EsbFrame {
 		var self = this,
 			inner_wrap = self.viewer_element.querySelector('.esb-frame-iframe-inner-wrap'),
 			scale = self.options.scale,
-			wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap');
+			wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap'),
+			offset_height_adjust = 0;
+
+		if (self.options['offset-y'] < 0) {
+			offset_height_adjust = Math.abs(self.options['offset-y']);
+		}
 		
-		inner_wrap.style.height = height + 'px';
+		inner_wrap.style.height = (height + offset_height_adjust) + 'px';
 		
 		if (!self.options.crop) {
 			if (!scale) {
@@ -1087,7 +1103,7 @@ export class EsbFrame {
 		self.update_dimensions_annotation({width: width});
 	}
 
-	// COMPONENT FRAME ONLY
+	// INCLUDE FRAME ONLY
 	fit_frame_to_contents() {
 		var self = this,
 			content,
@@ -1119,24 +1135,29 @@ export class EsbFrame {
 				blocks_done_interval = setInterval(function(){
 					// Make sure blocks has finished doing its thing
 					if (self.iframe_element.contentWindow.blocks_done) {
+						window.console.log("BLOCKS DONE");
 						clearInterval(blocks_done_interval);
 
-						assets_done_loading_interval = setInterval(function(){
-							content = self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML;
-							wrapper_element.innerHTML = content;
-							// Wrap contents with a display: inline-block; element to get an accurate height and width
-							self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = '';
-							self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).appendChild(wrapper_element);
+						content = self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML;
+						window.console.log(content);
+						wrapper_element.innerHTML = content;
+						// Wrap contents with a display: inline-block; element to get an accurate height and width
+						self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML = '';
+						self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).appendChild(wrapper_element);
 
+						// Take a pause before assessing height since the appendChild causes the DOM to reload
+						// content_height = EsbUtil.outerHeight(wrapper_element);
+						// content_width = EsbUtil.outerWidth(wrapper_element);
+
+
+						assets_done_loading_interval = setInterval(function(){
 							content_height = EsbUtil.outerHeight(wrapper_element);
 							content_width = EsbUtil.outerWidth(wrapper_element);
 
-							// Unwrap contents
-							content = wrapper_element.innerHTML;
-							self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
-
-
 							if (content_height === previous_height && content_width === previous_width) {
+								// Unwrap contents
+								content = wrapper_element.innerHTML;
+								self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML = content;
 								clearInterval(assets_done_loading_interval);
 								// Add a slight delay so the dom can re-render correctly and we get accurate width and height calculations
 								setTimeout(function(){
@@ -1151,7 +1172,7 @@ export class EsbFrame {
 								previous_width = content_width;
 							}
 							
-						}, 50);
+						}, 250);
 					}
 				}, 10);
 			}
@@ -1385,6 +1406,18 @@ export class EsbFrame {
 				'svg-landscape':'<svg class="esb-frame-device" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 335 163" enable-background="new 0 0 335 163" xml:space="preserve"> <g> <path fill="#FFFFFF" stroke="#808285" d="M308.5,0.5c14.359,0,26,11.641,26,26v110c0,14.359-11.641,26-26,26h-282 c-14.359,0-26-11.641-26-26v-110c0-14.359,11.641-26,26-26H308.5z"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M316.5,62.166c4.418,0,8,3.582,8,8v22.667c0,4.418-3.582,8-8,8 l0,0c-4.418,0-8-3.582-8-8V70.166C308.5,65.748,312.083,62.166,316.5,62.166L316.5,62.166z"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M13.042,65.508c1.381,0,2.5,1.119,2.5,2.5v26.984 c0,1.381-1.119,2.5-2.5,2.5l0,0c-1.381,0-2.5-1.119-2.5-2.5V68.008C10.542,66.627,11.661,65.508,13.042,65.508L13.042,65.508z"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.354" cy="112.635" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.354" cy="105.01" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.229" cy="42.572" r="4.125"/> </g> </svg>',
 				'frame-width-multiplier':'1.098',
 				'frame-height-multiplier':'1.268'
+			},
+			'desktop': {
+				'annotation-name': 'Desktop',
+				'width':788,
+				'height':1400,
+				'browser-ui-top-portrait': 20,
+				'browser-ui-bottom-portrait': 0,
+				'browser-ui-top-landscape': 20,
+				'browser-ui-bottom-landscape': 0,
+				'svg-landscape':'<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="2.084 2 550.917 428.055" enable-background="new 2.084 2 550.917 428.055" xml:space="preserve"><g id="IPAD" transform="translate(681.000000, 55.000000)"><path id="bezel-2" fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M-136.749,324.034h-533.417c-4.28,0-7.75-3.469-7.75-7.748V-44.253c0-4.278,3.469-7.747,7.75-7.747h533.417c4.28,0,7.75,3.469,7.75,7.747v360.539C-128.999,320.565-132.468,324.034-136.749,324.034z"/></g><path fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M336.246,380.968v25.508c0,8.906-7.221,16.127-16.127,16.127h-85.152c-8.906,0-16.127-7.221-16.127-16.127v-25.508H336.246z"/><path fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M277.542,420.668"/><path fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M367.533,419.055c0,5.522-4.477,9.999-9.999,9.999H197.552	c-5.523,0-10-4.477-10-9.999l0,0c0-5.522,4.477-9.999,10-9.999h159.981C363.056,409.056,367.533,413.533,367.533,419.055L367.533,419.055z"/></svg>',
+				'frame-width-multiplier':'1.518',
+				'frame-height-multiplier':'1.1'
 			}
 		};
 	}

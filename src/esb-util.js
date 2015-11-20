@@ -200,6 +200,49 @@ class EsbUtil {
 
     return svg_icon;
   }
+
+  is_json(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+  dom_contains_element(selector) {
+    return document.querySelectorAll(selector).length > 0;
+  }
+
+  head_comment_matches(value_to_match) {
+    var value_found = false,
+        comments = [],
+        head_nodes = document.head.childNodes,
+        i,
+        node;
+
+    for (i=0; i < head_nodes.length; i++) {
+      node = head_nodes[i];
+      if (node.nodeType === 8) {
+        comments.push(node);
+      }
+    }
+
+    for (i=0; i < comments.length; i++) {
+      if (comments[i].textContent.indexOf(value_to_match) > -1){
+        value_found = true;
+      }
+    }
+    return value_found;
+  }
+
+  dom_ready(fn) {
+    if (document.readyState !== 'loading'){
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
 }
 
 export default new EsbUtil();

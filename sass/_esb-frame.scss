@@ -10,9 +10,13 @@ $viewer-scale: $viewer-width / $viewer-content-width;
 	box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   min-width: 200px;
   font-family: $esb-font-family;
-  margin: 10px;
+  margin: 10px 0;
 
-  &.esb-frame--is-framed-component {
+  & + .esb-frame {
+    margin-left: 20px;
+  }
+
+  &.esb-frame--is-framed-include {
     min-width: 0;
   }
 
@@ -266,6 +270,10 @@ $device-offsets: (
   'galaxy-s6': (
     'top': 10.3%,
     'left': 4.2%
+  ),
+  'desktop': (
+    'top': 4.55%,
+    'left': 5.7%
   )
 );
 
@@ -287,12 +295,20 @@ $device-offsets: (
 
   .esb-frame-iframe-wrap {
     background: none;
+    margin: 0;
   }
 
   .esb-frame-iframe {
     z-index: 2;
     background: gray;
     padding: 2px;
+  }
+
+  .esb-frame-dimensions-annotation,
+  .esb-frame-device-annotation,
+  .esb-frame-caption,
+  .esb-frame-title {
+    padding-left: 0;
   }
 }
 
@@ -306,7 +322,7 @@ $device-offsets: (
   padding-top: 0;
 }
 
-.component-frame-template-wrapper {
+.include-frame-template-wrapper {
   // Prevents margin collapse on component being framed
   padding-top: 1px;
   padding-bottom: 1px;

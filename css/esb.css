@@ -5,8 +5,10 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   min-width: 200px;
   font-family: "Proxima Nova", "Arial", sans-serif;
-  margin: 10px; }
-  .esb-frame.esb-frame--is-framed-component {
+  margin: 10px 0; }
+  .esb-frame + .esb-frame {
+    margin-left: 20px; }
+  .esb-frame.esb-frame--is-framed-include {
     min-width: 0; }
   .esb-frame.esb-frame--has-loading-error {
     max-width: 300px;
@@ -246,15 +248,29 @@
   top: 4.2%;
   left: 10.3%; }
 
+.esb-frame--has-device-frame.esb-frame-device-frame-desktop .esb-frame-iframe-inner-wrap {
+  top: 4.55%;
+  left: 5.7%; }
+
+.esb-frame--has-device-frame.esb-frame-device-frame-desktop.esb-frame-device-orientation-landscape .esb-frame-iframe-inner-wrap {
+  top: 5.7%;
+  left: 4.55%; }
+
 .esb-frame--has-device-frame {
   background: none;
   box-shadow: none; }
   .esb-frame--has-device-frame .esb-frame-iframe-wrap {
-    background: none; }
+    background: none;
+    margin: 0; }
   .esb-frame--has-device-frame .esb-frame-iframe {
     z-index: 2;
     background: gray;
     padding: 2px; }
+  .esb-frame--has-device-frame .esb-frame-dimensions-annotation,
+  .esb-frame--has-device-frame .esb-frame-device-annotation,
+  .esb-frame--has-device-frame .esb-frame-caption,
+  .esb-frame--has-device-frame .esb-frame-title {
+    padding-left: 0; }
 
 .esb-frame-browser-ui-top {
   background: #efefef;
@@ -264,7 +280,7 @@
 .esb-frame-browser-ui-top + .esb-frame-iframe {
   padding-top: 0; }
 
-.component-frame-template-wrapper {
+.include-frame-template-wrapper {
   padding-top: 1px;
   padding-bottom: 1px;
   margin: -1px 0; }
@@ -289,7 +305,10 @@
   font-size: 16px;
   font-family: "Proxima Nova", "Arial", sans-serif;
   opacity: 1;
-  padding: 5px 0; }
+  padding: 5px 0;
+  display: none; }
+  .esb-mark--has-label .esb-mark-label {
+    display: block; }
   .esb-mark-position-top-right .esb-mark-label {
     left: auto;
     right: 0; }
@@ -325,7 +344,7 @@
 .esb-mark-group-secondary .esb-mark-label {
   background: #801608; }
 
-.esb-mark.esb-mark--is-hidden .esb-mark-label {
+.esb-mark.esb-mark--is-hidden > .esb-mark-label {
   opacity: 0; }
 
 .esb-mark.esb-mark--is-hidden.esb-mark--has-outline {

@@ -1,0 +1,38 @@
+// .esb-mark-label {
+// 	z-index: 100;
+// }
+
+.esb-frame {
+	background: $smoke;
+	min-width: 0;
+
+	&.esb-frame--has-device-frame {
+		background: none;
+	}
+}
+
+.esb-frame-title {
+	color: $charcoal;
+}
+
+.esb-frame-link .esb-frame-title {
+	color: $anchor-font-color;
+
+	&:hover {
+		color: lighten($anchor-font-color, 10%);
+	}
+}
+
+.esb-frame-iframe-wrap {
+	background: white;
+}
+
+// .page-annotations-list {
+// 	dd {
+// 		margin-bottom: 30px;
+// 	}
+
+// 	dt {
+// 		font-size: $font-size-h4;
+// 	}
+// }

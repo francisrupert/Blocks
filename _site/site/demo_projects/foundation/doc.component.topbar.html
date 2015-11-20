@@ -1,0 +1,122 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Components</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../../../dist/esb.min.css">
+	<link rel="stylesheet" href="css/docs.css">
+	<script src="../../../dist/esb.min.js"></script>
+	<script src="../../bower_components/foundation/js/foundation.min.js"></script>
+	<script src="js/doc-page-annotation-toggle.js"></script>
+	<link rel="stylesheet" href="../../css/prism.css">
+	<script src="../../js/prism.min.js"></script>
+</head>
+<body>
+	<div data-esb-include="topbar"></div>
+	<div class="row">
+		<div class="small-12 columns">
+			<h1>Top Bar</h1>
+			<p class="lead">
+				Houses both branding and navigation for the entire site.
+			</p>
+			<h4>Variations</h4>
+			<ol id="variation-nav">
+				<li><a href="#default-variation">Default</a></li>
+				<li><a href="#brand-only-variation">Brand Only</a></li>
+				<li><a href="#inverted-variation">Inverted</a></li>
+			</ol>
+			<h2 id="default-variation" class="anchor-header">1. Default</h2>
+			<div data-esb-frame="topbar" data-esb-variation="stock" data-esb-viewport-width="1100" data-esb-include-frame-template="include_frame_template.html?visible-on-load=false"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="small-10 columns">
+			<h6>Code</h6>
+			<pre class="language-markup">
+<code>&lt;nav class=&quot;top-bar&quot; data-topbar role=&quot;navigation&quot;&gt;
+	&lt;ul class=&quot;title-area&quot;&gt;
+		&lt;li class=&quot;name&quot;&gt;
+			&lt;h1&gt;&lt;a href=&quot;#&quot;&gt;Company Inc.&lt;/a&gt;&lt;/h1&gt;
+		&lt;/li&gt;
+		&lt;li class=&quot;toggle-topbar menu-icon&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;span&gt;Menu&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;section class=&quot;top-bar-section&quot;&gt;
+		&lt;ul class=&quot;right&quot;&gt;
+			&lt;li&gt;&lt;a href=&quot;#&quot;&gt;About Us&lt;/a&gt;&lt;/li&gt;
+			&lt;li class=&quot;has-dropdown&quot;&gt;
+				&lt;a href=&quot;#&quot;&gt;Parts&lt;/a&gt;
+				&lt;ul class=&quot;dropdown&quot;&gt;
+					&lt;li&gt;&lt;a href=&quot;#&quot;&gt;Exhaust Systems&lt;/a&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;a href=&quot;#&quot;&gt;Cold Air Intakes&lt;/a&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;a href=&quot;#&quot;&gt;Carburetors&lt;/a&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;a href=&quot;#&quot;&gt;Fuel Injectors&lt;/a&gt;&lt;/li&gt;
+				&lt;/ul&gt;
+			&lt;/li&gt;
+		&lt;/ul&gt;
+	&lt;/section&gt;
+&lt;/nav&gt;</code>
+			</pre>
+		</div>
+	</div>
+	<div class="row">
+		<div class="small-10 columns">
+			<h3>Responsive Behavior</h3>
+			<div data-esb-frame="topbar" data-esb-variation="stock" data-esb-viewport-width="1000"></div><br/>
+			<div data-esb-frame="topbar" data-esb-variation="stock" data-esb-viewport-width="768"></div><br/>
+			<div data-esb-frame="topbar" data-esb-variation="stock" data-esb-viewport-width="320"></div><br/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="small-12 columns">
+			<h2 id="brand-only-variation" class="anchor-header">2. Brand Only</h2>
+			<div data-esb-frame="topbar" data-esb-variation="brand-only" data-esb-viewport-width="1100" data-esb-include-frame-template="include_frame_template.html?visible-on-load=false"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="small-12 columns">
+			<h2 id="inverted-variation" class="anchor-header">3. Inverted</h2>
+			<div data-esb-frame="topbar" data-esb-variation="inverted" data-esb-viewport-width="1100" data-esb-include-frame-template="include_frame_template.html?visible-on-load=false"></div>
+		</div>
+	</div>
+	<!-- <h3>States</h3>
+	<div class="row">
+		<div class="col-md-12">
+			<div data-esb-frame="navbar" data-esb-variation="collapse-nav-open" data-esb-viewport-width="320" data-esb-title="Collapsed Nav Open"></div>
+		</div>
+	</div>
+
+	<hr>
+	<h2 id="brand-only-variation" class="anchor-header">2. Brand Only</h2>
+	<div class="row">
+		<div class="col-md-8">
+			<div data-esb-frame="navbar" data-esb-variation="brand-only" data-esb-viewport-width="1000" data-esb-scale="0.7" data-esb-include-frame-template="include_frame_template.html?visible-on-load=true"></div><br/>
+		</div>
+		<div class="col-md-4">
+			<dl class="page-annotations-list">
+				<dt>Use When</dt>
+				<dd>
+					Use on lead / e-commerce conversion pages (checkout, form submission). Eliminates distractions and helps boost conversion percentages.
+				</dd>
+			</dl>
+		</div>
+	</div>
+
+	<hr>
+	<h2 id="inverted-variation" class="anchor-header">3. Inverted</h2>
+	<div class="row">
+		<div class="col-md-8">
+			<div data-esb-frame="navbar" data-esb-variation="inverted" data-esb-viewport-width="1000" data-esb-scale="0.7" data-esb-include-frame-template="include_frame_template.html?visible-on-load=true"></div><br/>
+		</div>
+		<div class="col-md-4">
+			<dl class="page-annotations-list">
+				<dt>Use When</dt>
+				<dd>
+					Use when the content on the page would be better served by an alternate navbar background.
+				</dd>
+			</dl>
+		</div>
+	</div> -->
+</body>
+</html>

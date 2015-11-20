@@ -1,0 +1,12 @@
+<section data-esb-variation="one">
+	<h2>I'm the nested part!</h2>
+</section>
+<section data-esb-variation="two">
+	<h3>Me too!</h3>
+</section>
+<section data-esb-variation="nested-variables">
+	<div data-esb-include="child-include" data-esb-variation="self-referential" data-esb-content='{"nested-variable-value":"{{nested-variable-value}}"}'></div>
+</section>
+<section data-esb-variation="self-referential">
+	<p>The nested variable value is: {{nested-variable-value}}</p>
+</section>

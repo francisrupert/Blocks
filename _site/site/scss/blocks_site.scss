@@ -1,0 +1,319 @@
+@import 'fonts';
+$fa-font-path:        "../bower_components/font-awesome/fonts"; // for referencing Bootstrap CDN font files directly
+@import 'font-awesome';
+@import 'variables';
+@import 'esb_overrides';
+@import 'bootstrap';
+
+@mixin restrict-width {
+	max-width: $screen-xl;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@mixin border-bottom-styleized {
+	border-bottom: dashed 1px $gray-light;
+}
+
+@mixin link-bullets($color, $top-offset: ($font-size-base / 2)) {
+	position: relative;
+
+	&:after {
+		content: '';
+		width: 4px;
+		height: 4px;
+		border-radius: 2px;
+		background-color: $color;
+		display: block;
+		position: absolute;
+		right: -4px;
+		top: $top-offset;
+	}
+
+	&:last-child:after {
+		display: none;
+	}
+}
+
+@mixin full-bleed {
+	margin-left: -($grid-gutter-width / 2);
+	margin-right: -($grid-gutter-width / 2);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+sup {
+	top: -0.2em;
+	color: $brand-primary;
+}
+
+pre,
+pre[class*="language-"] {
+	margin-bottom: $spacing-separating-vertical;
+	font-size: 14px;
+}
+
+.code-filename-header {
+	background: $gray-darker;
+	color: $gray-lighter;
+	padding: $spacing-base-vertical $spacing-base-horizontal;
+	margin-bottom: 0;
+	border-radius: $border-radius-base $border-radius-base 0 0;
+
+	& + pre,
+	& + pre[class*="language-"] {
+		margin-top: 0;
+		border-radius: 0 0 $border-radius-base $border-radius-base;
+	}
+}
+
+.container-fluid .jumbotron {
+	@include full-bleed;
+	background: $brand-primary;
+	color: white;
+	text-align: center;
+	border-radius: 0;
+	margin-bottom: $spacing-separating-vertical;
+
+	.lead {
+		max-width: 400px;
+		margin-left: auto;
+		margin-right: auto;
+		padding: 0 $spacing-base-horizontal;
+	}
+
+}
+
+.jumbotron-action-links {
+	background: lighten($brand-primary, 5%);
+	width: auto;
+	display: inline-block;
+	margin: 0 auto;
+	padding: $spacing-large-vertical $spacing-base-horizontal;
+
+	a {
+		color: white;
+		padding: 0 $spacing-large-horizontal;
+		font-family: $font-family-light;
+		display: block;
+		height: 40px;
+		line-height: 40px;
+	}
+}
+
+.navbar + .container-fluid > .jumbotron:first-child {
+	margin-top: -($navbar-margin-bottom);
+}
+
+.page-header {
+	@include restrict-width;
+	@include border-bottom-styleized;
+	text-align: center;
+}
+
+hr {
+	border-top: 0;
+	@include border-bottom-styleized;
+}
+
+.esb-tool-overview {
+	@include restrict-width;
+	@include border-bottom-styleized;
+	padding-top: $spacing-separating-vertical;
+	padding-bottom: $spacing-separating-vertical;
+
+	&:last-child {
+		border-bottom: none;
+	}
+
+	h2,
+	h4 {
+		text-transform: uppercase;
+	}
+}
+
+.esb-tool-overview-nav {
+	// text-align: right;
+	margin-bottom: $spacing-xl-vertical;
+
+	a {
+		@include link-bullets($gray, 12px);
+		display: inline-block;
+		text-transform: uppercase;
+		padding: $spacing-base-vertical ($spacing-base-horizontal / 2);
+
+		&.active {
+			color: $gray;
+			font-family: $font-family-light;
+		}
+
+		&:first-child {
+			padding-left: 0;
+		}
+
+		&:last-child {
+			padding-right: 0;
+		}
+	}
+
+	i {
+		font-size: $font-size-xs;
+	}
+}
+
+.esb-include-explanation {
+	font-size: 14px;
+	background: $gray-lighter;
+	padding: $spacing-xl-vertical $spacing-base-horizontal;
+	position: relative;
+	margin-bottom: $spacing-separating-vertical;
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			font-family: $font-family-monospace;
+			margin-bottom: $spacing-large-vertical;
+			vertical-align: middle;
+			
+			span {
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		i {
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: $spacing-xs-horizontal;
+			font-size: $font-size-h3;
+		}
+	}
+}
+
+.esb-include-explanation_injected {
+	transition: bottom 1s ease, right 1s ease, transform 1s ease; 
+	position: absolute;
+	bottom: -30px;
+	right: 0;
+	width: 80px;
+	font-size: $font-size-large;
+	color: $brand-primary;
+	transform: rotate(10deg);
+
+	i {
+		transition: bottom 1s ease, left 1s ease, transform 1s ease; 
+		position: absolute;
+		bottom: -30px;
+		left: -20px;
+		transform: rotate(135deg);
+		font-size: $font-size-h2;
+	}
+}
+
+.painted-row {
+	@include full-bleed;
+	padding-top: $spacing-separating-vertical;
+	padding-bottom: $spacing-separating-vertical;
+
+	&.light-bg {
+		background: $gray-lighter;
+	}
+
+	&.dark-bg {
+		background: $gray-darker;
+	}
+
+	&.darkest-bg {
+		background: $gray-base;
+	}
+}
+
+.painted-row-inner {
+	@include restrict-width;
+
+	h1 {
+		margin-bottom: $spacing-separating-vertical;
+	}
+
+	.row {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+.ui-framework-demo-link {
+	margin-bottom: $spacing-separating-vertical;
+
+	h2 {
+		margin-top: 0;
+	}
+
+	img {
+		display: inline-block;
+		max-width: 80px;
+	}
+}
+
+.esb-tool-overview-content {
+	margin-bottom: $spacing-separating-vertical;
+}
+
+.docs-container {
+	@include restrict-width;
+}
+
+@media screen and (min-width: $screen-sm) {
+	.esb-include-explanation_injected {
+		position: absolute;
+		bottom: 50px;
+		right: -50px;
+		width: 80px;
+		font-size: $font-size-large;
+		color: $brand-primary;
+		transform: rotate(-10deg);
+
+		i {
+			position: absolute;
+			bottom: -30px;
+			left: 20px;
+			transform: rotate(45deg);
+			font-size: $font-size-h2;
+		}
+	}
+	.jumbotron-action-links {
+		a {
+			@include link-bullets(white);
+			display: inline-block;
+			height: auto;
+			line-height: 17px;
+		}
+	}
+}
+
+@media screen and (min-width: $screen-md) {
+	.container-fluid .jumbotron {
+		@include full-bleed;
+	}
+}
+
+@media screen and (min-width: $screen-lg) {
+	.esb-tool-overview-nav {
+		text-align: right;
+	}	
+}

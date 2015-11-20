@@ -1,6 +1,5 @@
-import $ from 'jquery';
 import EsbUtil from './esb-util';
-import { EsbComponent } from './esb-component';
+import { EsbInclude } from './esb-include';
 import { EsbFrame } from 'src/esb-frame';
 import { EsbMark } from 'src/esb-mark';
 
@@ -9,33 +8,14 @@ class EsbPage {
     var self = this;
 
     self.logger = EsbUtil.logger;
-    self.timer = EsbUtil.timer();
     self.blocks_done = false;
     self.blocks_done_timeout_ms = 15000;
 
-    self.parsed_esb_components = [];
+    self.parsed_esb_includes = [];
     self.parsed_esb_frames = [];
     self.parsed_esb_marks = [];
     self.esb_mark_auto_id = 1;
 
-    // page cache of components
-    self.components = {};
-    self.component_variations = {};
-    self.cache = {};
-    self.time_start = self.timer();
-    self.time_duration = null;
-
-    // Keep track of kids purely to know when the page is finished rendering
-    // in order to fire off JS at the end and trigger a page done event
-    self.child_count = 0;
-    self.children_loaded = 0;
-    self.children_rendered = 0;
-    self.child_count_js = 0;
-    self.child_js_injected = 0;
-
-    // A flag for children to know that there are no more parents to notify
-    // The 'page' type is the root
-    self.type = 'page';
     self.setEventListeners();
   }
 
@@ -46,14 +26,23 @@ class EsbPage {
    */
   display() {
     var self = this,
-        parsed_esb_components = self.getParsedEsbComponents();
+        parsed_esb_includes = self.get_parsed_esb_includes(),
+        rendered_includes = [],
+        all_includes_rendered;
 
-    if (parsed_esb_components.length > 0) {
-      for (let idx in parsed_esb_components) {
-        let page_component = self.parsed_esb_components[idx];
-
-        page_component.load();
+    if (parsed_esb_includes.length > 0) {
+      for (let idx in parsed_esb_includes) {
+        let include = self.parsed_esb_includes[idx];
+        rendered_includes.push(include.render());
       }
+
+      all_includes_rendered = Promise.all(rendered_includes);
+      all_includes_rendered.then(function(){
+        self.setBlocksDone();
+      },
+      function(err){
+        self.logger('error', err);
+      });
     }
     else {
       self.setBlocksDone();
@@ -138,9 +127,9 @@ class EsbPage {
     return self.parsed_esb_marks;
   }
 
-  getParsedEsbComponents() {
+  get_parsed_esb_includes() {
     var self = this;
-    return self.parsed_esb_components;
+    return self.parsed_esb_includes;
   }
 
   getEsbMarkAutoId() {
@@ -154,37 +143,28 @@ class EsbPage {
 
   parse() {
     var self = this;
-    self.parseEsbComponents();
+    self.parse_esb_includes();
     self.parseEsbFrames();
   }
 
-  parseEsbComponents() {
+  parse_esb_includes() {
     var self = this,
-      queued_components = [];
+      includes = [],
+      i;
 
     self.name  = self.retrievePageTitle();
-    self.$root = self.retrieveRootElement();
 
-    self.$root.find('*[data-component], *[data-esb-component]').each(function () {
-      self.child_count++;
-
-      $(this).attr('data-blocks-uuid', EsbUtil.generateUUID());
-
-      // MUST queue the components to get an accurate child count
-      queued_components.push({ page: self, component: $(this) });
-    });
-
-    self.logger('info', 'PAGE ' + self.name + ' has ' + self.child_count + ' children');
-
-    queued_components.forEach(function (queued_component) {
-      let component = new EsbComponent({
-        page: queued_component.page,
-        parent: queued_component.page, // This component's parent is this page
-        component: queued_component.component
+    includes = document.querySelectorAll('*[data-component], *[data-esb-component], *[data-esb-include]');
+    for (i=0; i < includes.length; i++) {
+      let uuid = EsbUtil.generateUUID();
+      includes[i].setAttribute('data-esb-uuid', uuid);
+      let include = new EsbInclude({
+        include_snippet: includes[i],
+        uuid: uuid
       });
 
-      self.parsed_esb_components.push(component);
-    });
+      self.parsed_esb_includes.push(include);
+    }
   }
 
   parseEsbFrames() {
@@ -193,9 +173,8 @@ class EsbPage {
         i = 0;
 
     self.name  = self.retrievePageTitle();
-    self.$root = self.retrieveRootElement();
 
-    frames = self.$root[0].querySelectorAll('*[data-esb-frame]:not([data-esb-frame-config]), *[data-frame-component]');
+    frames = document.querySelectorAll('*[data-esb-frame]:not([data-esb-frame-config]), *[data-frame-component]');
 
     for (i=0; i < frames.length; i++) {
       let uuid = EsbUtil.generateUUID();
@@ -218,9 +197,8 @@ class EsbPage {
         i = 0;
 
     self.name  = self.retrievePageTitle();
-    self.$root = self.retrieveRootElement();
 
-    marks = self.$root[0].querySelectorAll('*[data-esb-mark]:not([data-esb-mark-config])');
+    marks = document.querySelectorAll('*[data-esb-mark]:not([data-esb-mark-config])');
 
     for (i=0; i < marks.length; i++) {
       let uuid = EsbUtil.generateUUID();
@@ -237,164 +215,47 @@ class EsbPage {
   }
 
   retrievePageTitle() {
-    return $(document).find('head title').text();
+    return document.title;
   }
 
-  retrieveRootElement() {
-    return $('body');
-  }
-
-  renderComponentFromQueryStringParams() {
+  renderIncludeSnippetFromQueryStringParams() {
     var self = this,
         query_string = EsbUtil.getUrlQueryString(),
         query_params = EsbUtil.convertQueryStringToJson(query_string),
-        component = self.generateComponentElement(query_params),
+        include_snippet = self.generateIncludeSnippet(query_params),
         target;
 
-    if (component && query_params['data-esb-target'] !== undefined) {
+    if (include_snippet && query_params['data-esb-target'] !== undefined) {
       target = document.querySelector(query_params['data-esb-target']);
-      EsbUtil.addClass(target, 'component-frame-template-wrapper');
-      target.appendChild(component);
+      if (target !== null) {
+        EsbUtil.addClass(target, 'include-frame-template-wrapper');
+        target.appendChild(include_snippet);
+      }
     }
   }
 
-  generateComponentElement(component_params) {
+  generateIncludeSnippet(query_params) {
     var i,
-    component = false,
+    include_snippet = false,
     params = [
-      'component',
+      'include',
       'variation',
       'place',
-      'source'
+      'source',
+      'content'
     ];
 
 
-    if (component_params['data-esb-component'] !== undefined) {
-      component = document.createElement('div');
+    if (query_params['data-esb-include'] !== undefined) {
+      include_snippet = document.createElement('div');
       for (i=0; i < params.length; i++) {
-        if (component_params['data-esb-' + params[i]] !== undefined) {
-          component.setAttribute('data-' + params[i], component_params['data-esb-' + params[i]]);
+        if (query_params['data-esb-' + params[i]] !== undefined) {
+          include_snippet.setAttribute('data-esb-' + params[i], query_params['data-esb-' + params[i]]);
         }
       }
     }
 
-    return component;
-  }
-
-  /**
-   * @method: childDoneLoading
-   * @params: child
-   *
-   * Takes a EsbComponent object, tracks that it is finished loading,
-   * and calls render on that object.
-   *
-   * This function is recursive in that it will render children
-   * nested inside this child.
-   */
-  childDoneLoading(child) {
-    var self = this;
-
-    self.children_loaded++;
-
-    self.logger('debug', 'READY TO RENDER PAGE LEVEL CHILDREN: ' + child.template_name());
-
-    child.render();
-  }
-
-  /**
-   * @method: childDoneRendering
-   * @params: child
-   *
-   * Takes a EsbComponent object, tracks that it has finished rendering
-   * itself.
-   * Replaces components on the page with their child's rendered elements.
-   * Then injects the component Javascript.
-   */
-  childDoneRendering(child) {
-    var self = this,
-      $page_component;
-
-
-    if (child.content !== undefined) {
-      $page_component = self.$root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"][data-content=\'' + child.content + '\']');
-    }
-    else {
-      $page_component = self.$root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"]').not('[data-content]');
-    }
-
-    self.children_rendered++;
-
-    self.logger('debug', 'READY TO RENDER PAGE LEVEL Component: ' + child.template_name());
-
-    if (child.replace_reference || child.frame_with_documentation) {
-      $page_component.replaceWith(child.$el);
-    } else {
-      $page_component.append(child.$el);
-    }
-
-    // Once all of the kids are done we'll spawn all JS
-    if (self.child_count === self.children_rendered) {
-      self.injectComponentJS();
-    }
-
-    // Exposing just the page level component variations
-    // to pages using Blocks
-    self.component_variations[child.template_name()] = child;
-  }
-
-  getIDFromVariation($component) {
-    return $component.attr('data-blocks-uuid');
-  }
-
-  injectComponentJS() {
-    var self = this;
-
-    for (var name in self.components) {
-      let component = self.components[name];
-      component.injectJS(self);
-      self.child_count_js++;
-    }
-  }
-
-  childDoneInjectingJS() {
-    var self = this,
-        event;
-
-    self.child_js_injected++;
-
-    if (self.child_count_js === self.child_js_injected) {
-      if (window.self !== window.top) {
-        // If blocks is being run inside an iFrame (Blocks Viewer)
-        self.logger('debug', 'TRIGGERING blocks-done on parent body from within iFrame');
-        parent.$('body').trigger('blocks-done');
-
-        self.logger('debug', 'TRIGGERING blocks-done-inside-viewer on parent body from within iFrame');
-        parent.$('body').trigger('blocks-done-inside-viewer', {'iframe_id': window.frameElement.id});
-
-        // This triggers blocks-done within the iFrame itself. BlocksViewer has a listener for this event so the height and width of the iframe can be dynamically set after BlocksLoader has finished
-        $('body').trigger('blocks-done');
-      }
-      else {
-        // Blocks loader is being used without BlocksViewer
-        self.logger('info', 'TRIGGERING blocks-done');
-        $(document).trigger('blocks-done');
-      }
-
-      // Trigger non-jQuery version of the blocks-done event
-      if (window.CustomEvent) {
-        event = new CustomEvent('blocks-done');
-      } else {
-        event = document.createEvent('CustomEvent');
-        event.initCustomEvent('blocks-done', true, true);
-      }
-
-      document.dispatchEvent(event);
-
-      self.setBlocksDone();
-
-      self.time_duration = self.timer() - self.time_start;
-      self.logger('info', 'TOTAL DURATION: ' + self.time_duration);
-    }
+    return include_snippet;
   }
 
   setBlocksDone() {

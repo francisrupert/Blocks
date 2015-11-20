@@ -37,7 +37,7 @@ describe("EsbFrame", function(){
 	
 	beforeEach(function(){
 		uuid = EsbUtil.generateUUID();
-		frame = load_frame('page-with-frame.html', uuid);
+		frame = load_frame('frame.html', uuid);
 	});
 
 
@@ -65,6 +65,10 @@ describe("EsbFrame", function(){
 
 	it ("should get the correct width, height, and aspect ratio options when given a device of 'iphone-5' and an orientation of 'landscape'", function(){
 		expect(frame.get_device_dimensions('iphone-5', 'landscape')).toEqual({"width":568, "height":320, "iframe-height": 320, "aspect-ratio":'0.56338'});
+	});
+
+	it ("should get the correct width, height, and aspect ratio options when given a device of 'desktop'", function(){
+		expect(frame.get_device_dimensions('desktop', 'landscape')).toEqual({"width":1400, "height":788, "iframe-height": 788, "aspect-ratio":'0.56286'});
 	});
 
 	describe("with option overrides", function(){
@@ -368,34 +372,27 @@ describe("EsbFrame", function(){
 		});
 	});
 
-	describe("for a framed component", function() {
+	describe("for a framed include", function() {
 		beforeEach(function(){
-			frame = load_frame('frame-component-modern-syntax.html');
+			frame = load_frame('frame-include-modern-syntax.html');
 		});
 
-		it ("should create a dynamic component url", function() {
-			expect(frame.iframe_src).toEqual('base/spec/fixtures/component_frame_template.html?data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body');
+		it ("should create a dynamic include url", function() {
+			expect(frame.iframe_src).toEqual('base/spec/fixtures/include_frame_template.html?data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body&data-esb-content=%7B%22brand%22:%22Community%22%7D');
 		});
 
-		it ("should persist any existing query params on the component frame template", function(){
-			frame.options['component-frame-template'] = "component_frame_template.html?fuzzy=bunny&foo=bar";
-			expect(frame.build_iframe_src(frame.options)).toEqual('component_frame_template.html?fuzzy=bunny&foo=bar&data-esb-component=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body')
+		it ("should persist any existing query params on the Include Frame Template", function(){
+			frame.options['include-frame-template'] = "include_frame_template.html?fuzzy=bunny&foo=bar";
+			expect(frame.build_iframe_src(frame.options)).toEqual('include_frame_template.html?fuzzy=bunny&foo=bar&data-esb-include=header&data-esb-variation=base&data-esb-source=&data-esb-place=replace&data-esb-target=body&data-esb-content=%7B%22brand%22:%22Community%22%7D');
 		});
-
-		// it ("should use the same defaults as a regular Frame", function(){
-		// 	frame.options['load-immediately'] = true;
-		// 	frame.inject_placeholder();
-		// 	expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").width()).toEqual(1000);
-		// 	expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-wrap").width()).toEqual(200);
-		// });
 	});
 
-	describe("for a framed component that has loaded", function(){
+	describe("for a framed include that has loaded", function(){
 		var originalTimeout;
 
 		beforeEach(function(done){
 			var loaded_interval,
-				frame = load_frame('frame-component-modern-syntax.html');
+				frame = load_frame('frame-include-modern-syntax.html');
 			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 			jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
@@ -414,19 +411,18 @@ describe("EsbFrame", function(){
 	      jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	    });
 
-		it ("should conform the frame to the size of the component by default", function(){
+		it ("should conform the frame to the size of the include by default", function(){
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").height()).toEqual(100);
 			expect($("#jasmine-fixtures .esb-frame .esb-frame-iframe-inner-wrap").width()).toEqual(400);
-
 		});
 	});
 
-	describe("for a cropped framed component that has loaded", function(){
+	describe("for a cropped framed include that has loaded", function(){
 		var originalTimeout;
 
 		beforeEach(function(done){
 			var loaded_interval,
-				frame = load_frame('frame-component-modern-syntax-cropped.html');
+				frame = load_frame('frame-include-modern-syntax-cropped.html');
 			originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 			jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
@@ -477,9 +473,9 @@ describe("EsbFrame with alternate config", function(){
 			expect(frame.iframe_src).toEqual('base/spec/fixtures/frames/just-a-default-example.html');
 		});
 
-		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the component level", function() {
+		it ("should inherit options from the config file but allow them to be overridden at a parent-wrapper level and at the instance level", function() {
 			expect(frame.options.title).toEqual("Global Page Viewer Title");
-			expect(frame.options.caption).toEqual("This caption is unique to the component");
+			expect(frame.options.caption).toEqual("This caption is unique to the instance");
 			expect(frame.options.source).toEqual("");
 			expect(frame.options.scrolling).toEqual("yes");
 			expect(frame.options.overlay).toEqual(false);

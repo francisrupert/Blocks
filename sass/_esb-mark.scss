@@ -25,6 +25,11 @@ $default-border-radius: 4px;
 	font-family: $esb-font-family;
 	opacity: 1;
 	padding: 5px 0;
+	display: none;
+
+	.esb-mark--has-label & {
+		display: block;
+	}
 
 	.esb-mark-position-top-right & {
 		left: auto;
@@ -78,7 +83,7 @@ $default-border-radius: 4px;
 }
 
 .esb-mark.esb-mark--is-hidden {
-	.esb-mark-label {
+	> .esb-mark-label {
 		opacity: 0;
 	}
 

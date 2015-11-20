@@ -1019,5988 +1019,22 @@ System.register("npm:core-js@0.9.6/library/modules/$.collection-to-json", ["npm:
   return module.exports;
 });
 
-(function() {
-function define(){};  define.amd = {};
-(function(global, factory) {
-  if (typeof module === "object" && typeof module.exports === "object") {
-    module.exports = global.document ? factory(global, true) : function(w) {
-      if (!w.document) {
-        throw new Error("jQuery requires a window with a document");
-      }
-      return factory(w);
-    };
-  } else {
-    factory(global);
-  }
-}(typeof window !== "undefined" ? window : this, function(window, noGlobal) {
-  var arr = [];
-  var slice = arr.slice;
-  var concat = arr.concat;
-  var push = arr.push;
-  var indexOf = arr.indexOf;
-  var class2type = {};
-  var toString = class2type.toString;
-  var hasOwn = class2type.hasOwnProperty;
-  var support = {};
-  var document = window.document,
-      version = "2.1.3",
-      jQuery = function(selector, context) {
-        return new jQuery.fn.init(selector, context);
-      },
-      rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
-      rmsPrefix = /^-ms-/,
-      rdashAlpha = /-([\da-z])/gi,
-      fcamelCase = function(all, letter) {
-        return letter.toUpperCase();
-      };
-  jQuery.fn = jQuery.prototype = {
-    jquery: version,
-    constructor: jQuery,
-    selector: "",
-    length: 0,
-    toArray: function() {
-      return slice.call(this);
-    },
-    get: function(num) {
-      return num != null ? (num < 0 ? this[num + this.length] : this[num]) : slice.call(this);
-    },
-    pushStack: function(elems) {
-      var ret = jQuery.merge(this.constructor(), elems);
-      ret.prevObject = this;
-      ret.context = this.context;
-      return ret;
-    },
-    each: function(callback, args) {
-      return jQuery.each(this, callback, args);
-    },
-    map: function(callback) {
-      return this.pushStack(jQuery.map(this, function(elem, i) {
-        return callback.call(elem, i, elem);
-      }));
-    },
-    slice: function() {
-      return this.pushStack(slice.apply(this, arguments));
-    },
-    first: function() {
-      return this.eq(0);
-    },
-    last: function() {
-      return this.eq(-1);
-    },
-    eq: function(i) {
-      var len = this.length,
-          j = +i + (i < 0 ? len : 0);
-      return this.pushStack(j >= 0 && j < len ? [this[j]] : []);
-    },
-    end: function() {
-      return this.prevObject || this.constructor(null);
-    },
-    push: push,
-    sort: arr.sort,
-    splice: arr.splice
-  };
-  jQuery.extend = jQuery.fn.extend = function() {
-    var options,
-        name,
-        src,
-        copy,
-        copyIsArray,
-        clone,
-        target = arguments[0] || {},
-        i = 1,
-        length = arguments.length,
-        deep = false;
-    if (typeof target === "boolean") {
-      deep = target;
-      target = arguments[i] || {};
-      i++;
-    }
-    if (typeof target !== "object" && !jQuery.isFunction(target)) {
-      target = {};
-    }
-    if (i === length) {
-      target = this;
-      i--;
-    }
-    for (; i < length; i++) {
-      if ((options = arguments[i]) != null) {
-        for (name in options) {
-          src = target[name];
-          copy = options[name];
-          if (target === copy) {
-            continue;
-          }
-          if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
-            if (copyIsArray) {
-              copyIsArray = false;
-              clone = src && jQuery.isArray(src) ? src : [];
-            } else {
-              clone = src && jQuery.isPlainObject(src) ? src : {};
-            }
-            target[name] = jQuery.extend(deep, clone, copy);
-          } else if (copy !== undefined) {
-            target[name] = copy;
-          }
-        }
-      }
-    }
-    return target;
-  };
-  jQuery.extend({
-    expando: "jQuery" + (version + Math.random()).replace(/\D/g, ""),
-    isReady: true,
-    error: function(msg) {
-      throw new Error(msg);
-    },
-    noop: function() {},
-    isFunction: function(obj) {
-      return jQuery.type(obj) === "function";
-    },
-    isArray: Array.isArray,
-    isWindow: function(obj) {
-      return obj != null && obj === obj.window;
-    },
-    isNumeric: function(obj) {
-      return !jQuery.isArray(obj) && (obj - parseFloat(obj) + 1) >= 0;
-    },
-    isPlainObject: function(obj) {
-      if (jQuery.type(obj) !== "object" || obj.nodeType || jQuery.isWindow(obj)) {
-        return false;
-      }
-      if (obj.constructor && !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
-        return false;
-      }
-      return true;
-    },
-    isEmptyObject: function(obj) {
-      var name;
-      for (name in obj) {
-        return false;
-      }
-      return true;
-    },
-    type: function(obj) {
-      if (obj == null) {
-        return obj + "";
-      }
-      return typeof obj === "object" || typeof obj === "function" ? class2type[toString.call(obj)] || "object" : typeof obj;
-    },
-    globalEval: function(code) {
-      var script,
-          indirect = eval;
-      code = jQuery.trim(code);
-      if (code) {
-        if (code.indexOf("use strict") === 1) {
-          script = document.createElement("script");
-          script.text = code;
-          document.head.appendChild(script).parentNode.removeChild(script);
-        } else {
-          indirect(code);
-        }
-      }
-    },
-    camelCase: function(string) {
-      return string.replace(rmsPrefix, "ms-").replace(rdashAlpha, fcamelCase);
-    },
-    nodeName: function(elem, name) {
-      return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
-    },
-    each: function(obj, callback, args) {
-      var value,
-          i = 0,
-          length = obj.length,
-          isArray = isArraylike(obj);
-      if (args) {
-        if (isArray) {
-          for (; i < length; i++) {
-            value = callback.apply(obj[i], args);
-            if (value === false) {
-              break;
-            }
-          }
-        } else {
-          for (i in obj) {
-            value = callback.apply(obj[i], args);
-            if (value === false) {
-              break;
-            }
-          }
-        }
-      } else {
-        if (isArray) {
-          for (; i < length; i++) {
-            value = callback.call(obj[i], i, obj[i]);
-            if (value === false) {
-              break;
-            }
-          }
-        } else {
-          for (i in obj) {
-            value = callback.call(obj[i], i, obj[i]);
-            if (value === false) {
-              break;
-            }
-          }
-        }
-      }
-      return obj;
-    },
-    trim: function(text) {
-      return text == null ? "" : (text + "").replace(rtrim, "");
-    },
-    makeArray: function(arr, results) {
-      var ret = results || [];
-      if (arr != null) {
-        if (isArraylike(Object(arr))) {
-          jQuery.merge(ret, typeof arr === "string" ? [arr] : arr);
-        } else {
-          push.call(ret, arr);
-        }
-      }
-      return ret;
-    },
-    inArray: function(elem, arr, i) {
-      return arr == null ? -1 : indexOf.call(arr, elem, i);
-    },
-    merge: function(first, second) {
-      var len = +second.length,
-          j = 0,
-          i = first.length;
-      for (; j < len; j++) {
-        first[i++] = second[j];
-      }
-      first.length = i;
-      return first;
-    },
-    grep: function(elems, callback, invert) {
-      var callbackInverse,
-          matches = [],
-          i = 0,
-          length = elems.length,
-          callbackExpect = !invert;
-      for (; i < length; i++) {
-        callbackInverse = !callback(elems[i], i);
-        if (callbackInverse !== callbackExpect) {
-          matches.push(elems[i]);
-        }
-      }
-      return matches;
-    },
-    map: function(elems, callback, arg) {
-      var value,
-          i = 0,
-          length = elems.length,
-          isArray = isArraylike(elems),
-          ret = [];
-      if (isArray) {
-        for (; i < length; i++) {
-          value = callback(elems[i], i, arg);
-          if (value != null) {
-            ret.push(value);
-          }
-        }
-      } else {
-        for (i in elems) {
-          value = callback(elems[i], i, arg);
-          if (value != null) {
-            ret.push(value);
-          }
-        }
-      }
-      return concat.apply([], ret);
-    },
-    guid: 1,
-    proxy: function(fn, context) {
-      var tmp,
-          args,
-          proxy;
-      if (typeof context === "string") {
-        tmp = fn[context];
-        context = fn;
-        fn = tmp;
-      }
-      if (!jQuery.isFunction(fn)) {
-        return undefined;
-      }
-      args = slice.call(arguments, 2);
-      proxy = function() {
-        return fn.apply(context || this, args.concat(slice.call(arguments)));
-      };
-      proxy.guid = fn.guid = fn.guid || jQuery.guid++;
-      return proxy;
-    },
-    now: Date.now,
-    support: support
-  });
-  jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name) {
-    class2type["[object " + name + "]"] = name.toLowerCase();
-  });
-  function isArraylike(obj) {
-    var length = obj.length,
-        type = jQuery.type(obj);
-    if (type === "function" || jQuery.isWindow(obj)) {
-      return false;
-    }
-    if (obj.nodeType === 1 && length) {
-      return true;
-    }
-    return type === "array" || length === 0 || typeof length === "number" && length > 0 && (length - 1) in obj;
-  }
-  var Sizzle = (function(window) {
-    var i,
-        support,
-        Expr,
-        getText,
-        isXML,
-        tokenize,
-        compile,
-        select,
-        outermostContext,
-        sortInput,
-        hasDuplicate,
-        setDocument,
-        document,
-        docElem,
-        documentIsHTML,
-        rbuggyQSA,
-        rbuggyMatches,
-        matches,
-        contains,
-        expando = "sizzle" + 1 * new Date(),
-        preferredDoc = window.document,
-        dirruns = 0,
-        done = 0,
-        classCache = createCache(),
-        tokenCache = createCache(),
-        compilerCache = createCache(),
-        sortOrder = function(a, b) {
-          if (a === b) {
-            hasDuplicate = true;
-          }
-          return 0;
-        },
-        MAX_NEGATIVE = 1 << 31,
-        hasOwn = ({}).hasOwnProperty,
-        arr = [],
-        pop = arr.pop,
-        push_native = arr.push,
-        push = arr.push,
-        slice = arr.slice,
-        indexOf = function(list, elem) {
-          var i = 0,
-              len = list.length;
-          for (; i < len; i++) {
-            if (list[i] === elem) {
-              return i;
-            }
-          }
-          return -1;
-        },
-        booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",
-        whitespace = "[\\x20\\t\\r\\n\\f]",
-        characterEncoding = "(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+",
-        identifier = characterEncoding.replace("w", "w#"),
-        attributes = "\\[" + whitespace + "*(" + characterEncoding + ")(?:" + whitespace + "*([*^$|!~]?=)" + whitespace + "*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|(" + identifier + "))|)" + whitespace + "*\\]",
-        pseudos = ":(" + characterEncoding + ")(?:\\((" + "('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|" + "((?:\\\\.|[^\\\\()[\\]]|" + attributes + ")*)|" + ".*" + ")\\)|)",
-        rwhitespace = new RegExp(whitespace + "+", "g"),
-        rtrim = new RegExp("^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$", "g"),
-        rcomma = new RegExp("^" + whitespace + "*," + whitespace + "*"),
-        rcombinators = new RegExp("^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace + "*"),
-        rattributeQuotes = new RegExp("=" + whitespace + "*([^\\]'\"]*?)" + whitespace + "*\\]", "g"),
-        rpseudo = new RegExp(pseudos),
-        ridentifier = new RegExp("^" + identifier + "$"),
-        matchExpr = {
-          "ID": new RegExp("^#(" + characterEncoding + ")"),
-          "CLASS": new RegExp("^\\.(" + characterEncoding + ")"),
-          "TAG": new RegExp("^(" + characterEncoding.replace("w", "w*") + ")"),
-          "ATTR": new RegExp("^" + attributes),
-          "PSEUDO": new RegExp("^" + pseudos),
-          "CHILD": new RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\(" + whitespace + "*(even|odd|(([+-]|)(\\d*)n|)" + whitespace + "*(?:([+-]|)" + whitespace + "*(\\d+)|))" + whitespace + "*\\)|)", "i"),
-          "bool": new RegExp("^(?:" + booleans + ")$", "i"),
-          "needsContext": new RegExp("^" + whitespace + "*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\(" + whitespace + "*((?:-\\d)?\\d*)" + whitespace + "*\\)|)(?=[^-]|$)", "i")
-        },
-        rinputs = /^(?:input|select|textarea|button)$/i,
-        rheader = /^h\d$/i,
-        rnative = /^[^{]+\{\s*\[native \w/,
-        rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
-        rsibling = /[+~]/,
-        rescape = /'|\\/g,
-        runescape = new RegExp("\\\\([\\da-f]{1,6}" + whitespace + "?|(" + whitespace + ")|.)", "ig"),
-        funescape = function(_, escaped, escapedWhitespace) {
-          var high = "0x" + escaped - 0x10000;
-          return high !== high || escapedWhitespace ? escaped : high < 0 ? String.fromCharCode(high + 0x10000) : String.fromCharCode(high >> 10 | 0xD800, high & 0x3FF | 0xDC00);
-        },
-        unloadHandler = function() {
-          setDocument();
-        };
-    try {
-      push.apply((arr = slice.call(preferredDoc.childNodes)), preferredDoc.childNodes);
-      arr[preferredDoc.childNodes.length].nodeType;
-    } catch (e) {
-      push = {apply: arr.length ? function(target, els) {
-          push_native.apply(target, slice.call(els));
-        } : function(target, els) {
-          var j = target.length,
-              i = 0;
-          while ((target[j++] = els[i++])) {}
-          target.length = j - 1;
-        }};
-    }
-    function Sizzle(selector, context, results, seed) {
-      var match,
-          elem,
-          m,
-          nodeType,
-          i,
-          groups,
-          old,
-          nid,
-          newContext,
-          newSelector;
-      if ((context ? context.ownerDocument || context : preferredDoc) !== document) {
-        setDocument(context);
-      }
-      context = context || document;
-      results = results || [];
-      nodeType = context.nodeType;
-      if (typeof selector !== "string" || !selector || nodeType !== 1 && nodeType !== 9 && nodeType !== 11) {
-        return results;
-      }
-      if (!seed && documentIsHTML) {
-        if (nodeType !== 11 && (match = rquickExpr.exec(selector))) {
-          if ((m = match[1])) {
-            if (nodeType === 9) {
-              elem = context.getElementById(m);
-              if (elem && elem.parentNode) {
-                if (elem.id === m) {
-                  results.push(elem);
-                  return results;
-                }
-              } else {
-                return results;
-              }
-            } else {
-              if (context.ownerDocument && (elem = context.ownerDocument.getElementById(m)) && contains(context, elem) && elem.id === m) {
-                results.push(elem);
-                return results;
-              }
-            }
-          } else if (match[2]) {
-            push.apply(results, context.getElementsByTagName(selector));
-            return results;
-          } else if ((m = match[3]) && support.getElementsByClassName) {
-            push.apply(results, context.getElementsByClassName(m));
-            return results;
-          }
-        }
-        if (support.qsa && (!rbuggyQSA || !rbuggyQSA.test(selector))) {
-          nid = old = expando;
-          newContext = context;
-          newSelector = nodeType !== 1 && selector;
-          if (nodeType === 1 && context.nodeName.toLowerCase() !== "object") {
-            groups = tokenize(selector);
-            if ((old = context.getAttribute("id"))) {
-              nid = old.replace(rescape, "\\$&");
-            } else {
-              context.setAttribute("id", nid);
-            }
-            nid = "[id='" + nid + "'] ";
-            i = groups.length;
-            while (i--) {
-              groups[i] = nid + toSelector(groups[i]);
-            }
-            newContext = rsibling.test(selector) && testContext(context.parentNode) || context;
-            newSelector = groups.join(",");
-          }
-          if (newSelector) {
-            try {
-              push.apply(results, newContext.querySelectorAll(newSelector));
-              return results;
-            } catch (qsaError) {} finally {
-              if (!old) {
-                context.removeAttribute("id");
-              }
-            }
-          }
-        }
-      }
-      return select(selector.replace(rtrim, "$1"), context, results, seed);
-    }
-    function createCache() {
-      var keys = [];
-      function cache(key, value) {
-        if (keys.push(key + " ") > Expr.cacheLength) {
-          delete cache[keys.shift()];
-        }
-        return (cache[key + " "] = value);
-      }
-      return cache;
-    }
-    function markFunction(fn) {
-      fn[expando] = true;
-      return fn;
-    }
-    function assert(fn) {
-      var div = document.createElement("div");
-      try {
-        return !!fn(div);
-      } catch (e) {
-        return false;
-      } finally {
-        if (div.parentNode) {
-          div.parentNode.removeChild(div);
-        }
-        div = null;
-      }
-    }
-    function addHandle(attrs, handler) {
-      var arr = attrs.split("|"),
-          i = attrs.length;
-      while (i--) {
-        Expr.attrHandle[arr[i]] = handler;
-      }
-    }
-    function siblingCheck(a, b) {
-      var cur = b && a,
-          diff = cur && a.nodeType === 1 && b.nodeType === 1 && (~b.sourceIndex || MAX_NEGATIVE) - (~a.sourceIndex || MAX_NEGATIVE);
-      if (diff) {
-        return diff;
-      }
-      if (cur) {
-        while ((cur = cur.nextSibling)) {
-          if (cur === b) {
-            return -1;
-          }
-        }
-      }
-      return a ? 1 : -1;
-    }
-    function createInputPseudo(type) {
-      return function(elem) {
-        var name = elem.nodeName.toLowerCase();
-        return name === "input" && elem.type === type;
-      };
-    }
-    function createButtonPseudo(type) {
-      return function(elem) {
-        var name = elem.nodeName.toLowerCase();
-        return (name === "input" || name === "button") && elem.type === type;
-      };
-    }
-    function createPositionalPseudo(fn) {
-      return markFunction(function(argument) {
-        argument = +argument;
-        return markFunction(function(seed, matches) {
-          var j,
-              matchIndexes = fn([], seed.length, argument),
-              i = matchIndexes.length;
-          while (i--) {
-            if (seed[(j = matchIndexes[i])]) {
-              seed[j] = !(matches[j] = seed[j]);
-            }
-          }
-        });
-      });
-    }
-    function testContext(context) {
-      return context && typeof context.getElementsByTagName !== "undefined" && context;
-    }
-    support = Sizzle.support = {};
-    isXML = Sizzle.isXML = function(elem) {
-      var documentElement = elem && (elem.ownerDocument || elem).documentElement;
-      return documentElement ? documentElement.nodeName !== "HTML" : false;
-    };
-    setDocument = Sizzle.setDocument = function(node) {
-      var hasCompare,
-          parent,
-          doc = node ? node.ownerDocument || node : preferredDoc;
-      if (doc === document || doc.nodeType !== 9 || !doc.documentElement) {
-        return document;
-      }
-      document = doc;
-      docElem = doc.documentElement;
-      parent = doc.defaultView;
-      if (parent && parent !== parent.top) {
-        if (parent.addEventListener) {
-          parent.addEventListener("unload", unloadHandler, false);
-        } else if (parent.attachEvent) {
-          parent.attachEvent("onunload", unloadHandler);
-        }
-      }
-      documentIsHTML = !isXML(doc);
-      support.attributes = assert(function(div) {
-        div.className = "i";
-        return !div.getAttribute("className");
-      });
-      support.getElementsByTagName = assert(function(div) {
-        div.appendChild(doc.createComment(""));
-        return !div.getElementsByTagName("*").length;
-      });
-      support.getElementsByClassName = rnative.test(doc.getElementsByClassName);
-      support.getById = assert(function(div) {
-        docElem.appendChild(div).id = expando;
-        return !doc.getElementsByName || !doc.getElementsByName(expando).length;
-      });
-      if (support.getById) {
-        Expr.find["ID"] = function(id, context) {
-          if (typeof context.getElementById !== "undefined" && documentIsHTML) {
-            var m = context.getElementById(id);
-            return m && m.parentNode ? [m] : [];
-          }
-        };
-        Expr.filter["ID"] = function(id) {
-          var attrId = id.replace(runescape, funescape);
-          return function(elem) {
-            return elem.getAttribute("id") === attrId;
-          };
-        };
-      } else {
-        delete Expr.find["ID"];
-        Expr.filter["ID"] = function(id) {
-          var attrId = id.replace(runescape, funescape);
-          return function(elem) {
-            var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
-            return node && node.value === attrId;
-          };
-        };
-      }
-      Expr.find["TAG"] = support.getElementsByTagName ? function(tag, context) {
-        if (typeof context.getElementsByTagName !== "undefined") {
-          return context.getElementsByTagName(tag);
-        } else if (support.qsa) {
-          return context.querySelectorAll(tag);
-        }
-      } : function(tag, context) {
-        var elem,
-            tmp = [],
-            i = 0,
-            results = context.getElementsByTagName(tag);
-        if (tag === "*") {
-          while ((elem = results[i++])) {
-            if (elem.nodeType === 1) {
-              tmp.push(elem);
-            }
-          }
-          return tmp;
-        }
-        return results;
-      };
-      Expr.find["CLASS"] = support.getElementsByClassName && function(className, context) {
-        if (documentIsHTML) {
-          return context.getElementsByClassName(className);
-        }
-      };
-      rbuggyMatches = [];
-      rbuggyQSA = [];
-      if ((support.qsa = rnative.test(doc.querySelectorAll))) {
-        assert(function(div) {
-          docElem.appendChild(div).innerHTML = "<a id='" + expando + "'></a>" + "<select id='" + expando + "-\f]' msallowcapture=''>" + "<option selected=''></option></select>";
-          if (div.querySelectorAll("[msallowcapture^='']").length) {
-            rbuggyQSA.push("[*^$]=" + whitespace + "*(?:''|\"\")");
-          }
-          if (!div.querySelectorAll("[selected]").length) {
-            rbuggyQSA.push("\\[" + whitespace + "*(?:value|" + booleans + ")");
-          }
-          if (!div.querySelectorAll("[id~=" + expando + "-]").length) {
-            rbuggyQSA.push("~=");
-          }
-          if (!div.querySelectorAll(":checked").length) {
-            rbuggyQSA.push(":checked");
-          }
-          if (!div.querySelectorAll("a#" + expando + "+*").length) {
-            rbuggyQSA.push(".#.+[+~]");
-          }
-        });
-        assert(function(div) {
-          var input = doc.createElement("input");
-          input.setAttribute("type", "hidden");
-          div.appendChild(input).setAttribute("name", "D");
-          if (div.querySelectorAll("[name=d]").length) {
-            rbuggyQSA.push("name" + whitespace + "*[*^$|!~]?=");
-          }
-          if (!div.querySelectorAll(":enabled").length) {
-            rbuggyQSA.push(":enabled", ":disabled");
-          }
-          div.querySelectorAll("*,:x");
-          rbuggyQSA.push(",.*:");
-        });
-      }
-      if ((support.matchesSelector = rnative.test((matches = docElem.matches || docElem.webkitMatchesSelector || docElem.mozMatchesSelector || docElem.oMatchesSelector || docElem.msMatchesSelector)))) {
-        assert(function(div) {
-          support.disconnectedMatch = matches.call(div, "div");
-          matches.call(div, "[s!='']:x");
-          rbuggyMatches.push("!=", pseudos);
-        });
-      }
-      rbuggyQSA = rbuggyQSA.length && new RegExp(rbuggyQSA.join("|"));
-      rbuggyMatches = rbuggyMatches.length && new RegExp(rbuggyMatches.join("|"));
-      hasCompare = rnative.test(docElem.compareDocumentPosition);
-      contains = hasCompare || rnative.test(docElem.contains) ? function(a, b) {
-        var adown = a.nodeType === 9 ? a.documentElement : a,
-            bup = b && b.parentNode;
-        return a === bup || !!(bup && bup.nodeType === 1 && (adown.contains ? adown.contains(bup) : a.compareDocumentPosition && a.compareDocumentPosition(bup) & 16));
-      } : function(a, b) {
-        if (b) {
-          while ((b = b.parentNode)) {
-            if (b === a) {
-              return true;
-            }
-          }
-        }
-        return false;
-      };
-      sortOrder = hasCompare ? function(a, b) {
-        if (a === b) {
-          hasDuplicate = true;
-          return 0;
-        }
-        var compare = !a.compareDocumentPosition - !b.compareDocumentPosition;
-        if (compare) {
-          return compare;
-        }
-        compare = (a.ownerDocument || a) === (b.ownerDocument || b) ? a.compareDocumentPosition(b) : 1;
-        if (compare & 1 || (!support.sortDetached && b.compareDocumentPosition(a) === compare)) {
-          if (a === doc || a.ownerDocument === preferredDoc && contains(preferredDoc, a)) {
-            return -1;
-          }
-          if (b === doc || b.ownerDocument === preferredDoc && contains(preferredDoc, b)) {
-            return 1;
-          }
-          return sortInput ? (indexOf(sortInput, a) - indexOf(sortInput, b)) : 0;
-        }
-        return compare & 4 ? -1 : 1;
-      } : function(a, b) {
-        if (a === b) {
-          hasDuplicate = true;
-          return 0;
-        }
-        var cur,
-            i = 0,
-            aup = a.parentNode,
-            bup = b.parentNode,
-            ap = [a],
-            bp = [b];
-        if (!aup || !bup) {
-          return a === doc ? -1 : b === doc ? 1 : aup ? -1 : bup ? 1 : sortInput ? (indexOf(sortInput, a) - indexOf(sortInput, b)) : 0;
-        } else if (aup === bup) {
-          return siblingCheck(a, b);
-        }
-        cur = a;
-        while ((cur = cur.parentNode)) {
-          ap.unshift(cur);
-        }
-        cur = b;
-        while ((cur = cur.parentNode)) {
-          bp.unshift(cur);
-        }
-        while (ap[i] === bp[i]) {
-          i++;
-        }
-        return i ? siblingCheck(ap[i], bp[i]) : ap[i] === preferredDoc ? -1 : bp[i] === preferredDoc ? 1 : 0;
-      };
-      return doc;
-    };
-    Sizzle.matches = function(expr, elements) {
-      return Sizzle(expr, null, null, elements);
-    };
-    Sizzle.matchesSelector = function(elem, expr) {
-      if ((elem.ownerDocument || elem) !== document) {
-        setDocument(elem);
-      }
-      expr = expr.replace(rattributeQuotes, "='$1']");
-      if (support.matchesSelector && documentIsHTML && (!rbuggyMatches || !rbuggyMatches.test(expr)) && (!rbuggyQSA || !rbuggyQSA.test(expr))) {
-        try {
-          var ret = matches.call(elem, expr);
-          if (ret || support.disconnectedMatch || elem.document && elem.document.nodeType !== 11) {
-            return ret;
-          }
-        } catch (e) {}
-      }
-      return Sizzle(expr, document, null, [elem]).length > 0;
-    };
-    Sizzle.contains = function(context, elem) {
-      if ((context.ownerDocument || context) !== document) {
-        setDocument(context);
-      }
-      return contains(context, elem);
-    };
-    Sizzle.attr = function(elem, name) {
-      if ((elem.ownerDocument || elem) !== document) {
-        setDocument(elem);
-      }
-      var fn = Expr.attrHandle[name.toLowerCase()],
-          val = fn && hasOwn.call(Expr.attrHandle, name.toLowerCase()) ? fn(elem, name, !documentIsHTML) : undefined;
-      return val !== undefined ? val : support.attributes || !documentIsHTML ? elem.getAttribute(name) : (val = elem.getAttributeNode(name)) && val.specified ? val.value : null;
-    };
-    Sizzle.error = function(msg) {
-      throw new Error("Syntax error, unrecognized expression: " + msg);
-    };
-    Sizzle.uniqueSort = function(results) {
-      var elem,
-          duplicates = [],
-          j = 0,
-          i = 0;
-      hasDuplicate = !support.detectDuplicates;
-      sortInput = !support.sortStable && results.slice(0);
-      results.sort(sortOrder);
-      if (hasDuplicate) {
-        while ((elem = results[i++])) {
-          if (elem === results[i]) {
-            j = duplicates.push(i);
-          }
-        }
-        while (j--) {
-          results.splice(duplicates[j], 1);
-        }
-      }
-      sortInput = null;
-      return results;
-    };
-    getText = Sizzle.getText = function(elem) {
-      var node,
-          ret = "",
-          i = 0,
-          nodeType = elem.nodeType;
-      if (!nodeType) {
-        while ((node = elem[i++])) {
-          ret += getText(node);
-        }
-      } else if (nodeType === 1 || nodeType === 9 || nodeType === 11) {
-        if (typeof elem.textContent === "string") {
-          return elem.textContent;
-        } else {
-          for (elem = elem.firstChild; elem; elem = elem.nextSibling) {
-            ret += getText(elem);
-          }
-        }
-      } else if (nodeType === 3 || nodeType === 4) {
-        return elem.nodeValue;
-      }
-      return ret;
-    };
-    Expr = Sizzle.selectors = {
-      cacheLength: 50,
-      createPseudo: markFunction,
-      match: matchExpr,
-      attrHandle: {},
-      find: {},
-      relative: {
-        ">": {
-          dir: "parentNode",
-          first: true
-        },
-        " ": {dir: "parentNode"},
-        "+": {
-          dir: "previousSibling",
-          first: true
-        },
-        "~": {dir: "previousSibling"}
-      },
-      preFilter: {
-        "ATTR": function(match) {
-          match[1] = match[1].replace(runescape, funescape);
-          match[3] = (match[3] || match[4] || match[5] || "").replace(runescape, funescape);
-          if (match[2] === "~=") {
-            match[3] = " " + match[3] + " ";
-          }
-          return match.slice(0, 4);
-        },
-        "CHILD": function(match) {
-          match[1] = match[1].toLowerCase();
-          if (match[1].slice(0, 3) === "nth") {
-            if (!match[3]) {
-              Sizzle.error(match[0]);
-            }
-            match[4] = +(match[4] ? match[5] + (match[6] || 1) : 2 * (match[3] === "even" || match[3] === "odd"));
-            match[5] = +((match[7] + match[8]) || match[3] === "odd");
-          } else if (match[3]) {
-            Sizzle.error(match[0]);
-          }
-          return match;
-        },
-        "PSEUDO": function(match) {
-          var excess,
-              unquoted = !match[6] && match[2];
-          if (matchExpr["CHILD"].test(match[0])) {
-            return null;
-          }
-          if (match[3]) {
-            match[2] = match[4] || match[5] || "";
-          } else if (unquoted && rpseudo.test(unquoted) && (excess = tokenize(unquoted, true)) && (excess = unquoted.indexOf(")", unquoted.length - excess) - unquoted.length)) {
-            match[0] = match[0].slice(0, excess);
-            match[2] = unquoted.slice(0, excess);
-          }
-          return match.slice(0, 3);
-        }
-      },
-      filter: {
-        "TAG": function(nodeNameSelector) {
-          var nodeName = nodeNameSelector.replace(runescape, funescape).toLowerCase();
-          return nodeNameSelector === "*" ? function() {
-            return true;
-          } : function(elem) {
-            return elem.nodeName && elem.nodeName.toLowerCase() === nodeName;
-          };
-        },
-        "CLASS": function(className) {
-          var pattern = classCache[className + " "];
-          return pattern || (pattern = new RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)")) && classCache(className, function(elem) {
-            return pattern.test(typeof elem.className === "string" && elem.className || typeof elem.getAttribute !== "undefined" && elem.getAttribute("class") || "");
-          });
-        },
-        "ATTR": function(name, operator, check) {
-          return function(elem) {
-            var result = Sizzle.attr(elem, name);
-            if (result == null) {
-              return operator === "!=";
-            }
-            if (!operator) {
-              return true;
-            }
-            result += "";
-            return operator === "=" ? result === check : operator === "!=" ? result !== check : operator === "^=" ? check && result.indexOf(check) === 0 : operator === "*=" ? check && result.indexOf(check) > -1 : operator === "$=" ? check && result.slice(-check.length) === check : operator === "~=" ? (" " + result.replace(rwhitespace, " ") + " ").indexOf(check) > -1 : operator === "|=" ? result === check || result.slice(0, check.length + 1) === check + "-" : false;
-          };
-        },
-        "CHILD": function(type, what, argument, first, last) {
-          var simple = type.slice(0, 3) !== "nth",
-              forward = type.slice(-4) !== "last",
-              ofType = what === "of-type";
-          return first === 1 && last === 0 ? function(elem) {
-            return !!elem.parentNode;
-          } : function(elem, context, xml) {
-            var cache,
-                outerCache,
-                node,
-                diff,
-                nodeIndex,
-                start,
-                dir = simple !== forward ? "nextSibling" : "previousSibling",
-                parent = elem.parentNode,
-                name = ofType && elem.nodeName.toLowerCase(),
-                useCache = !xml && !ofType;
-            if (parent) {
-              if (simple) {
-                while (dir) {
-                  node = elem;
-                  while ((node = node[dir])) {
-                    if (ofType ? node.nodeName.toLowerCase() === name : node.nodeType === 1) {
-                      return false;
-                    }
-                  }
-                  start = dir = type === "only" && !start && "nextSibling";
-                }
-                return true;
-              }
-              start = [forward ? parent.firstChild : parent.lastChild];
-              if (forward && useCache) {
-                outerCache = parent[expando] || (parent[expando] = {});
-                cache = outerCache[type] || [];
-                nodeIndex = cache[0] === dirruns && cache[1];
-                diff = cache[0] === dirruns && cache[2];
-                node = nodeIndex && parent.childNodes[nodeIndex];
-                while ((node = ++nodeIndex && node && node[dir] || (diff = nodeIndex = 0) || start.pop())) {
-                  if (node.nodeType === 1 && ++diff && node === elem) {
-                    outerCache[type] = [dirruns, nodeIndex, diff];
-                    break;
-                  }
-                }
-              } else if (useCache && (cache = (elem[expando] || (elem[expando] = {}))[type]) && cache[0] === dirruns) {
-                diff = cache[1];
-              } else {
-                while ((node = ++nodeIndex && node && node[dir] || (diff = nodeIndex = 0) || start.pop())) {
-                  if ((ofType ? node.nodeName.toLowerCase() === name : node.nodeType === 1) && ++diff) {
-                    if (useCache) {
-                      (node[expando] || (node[expando] = {}))[type] = [dirruns, diff];
-                    }
-                    if (node === elem) {
-                      break;
-                    }
-                  }
-                }
-              }
-              diff -= last;
-              return diff === first || (diff % first === 0 && diff / first >= 0);
-            }
-          };
-        },
-        "PSEUDO": function(pseudo, argument) {
-          var args,
-              fn = Expr.pseudos[pseudo] || Expr.setFilters[pseudo.toLowerCase()] || Sizzle.error("unsupported pseudo: " + pseudo);
-          if (fn[expando]) {
-            return fn(argument);
-          }
-          if (fn.length > 1) {
-            args = [pseudo, pseudo, "", argument];
-            return Expr.setFilters.hasOwnProperty(pseudo.toLowerCase()) ? markFunction(function(seed, matches) {
-              var idx,
-                  matched = fn(seed, argument),
-                  i = matched.length;
-              while (i--) {
-                idx = indexOf(seed, matched[i]);
-                seed[idx] = !(matches[idx] = matched[i]);
-              }
-            }) : function(elem) {
-              return fn(elem, 0, args);
-            };
-          }
-          return fn;
-        }
-      },
-      pseudos: {
-        "not": markFunction(function(selector) {
-          var input = [],
-              results = [],
-              matcher = compile(selector.replace(rtrim, "$1"));
-          return matcher[expando] ? markFunction(function(seed, matches, context, xml) {
-            var elem,
-                unmatched = matcher(seed, null, xml, []),
-                i = seed.length;
-            while (i--) {
-              if ((elem = unmatched[i])) {
-                seed[i] = !(matches[i] = elem);
-              }
-            }
-          }) : function(elem, context, xml) {
-            input[0] = elem;
-            matcher(input, null, xml, results);
-            input[0] = null;
-            return !results.pop();
-          };
-        }),
-        "has": markFunction(function(selector) {
-          return function(elem) {
-            return Sizzle(selector, elem).length > 0;
-          };
-        }),
-        "contains": markFunction(function(text) {
-          text = text.replace(runescape, funescape);
-          return function(elem) {
-            return (elem.textContent || elem.innerText || getText(elem)).indexOf(text) > -1;
-          };
-        }),
-        "lang": markFunction(function(lang) {
-          if (!ridentifier.test(lang || "")) {
-            Sizzle.error("unsupported lang: " + lang);
-          }
-          lang = lang.replace(runescape, funescape).toLowerCase();
-          return function(elem) {
-            var elemLang;
-            do {
-              if ((elemLang = documentIsHTML ? elem.lang : elem.getAttribute("xml:lang") || elem.getAttribute("lang"))) {
-                elemLang = elemLang.toLowerCase();
-                return elemLang === lang || elemLang.indexOf(lang + "-") === 0;
-              }
-            } while ((elem = elem.parentNode) && elem.nodeType === 1);
-            return false;
-          };
-        }),
-        "target": function(elem) {
-          var hash = window.location && window.location.hash;
-          return hash && hash.slice(1) === elem.id;
-        },
-        "root": function(elem) {
-          return elem === docElem;
-        },
-        "focus": function(elem) {
-          return elem === document.activeElement && (!document.hasFocus || document.hasFocus()) && !!(elem.type || elem.href || ~elem.tabIndex);
-        },
-        "enabled": function(elem) {
-          return elem.disabled === false;
-        },
-        "disabled": function(elem) {
-          return elem.disabled === true;
-        },
-        "checked": function(elem) {
-          var nodeName = elem.nodeName.toLowerCase();
-          return (nodeName === "input" && !!elem.checked) || (nodeName === "option" && !!elem.selected);
-        },
-        "selected": function(elem) {
-          if (elem.parentNode) {
-            elem.parentNode.selectedIndex;
-          }
-          return elem.selected === true;
-        },
-        "empty": function(elem) {
-          for (elem = elem.firstChild; elem; elem = elem.nextSibling) {
-            if (elem.nodeType < 6) {
-              return false;
-            }
-          }
-          return true;
-        },
-        "parent": function(elem) {
-          return !Expr.pseudos["empty"](elem);
-        },
-        "header": function(elem) {
-          return rheader.test(elem.nodeName);
-        },
-        "input": function(elem) {
-          return rinputs.test(elem.nodeName);
-        },
-        "button": function(elem) {
-          var name = elem.nodeName.toLowerCase();
-          return name === "input" && elem.type === "button" || name === "button";
-        },
-        "text": function(elem) {
-          var attr;
-          return elem.nodeName.toLowerCase() === "input" && elem.type === "text" && ((attr = elem.getAttribute("type")) == null || attr.toLowerCase() === "text");
-        },
-        "first": createPositionalPseudo(function() {
-          return [0];
-        }),
-        "last": createPositionalPseudo(function(matchIndexes, length) {
-          return [length - 1];
-        }),
-        "eq": createPositionalPseudo(function(matchIndexes, length, argument) {
-          return [argument < 0 ? argument + length : argument];
-        }),
-        "even": createPositionalPseudo(function(matchIndexes, length) {
-          var i = 0;
-          for (; i < length; i += 2) {
-            matchIndexes.push(i);
-          }
-          return matchIndexes;
-        }),
-        "odd": createPositionalPseudo(function(matchIndexes, length) {
-          var i = 1;
-          for (; i < length; i += 2) {
-            matchIndexes.push(i);
-          }
-          return matchIndexes;
-        }),
-        "lt": createPositionalPseudo(function(matchIndexes, length, argument) {
-          var i = argument < 0 ? argument + length : argument;
-          for (; --i >= 0; ) {
-            matchIndexes.push(i);
-          }
-          return matchIndexes;
-        }),
-        "gt": createPositionalPseudo(function(matchIndexes, length, argument) {
-          var i = argument < 0 ? argument + length : argument;
-          for (; ++i < length; ) {
-            matchIndexes.push(i);
-          }
-          return matchIndexes;
-        })
-      }
-    };
-    Expr.pseudos["nth"] = Expr.pseudos["eq"];
-    for (i in {
-      radio: true,
-      checkbox: true,
-      file: true,
-      password: true,
-      image: true
-    }) {
-      Expr.pseudos[i] = createInputPseudo(i);
-    }
-    for (i in {
-      submit: true,
-      reset: true
-    }) {
-      Expr.pseudos[i] = createButtonPseudo(i);
-    }
-    function setFilters() {}
-    setFilters.prototype = Expr.filters = Expr.pseudos;
-    Expr.setFilters = new setFilters();
-    tokenize = Sizzle.tokenize = function(selector, parseOnly) {
-      var matched,
-          match,
-          tokens,
-          type,
-          soFar,
-          groups,
-          preFilters,
-          cached = tokenCache[selector + " "];
-      if (cached) {
-        return parseOnly ? 0 : cached.slice(0);
-      }
-      soFar = selector;
-      groups = [];
-      preFilters = Expr.preFilter;
-      while (soFar) {
-        if (!matched || (match = rcomma.exec(soFar))) {
-          if (match) {
-            soFar = soFar.slice(match[0].length) || soFar;
-          }
-          groups.push((tokens = []));
-        }
-        matched = false;
-        if ((match = rcombinators.exec(soFar))) {
-          matched = match.shift();
-          tokens.push({
-            value: matched,
-            type: match[0].replace(rtrim, " ")
-          });
-          soFar = soFar.slice(matched.length);
-        }
-        for (type in Expr.filter) {
-          if ((match = matchExpr[type].exec(soFar)) && (!preFilters[type] || (match = preFilters[type](match)))) {
-            matched = match.shift();
-            tokens.push({
-              value: matched,
-              type: type,
-              matches: match
-            });
-            soFar = soFar.slice(matched.length);
-          }
-        }
-        if (!matched) {
-          break;
-        }
-      }
-      return parseOnly ? soFar.length : soFar ? Sizzle.error(selector) : tokenCache(selector, groups).slice(0);
-    };
-    function toSelector(tokens) {
-      var i = 0,
-          len = tokens.length,
-          selector = "";
-      for (; i < len; i++) {
-        selector += tokens[i].value;
-      }
-      return selector;
-    }
-    function addCombinator(matcher, combinator, base) {
-      var dir = combinator.dir,
-          checkNonElements = base && dir === "parentNode",
-          doneName = done++;
-      return combinator.first ? function(elem, context, xml) {
-        while ((elem = elem[dir])) {
-          if (elem.nodeType === 1 || checkNonElements) {
-            return matcher(elem, context, xml);
-          }
-        }
-      } : function(elem, context, xml) {
-        var oldCache,
-            outerCache,
-            newCache = [dirruns, doneName];
-        if (xml) {
-          while ((elem = elem[dir])) {
-            if (elem.nodeType === 1 || checkNonElements) {
-              if (matcher(elem, context, xml)) {
-                return true;
-              }
-            }
-          }
-        } else {
-          while ((elem = elem[dir])) {
-            if (elem.nodeType === 1 || checkNonElements) {
-              outerCache = elem[expando] || (elem[expando] = {});
-              if ((oldCache = outerCache[dir]) && oldCache[0] === dirruns && oldCache[1] === doneName) {
-                return (newCache[2] = oldCache[2]);
-              } else {
-                outerCache[dir] = newCache;
-                if ((newCache[2] = matcher(elem, context, xml))) {
-                  return true;
-                }
-              }
-            }
-          }
-        }
-      };
-    }
-    function elementMatcher(matchers) {
-      return matchers.length > 1 ? function(elem, context, xml) {
-        var i = matchers.length;
-        while (i--) {
-          if (!matchers[i](elem, context, xml)) {
-            return false;
-          }
-        }
-        return true;
-      } : matchers[0];
-    }
-    function multipleContexts(selector, contexts, results) {
-      var i = 0,
-          len = contexts.length;
-      for (; i < len; i++) {
-        Sizzle(selector, contexts[i], results);
-      }
-      return results;
-    }
-    function condense(unmatched, map, filter, context, xml) {
-      var elem,
-          newUnmatched = [],
-          i = 0,
-          len = unmatched.length,
-          mapped = map != null;
-      for (; i < len; i++) {
-        if ((elem = unmatched[i])) {
-          if (!filter || filter(elem, context, xml)) {
-            newUnmatched.push(elem);
-            if (mapped) {
-              map.push(i);
-            }
-          }
-        }
-      }
-      return newUnmatched;
-    }
-    function setMatcher(preFilter, selector, matcher, postFilter, postFinder, postSelector) {
-      if (postFilter && !postFilter[expando]) {
-        postFilter = setMatcher(postFilter);
-      }
-      if (postFinder && !postFinder[expando]) {
-        postFinder = setMatcher(postFinder, postSelector);
-      }
-      return markFunction(function(seed, results, context, xml) {
-        var temp,
-            i,
-            elem,
-            preMap = [],
-            postMap = [],
-            preexisting = results.length,
-            elems = seed || multipleContexts(selector || "*", context.nodeType ? [context] : context, []),
-            matcherIn = preFilter && (seed || !selector) ? condense(elems, preMap, preFilter, context, xml) : elems,
-            matcherOut = matcher ? postFinder || (seed ? preFilter : preexisting || postFilter) ? [] : results : matcherIn;
-        if (matcher) {
-          matcher(matcherIn, matcherOut, context, xml);
-        }
-        if (postFilter) {
-          temp = condense(matcherOut, postMap);
-          postFilter(temp, [], context, xml);
-          i = temp.length;
-          while (i--) {
-            if ((elem = temp[i])) {
-              matcherOut[postMap[i]] = !(matcherIn[postMap[i]] = elem);
-            }
-          }
-        }
-        if (seed) {
-          if (postFinder || preFilter) {
-            if (postFinder) {
-              temp = [];
-              i = matcherOut.length;
-              while (i--) {
-                if ((elem = matcherOut[i])) {
-                  temp.push((matcherIn[i] = elem));
-                }
-              }
-              postFinder(null, (matcherOut = []), temp, xml);
-            }
-            i = matcherOut.length;
-            while (i--) {
-              if ((elem = matcherOut[i]) && (temp = postFinder ? indexOf(seed, elem) : preMap[i]) > -1) {
-                seed[temp] = !(results[temp] = elem);
-              }
-            }
-          }
-        } else {
-          matcherOut = condense(matcherOut === results ? matcherOut.splice(preexisting, matcherOut.length) : matcherOut);
-          if (postFinder) {
-            postFinder(null, results, matcherOut, xml);
-          } else {
-            push.apply(results, matcherOut);
-          }
-        }
-      });
-    }
-    function matcherFromTokens(tokens) {
-      var checkContext,
-          matcher,
-          j,
-          len = tokens.length,
-          leadingRelative = Expr.relative[tokens[0].type],
-          implicitRelative = leadingRelative || Expr.relative[" "],
-          i = leadingRelative ? 1 : 0,
-          matchContext = addCombinator(function(elem) {
-            return elem === checkContext;
-          }, implicitRelative, true),
-          matchAnyContext = addCombinator(function(elem) {
-            return indexOf(checkContext, elem) > -1;
-          }, implicitRelative, true),
-          matchers = [function(elem, context, xml) {
-            var ret = (!leadingRelative && (xml || context !== outermostContext)) || ((checkContext = context).nodeType ? matchContext(elem, context, xml) : matchAnyContext(elem, context, xml));
-            checkContext = null;
-            return ret;
-          }];
-      for (; i < len; i++) {
-        if ((matcher = Expr.relative[tokens[i].type])) {
-          matchers = [addCombinator(elementMatcher(matchers), matcher)];
-        } else {
-          matcher = Expr.filter[tokens[i].type].apply(null, tokens[i].matches);
-          if (matcher[expando]) {
-            j = ++i;
-            for (; j < len; j++) {
-              if (Expr.relative[tokens[j].type]) {
-                break;
-              }
-            }
-            return setMatcher(i > 1 && elementMatcher(matchers), i > 1 && toSelector(tokens.slice(0, i - 1).concat({value: tokens[i - 2].type === " " ? "*" : ""})).replace(rtrim, "$1"), matcher, i < j && matcherFromTokens(tokens.slice(i, j)), j < len && matcherFromTokens((tokens = tokens.slice(j))), j < len && toSelector(tokens));
-          }
-          matchers.push(matcher);
-        }
-      }
-      return elementMatcher(matchers);
-    }
-    function matcherFromGroupMatchers(elementMatchers, setMatchers) {
-      var bySet = setMatchers.length > 0,
-          byElement = elementMatchers.length > 0,
-          superMatcher = function(seed, context, xml, results, outermost) {
-            var elem,
-                j,
-                matcher,
-                matchedCount = 0,
-                i = "0",
-                unmatched = seed && [],
-                setMatched = [],
-                contextBackup = outermostContext,
-                elems = seed || byElement && Expr.find["TAG"]("*", outermost),
-                dirrunsUnique = (dirruns += contextBackup == null ? 1 : Math.random() || 0.1),
-                len = elems.length;
-            if (outermost) {
-              outermostContext = context !== document && context;
-            }
-            for (; i !== len && (elem = elems[i]) != null; i++) {
-              if (byElement && elem) {
-                j = 0;
-                while ((matcher = elementMatchers[j++])) {
-                  if (matcher(elem, context, xml)) {
-                    results.push(elem);
-                    break;
-                  }
-                }
-                if (outermost) {
-                  dirruns = dirrunsUnique;
-                }
-              }
-              if (bySet) {
-                if ((elem = !matcher && elem)) {
-                  matchedCount--;
-                }
-                if (seed) {
-                  unmatched.push(elem);
-                }
-              }
-            }
-            matchedCount += i;
-            if (bySet && i !== matchedCount) {
-              j = 0;
-              while ((matcher = setMatchers[j++])) {
-                matcher(unmatched, setMatched, context, xml);
-              }
-              if (seed) {
-                if (matchedCount > 0) {
-                  while (i--) {
-                    if (!(unmatched[i] || setMatched[i])) {
-                      setMatched[i] = pop.call(results);
-                    }
-                  }
-                }
-                setMatched = condense(setMatched);
-              }
-              push.apply(results, setMatched);
-              if (outermost && !seed && setMatched.length > 0 && (matchedCount + setMatchers.length) > 1) {
-                Sizzle.uniqueSort(results);
-              }
-            }
-            if (outermost) {
-              dirruns = dirrunsUnique;
-              outermostContext = contextBackup;
-            }
-            return unmatched;
-          };
-      return bySet ? markFunction(superMatcher) : superMatcher;
-    }
-    compile = Sizzle.compile = function(selector, match) {
-      var i,
-          setMatchers = [],
-          elementMatchers = [],
-          cached = compilerCache[selector + " "];
-      if (!cached) {
-        if (!match) {
-          match = tokenize(selector);
-        }
-        i = match.length;
-        while (i--) {
-          cached = matcherFromTokens(match[i]);
-          if (cached[expando]) {
-            setMatchers.push(cached);
-          } else {
-            elementMatchers.push(cached);
-          }
-        }
-        cached = compilerCache(selector, matcherFromGroupMatchers(elementMatchers, setMatchers));
-        cached.selector = selector;
-      }
-      return cached;
-    };
-    select = Sizzle.select = function(selector, context, results, seed) {
-      var i,
-          tokens,
-          token,
-          type,
-          find,
-          compiled = typeof selector === "function" && selector,
-          match = !seed && tokenize((selector = compiled.selector || selector));
-      results = results || [];
-      if (match.length === 1) {
-        tokens = match[0] = match[0].slice(0);
-        if (tokens.length > 2 && (token = tokens[0]).type === "ID" && support.getById && context.nodeType === 9 && documentIsHTML && Expr.relative[tokens[1].type]) {
-          context = (Expr.find["ID"](token.matches[0].replace(runescape, funescape), context) || [])[0];
-          if (!context) {
-            return results;
-          } else if (compiled) {
-            context = context.parentNode;
-          }
-          selector = selector.slice(tokens.shift().value.length);
-        }
-        i = matchExpr["needsContext"].test(selector) ? 0 : tokens.length;
-        while (i--) {
-          token = tokens[i];
-          if (Expr.relative[(type = token.type)]) {
-            break;
-          }
-          if ((find = Expr.find[type])) {
-            if ((seed = find(token.matches[0].replace(runescape, funescape), rsibling.test(tokens[0].type) && testContext(context.parentNode) || context))) {
-              tokens.splice(i, 1);
-              selector = seed.length && toSelector(tokens);
-              if (!selector) {
-                push.apply(results, seed);
-                return results;
-              }
-              break;
-            }
-          }
-        }
-      }
-      (compiled || compile(selector, match))(seed, context, !documentIsHTML, results, rsibling.test(selector) && testContext(context.parentNode) || context);
-      return results;
-    };
-    support.sortStable = expando.split("").sort(sortOrder).join("") === expando;
-    support.detectDuplicates = !!hasDuplicate;
-    setDocument();
-    support.sortDetached = assert(function(div1) {
-      return div1.compareDocumentPosition(document.createElement("div")) & 1;
-    });
-    if (!assert(function(div) {
-      div.innerHTML = "<a href='#'></a>";
-      return div.firstChild.getAttribute("href") === "#";
-    })) {
-      addHandle("type|href|height|width", function(elem, name, isXML) {
-        if (!isXML) {
-          return elem.getAttribute(name, name.toLowerCase() === "type" ? 1 : 2);
-        }
-      });
-    }
-    if (!support.attributes || !assert(function(div) {
-      div.innerHTML = "<input/>";
-      div.firstChild.setAttribute("value", "");
-      return div.firstChild.getAttribute("value") === "";
-    })) {
-      addHandle("value", function(elem, name, isXML) {
-        if (!isXML && elem.nodeName.toLowerCase() === "input") {
-          return elem.defaultValue;
-        }
-      });
-    }
-    if (!assert(function(div) {
-      return div.getAttribute("disabled") == null;
-    })) {
-      addHandle(booleans, function(elem, name, isXML) {
-        var val;
-        if (!isXML) {
-          return elem[name] === true ? name.toLowerCase() : (val = elem.getAttributeNode(name)) && val.specified ? val.value : null;
-        }
-      });
-    }
-    return Sizzle;
-  })(window);
-  jQuery.find = Sizzle;
-  jQuery.expr = Sizzle.selectors;
-  jQuery.expr[":"] = jQuery.expr.pseudos;
-  jQuery.unique = Sizzle.uniqueSort;
-  jQuery.text = Sizzle.getText;
-  jQuery.isXMLDoc = Sizzle.isXML;
-  jQuery.contains = Sizzle.contains;
-  var rneedsContext = jQuery.expr.match.needsContext;
-  var rsingleTag = (/^<(\w+)\s*\/?>(?:<\/\1>|)$/);
-  var risSimple = /^.[^:#\[\.,]*$/;
-  function winnow(elements, qualifier, not) {
-    if (jQuery.isFunction(qualifier)) {
-      return jQuery.grep(elements, function(elem, i) {
-        return !!qualifier.call(elem, i, elem) !== not;
-      });
-    }
-    if (qualifier.nodeType) {
-      return jQuery.grep(elements, function(elem) {
-        return (elem === qualifier) !== not;
-      });
-    }
-    if (typeof qualifier === "string") {
-      if (risSimple.test(qualifier)) {
-        return jQuery.filter(qualifier, elements, not);
-      }
-      qualifier = jQuery.filter(qualifier, elements);
-    }
-    return jQuery.grep(elements, function(elem) {
-      return (indexOf.call(qualifier, elem) >= 0) !== not;
-    });
-  }
-  jQuery.filter = function(expr, elems, not) {
-    var elem = elems[0];
-    if (not) {
-      expr = ":not(" + expr + ")";
-    }
-    return elems.length === 1 && elem.nodeType === 1 ? jQuery.find.matchesSelector(elem, expr) ? [elem] : [] : jQuery.find.matches(expr, jQuery.grep(elems, function(elem) {
-      return elem.nodeType === 1;
-    }));
-  };
-  jQuery.fn.extend({
-    find: function(selector) {
-      var i,
-          len = this.length,
-          ret = [],
-          self = this;
-      if (typeof selector !== "string") {
-        return this.pushStack(jQuery(selector).filter(function() {
-          for (i = 0; i < len; i++) {
-            if (jQuery.contains(self[i], this)) {
-              return true;
-            }
-          }
-        }));
-      }
-      for (i = 0; i < len; i++) {
-        jQuery.find(selector, self[i], ret);
-      }
-      ret = this.pushStack(len > 1 ? jQuery.unique(ret) : ret);
-      ret.selector = this.selector ? this.selector + " " + selector : selector;
-      return ret;
-    },
-    filter: function(selector) {
-      return this.pushStack(winnow(this, selector || [], false));
-    },
-    not: function(selector) {
-      return this.pushStack(winnow(this, selector || [], true));
-    },
-    is: function(selector) {
-      return !!winnow(this, typeof selector === "string" && rneedsContext.test(selector) ? jQuery(selector) : selector || [], false).length;
-    }
-  });
-  var rootjQuery,
-      rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/,
-      init = jQuery.fn.init = function(selector, context) {
-        var match,
-            elem;
-        if (!selector) {
-          return this;
-        }
-        if (typeof selector === "string") {
-          if (selector[0] === "<" && selector[selector.length - 1] === ">" && selector.length >= 3) {
-            match = [null, selector, null];
-          } else {
-            match = rquickExpr.exec(selector);
-          }
-          if (match && (match[1] || !context)) {
-            if (match[1]) {
-              context = context instanceof jQuery ? context[0] : context;
-              jQuery.merge(this, jQuery.parseHTML(match[1], context && context.nodeType ? context.ownerDocument || context : document, true));
-              if (rsingleTag.test(match[1]) && jQuery.isPlainObject(context)) {
-                for (match in context) {
-                  if (jQuery.isFunction(this[match])) {
-                    this[match](context[match]);
-                  } else {
-                    this.attr(match, context[match]);
-                  }
-                }
-              }
-              return this;
-            } else {
-              elem = document.getElementById(match[2]);
-              if (elem && elem.parentNode) {
-                this.length = 1;
-                this[0] = elem;
-              }
-              this.context = document;
-              this.selector = selector;
-              return this;
-            }
-          } else if (!context || context.jquery) {
-            return (context || rootjQuery).find(selector);
-          } else {
-            return this.constructor(context).find(selector);
-          }
-        } else if (selector.nodeType) {
-          this.context = this[0] = selector;
-          this.length = 1;
-          return this;
-        } else if (jQuery.isFunction(selector)) {
-          return typeof rootjQuery.ready !== "undefined" ? rootjQuery.ready(selector) : selector(jQuery);
-        }
-        if (selector.selector !== undefined) {
-          this.selector = selector.selector;
-          this.context = selector.context;
-        }
-        return jQuery.makeArray(selector, this);
-      };
-  init.prototype = jQuery.fn;
-  rootjQuery = jQuery(document);
-  var rparentsprev = /^(?:parents|prev(?:Until|All))/,
-      guaranteedUnique = {
-        children: true,
-        contents: true,
-        next: true,
-        prev: true
-      };
-  jQuery.extend({
-    dir: function(elem, dir, until) {
-      var matched = [],
-          truncate = until !== undefined;
-      while ((elem = elem[dir]) && elem.nodeType !== 9) {
-        if (elem.nodeType === 1) {
-          if (truncate && jQuery(elem).is(until)) {
-            break;
-          }
-          matched.push(elem);
-        }
-      }
-      return matched;
-    },
-    sibling: function(n, elem) {
-      var matched = [];
-      for (; n; n = n.nextSibling) {
-        if (n.nodeType === 1 && n !== elem) {
-          matched.push(n);
-        }
-      }
-      return matched;
-    }
-  });
-  jQuery.fn.extend({
-    has: function(target) {
-      var targets = jQuery(target, this),
-          l = targets.length;
-      return this.filter(function() {
-        var i = 0;
-        for (; i < l; i++) {
-          if (jQuery.contains(this, targets[i])) {
-            return true;
-          }
-        }
-      });
-    },
-    closest: function(selectors, context) {
-      var cur,
-          i = 0,
-          l = this.length,
-          matched = [],
-          pos = rneedsContext.test(selectors) || typeof selectors !== "string" ? jQuery(selectors, context || this.context) : 0;
-      for (; i < l; i++) {
-        for (cur = this[i]; cur && cur !== context; cur = cur.parentNode) {
-          if (cur.nodeType < 11 && (pos ? pos.index(cur) > -1 : cur.nodeType === 1 && jQuery.find.matchesSelector(cur, selectors))) {
-            matched.push(cur);
-            break;
-          }
-        }
-      }
-      return this.pushStack(matched.length > 1 ? jQuery.unique(matched) : matched);
-    },
-    index: function(elem) {
-      if (!elem) {
-        return (this[0] && this[0].parentNode) ? this.first().prevAll().length : -1;
-      }
-      if (typeof elem === "string") {
-        return indexOf.call(jQuery(elem), this[0]);
-      }
-      return indexOf.call(this, elem.jquery ? elem[0] : elem);
-    },
-    add: function(selector, context) {
-      return this.pushStack(jQuery.unique(jQuery.merge(this.get(), jQuery(selector, context))));
-    },
-    addBack: function(selector) {
-      return this.add(selector == null ? this.prevObject : this.prevObject.filter(selector));
-    }
-  });
-  function sibling(cur, dir) {
-    while ((cur = cur[dir]) && cur.nodeType !== 1) {}
-    return cur;
-  }
-  jQuery.each({
-    parent: function(elem) {
-      var parent = elem.parentNode;
-      return parent && parent.nodeType !== 11 ? parent : null;
-    },
-    parents: function(elem) {
-      return jQuery.dir(elem, "parentNode");
-    },
-    parentsUntil: function(elem, i, until) {
-      return jQuery.dir(elem, "parentNode", until);
-    },
-    next: function(elem) {
-      return sibling(elem, "nextSibling");
-    },
-    prev: function(elem) {
-      return sibling(elem, "previousSibling");
-    },
-    nextAll: function(elem) {
-      return jQuery.dir(elem, "nextSibling");
-    },
-    prevAll: function(elem) {
-      return jQuery.dir(elem, "previousSibling");
-    },
-    nextUntil: function(elem, i, until) {
-      return jQuery.dir(elem, "nextSibling", until);
-    },
-    prevUntil: function(elem, i, until) {
-      return jQuery.dir(elem, "previousSibling", until);
-    },
-    siblings: function(elem) {
-      return jQuery.sibling((elem.parentNode || {}).firstChild, elem);
-    },
-    children: function(elem) {
-      return jQuery.sibling(elem.firstChild);
-    },
-    contents: function(elem) {
-      return elem.contentDocument || jQuery.merge([], elem.childNodes);
-    }
-  }, function(name, fn) {
-    jQuery.fn[name] = function(until, selector) {
-      var matched = jQuery.map(this, fn, until);
-      if (name.slice(-5) !== "Until") {
-        selector = until;
-      }
-      if (selector && typeof selector === "string") {
-        matched = jQuery.filter(selector, matched);
-      }
-      if (this.length > 1) {
-        if (!guaranteedUnique[name]) {
-          jQuery.unique(matched);
-        }
-        if (rparentsprev.test(name)) {
-          matched.reverse();
-        }
-      }
-      return this.pushStack(matched);
-    };
-  });
-  var rnotwhite = (/\S+/g);
-  var optionsCache = {};
-  function createOptions(options) {
-    var object = optionsCache[options] = {};
-    jQuery.each(options.match(rnotwhite) || [], function(_, flag) {
-      object[flag] = true;
-    });
-    return object;
-  }
-  jQuery.Callbacks = function(options) {
-    options = typeof options === "string" ? (optionsCache[options] || createOptions(options)) : jQuery.extend({}, options);
-    var memory,
-        fired,
-        firing,
-        firingStart,
-        firingLength,
-        firingIndex,
-        list = [],
-        stack = !options.once && [],
-        fire = function(data) {
-          memory = options.memory && data;
-          fired = true;
-          firingIndex = firingStart || 0;
-          firingStart = 0;
-          firingLength = list.length;
-          firing = true;
-          for (; list && firingIndex < firingLength; firingIndex++) {
-            if (list[firingIndex].apply(data[0], data[1]) === false && options.stopOnFalse) {
-              memory = false;
-              break;
-            }
-          }
-          firing = false;
-          if (list) {
-            if (stack) {
-              if (stack.length) {
-                fire(stack.shift());
-              }
-            } else if (memory) {
-              list = [];
-            } else {
-              self.disable();
-            }
-          }
-        },
-        self = {
-          add: function() {
-            if (list) {
-              var start = list.length;
-              (function add(args) {
-                jQuery.each(args, function(_, arg) {
-                  var type = jQuery.type(arg);
-                  if (type === "function") {
-                    if (!options.unique || !self.has(arg)) {
-                      list.push(arg);
-                    }
-                  } else if (arg && arg.length && type !== "string") {
-                    add(arg);
-                  }
-                });
-              })(arguments);
-              if (firing) {
-                firingLength = list.length;
-              } else if (memory) {
-                firingStart = start;
-                fire(memory);
-              }
-            }
-            return this;
-          },
-          remove: function() {
-            if (list) {
-              jQuery.each(arguments, function(_, arg) {
-                var index;
-                while ((index = jQuery.inArray(arg, list, index)) > -1) {
-                  list.splice(index, 1);
-                  if (firing) {
-                    if (index <= firingLength) {
-                      firingLength--;
-                    }
-                    if (index <= firingIndex) {
-                      firingIndex--;
-                    }
-                  }
-                }
-              });
-            }
-            return this;
-          },
-          has: function(fn) {
-            return fn ? jQuery.inArray(fn, list) > -1 : !!(list && list.length);
-          },
-          empty: function() {
-            list = [];
-            firingLength = 0;
-            return this;
-          },
-          disable: function() {
-            list = stack = memory = undefined;
-            return this;
-          },
-          disabled: function() {
-            return !list;
-          },
-          lock: function() {
-            stack = undefined;
-            if (!memory) {
-              self.disable();
-            }
-            return this;
-          },
-          locked: function() {
-            return !stack;
-          },
-          fireWith: function(context, args) {
-            if (list && (!fired || stack)) {
-              args = args || [];
-              args = [context, args.slice ? args.slice() : args];
-              if (firing) {
-                stack.push(args);
-              } else {
-                fire(args);
-              }
-            }
-            return this;
-          },
-          fire: function() {
-            self.fireWith(this, arguments);
-            return this;
-          },
-          fired: function() {
-            return !!fired;
-          }
-        };
-    return self;
-  };
-  jQuery.extend({
-    Deferred: function(func) {
-      var tuples = [["resolve", "done", jQuery.Callbacks("once memory"), "resolved"], ["reject", "fail", jQuery.Callbacks("once memory"), "rejected"], ["notify", "progress", jQuery.Callbacks("memory")]],
-          state = "pending",
-          promise = {
-            state: function() {
-              return state;
-            },
-            always: function() {
-              deferred.done(arguments).fail(arguments);
-              return this;
-            },
-            then: function() {
-              var fns = arguments;
-              return jQuery.Deferred(function(newDefer) {
-                jQuery.each(tuples, function(i, tuple) {
-                  var fn = jQuery.isFunction(fns[i]) && fns[i];
-                  deferred[tuple[1]](function() {
-                    var returned = fn && fn.apply(this, arguments);
-                    if (returned && jQuery.isFunction(returned.promise)) {
-                      returned.promise().done(newDefer.resolve).fail(newDefer.reject).progress(newDefer.notify);
-                    } else {
-                      newDefer[tuple[0] + "With"](this === promise ? newDefer.promise() : this, fn ? [returned] : arguments);
-                    }
-                  });
-                });
-                fns = null;
-              }).promise();
-            },
-            promise: function(obj) {
-              return obj != null ? jQuery.extend(obj, promise) : promise;
-            }
-          },
-          deferred = {};
-      promise.pipe = promise.then;
-      jQuery.each(tuples, function(i, tuple) {
-        var list = tuple[2],
-            stateString = tuple[3];
-        promise[tuple[1]] = list.add;
-        if (stateString) {
-          list.add(function() {
-            state = stateString;
-          }, tuples[i ^ 1][2].disable, tuples[2][2].lock);
-        }
-        deferred[tuple[0]] = function() {
-          deferred[tuple[0] + "With"](this === deferred ? promise : this, arguments);
-          return this;
-        };
-        deferred[tuple[0] + "With"] = list.fireWith;
-      });
-      promise.promise(deferred);
-      if (func) {
-        func.call(deferred, deferred);
-      }
-      return deferred;
-    },
-    when: function(subordinate) {
-      var i = 0,
-          resolveValues = slice.call(arguments),
-          length = resolveValues.length,
-          remaining = length !== 1 || (subordinate && jQuery.isFunction(subordinate.promise)) ? length : 0,
-          deferred = remaining === 1 ? subordinate : jQuery.Deferred(),
-          updateFunc = function(i, contexts, values) {
-            return function(value) {
-              contexts[i] = this;
-              values[i] = arguments.length > 1 ? slice.call(arguments) : value;
-              if (values === progressValues) {
-                deferred.notifyWith(contexts, values);
-              } else if (!(--remaining)) {
-                deferred.resolveWith(contexts, values);
-              }
-            };
-          },
-          progressValues,
-          progressContexts,
-          resolveContexts;
-      if (length > 1) {
-        progressValues = new Array(length);
-        progressContexts = new Array(length);
-        resolveContexts = new Array(length);
-        for (; i < length; i++) {
-          if (resolveValues[i] && jQuery.isFunction(resolveValues[i].promise)) {
-            resolveValues[i].promise().done(updateFunc(i, resolveContexts, resolveValues)).fail(deferred.reject).progress(updateFunc(i, progressContexts, progressValues));
-          } else {
-            --remaining;
-          }
-        }
-      }
-      if (!remaining) {
-        deferred.resolveWith(resolveContexts, resolveValues);
-      }
-      return deferred.promise();
-    }
-  });
-  var readyList;
-  jQuery.fn.ready = function(fn) {
-    jQuery.ready.promise().done(fn);
-    return this;
-  };
-  jQuery.extend({
-    isReady: false,
-    readyWait: 1,
-    holdReady: function(hold) {
-      if (hold) {
-        jQuery.readyWait++;
-      } else {
-        jQuery.ready(true);
-      }
-    },
-    ready: function(wait) {
-      if (wait === true ? --jQuery.readyWait : jQuery.isReady) {
-        return ;
-      }
-      jQuery.isReady = true;
-      if (wait !== true && --jQuery.readyWait > 0) {
-        return ;
-      }
-      readyList.resolveWith(document, [jQuery]);
-      if (jQuery.fn.triggerHandler) {
-        jQuery(document).triggerHandler("ready");
-        jQuery(document).off("ready");
-      }
-    }
-  });
-  function completed() {
-    document.removeEventListener("DOMContentLoaded", completed, false);
-    window.removeEventListener("load", completed, false);
-    jQuery.ready();
-  }
-  jQuery.ready.promise = function(obj) {
-    if (!readyList) {
-      readyList = jQuery.Deferred();
-      if (document.readyState === "complete") {
-        setTimeout(jQuery.ready);
-      } else {
-        document.addEventListener("DOMContentLoaded", completed, false);
-        window.addEventListener("load", completed, false);
-      }
-    }
-    return readyList.promise(obj);
-  };
-  jQuery.ready.promise();
-  var access = jQuery.access = function(elems, fn, key, value, chainable, emptyGet, raw) {
-    var i = 0,
-        len = elems.length,
-        bulk = key == null;
-    if (jQuery.type(key) === "object") {
-      chainable = true;
-      for (i in key) {
-        jQuery.access(elems, fn, i, key[i], true, emptyGet, raw);
-      }
-    } else if (value !== undefined) {
-      chainable = true;
-      if (!jQuery.isFunction(value)) {
-        raw = true;
-      }
-      if (bulk) {
-        if (raw) {
-          fn.call(elems, value);
-          fn = null;
-        } else {
-          bulk = fn;
-          fn = function(elem, key, value) {
-            return bulk.call(jQuery(elem), value);
-          };
-        }
-      }
-      if (fn) {
-        for (; i < len; i++) {
-          fn(elems[i], key, raw ? value : value.call(elems[i], i, fn(elems[i], key)));
-        }
-      }
-    }
-    return chainable ? elems : bulk ? fn.call(elems) : len ? fn(elems[0], key) : emptyGet;
-  };
-  jQuery.acceptData = function(owner) {
-    return owner.nodeType === 1 || owner.nodeType === 9 || !(+owner.nodeType);
-  };
-  function Data() {
-    Object.defineProperty(this.cache = {}, 0, {get: function() {
-        return {};
-      }});
-    this.expando = jQuery.expando + Data.uid++;
-  }
-  Data.uid = 1;
-  Data.accepts = jQuery.acceptData;
-  Data.prototype = {
-    key: function(owner) {
-      if (!Data.accepts(owner)) {
-        return 0;
-      }
-      var descriptor = {},
-          unlock = owner[this.expando];
-      if (!unlock) {
-        unlock = Data.uid++;
-        try {
-          descriptor[this.expando] = {value: unlock};
-          Object.defineProperties(owner, descriptor);
-        } catch (e) {
-          descriptor[this.expando] = unlock;
-          jQuery.extend(owner, descriptor);
-        }
-      }
-      if (!this.cache[unlock]) {
-        this.cache[unlock] = {};
-      }
-      return unlock;
-    },
-    set: function(owner, data, value) {
-      var prop,
-          unlock = this.key(owner),
-          cache = this.cache[unlock];
-      if (typeof data === "string") {
-        cache[data] = value;
-      } else {
-        if (jQuery.isEmptyObject(cache)) {
-          jQuery.extend(this.cache[unlock], data);
-        } else {
-          for (prop in data) {
-            cache[prop] = data[prop];
-          }
-        }
-      }
-      return cache;
-    },
-    get: function(owner, key) {
-      var cache = this.cache[this.key(owner)];
-      return key === undefined ? cache : cache[key];
-    },
-    access: function(owner, key, value) {
-      var stored;
-      if (key === undefined || ((key && typeof key === "string") && value === undefined)) {
-        stored = this.get(owner, key);
-        return stored !== undefined ? stored : this.get(owner, jQuery.camelCase(key));
-      }
-      this.set(owner, key, value);
-      return value !== undefined ? value : key;
-    },
-    remove: function(owner, key) {
-      var i,
-          name,
-          camel,
-          unlock = this.key(owner),
-          cache = this.cache[unlock];
-      if (key === undefined) {
-        this.cache[unlock] = {};
-      } else {
-        if (jQuery.isArray(key)) {
-          name = key.concat(key.map(jQuery.camelCase));
-        } else {
-          camel = jQuery.camelCase(key);
-          if (key in cache) {
-            name = [key, camel];
-          } else {
-            name = camel;
-            name = name in cache ? [name] : (name.match(rnotwhite) || []);
-          }
-        }
-        i = name.length;
-        while (i--) {
-          delete cache[name[i]];
-        }
-      }
-    },
-    hasData: function(owner) {
-      return !jQuery.isEmptyObject(this.cache[owner[this.expando]] || {});
-    },
-    discard: function(owner) {
-      if (owner[this.expando]) {
-        delete this.cache[owner[this.expando]];
-      }
-    }
-  };
-  var data_priv = new Data();
-  var data_user = new Data();
-  var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
-      rmultiDash = /([A-Z])/g;
-  function dataAttr(elem, key, data) {
-    var name;
-    if (data === undefined && elem.nodeType === 1) {
-      name = "data-" + key.replace(rmultiDash, "-$1").toLowerCase();
-      data = elem.getAttribute(name);
-      if (typeof data === "string") {
-        try {
-          data = data === "true" ? true : data === "false" ? false : data === "null" ? null : +data + "" === data ? +data : rbrace.test(data) ? jQuery.parseJSON(data) : data;
-        } catch (e) {}
-        data_user.set(elem, key, data);
-      } else {
-        data = undefined;
-      }
-    }
-    return data;
-  }
-  jQuery.extend({
-    hasData: function(elem) {
-      return data_user.hasData(elem) || data_priv.hasData(elem);
-    },
-    data: function(elem, name, data) {
-      return data_user.access(elem, name, data);
-    },
-    removeData: function(elem, name) {
-      data_user.remove(elem, name);
-    },
-    _data: function(elem, name, data) {
-      return data_priv.access(elem, name, data);
-    },
-    _removeData: function(elem, name) {
-      data_priv.remove(elem, name);
-    }
-  });
-  jQuery.fn.extend({
-    data: function(key, value) {
-      var i,
-          name,
-          data,
-          elem = this[0],
-          attrs = elem && elem.attributes;
-      if (key === undefined) {
-        if (this.length) {
-          data = data_user.get(elem);
-          if (elem.nodeType === 1 && !data_priv.get(elem, "hasDataAttrs")) {
-            i = attrs.length;
-            while (i--) {
-              if (attrs[i]) {
-                name = attrs[i].name;
-                if (name.indexOf("data-") === 0) {
-                  name = jQuery.camelCase(name.slice(5));
-                  dataAttr(elem, name, data[name]);
-                }
-              }
-            }
-            data_priv.set(elem, "hasDataAttrs", true);
-          }
-        }
-        return data;
-      }
-      if (typeof key === "object") {
-        return this.each(function() {
-          data_user.set(this, key);
-        });
-      }
-      return access(this, function(value) {
-        var data,
-            camelKey = jQuery.camelCase(key);
-        if (elem && value === undefined) {
-          data = data_user.get(elem, key);
-          if (data !== undefined) {
-            return data;
-          }
-          data = data_user.get(elem, camelKey);
-          if (data !== undefined) {
-            return data;
-          }
-          data = dataAttr(elem, camelKey, undefined);
-          if (data !== undefined) {
-            return data;
-          }
-          return ;
-        }
-        this.each(function() {
-          var data = data_user.get(this, camelKey);
-          data_user.set(this, camelKey, value);
-          if (key.indexOf("-") !== -1 && data !== undefined) {
-            data_user.set(this, key, value);
-          }
-        });
-      }, null, value, arguments.length > 1, null, true);
-    },
-    removeData: function(key) {
-      return this.each(function() {
-        data_user.remove(this, key);
-      });
-    }
-  });
-  jQuery.extend({
-    queue: function(elem, type, data) {
-      var queue;
-      if (elem) {
-        type = (type || "fx") + "queue";
-        queue = data_priv.get(elem, type);
-        if (data) {
-          if (!queue || jQuery.isArray(data)) {
-            queue = data_priv.access(elem, type, jQuery.makeArray(data));
-          } else {
-            queue.push(data);
-          }
-        }
-        return queue || [];
-      }
-    },
-    dequeue: function(elem, type) {
-      type = type || "fx";
-      var queue = jQuery.queue(elem, type),
-          startLength = queue.length,
-          fn = queue.shift(),
-          hooks = jQuery._queueHooks(elem, type),
-          next = function() {
-            jQuery.dequeue(elem, type);
-          };
-      if (fn === "inprogress") {
-        fn = queue.shift();
-        startLength--;
-      }
-      if (fn) {
-        if (type === "fx") {
-          queue.unshift("inprogress");
-        }
-        delete hooks.stop;
-        fn.call(elem, next, hooks);
-      }
-      if (!startLength && hooks) {
-        hooks.empty.fire();
-      }
-    },
-    _queueHooks: function(elem, type) {
-      var key = type + "queueHooks";
-      return data_priv.get(elem, key) || data_priv.access(elem, key, {empty: jQuery.Callbacks("once memory").add(function() {
-          data_priv.remove(elem, [type + "queue", key]);
-        })});
-    }
-  });
-  jQuery.fn.extend({
-    queue: function(type, data) {
-      var setter = 2;
-      if (typeof type !== "string") {
-        data = type;
-        type = "fx";
-        setter--;
-      }
-      if (arguments.length < setter) {
-        return jQuery.queue(this[0], type);
-      }
-      return data === undefined ? this : this.each(function() {
-        var queue = jQuery.queue(this, type, data);
-        jQuery._queueHooks(this, type);
-        if (type === "fx" && queue[0] !== "inprogress") {
-          jQuery.dequeue(this, type);
-        }
-      });
-    },
-    dequeue: function(type) {
-      return this.each(function() {
-        jQuery.dequeue(this, type);
-      });
-    },
-    clearQueue: function(type) {
-      return this.queue(type || "fx", []);
-    },
-    promise: function(type, obj) {
-      var tmp,
-          count = 1,
-          defer = jQuery.Deferred(),
-          elements = this,
-          i = this.length,
-          resolve = function() {
-            if (!(--count)) {
-              defer.resolveWith(elements, [elements]);
-            }
-          };
-      if (typeof type !== "string") {
-        obj = type;
-        type = undefined;
-      }
-      type = type || "fx";
-      while (i--) {
-        tmp = data_priv.get(elements[i], type + "queueHooks");
-        if (tmp && tmp.empty) {
-          count++;
-          tmp.empty.add(resolve);
-        }
-      }
-      resolve();
-      return defer.promise(obj);
-    }
-  });
-  var pnum = (/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/).source;
-  var cssExpand = ["Top", "Right", "Bottom", "Left"];
-  var isHidden = function(elem, el) {
-    elem = el || elem;
-    return jQuery.css(elem, "display") === "none" || !jQuery.contains(elem.ownerDocument, elem);
-  };
-  var rcheckableType = (/^(?:checkbox|radio)$/i);
-  (function() {
-    var fragment = document.createDocumentFragment(),
-        div = fragment.appendChild(document.createElement("div")),
-        input = document.createElement("input");
-    input.setAttribute("type", "radio");
-    input.setAttribute("checked", "checked");
-    input.setAttribute("name", "t");
-    div.appendChild(input);
-    support.checkClone = div.cloneNode(true).cloneNode(true).lastChild.checked;
-    div.innerHTML = "<textarea>x</textarea>";
-    support.noCloneChecked = !!div.cloneNode(true).lastChild.defaultValue;
-  })();
-  var strundefined = typeof undefined;
-  support.focusinBubbles = "onfocusin" in window;
-  var rkeyEvent = /^key/,
-      rmouseEvent = /^(?:mouse|pointer|contextmenu)|click/,
-      rfocusMorph = /^(?:focusinfocus|focusoutblur)$/,
-      rtypenamespace = /^([^.]*)(?:\.(.+)|)$/;
-  function returnTrue() {
-    return true;
-  }
-  function returnFalse() {
-    return false;
-  }
-  function safeActiveElement() {
-    try {
-      return document.activeElement;
-    } catch (err) {}
-  }
-  jQuery.event = {
-    global: {},
-    add: function(elem, types, handler, data, selector) {
-      var handleObjIn,
-          eventHandle,
-          tmp,
-          events,
-          t,
-          handleObj,
-          special,
-          handlers,
-          type,
-          namespaces,
-          origType,
-          elemData = data_priv.get(elem);
-      if (!elemData) {
-        return ;
-      }
-      if (handler.handler) {
-        handleObjIn = handler;
-        handler = handleObjIn.handler;
-        selector = handleObjIn.selector;
-      }
-      if (!handler.guid) {
-        handler.guid = jQuery.guid++;
-      }
-      if (!(events = elemData.events)) {
-        events = elemData.events = {};
-      }
-      if (!(eventHandle = elemData.handle)) {
-        eventHandle = elemData.handle = function(e) {
-          return typeof jQuery !== strundefined && jQuery.event.triggered !== e.type ? jQuery.event.dispatch.apply(elem, arguments) : undefined;
-        };
-      }
-      types = (types || "").match(rnotwhite) || [""];
-      t = types.length;
-      while (t--) {
-        tmp = rtypenamespace.exec(types[t]) || [];
-        type = origType = tmp[1];
-        namespaces = (tmp[2] || "").split(".").sort();
-        if (!type) {
-          continue;
-        }
-        special = jQuery.event.special[type] || {};
-        type = (selector ? special.delegateType : special.bindType) || type;
-        special = jQuery.event.special[type] || {};
-        handleObj = jQuery.extend({
-          type: type,
-          origType: origType,
-          data: data,
-          handler: handler,
-          guid: handler.guid,
-          selector: selector,
-          needsContext: selector && jQuery.expr.match.needsContext.test(selector),
-          namespace: namespaces.join(".")
-        }, handleObjIn);
-        if (!(handlers = events[type])) {
-          handlers = events[type] = [];
-          handlers.delegateCount = 0;
-          if (!special.setup || special.setup.call(elem, data, namespaces, eventHandle) === false) {
-            if (elem.addEventListener) {
-              elem.addEventListener(type, eventHandle, false);
-            }
-          }
-        }
-        if (special.add) {
-          special.add.call(elem, handleObj);
-          if (!handleObj.handler.guid) {
-            handleObj.handler.guid = handler.guid;
-          }
-        }
-        if (selector) {
-          handlers.splice(handlers.delegateCount++, 0, handleObj);
-        } else {
-          handlers.push(handleObj);
-        }
-        jQuery.event.global[type] = true;
-      }
-    },
-    remove: function(elem, types, handler, selector, mappedTypes) {
-      var j,
-          origCount,
-          tmp,
-          events,
-          t,
-          handleObj,
-          special,
-          handlers,
-          type,
-          namespaces,
-          origType,
-          elemData = data_priv.hasData(elem) && data_priv.get(elem);
-      if (!elemData || !(events = elemData.events)) {
-        return ;
-      }
-      types = (types || "").match(rnotwhite) || [""];
-      t = types.length;
-      while (t--) {
-        tmp = rtypenamespace.exec(types[t]) || [];
-        type = origType = tmp[1];
-        namespaces = (tmp[2] || "").split(".").sort();
-        if (!type) {
-          for (type in events) {
-            jQuery.event.remove(elem, type + types[t], handler, selector, true);
-          }
-          continue;
-        }
-        special = jQuery.event.special[type] || {};
-        type = (selector ? special.delegateType : special.bindType) || type;
-        handlers = events[type] || [];
-        tmp = tmp[2] && new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)");
-        origCount = j = handlers.length;
-        while (j--) {
-          handleObj = handlers[j];
-          if ((mappedTypes || origType === handleObj.origType) && (!handler || handler.guid === handleObj.guid) && (!tmp || tmp.test(handleObj.namespace)) && (!selector || selector === handleObj.selector || selector === "**" && handleObj.selector)) {
-            handlers.splice(j, 1);
-            if (handleObj.selector) {
-              handlers.delegateCount--;
-            }
-            if (special.remove) {
-              special.remove.call(elem, handleObj);
-            }
-          }
-        }
-        if (origCount && !handlers.length) {
-          if (!special.teardown || special.teardown.call(elem, namespaces, elemData.handle) === false) {
-            jQuery.removeEvent(elem, type, elemData.handle);
-          }
-          delete events[type];
-        }
-      }
-      if (jQuery.isEmptyObject(events)) {
-        delete elemData.handle;
-        data_priv.remove(elem, "events");
-      }
-    },
-    trigger: function(event, data, elem, onlyHandlers) {
-      var i,
-          cur,
-          tmp,
-          bubbleType,
-          ontype,
-          handle,
-          special,
-          eventPath = [elem || document],
-          type = hasOwn.call(event, "type") ? event.type : event,
-          namespaces = hasOwn.call(event, "namespace") ? event.namespace.split(".") : [];
-      cur = tmp = elem = elem || document;
-      if (elem.nodeType === 3 || elem.nodeType === 8) {
-        return ;
-      }
-      if (rfocusMorph.test(type + jQuery.event.triggered)) {
-        return ;
-      }
-      if (type.indexOf(".") >= 0) {
-        namespaces = type.split(".");
-        type = namespaces.shift();
-        namespaces.sort();
-      }
-      ontype = type.indexOf(":") < 0 && "on" + type;
-      event = event[jQuery.expando] ? event : new jQuery.Event(type, typeof event === "object" && event);
-      event.isTrigger = onlyHandlers ? 2 : 3;
-      event.namespace = namespaces.join(".");
-      event.namespace_re = event.namespace ? new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null;
-      event.result = undefined;
-      if (!event.target) {
-        event.target = elem;
-      }
-      data = data == null ? [event] : jQuery.makeArray(data, [event]);
-      special = jQuery.event.special[type] || {};
-      if (!onlyHandlers && special.trigger && special.trigger.apply(elem, data) === false) {
-        return ;
-      }
-      if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(elem)) {
-        bubbleType = special.delegateType || type;
-        if (!rfocusMorph.test(bubbleType + type)) {
-          cur = cur.parentNode;
-        }
-        for (; cur; cur = cur.parentNode) {
-          eventPath.push(cur);
-          tmp = cur;
-        }
-        if (tmp === (elem.ownerDocument || document)) {
-          eventPath.push(tmp.defaultView || tmp.parentWindow || window);
-        }
-      }
-      i = 0;
-      while ((cur = eventPath[i++]) && !event.isPropagationStopped()) {
-        event.type = i > 1 ? bubbleType : special.bindType || type;
-        handle = (data_priv.get(cur, "events") || {})[event.type] && data_priv.get(cur, "handle");
-        if (handle) {
-          handle.apply(cur, data);
-        }
-        handle = ontype && cur[ontype];
-        if (handle && handle.apply && jQuery.acceptData(cur)) {
-          event.result = handle.apply(cur, data);
-          if (event.result === false) {
-            event.preventDefault();
-          }
-        }
-      }
-      event.type = type;
-      if (!onlyHandlers && !event.isDefaultPrevented()) {
-        if ((!special._default || special._default.apply(eventPath.pop(), data) === false) && jQuery.acceptData(elem)) {
-          if (ontype && jQuery.isFunction(elem[type]) && !jQuery.isWindow(elem)) {
-            tmp = elem[ontype];
-            if (tmp) {
-              elem[ontype] = null;
-            }
-            jQuery.event.triggered = type;
-            elem[type]();
-            jQuery.event.triggered = undefined;
-            if (tmp) {
-              elem[ontype] = tmp;
-            }
-          }
-        }
-      }
-      return event.result;
-    },
-    dispatch: function(event) {
-      event = jQuery.event.fix(event);
-      var i,
-          j,
-          ret,
-          matched,
-          handleObj,
-          handlerQueue = [],
-          args = slice.call(arguments),
-          handlers = (data_priv.get(this, "events") || {})[event.type] || [],
-          special = jQuery.event.special[event.type] || {};
-      args[0] = event;
-      event.delegateTarget = this;
-      if (special.preDispatch && special.preDispatch.call(this, event) === false) {
-        return ;
-      }
-      handlerQueue = jQuery.event.handlers.call(this, event, handlers);
-      i = 0;
-      while ((matched = handlerQueue[i++]) && !event.isPropagationStopped()) {
-        event.currentTarget = matched.elem;
-        j = 0;
-        while ((handleObj = matched.handlers[j++]) && !event.isImmediatePropagationStopped()) {
-          if (!event.namespace_re || event.namespace_re.test(handleObj.namespace)) {
-            event.handleObj = handleObj;
-            event.data = handleObj.data;
-            ret = ((jQuery.event.special[handleObj.origType] || {}).handle || handleObj.handler).apply(matched.elem, args);
-            if (ret !== undefined) {
-              if ((event.result = ret) === false) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-            }
-          }
-        }
-      }
-      if (special.postDispatch) {
-        special.postDispatch.call(this, event);
-      }
-      return event.result;
-    },
-    handlers: function(event, handlers) {
-      var i,
-          matches,
-          sel,
-          handleObj,
-          handlerQueue = [],
-          delegateCount = handlers.delegateCount,
-          cur = event.target;
-      if (delegateCount && cur.nodeType && (!event.button || event.type !== "click")) {
-        for (; cur !== this; cur = cur.parentNode || this) {
-          if (cur.disabled !== true || event.type !== "click") {
-            matches = [];
-            for (i = 0; i < delegateCount; i++) {
-              handleObj = handlers[i];
-              sel = handleObj.selector + " ";
-              if (matches[sel] === undefined) {
-                matches[sel] = handleObj.needsContext ? jQuery(sel, this).index(cur) >= 0 : jQuery.find(sel, this, null, [cur]).length;
-              }
-              if (matches[sel]) {
-                matches.push(handleObj);
-              }
-            }
-            if (matches.length) {
-              handlerQueue.push({
-                elem: cur,
-                handlers: matches
-              });
-            }
-          }
-        }
-      }
-      if (delegateCount < handlers.length) {
-        handlerQueue.push({
-          elem: this,
-          handlers: handlers.slice(delegateCount)
-        });
-      }
-      return handlerQueue;
-    },
-    props: "altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),
-    fixHooks: {},
-    keyHooks: {
-      props: "char charCode key keyCode".split(" "),
-      filter: function(event, original) {
-        if (event.which == null) {
-          event.which = original.charCode != null ? original.charCode : original.keyCode;
-        }
-        return event;
-      }
-    },
-    mouseHooks: {
-      props: "button buttons clientX clientY offsetX offsetY pageX pageY screenX screenY toElement".split(" "),
-      filter: function(event, original) {
-        var eventDoc,
-            doc,
-            body,
-            button = original.button;
-        if (event.pageX == null && original.clientX != null) {
-          eventDoc = event.target.ownerDocument || document;
-          doc = eventDoc.documentElement;
-          body = eventDoc.body;
-          event.pageX = original.clientX + (doc && doc.scrollLeft || body && body.scrollLeft || 0) - (doc && doc.clientLeft || body && body.clientLeft || 0);
-          event.pageY = original.clientY + (doc && doc.scrollTop || body && body.scrollTop || 0) - (doc && doc.clientTop || body && body.clientTop || 0);
-        }
-        if (!event.which && button !== undefined) {
-          event.which = (button & 1 ? 1 : (button & 2 ? 3 : (button & 4 ? 2 : 0)));
-        }
-        return event;
-      }
-    },
-    fix: function(event) {
-      if (event[jQuery.expando]) {
-        return event;
-      }
-      var i,
-          prop,
-          copy,
-          type = event.type,
-          originalEvent = event,
-          fixHook = this.fixHooks[type];
-      if (!fixHook) {
-        this.fixHooks[type] = fixHook = rmouseEvent.test(type) ? this.mouseHooks : rkeyEvent.test(type) ? this.keyHooks : {};
-      }
-      copy = fixHook.props ? this.props.concat(fixHook.props) : this.props;
-      event = new jQuery.Event(originalEvent);
-      i = copy.length;
-      while (i--) {
-        prop = copy[i];
-        event[prop] = originalEvent[prop];
-      }
-      if (!event.target) {
-        event.target = document;
-      }
-      if (event.target.nodeType === 3) {
-        event.target = event.target.parentNode;
-      }
-      return fixHook.filter ? fixHook.filter(event, originalEvent) : event;
-    },
-    special: {
-      load: {noBubble: true},
-      focus: {
-        trigger: function() {
-          if (this !== safeActiveElement() && this.focus) {
-            this.focus();
-            return false;
-          }
-        },
-        delegateType: "focusin"
-      },
-      blur: {
-        trigger: function() {
-          if (this === safeActiveElement() && this.blur) {
-            this.blur();
-            return false;
-          }
-        },
-        delegateType: "focusout"
-      },
-      click: {
-        trigger: function() {
-          if (this.type === "checkbox" && this.click && jQuery.nodeName(this, "input")) {
-            this.click();
-            return false;
-          }
-        },
-        _default: function(event) {
-          return jQuery.nodeName(event.target, "a");
-        }
-      },
-      beforeunload: {postDispatch: function(event) {
-          if (event.result !== undefined && event.originalEvent) {
-            event.originalEvent.returnValue = event.result;
-          }
-        }}
-    },
-    simulate: function(type, elem, event, bubble) {
-      var e = jQuery.extend(new jQuery.Event(), event, {
-        type: type,
-        isSimulated: true,
-        originalEvent: {}
-      });
-      if (bubble) {
-        jQuery.event.trigger(e, null, elem);
-      } else {
-        jQuery.event.dispatch.call(elem, e);
-      }
-      if (e.isDefaultPrevented()) {
-        event.preventDefault();
-      }
-    }
-  };
-  jQuery.removeEvent = function(elem, type, handle) {
-    if (elem.removeEventListener) {
-      elem.removeEventListener(type, handle, false);
-    }
-  };
-  jQuery.Event = function(src, props) {
-    if (!(this instanceof jQuery.Event)) {
-      return new jQuery.Event(src, props);
-    }
-    if (src && src.type) {
-      this.originalEvent = src;
-      this.type = src.type;
-      this.isDefaultPrevented = src.defaultPrevented || src.defaultPrevented === undefined && src.returnValue === false ? returnTrue : returnFalse;
-    } else {
-      this.type = src;
-    }
-    if (props) {
-      jQuery.extend(this, props);
-    }
-    this.timeStamp = src && src.timeStamp || jQuery.now();
-    this[jQuery.expando] = true;
-  };
-  jQuery.Event.prototype = {
-    isDefaultPrevented: returnFalse,
-    isPropagationStopped: returnFalse,
-    isImmediatePropagationStopped: returnFalse,
-    preventDefault: function() {
-      var e = this.originalEvent;
-      this.isDefaultPrevented = returnTrue;
-      if (e && e.preventDefault) {
-        e.preventDefault();
-      }
-    },
-    stopPropagation: function() {
-      var e = this.originalEvent;
-      this.isPropagationStopped = returnTrue;
-      if (e && e.stopPropagation) {
-        e.stopPropagation();
-      }
-    },
-    stopImmediatePropagation: function() {
-      var e = this.originalEvent;
-      this.isImmediatePropagationStopped = returnTrue;
-      if (e && e.stopImmediatePropagation) {
-        e.stopImmediatePropagation();
-      }
-      this.stopPropagation();
-    }
-  };
-  jQuery.each({
-    mouseenter: "mouseover",
-    mouseleave: "mouseout",
-    pointerenter: "pointerover",
-    pointerleave: "pointerout"
-  }, function(orig, fix) {
-    jQuery.event.special[orig] = {
-      delegateType: fix,
-      bindType: fix,
-      handle: function(event) {
-        var ret,
-            target = this,
-            related = event.relatedTarget,
-            handleObj = event.handleObj;
-        if (!related || (related !== target && !jQuery.contains(target, related))) {
-          event.type = handleObj.origType;
-          ret = handleObj.handler.apply(this, arguments);
-          event.type = fix;
-        }
-        return ret;
-      }
-    };
-  });
-  if (!support.focusinBubbles) {
-    jQuery.each({
-      focus: "focusin",
-      blur: "focusout"
-    }, function(orig, fix) {
-      var handler = function(event) {
-        jQuery.event.simulate(fix, event.target, jQuery.event.fix(event), true);
-      };
-      jQuery.event.special[fix] = {
-        setup: function() {
-          var doc = this.ownerDocument || this,
-              attaches = data_priv.access(doc, fix);
-          if (!attaches) {
-            doc.addEventListener(orig, handler, true);
-          }
-          data_priv.access(doc, fix, (attaches || 0) + 1);
-        },
-        teardown: function() {
-          var doc = this.ownerDocument || this,
-              attaches = data_priv.access(doc, fix) - 1;
-          if (!attaches) {
-            doc.removeEventListener(orig, handler, true);
-            data_priv.remove(doc, fix);
-          } else {
-            data_priv.access(doc, fix, attaches);
-          }
-        }
-      };
-    });
-  }
-  jQuery.fn.extend({
-    on: function(types, selector, data, fn, one) {
-      var origFn,
-          type;
-      if (typeof types === "object") {
-        if (typeof selector !== "string") {
-          data = data || selector;
-          selector = undefined;
-        }
-        for (type in types) {
-          this.on(type, selector, data, types[type], one);
-        }
-        return this;
-      }
-      if (data == null && fn == null) {
-        fn = selector;
-        data = selector = undefined;
-      } else if (fn == null) {
-        if (typeof selector === "string") {
-          fn = data;
-          data = undefined;
-        } else {
-          fn = data;
-          data = selector;
-          selector = undefined;
-        }
-      }
-      if (fn === false) {
-        fn = returnFalse;
-      } else if (!fn) {
-        return this;
-      }
-      if (one === 1) {
-        origFn = fn;
-        fn = function(event) {
-          jQuery().off(event);
-          return origFn.apply(this, arguments);
-        };
-        fn.guid = origFn.guid || (origFn.guid = jQuery.guid++);
-      }
-      return this.each(function() {
-        jQuery.event.add(this, types, fn, data, selector);
-      });
-    },
-    one: function(types, selector, data, fn) {
-      return this.on(types, selector, data, fn, 1);
-    },
-    off: function(types, selector, fn) {
-      var handleObj,
-          type;
-      if (types && types.preventDefault && types.handleObj) {
-        handleObj = types.handleObj;
-        jQuery(types.delegateTarget).off(handleObj.namespace ? handleObj.origType + "." + handleObj.namespace : handleObj.origType, handleObj.selector, handleObj.handler);
-        return this;
-      }
-      if (typeof types === "object") {
-        for (type in types) {
-          this.off(type, selector, types[type]);
-        }
-        return this;
-      }
-      if (selector === false || typeof selector === "function") {
-        fn = selector;
-        selector = undefined;
-      }
-      if (fn === false) {
-        fn = returnFalse;
-      }
-      return this.each(function() {
-        jQuery.event.remove(this, types, fn, selector);
-      });
-    },
-    trigger: function(type, data) {
-      return this.each(function() {
-        jQuery.event.trigger(type, data, this);
-      });
-    },
-    triggerHandler: function(type, data) {
-      var elem = this[0];
-      if (elem) {
-        return jQuery.event.trigger(type, data, elem, true);
-      }
-    }
-  });
-  var rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
-      rtagName = /<([\w:]+)/,
-      rhtml = /<|&#?\w+;/,
-      rnoInnerhtml = /<(?:script|style|link)/i,
-      rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
-      rscriptType = /^$|\/(?:java|ecma)script/i,
-      rscriptTypeMasked = /^true\/(.*)/,
-      rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g,
-      wrapMap = {
-        option: [1, "<select multiple='multiple'>", "</select>"],
-        thead: [1, "<table>", "</table>"],
-        col: [2, "<table><colgroup>", "</colgroup></table>"],
-        tr: [2, "<table><tbody>", "</tbody></table>"],
-        td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
-        _default: [0, "", ""]
-      };
-  wrapMap.optgroup = wrapMap.option;
-  wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
-  wrapMap.th = wrapMap.td;
-  function manipulationTarget(elem, content) {
-    return jQuery.nodeName(elem, "table") && jQuery.nodeName(content.nodeType !== 11 ? content : content.firstChild, "tr") ? elem.getElementsByTagName("tbody")[0] || elem.appendChild(elem.ownerDocument.createElement("tbody")) : elem;
-  }
-  function disableScript(elem) {
-    elem.type = (elem.getAttribute("type") !== null) + "/" + elem.type;
-    return elem;
-  }
-  function restoreScript(elem) {
-    var match = rscriptTypeMasked.exec(elem.type);
-    if (match) {
-      elem.type = match[1];
-    } else {
-      elem.removeAttribute("type");
-    }
-    return elem;
-  }
-  function setGlobalEval(elems, refElements) {
-    var i = 0,
-        l = elems.length;
-    for (; i < l; i++) {
-      data_priv.set(elems[i], "globalEval", !refElements || data_priv.get(refElements[i], "globalEval"));
-    }
-  }
-  function cloneCopyEvent(src, dest) {
-    var i,
-        l,
-        type,
-        pdataOld,
-        pdataCur,
-        udataOld,
-        udataCur,
-        events;
-    if (dest.nodeType !== 1) {
-      return ;
-    }
-    if (data_priv.hasData(src)) {
-      pdataOld = data_priv.access(src);
-      pdataCur = data_priv.set(dest, pdataOld);
-      events = pdataOld.events;
-      if (events) {
-        delete pdataCur.handle;
-        pdataCur.events = {};
-        for (type in events) {
-          for (i = 0, l = events[type].length; i < l; i++) {
-            jQuery.event.add(dest, type, events[type][i]);
-          }
-        }
-      }
-    }
-    if (data_user.hasData(src)) {
-      udataOld = data_user.access(src);
-      udataCur = jQuery.extend({}, udataOld);
-      data_user.set(dest, udataCur);
-    }
-  }
-  function getAll(context, tag) {
-    var ret = context.getElementsByTagName ? context.getElementsByTagName(tag || "*") : context.querySelectorAll ? context.querySelectorAll(tag || "*") : [];
-    return tag === undefined || tag && jQuery.nodeName(context, tag) ? jQuery.merge([context], ret) : ret;
-  }
-  function fixInput(src, dest) {
-    var nodeName = dest.nodeName.toLowerCase();
-    if (nodeName === "input" && rcheckableType.test(src.type)) {
-      dest.checked = src.checked;
-    } else if (nodeName === "input" || nodeName === "textarea") {
-      dest.defaultValue = src.defaultValue;
-    }
-  }
-  jQuery.extend({
-    clone: function(elem, dataAndEvents, deepDataAndEvents) {
-      var i,
-          l,
-          srcElements,
-          destElements,
-          clone = elem.cloneNode(true),
-          inPage = jQuery.contains(elem.ownerDocument, elem);
-      if (!support.noCloneChecked && (elem.nodeType === 1 || elem.nodeType === 11) && !jQuery.isXMLDoc(elem)) {
-        destElements = getAll(clone);
-        srcElements = getAll(elem);
-        for (i = 0, l = srcElements.length; i < l; i++) {
-          fixInput(srcElements[i], destElements[i]);
-        }
-      }
-      if (dataAndEvents) {
-        if (deepDataAndEvents) {
-          srcElements = srcElements || getAll(elem);
-          destElements = destElements || getAll(clone);
-          for (i = 0, l = srcElements.length; i < l; i++) {
-            cloneCopyEvent(srcElements[i], destElements[i]);
-          }
-        } else {
-          cloneCopyEvent(elem, clone);
-        }
-      }
-      destElements = getAll(clone, "script");
-      if (destElements.length > 0) {
-        setGlobalEval(destElements, !inPage && getAll(elem, "script"));
-      }
-      return clone;
-    },
-    buildFragment: function(elems, context, scripts, selection) {
-      var elem,
-          tmp,
-          tag,
-          wrap,
-          contains,
-          j,
-          fragment = context.createDocumentFragment(),
-          nodes = [],
-          i = 0,
-          l = elems.length;
-      for (; i < l; i++) {
-        elem = elems[i];
-        if (elem || elem === 0) {
-          if (jQuery.type(elem) === "object") {
-            jQuery.merge(nodes, elem.nodeType ? [elem] : elem);
-          } else if (!rhtml.test(elem)) {
-            nodes.push(context.createTextNode(elem));
-          } else {
-            tmp = tmp || fragment.appendChild(context.createElement("div"));
-            tag = (rtagName.exec(elem) || ["", ""])[1].toLowerCase();
-            wrap = wrapMap[tag] || wrapMap._default;
-            tmp.innerHTML = wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2];
-            j = wrap[0];
-            while (j--) {
-              tmp = tmp.lastChild;
-            }
-            jQuery.merge(nodes, tmp.childNodes);
-            tmp = fragment.firstChild;
-            tmp.textContent = "";
-          }
-        }
-      }
-      fragment.textContent = "";
-      i = 0;
-      while ((elem = nodes[i++])) {
-        if (selection && jQuery.inArray(elem, selection) !== -1) {
-          continue;
-        }
-        contains = jQuery.contains(elem.ownerDocument, elem);
-        tmp = getAll(fragment.appendChild(elem), "script");
-        if (contains) {
-          setGlobalEval(tmp);
-        }
-        if (scripts) {
-          j = 0;
-          while ((elem = tmp[j++])) {
-            if (rscriptType.test(elem.type || "")) {
-              scripts.push(elem);
-            }
-          }
-        }
-      }
-      return fragment;
-    },
-    cleanData: function(elems) {
-      var data,
-          elem,
-          type,
-          key,
-          special = jQuery.event.special,
-          i = 0;
-      for (; (elem = elems[i]) !== undefined; i++) {
-        if (jQuery.acceptData(elem)) {
-          key = elem[data_priv.expando];
-          if (key && (data = data_priv.cache[key])) {
-            if (data.events) {
-              for (type in data.events) {
-                if (special[type]) {
-                  jQuery.event.remove(elem, type);
-                } else {
-                  jQuery.removeEvent(elem, type, data.handle);
-                }
-              }
-            }
-            if (data_priv.cache[key]) {
-              delete data_priv.cache[key];
-            }
-          }
-        }
-        delete data_user.cache[elem[data_user.expando]];
-      }
-    }
-  });
-  jQuery.fn.extend({
-    text: function(value) {
-      return access(this, function(value) {
-        return value === undefined ? jQuery.text(this) : this.empty().each(function() {
-          if (this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9) {
-            this.textContent = value;
-          }
-        });
-      }, null, value, arguments.length);
-    },
-    append: function() {
-      return this.domManip(arguments, function(elem) {
-        if (this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9) {
-          var target = manipulationTarget(this, elem);
-          target.appendChild(elem);
-        }
-      });
-    },
-    prepend: function() {
-      return this.domManip(arguments, function(elem) {
-        if (this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9) {
-          var target = manipulationTarget(this, elem);
-          target.insertBefore(elem, target.firstChild);
-        }
-      });
-    },
-    before: function() {
-      return this.domManip(arguments, function(elem) {
-        if (this.parentNode) {
-          this.parentNode.insertBefore(elem, this);
-        }
-      });
-    },
-    after: function() {
-      return this.domManip(arguments, function(elem) {
-        if (this.parentNode) {
-          this.parentNode.insertBefore(elem, this.nextSibling);
-        }
-      });
-    },
-    remove: function(selector, keepData) {
-      var elem,
-          elems = selector ? jQuery.filter(selector, this) : this,
-          i = 0;
-      for (; (elem = elems[i]) != null; i++) {
-        if (!keepData && elem.nodeType === 1) {
-          jQuery.cleanData(getAll(elem));
-        }
-        if (elem.parentNode) {
-          if (keepData && jQuery.contains(elem.ownerDocument, elem)) {
-            setGlobalEval(getAll(elem, "script"));
-          }
-          elem.parentNode.removeChild(elem);
-        }
-      }
-      return this;
-    },
-    empty: function() {
-      var elem,
-          i = 0;
-      for (; (elem = this[i]) != null; i++) {
-        if (elem.nodeType === 1) {
-          jQuery.cleanData(getAll(elem, false));
-          elem.textContent = "";
-        }
-      }
-      return this;
-    },
-    clone: function(dataAndEvents, deepDataAndEvents) {
-      dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
-      deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
-      return this.map(function() {
-        return jQuery.clone(this, dataAndEvents, deepDataAndEvents);
-      });
-    },
-    html: function(value) {
-      return access(this, function(value) {
-        var elem = this[0] || {},
-            i = 0,
-            l = this.length;
-        if (value === undefined && elem.nodeType === 1) {
-          return elem.innerHTML;
-        }
-        if (typeof value === "string" && !rnoInnerhtml.test(value) && !wrapMap[(rtagName.exec(value) || ["", ""])[1].toLowerCase()]) {
-          value = value.replace(rxhtmlTag, "<$1></$2>");
-          try {
-            for (; i < l; i++) {
-              elem = this[i] || {};
-              if (elem.nodeType === 1) {
-                jQuery.cleanData(getAll(elem, false));
-                elem.innerHTML = value;
-              }
-            }
-            elem = 0;
-          } catch (e) {}
-        }
-        if (elem) {
-          this.empty().append(value);
-        }
-      }, null, value, arguments.length);
-    },
-    replaceWith: function() {
-      var arg = arguments[0];
-      this.domManip(arguments, function(elem) {
-        arg = this.parentNode;
-        jQuery.cleanData(getAll(this));
-        if (arg) {
-          arg.replaceChild(elem, this);
-        }
-      });
-      return arg && (arg.length || arg.nodeType) ? this : this.remove();
-    },
-    detach: function(selector) {
-      return this.remove(selector, true);
-    },
-    domManip: function(args, callback) {
-      args = concat.apply([], args);
-      var fragment,
-          first,
-          scripts,
-          hasScripts,
-          node,
-          doc,
-          i = 0,
-          l = this.length,
-          set = this,
-          iNoClone = l - 1,
-          value = args[0],
-          isFunction = jQuery.isFunction(value);
-      if (isFunction || (l > 1 && typeof value === "string" && !support.checkClone && rchecked.test(value))) {
-        return this.each(function(index) {
-          var self = set.eq(index);
-          if (isFunction) {
-            args[0] = value.call(this, index, self.html());
-          }
-          self.domManip(args, callback);
-        });
-      }
-      if (l) {
-        fragment = jQuery.buildFragment(args, this[0].ownerDocument, false, this);
-        first = fragment.firstChild;
-        if (fragment.childNodes.length === 1) {
-          fragment = first;
-        }
-        if (first) {
-          scripts = jQuery.map(getAll(fragment, "script"), disableScript);
-          hasScripts = scripts.length;
-          for (; i < l; i++) {
-            node = fragment;
-            if (i !== iNoClone) {
-              node = jQuery.clone(node, true, true);
-              if (hasScripts) {
-                jQuery.merge(scripts, getAll(node, "script"));
-              }
-            }
-            callback.call(this[i], node, i);
-          }
-          if (hasScripts) {
-            doc = scripts[scripts.length - 1].ownerDocument;
-            jQuery.map(scripts, restoreScript);
-            for (i = 0; i < hasScripts; i++) {
-              node = scripts[i];
-              if (rscriptType.test(node.type || "") && !data_priv.access(node, "globalEval") && jQuery.contains(doc, node)) {
-                if (node.src) {
-                  if (jQuery._evalUrl) {
-                    jQuery._evalUrl(node.src);
-                  }
-                } else {
-                  jQuery.globalEval(node.textContent.replace(rcleanScript, ""));
-                }
-              }
-            }
-          }
-        }
-      }
-      return this;
-    }
-  });
-  jQuery.each({
-    appendTo: "append",
-    prependTo: "prepend",
-    insertBefore: "before",
-    insertAfter: "after",
-    replaceAll: "replaceWith"
-  }, function(name, original) {
-    jQuery.fn[name] = function(selector) {
-      var elems,
-          ret = [],
-          insert = jQuery(selector),
-          last = insert.length - 1,
-          i = 0;
-      for (; i <= last; i++) {
-        elems = i === last ? this : this.clone(true);
-        jQuery(insert[i])[original](elems);
-        push.apply(ret, elems.get());
-      }
-      return this.pushStack(ret);
-    };
-  });
-  var iframe,
-      elemdisplay = {};
-  function actualDisplay(name, doc) {
-    var style,
-        elem = jQuery(doc.createElement(name)).appendTo(doc.body),
-        display = window.getDefaultComputedStyle && (style = window.getDefaultComputedStyle(elem[0])) ? style.display : jQuery.css(elem[0], "display");
-    elem.detach();
-    return display;
-  }
-  function defaultDisplay(nodeName) {
-    var doc = document,
-        display = elemdisplay[nodeName];
-    if (!display) {
-      display = actualDisplay(nodeName, doc);
-      if (display === "none" || !display) {
-        iframe = (iframe || jQuery("<iframe frameborder='0' width='0' height='0'/>")).appendTo(doc.documentElement);
-        doc = iframe[0].contentDocument;
-        doc.write();
-        doc.close();
-        display = actualDisplay(nodeName, doc);
-        iframe.detach();
-      }
-      elemdisplay[nodeName] = display;
-    }
-    return display;
-  }
-  var rmargin = (/^margin/);
-  var rnumnonpx = new RegExp("^(" + pnum + ")(?!px)[a-z%]+$", "i");
-  var getStyles = function(elem) {
-    if (elem.ownerDocument.defaultView.opener) {
-      return elem.ownerDocument.defaultView.getComputedStyle(elem, null);
-    }
-    return window.getComputedStyle(elem, null);
-  };
-  function curCSS(elem, name, computed) {
-    var width,
-        minWidth,
-        maxWidth,
-        ret,
-        style = elem.style;
-    computed = computed || getStyles(elem);
-    if (computed) {
-      ret = computed.getPropertyValue(name) || computed[name];
-    }
-    if (computed) {
-      if (ret === "" && !jQuery.contains(elem.ownerDocument, elem)) {
-        ret = jQuery.style(elem, name);
-      }
-      if (rnumnonpx.test(ret) && rmargin.test(name)) {
-        width = style.width;
-        minWidth = style.minWidth;
-        maxWidth = style.maxWidth;
-        style.minWidth = style.maxWidth = style.width = ret;
-        ret = computed.width;
-        style.width = width;
-        style.minWidth = minWidth;
-        style.maxWidth = maxWidth;
-      }
-    }
-    return ret !== undefined ? ret + "" : ret;
-  }
-  function addGetHookIf(conditionFn, hookFn) {
-    return {get: function() {
-        if (conditionFn()) {
-          delete this.get;
-          return ;
-        }
-        return (this.get = hookFn).apply(this, arguments);
-      }};
-  }
-  (function() {
-    var pixelPositionVal,
-        boxSizingReliableVal,
-        docElem = document.documentElement,
-        container = document.createElement("div"),
-        div = document.createElement("div");
-    if (!div.style) {
-      return ;
-    }
-    div.style.backgroundClip = "content-box";
-    div.cloneNode(true).style.backgroundClip = "";
-    support.clearCloneStyle = div.style.backgroundClip === "content-box";
-    container.style.cssText = "border:0;width:0;height:0;top:0;left:-9999px;margin-top:1px;" + "position:absolute";
-    container.appendChild(div);
-    function computePixelPositionAndBoxSizingReliable() {
-      div.style.cssText = "-webkit-box-sizing:border-box;-moz-box-sizing:border-box;" + "box-sizing:border-box;display:block;margin-top:1%;top:1%;" + "border:1px;padding:1px;width:4px;position:absolute";
-      div.innerHTML = "";
-      docElem.appendChild(container);
-      var divStyle = window.getComputedStyle(div, null);
-      pixelPositionVal = divStyle.top !== "1%";
-      boxSizingReliableVal = divStyle.width === "4px";
-      docElem.removeChild(container);
-    }
-    if (window.getComputedStyle) {
-      jQuery.extend(support, {
-        pixelPosition: function() {
-          computePixelPositionAndBoxSizingReliable();
-          return pixelPositionVal;
-        },
-        boxSizingReliable: function() {
-          if (boxSizingReliableVal == null) {
-            computePixelPositionAndBoxSizingReliable();
-          }
-          return boxSizingReliableVal;
-        },
-        reliableMarginRight: function() {
-          var ret,
-              marginDiv = div.appendChild(document.createElement("div"));
-          marginDiv.style.cssText = div.style.cssText = "-webkit-box-sizing:content-box;-moz-box-sizing:content-box;" + "box-sizing:content-box;display:block;margin:0;border:0;padding:0";
-          marginDiv.style.marginRight = marginDiv.style.width = "0";
-          div.style.width = "1px";
-          docElem.appendChild(container);
-          ret = !parseFloat(window.getComputedStyle(marginDiv, null).marginRight);
-          docElem.removeChild(container);
-          div.removeChild(marginDiv);
-          return ret;
-        }
-      });
-    }
-  })();
-  jQuery.swap = function(elem, options, callback, args) {
-    var ret,
-        name,
-        old = {};
-    for (name in options) {
-      old[name] = elem.style[name];
-      elem.style[name] = options[name];
-    }
-    ret = callback.apply(elem, args || []);
-    for (name in options) {
-      elem.style[name] = old[name];
-    }
-    return ret;
-  };
-  var rdisplayswap = /^(none|table(?!-c[ea]).+)/,
-      rnumsplit = new RegExp("^(" + pnum + ")(.*)$", "i"),
-      rrelNum = new RegExp("^([+-])=(" + pnum + ")", "i"),
-      cssShow = {
-        position: "absolute",
-        visibility: "hidden",
-        display: "block"
-      },
-      cssNormalTransform = {
-        letterSpacing: "0",
-        fontWeight: "400"
-      },
-      cssPrefixes = ["Webkit", "O", "Moz", "ms"];
-  function vendorPropName(style, name) {
-    if (name in style) {
-      return name;
-    }
-    var capName = name[0].toUpperCase() + name.slice(1),
-        origName = name,
-        i = cssPrefixes.length;
-    while (i--) {
-      name = cssPrefixes[i] + capName;
-      if (name in style) {
-        return name;
-      }
-    }
-    return origName;
-  }
-  function setPositiveNumber(elem, value, subtract) {
-    var matches = rnumsplit.exec(value);
-    return matches ? Math.max(0, matches[1] - (subtract || 0)) + (matches[2] || "px") : value;
-  }
-  function augmentWidthOrHeight(elem, name, extra, isBorderBox, styles) {
-    var i = extra === (isBorderBox ? "border" : "content") ? 4 : name === "width" ? 1 : 0,
-        val = 0;
-    for (; i < 4; i += 2) {
-      if (extra === "margin") {
-        val += jQuery.css(elem, extra + cssExpand[i], true, styles);
-      }
-      if (isBorderBox) {
-        if (extra === "content") {
-          val -= jQuery.css(elem, "padding" + cssExpand[i], true, styles);
-        }
-        if (extra !== "margin") {
-          val -= jQuery.css(elem, "border" + cssExpand[i] + "Width", true, styles);
-        }
-      } else {
-        val += jQuery.css(elem, "padding" + cssExpand[i], true, styles);
-        if (extra !== "padding") {
-          val += jQuery.css(elem, "border" + cssExpand[i] + "Width", true, styles);
-        }
-      }
-    }
-    return val;
-  }
-  function getWidthOrHeight(elem, name, extra) {
-    var valueIsBorderBox = true,
-        val = name === "width" ? elem.offsetWidth : elem.offsetHeight,
-        styles = getStyles(elem),
-        isBorderBox = jQuery.css(elem, "boxSizing", false, styles) === "border-box";
-    if (val <= 0 || val == null) {
-      val = curCSS(elem, name, styles);
-      if (val < 0 || val == null) {
-        val = elem.style[name];
-      }
-      if (rnumnonpx.test(val)) {
-        return val;
-      }
-      valueIsBorderBox = isBorderBox && (support.boxSizingReliable() || val === elem.style[name]);
-      val = parseFloat(val) || 0;
-    }
-    return (val + augmentWidthOrHeight(elem, name, extra || (isBorderBox ? "border" : "content"), valueIsBorderBox, styles)) + "px";
-  }
-  function showHide(elements, show) {
-    var display,
-        elem,
-        hidden,
-        values = [],
-        index = 0,
-        length = elements.length;
-    for (; index < length; index++) {
-      elem = elements[index];
-      if (!elem.style) {
-        continue;
-      }
-      values[index] = data_priv.get(elem, "olddisplay");
-      display = elem.style.display;
-      if (show) {
-        if (!values[index] && display === "none") {
-          elem.style.display = "";
-        }
-        if (elem.style.display === "" && isHidden(elem)) {
-          values[index] = data_priv.access(elem, "olddisplay", defaultDisplay(elem.nodeName));
-        }
-      } else {
-        hidden = isHidden(elem);
-        if (display !== "none" || !hidden) {
-          data_priv.set(elem, "olddisplay", hidden ? display : jQuery.css(elem, "display"));
-        }
-      }
-    }
-    for (index = 0; index < length; index++) {
-      elem = elements[index];
-      if (!elem.style) {
-        continue;
-      }
-      if (!show || elem.style.display === "none" || elem.style.display === "") {
-        elem.style.display = show ? values[index] || "" : "none";
-      }
-    }
-    return elements;
-  }
-  jQuery.extend({
-    cssHooks: {opacity: {get: function(elem, computed) {
-          if (computed) {
-            var ret = curCSS(elem, "opacity");
-            return ret === "" ? "1" : ret;
-          }
-        }}},
-    cssNumber: {
-      "columnCount": true,
-      "fillOpacity": true,
-      "flexGrow": true,
-      "flexShrink": true,
-      "fontWeight": true,
-      "lineHeight": true,
-      "opacity": true,
-      "order": true,
-      "orphans": true,
-      "widows": true,
-      "zIndex": true,
-      "zoom": true
-    },
-    cssProps: {"float": "cssFloat"},
-    style: function(elem, name, value, extra) {
-      if (!elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style) {
-        return ;
-      }
-      var ret,
-          type,
-          hooks,
-          origName = jQuery.camelCase(name),
-          style = elem.style;
-      name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(style, origName));
-      hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName];
-      if (value !== undefined) {
-        type = typeof value;
-        if (type === "string" && (ret = rrelNum.exec(value))) {
-          value = (ret[1] + 1) * ret[2] + parseFloat(jQuery.css(elem, name));
-          type = "number";
-        }
-        if (value == null || value !== value) {
-          return ;
-        }
-        if (type === "number" && !jQuery.cssNumber[origName]) {
-          value += "px";
-        }
-        if (!support.clearCloneStyle && value === "" && name.indexOf("background") === 0) {
-          style[name] = "inherit";
-        }
-        if (!hooks || !("set" in hooks) || (value = hooks.set(elem, value, extra)) !== undefined) {
-          style[name] = value;
-        }
-      } else {
-        if (hooks && "get" in hooks && (ret = hooks.get(elem, false, extra)) !== undefined) {
-          return ret;
-        }
-        return style[name];
-      }
-    },
-    css: function(elem, name, extra, styles) {
-      var val,
-          num,
-          hooks,
-          origName = jQuery.camelCase(name);
-      name = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(elem.style, origName));
-      hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName];
-      if (hooks && "get" in hooks) {
-        val = hooks.get(elem, true, extra);
-      }
-      if (val === undefined) {
-        val = curCSS(elem, name, styles);
-      }
-      if (val === "normal" && name in cssNormalTransform) {
-        val = cssNormalTransform[name];
-      }
-      if (extra === "" || extra) {
-        num = parseFloat(val);
-        return extra === true || jQuery.isNumeric(num) ? num || 0 : val;
-      }
-      return val;
-    }
-  });
-  jQuery.each(["height", "width"], function(i, name) {
-    jQuery.cssHooks[name] = {
-      get: function(elem, computed, extra) {
-        if (computed) {
-          return rdisplayswap.test(jQuery.css(elem, "display")) && elem.offsetWidth === 0 ? jQuery.swap(elem, cssShow, function() {
-            return getWidthOrHeight(elem, name, extra);
-          }) : getWidthOrHeight(elem, name, extra);
-        }
-      },
-      set: function(elem, value, extra) {
-        var styles = extra && getStyles(elem);
-        return setPositiveNumber(elem, value, extra ? augmentWidthOrHeight(elem, name, extra, jQuery.css(elem, "boxSizing", false, styles) === "border-box", styles) : 0);
-      }
-    };
-  });
-  jQuery.cssHooks.marginRight = addGetHookIf(support.reliableMarginRight, function(elem, computed) {
-    if (computed) {
-      return jQuery.swap(elem, {"display": "inline-block"}, curCSS, [elem, "marginRight"]);
-    }
-  });
-  jQuery.each({
-    margin: "",
-    padding: "",
-    border: "Width"
-  }, function(prefix, suffix) {
-    jQuery.cssHooks[prefix + suffix] = {expand: function(value) {
-        var i = 0,
-            expanded = {},
-            parts = typeof value === "string" ? value.split(" ") : [value];
-        for (; i < 4; i++) {
-          expanded[prefix + cssExpand[i] + suffix] = parts[i] || parts[i - 2] || parts[0];
-        }
-        return expanded;
-      }};
-    if (!rmargin.test(prefix)) {
-      jQuery.cssHooks[prefix + suffix].set = setPositiveNumber;
-    }
-  });
-  jQuery.fn.extend({
-    css: function(name, value) {
-      return access(this, function(elem, name, value) {
-        var styles,
-            len,
-            map = {},
-            i = 0;
-        if (jQuery.isArray(name)) {
-          styles = getStyles(elem);
-          len = name.length;
-          for (; i < len; i++) {
-            map[name[i]] = jQuery.css(elem, name[i], false, styles);
-          }
-          return map;
-        }
-        return value !== undefined ? jQuery.style(elem, name, value) : jQuery.css(elem, name);
-      }, name, value, arguments.length > 1);
-    },
-    show: function() {
-      return showHide(this, true);
-    },
-    hide: function() {
-      return showHide(this);
-    },
-    toggle: function(state) {
-      if (typeof state === "boolean") {
-        return state ? this.show() : this.hide();
-      }
-      return this.each(function() {
-        if (isHidden(this)) {
-          jQuery(this).show();
-        } else {
-          jQuery(this).hide();
-        }
-      });
-    }
-  });
-  function Tween(elem, options, prop, end, easing) {
-    return new Tween.prototype.init(elem, options, prop, end, easing);
-  }
-  jQuery.Tween = Tween;
-  Tween.prototype = {
-    constructor: Tween,
-    init: function(elem, options, prop, end, easing, unit) {
-      this.elem = elem;
-      this.prop = prop;
-      this.easing = easing || "swing";
-      this.options = options;
-      this.start = this.now = this.cur();
-      this.end = end;
-      this.unit = unit || (jQuery.cssNumber[prop] ? "" : "px");
-    },
-    cur: function() {
-      var hooks = Tween.propHooks[this.prop];
-      return hooks && hooks.get ? hooks.get(this) : Tween.propHooks._default.get(this);
-    },
-    run: function(percent) {
-      var eased,
-          hooks = Tween.propHooks[this.prop];
-      if (this.options.duration) {
-        this.pos = eased = jQuery.easing[this.easing](percent, this.options.duration * percent, 0, 1, this.options.duration);
-      } else {
-        this.pos = eased = percent;
-      }
-      this.now = (this.end - this.start) * eased + this.start;
-      if (this.options.step) {
-        this.options.step.call(this.elem, this.now, this);
-      }
-      if (hooks && hooks.set) {
-        hooks.set(this);
-      } else {
-        Tween.propHooks._default.set(this);
-      }
-      return this;
-    }
-  };
-  Tween.prototype.init.prototype = Tween.prototype;
-  Tween.propHooks = {_default: {
-      get: function(tween) {
-        var result;
-        if (tween.elem[tween.prop] != null && (!tween.elem.style || tween.elem.style[tween.prop] == null)) {
-          return tween.elem[tween.prop];
-        }
-        result = jQuery.css(tween.elem, tween.prop, "");
-        return !result || result === "auto" ? 0 : result;
-      },
-      set: function(tween) {
-        if (jQuery.fx.step[tween.prop]) {
-          jQuery.fx.step[tween.prop](tween);
-        } else if (tween.elem.style && (tween.elem.style[jQuery.cssProps[tween.prop]] != null || jQuery.cssHooks[tween.prop])) {
-          jQuery.style(tween.elem, tween.prop, tween.now + tween.unit);
-        } else {
-          tween.elem[tween.prop] = tween.now;
-        }
-      }
-    }};
-  Tween.propHooks.scrollTop = Tween.propHooks.scrollLeft = {set: function(tween) {
-      if (tween.elem.nodeType && tween.elem.parentNode) {
-        tween.elem[tween.prop] = tween.now;
-      }
-    }};
-  jQuery.easing = {
-    linear: function(p) {
-      return p;
-    },
-    swing: function(p) {
-      return 0.5 - Math.cos(p * Math.PI) / 2;
-    }
-  };
-  jQuery.fx = Tween.prototype.init;
-  jQuery.fx.step = {};
-  var fxNow,
-      timerId,
-      rfxtypes = /^(?:toggle|show|hide)$/,
-      rfxnum = new RegExp("^(?:([+-])=|)(" + pnum + ")([a-z%]*)$", "i"),
-      rrun = /queueHooks$/,
-      animationPrefilters = [defaultPrefilter],
-      tweeners = {"*": [function(prop, value) {
-          var tween = this.createTween(prop, value),
-              target = tween.cur(),
-              parts = rfxnum.exec(value),
-              unit = parts && parts[3] || (jQuery.cssNumber[prop] ? "" : "px"),
-              start = (jQuery.cssNumber[prop] || unit !== "px" && +target) && rfxnum.exec(jQuery.css(tween.elem, prop)),
-              scale = 1,
-              maxIterations = 20;
-          if (start && start[3] !== unit) {
-            unit = unit || start[3];
-            parts = parts || [];
-            start = +target || 1;
-            do {
-              scale = scale || ".5";
-              start = start / scale;
-              jQuery.style(tween.elem, prop, start + unit);
-            } while (scale !== (scale = tween.cur() / target) && scale !== 1 && --maxIterations);
-          }
-          if (parts) {
-            start = tween.start = +start || +target || 0;
-            tween.unit = unit;
-            tween.end = parts[1] ? start + (parts[1] + 1) * parts[2] : +parts[2];
-          }
-          return tween;
-        }]};
-  function createFxNow() {
-    setTimeout(function() {
-      fxNow = undefined;
-    });
-    return (fxNow = jQuery.now());
-  }
-  function genFx(type, includeWidth) {
-    var which,
-        i = 0,
-        attrs = {height: type};
-    includeWidth = includeWidth ? 1 : 0;
-    for (; i < 4; i += 2 - includeWidth) {
-      which = cssExpand[i];
-      attrs["margin" + which] = attrs["padding" + which] = type;
-    }
-    if (includeWidth) {
-      attrs.opacity = attrs.width = type;
-    }
-    return attrs;
-  }
-  function createTween(value, prop, animation) {
-    var tween,
-        collection = (tweeners[prop] || []).concat(tweeners["*"]),
-        index = 0,
-        length = collection.length;
-    for (; index < length; index++) {
-      if ((tween = collection[index].call(animation, prop, value))) {
-        return tween;
-      }
-    }
-  }
-  function defaultPrefilter(elem, props, opts) {
-    var prop,
-        value,
-        toggle,
-        tween,
-        hooks,
-        oldfire,
-        display,
-        checkDisplay,
-        anim = this,
-        orig = {},
-        style = elem.style,
-        hidden = elem.nodeType && isHidden(elem),
-        dataShow = data_priv.get(elem, "fxshow");
-    if (!opts.queue) {
-      hooks = jQuery._queueHooks(elem, "fx");
-      if (hooks.unqueued == null) {
-        hooks.unqueued = 0;
-        oldfire = hooks.empty.fire;
-        hooks.empty.fire = function() {
-          if (!hooks.unqueued) {
-            oldfire();
-          }
-        };
-      }
-      hooks.unqueued++;
-      anim.always(function() {
-        anim.always(function() {
-          hooks.unqueued--;
-          if (!jQuery.queue(elem, "fx").length) {
-            hooks.empty.fire();
-          }
-        });
-      });
-    }
-    if (elem.nodeType === 1 && ("height" in props || "width" in props)) {
-      opts.overflow = [style.overflow, style.overflowX, style.overflowY];
-      display = jQuery.css(elem, "display");
-      checkDisplay = display === "none" ? data_priv.get(elem, "olddisplay") || defaultDisplay(elem.nodeName) : display;
-      if (checkDisplay === "inline" && jQuery.css(elem, "float") === "none") {
-        style.display = "inline-block";
-      }
-    }
-    if (opts.overflow) {
-      style.overflow = "hidden";
-      anim.always(function() {
-        style.overflow = opts.overflow[0];
-        style.overflowX = opts.overflow[1];
-        style.overflowY = opts.overflow[2];
-      });
-    }
-    for (prop in props) {
-      value = props[prop];
-      if (rfxtypes.exec(value)) {
-        delete props[prop];
-        toggle = toggle || value === "toggle";
-        if (value === (hidden ? "hide" : "show")) {
-          if (value === "show" && dataShow && dataShow[prop] !== undefined) {
-            hidden = true;
-          } else {
-            continue;
-          }
-        }
-        orig[prop] = dataShow && dataShow[prop] || jQuery.style(elem, prop);
-      } else {
-        display = undefined;
-      }
-    }
-    if (!jQuery.isEmptyObject(orig)) {
-      if (dataShow) {
-        if ("hidden" in dataShow) {
-          hidden = dataShow.hidden;
-        }
-      } else {
-        dataShow = data_priv.access(elem, "fxshow", {});
-      }
-      if (toggle) {
-        dataShow.hidden = !hidden;
-      }
-      if (hidden) {
-        jQuery(elem).show();
-      } else {
-        anim.done(function() {
-          jQuery(elem).hide();
-        });
-      }
-      anim.done(function() {
-        var prop;
-        data_priv.remove(elem, "fxshow");
-        for (prop in orig) {
-          jQuery.style(elem, prop, orig[prop]);
-        }
-      });
-      for (prop in orig) {
-        tween = createTween(hidden ? dataShow[prop] : 0, prop, anim);
-        if (!(prop in dataShow)) {
-          dataShow[prop] = tween.start;
-          if (hidden) {
-            tween.end = tween.start;
-            tween.start = prop === "width" || prop === "height" ? 1 : 0;
-          }
-        }
-      }
-    } else if ((display === "none" ? defaultDisplay(elem.nodeName) : display) === "inline") {
-      style.display = display;
-    }
-  }
-  function propFilter(props, specialEasing) {
-    var index,
-        name,
-        easing,
-        value,
-        hooks;
-    for (index in props) {
-      name = jQuery.camelCase(index);
-      easing = specialEasing[name];
-      value = props[index];
-      if (jQuery.isArray(value)) {
-        easing = value[1];
-        value = props[index] = value[0];
-      }
-      if (index !== name) {
-        props[name] = value;
-        delete props[index];
-      }
-      hooks = jQuery.cssHooks[name];
-      if (hooks && "expand" in hooks) {
-        value = hooks.expand(value);
-        delete props[name];
-        for (index in value) {
-          if (!(index in props)) {
-            props[index] = value[index];
-            specialEasing[index] = easing;
-          }
-        }
-      } else {
-        specialEasing[name] = easing;
-      }
-    }
-  }
-  function Animation(elem, properties, options) {
-    var result,
-        stopped,
-        index = 0,
-        length = animationPrefilters.length,
-        deferred = jQuery.Deferred().always(function() {
-          delete tick.elem;
-        }),
-        tick = function() {
-          if (stopped) {
-            return false;
-          }
-          var currentTime = fxNow || createFxNow(),
-              remaining = Math.max(0, animation.startTime + animation.duration - currentTime),
-              temp = remaining / animation.duration || 0,
-              percent = 1 - temp,
-              index = 0,
-              length = animation.tweens.length;
-          for (; index < length; index++) {
-            animation.tweens[index].run(percent);
-          }
-          deferred.notifyWith(elem, [animation, percent, remaining]);
-          if (percent < 1 && length) {
-            return remaining;
-          } else {
-            deferred.resolveWith(elem, [animation]);
-            return false;
-          }
-        },
-        animation = deferred.promise({
-          elem: elem,
-          props: jQuery.extend({}, properties),
-          opts: jQuery.extend(true, {specialEasing: {}}, options),
-          originalProperties: properties,
-          originalOptions: options,
-          startTime: fxNow || createFxNow(),
-          duration: options.duration,
-          tweens: [],
-          createTween: function(prop, end) {
-            var tween = jQuery.Tween(elem, animation.opts, prop, end, animation.opts.specialEasing[prop] || animation.opts.easing);
-            animation.tweens.push(tween);
-            return tween;
-          },
-          stop: function(gotoEnd) {
-            var index = 0,
-                length = gotoEnd ? animation.tweens.length : 0;
-            if (stopped) {
-              return this;
-            }
-            stopped = true;
-            for (; index < length; index++) {
-              animation.tweens[index].run(1);
-            }
-            if (gotoEnd) {
-              deferred.resolveWith(elem, [animation, gotoEnd]);
-            } else {
-              deferred.rejectWith(elem, [animation, gotoEnd]);
-            }
-            return this;
-          }
-        }),
-        props = animation.props;
-    propFilter(props, animation.opts.specialEasing);
-    for (; index < length; index++) {
-      result = animationPrefilters[index].call(animation, elem, props, animation.opts);
-      if (result) {
-        return result;
-      }
-    }
-    jQuery.map(props, createTween, animation);
-    if (jQuery.isFunction(animation.opts.start)) {
-      animation.opts.start.call(elem, animation);
-    }
-    jQuery.fx.timer(jQuery.extend(tick, {
-      elem: elem,
-      anim: animation,
-      queue: animation.opts.queue
-    }));
-    return animation.progress(animation.opts.progress).done(animation.opts.done, animation.opts.complete).fail(animation.opts.fail).always(animation.opts.always);
-  }
-  jQuery.Animation = jQuery.extend(Animation, {
-    tweener: function(props, callback) {
-      if (jQuery.isFunction(props)) {
-        callback = props;
-        props = ["*"];
-      } else {
-        props = props.split(" ");
-      }
-      var prop,
-          index = 0,
-          length = props.length;
-      for (; index < length; index++) {
-        prop = props[index];
-        tweeners[prop] = tweeners[prop] || [];
-        tweeners[prop].unshift(callback);
-      }
-    },
-    prefilter: function(callback, prepend) {
-      if (prepend) {
-        animationPrefilters.unshift(callback);
-      } else {
-        animationPrefilters.push(callback);
-      }
-    }
-  });
-  jQuery.speed = function(speed, easing, fn) {
-    var opt = speed && typeof speed === "object" ? jQuery.extend({}, speed) : {
-      complete: fn || !fn && easing || jQuery.isFunction(speed) && speed,
-      duration: speed,
-      easing: fn && easing || easing && !jQuery.isFunction(easing) && easing
-    };
-    opt.duration = jQuery.fx.off ? 0 : typeof opt.duration === "number" ? opt.duration : opt.duration in jQuery.fx.speeds ? jQuery.fx.speeds[opt.duration] : jQuery.fx.speeds._default;
-    if (opt.queue == null || opt.queue === true) {
-      opt.queue = "fx";
-    }
-    opt.old = opt.complete;
-    opt.complete = function() {
-      if (jQuery.isFunction(opt.old)) {
-        opt.old.call(this);
-      }
-      if (opt.queue) {
-        jQuery.dequeue(this, opt.queue);
-      }
-    };
-    return opt;
-  };
-  jQuery.fn.extend({
-    fadeTo: function(speed, to, easing, callback) {
-      return this.filter(isHidden).css("opacity", 0).show().end().animate({opacity: to}, speed, easing, callback);
-    },
-    animate: function(prop, speed, easing, callback) {
-      var empty = jQuery.isEmptyObject(prop),
-          optall = jQuery.speed(speed, easing, callback),
-          doAnimation = function() {
-            var anim = Animation(this, jQuery.extend({}, prop), optall);
-            if (empty || data_priv.get(this, "finish")) {
-              anim.stop(true);
-            }
-          };
-      doAnimation.finish = doAnimation;
-      return empty || optall.queue === false ? this.each(doAnimation) : this.queue(optall.queue, doAnimation);
-    },
-    stop: function(type, clearQueue, gotoEnd) {
-      var stopQueue = function(hooks) {
-        var stop = hooks.stop;
-        delete hooks.stop;
-        stop(gotoEnd);
-      };
-      if (typeof type !== "string") {
-        gotoEnd = clearQueue;
-        clearQueue = type;
-        type = undefined;
-      }
-      if (clearQueue && type !== false) {
-        this.queue(type || "fx", []);
-      }
-      return this.each(function() {
-        var dequeue = true,
-            index = type != null && type + "queueHooks",
-            timers = jQuery.timers,
-            data = data_priv.get(this);
-        if (index) {
-          if (data[index] && data[index].stop) {
-            stopQueue(data[index]);
-          }
-        } else {
-          for (index in data) {
-            if (data[index] && data[index].stop && rrun.test(index)) {
-              stopQueue(data[index]);
-            }
-          }
-        }
-        for (index = timers.length; index--; ) {
-          if (timers[index].elem === this && (type == null || timers[index].queue === type)) {
-            timers[index].anim.stop(gotoEnd);
-            dequeue = false;
-            timers.splice(index, 1);
-          }
-        }
-        if (dequeue || !gotoEnd) {
-          jQuery.dequeue(this, type);
-        }
-      });
-    },
-    finish: function(type) {
-      if (type !== false) {
-        type = type || "fx";
-      }
-      return this.each(function() {
-        var index,
-            data = data_priv.get(this),
-            queue = data[type + "queue"],
-            hooks = data[type + "queueHooks"],
-            timers = jQuery.timers,
-            length = queue ? queue.length : 0;
-        data.finish = true;
-        jQuery.queue(this, type, []);
-        if (hooks && hooks.stop) {
-          hooks.stop.call(this, true);
-        }
-        for (index = timers.length; index--; ) {
-          if (timers[index].elem === this && timers[index].queue === type) {
-            timers[index].anim.stop(true);
-            timers.splice(index, 1);
-          }
-        }
-        for (index = 0; index < length; index++) {
-          if (queue[index] && queue[index].finish) {
-            queue[index].finish.call(this);
-          }
-        }
-        delete data.finish;
-      });
-    }
-  });
-  jQuery.each(["toggle", "show", "hide"], function(i, name) {
-    var cssFn = jQuery.fn[name];
-    jQuery.fn[name] = function(speed, easing, callback) {
-      return speed == null || typeof speed === "boolean" ? cssFn.apply(this, arguments) : this.animate(genFx(name, true), speed, easing, callback);
-    };
-  });
-  jQuery.each({
-    slideDown: genFx("show"),
-    slideUp: genFx("hide"),
-    slideToggle: genFx("toggle"),
-    fadeIn: {opacity: "show"},
-    fadeOut: {opacity: "hide"},
-    fadeToggle: {opacity: "toggle"}
-  }, function(name, props) {
-    jQuery.fn[name] = function(speed, easing, callback) {
-      return this.animate(props, speed, easing, callback);
-    };
-  });
-  jQuery.timers = [];
-  jQuery.fx.tick = function() {
-    var timer,
-        i = 0,
-        timers = jQuery.timers;
-    fxNow = jQuery.now();
-    for (; i < timers.length; i++) {
-      timer = timers[i];
-      if (!timer() && timers[i] === timer) {
-        timers.splice(i--, 1);
-      }
-    }
-    if (!timers.length) {
-      jQuery.fx.stop();
-    }
-    fxNow = undefined;
-  };
-  jQuery.fx.timer = function(timer) {
-    jQuery.timers.push(timer);
-    if (timer()) {
-      jQuery.fx.start();
-    } else {
-      jQuery.timers.pop();
-    }
-  };
-  jQuery.fx.interval = 13;
-  jQuery.fx.start = function() {
-    if (!timerId) {
-      timerId = setInterval(jQuery.fx.tick, jQuery.fx.interval);
-    }
-  };
-  jQuery.fx.stop = function() {
-    clearInterval(timerId);
-    timerId = null;
-  };
-  jQuery.fx.speeds = {
-    slow: 600,
-    fast: 200,
-    _default: 400
-  };
-  jQuery.fn.delay = function(time, type) {
-    time = jQuery.fx ? jQuery.fx.speeds[time] || time : time;
-    type = type || "fx";
-    return this.queue(type, function(next, hooks) {
-      var timeout = setTimeout(next, time);
-      hooks.stop = function() {
-        clearTimeout(timeout);
-      };
-    });
-  };
-  (function() {
-    var input = document.createElement("input"),
-        select = document.createElement("select"),
-        opt = select.appendChild(document.createElement("option"));
-    input.type = "checkbox";
-    support.checkOn = input.value !== "";
-    support.optSelected = opt.selected;
-    select.disabled = true;
-    support.optDisabled = !opt.disabled;
-    input = document.createElement("input");
-    input.value = "t";
-    input.type = "radio";
-    support.radioValue = input.value === "t";
-  })();
-  var nodeHook,
-      boolHook,
-      attrHandle = jQuery.expr.attrHandle;
-  jQuery.fn.extend({
-    attr: function(name, value) {
-      return access(this, jQuery.attr, name, value, arguments.length > 1);
-    },
-    removeAttr: function(name) {
-      return this.each(function() {
-        jQuery.removeAttr(this, name);
-      });
-    }
-  });
-  jQuery.extend({
-    attr: function(elem, name, value) {
-      var hooks,
-          ret,
-          nType = elem.nodeType;
-      if (!elem || nType === 3 || nType === 8 || nType === 2) {
-        return ;
-      }
-      if (typeof elem.getAttribute === strundefined) {
-        return jQuery.prop(elem, name, value);
-      }
-      if (nType !== 1 || !jQuery.isXMLDoc(elem)) {
-        name = name.toLowerCase();
-        hooks = jQuery.attrHooks[name] || (jQuery.expr.match.bool.test(name) ? boolHook : nodeHook);
-      }
-      if (value !== undefined) {
-        if (value === null) {
-          jQuery.removeAttr(elem, name);
-        } else if (hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined) {
-          return ret;
-        } else {
-          elem.setAttribute(name, value + "");
-          return value;
-        }
-      } else if (hooks && "get" in hooks && (ret = hooks.get(elem, name)) !== null) {
-        return ret;
-      } else {
-        ret = jQuery.find.attr(elem, name);
-        return ret == null ? undefined : ret;
-      }
-    },
-    removeAttr: function(elem, value) {
-      var name,
-          propName,
-          i = 0,
-          attrNames = value && value.match(rnotwhite);
-      if (attrNames && elem.nodeType === 1) {
-        while ((name = attrNames[i++])) {
-          propName = jQuery.propFix[name] || name;
-          if (jQuery.expr.match.bool.test(name)) {
-            elem[propName] = false;
-          }
-          elem.removeAttribute(name);
-        }
-      }
-    },
-    attrHooks: {type: {set: function(elem, value) {
-          if (!support.radioValue && value === "radio" && jQuery.nodeName(elem, "input")) {
-            var val = elem.value;
-            elem.setAttribute("type", value);
-            if (val) {
-              elem.value = val;
-            }
-            return value;
-          }
-        }}}
-  });
-  boolHook = {set: function(elem, value, name) {
-      if (value === false) {
-        jQuery.removeAttr(elem, name);
-      } else {
-        elem.setAttribute(name, name);
-      }
-      return name;
-    }};
-  jQuery.each(jQuery.expr.match.bool.source.match(/\w+/g), function(i, name) {
-    var getter = attrHandle[name] || jQuery.find.attr;
-    attrHandle[name] = function(elem, name, isXML) {
-      var ret,
-          handle;
-      if (!isXML) {
-        handle = attrHandle[name];
-        attrHandle[name] = ret;
-        ret = getter(elem, name, isXML) != null ? name.toLowerCase() : null;
-        attrHandle[name] = handle;
-      }
-      return ret;
-    };
-  });
-  var rfocusable = /^(?:input|select|textarea|button)$/i;
-  jQuery.fn.extend({
-    prop: function(name, value) {
-      return access(this, jQuery.prop, name, value, arguments.length > 1);
-    },
-    removeProp: function(name) {
-      return this.each(function() {
-        delete this[jQuery.propFix[name] || name];
-      });
-    }
-  });
-  jQuery.extend({
-    propFix: {
-      "for": "htmlFor",
-      "class": "className"
-    },
-    prop: function(elem, name, value) {
-      var ret,
-          hooks,
-          notxml,
-          nType = elem.nodeType;
-      if (!elem || nType === 3 || nType === 8 || nType === 2) {
-        return ;
-      }
-      notxml = nType !== 1 || !jQuery.isXMLDoc(elem);
-      if (notxml) {
-        name = jQuery.propFix[name] || name;
-        hooks = jQuery.propHooks[name];
-      }
-      if (value !== undefined) {
-        return hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined ? ret : (elem[name] = value);
-      } else {
-        return hooks && "get" in hooks && (ret = hooks.get(elem, name)) !== null ? ret : elem[name];
-      }
-    },
-    propHooks: {tabIndex: {get: function(elem) {
-          return elem.hasAttribute("tabindex") || rfocusable.test(elem.nodeName) || elem.href ? elem.tabIndex : -1;
-        }}}
-  });
-  if (!support.optSelected) {
-    jQuery.propHooks.selected = {get: function(elem) {
-        var parent = elem.parentNode;
-        if (parent && parent.parentNode) {
-          parent.parentNode.selectedIndex;
-        }
-        return null;
-      }};
-  }
-  jQuery.each(["tabIndex", "readOnly", "maxLength", "cellSpacing", "cellPadding", "rowSpan", "colSpan", "useMap", "frameBorder", "contentEditable"], function() {
-    jQuery.propFix[this.toLowerCase()] = this;
-  });
-  var rclass = /[\t\r\n\f]/g;
-  jQuery.fn.extend({
-    addClass: function(value) {
-      var classes,
-          elem,
-          cur,
-          clazz,
-          j,
-          finalValue,
-          proceed = typeof value === "string" && value,
-          i = 0,
-          len = this.length;
-      if (jQuery.isFunction(value)) {
-        return this.each(function(j) {
-          jQuery(this).addClass(value.call(this, j, this.className));
-        });
-      }
-      if (proceed) {
-        classes = (value || "").match(rnotwhite) || [];
-        for (; i < len; i++) {
-          elem = this[i];
-          cur = elem.nodeType === 1 && (elem.className ? (" " + elem.className + " ").replace(rclass, " ") : " ");
-          if (cur) {
-            j = 0;
-            while ((clazz = classes[j++])) {
-              if (cur.indexOf(" " + clazz + " ") < 0) {
-                cur += clazz + " ";
-              }
-            }
-            finalValue = jQuery.trim(cur);
-            if (elem.className !== finalValue) {
-              elem.className = finalValue;
-            }
-          }
-        }
-      }
-      return this;
-    },
-    removeClass: function(value) {
-      var classes,
-          elem,
-          cur,
-          clazz,
-          j,
-          finalValue,
-          proceed = arguments.length === 0 || typeof value === "string" && value,
-          i = 0,
-          len = this.length;
-      if (jQuery.isFunction(value)) {
-        return this.each(function(j) {
-          jQuery(this).removeClass(value.call(this, j, this.className));
-        });
-      }
-      if (proceed) {
-        classes = (value || "").match(rnotwhite) || [];
-        for (; i < len; i++) {
-          elem = this[i];
-          cur = elem.nodeType === 1 && (elem.className ? (" " + elem.className + " ").replace(rclass, " ") : "");
-          if (cur) {
-            j = 0;
-            while ((clazz = classes[j++])) {
-              while (cur.indexOf(" " + clazz + " ") >= 0) {
-                cur = cur.replace(" " + clazz + " ", " ");
-              }
-            }
-            finalValue = value ? jQuery.trim(cur) : "";
-            if (elem.className !== finalValue) {
-              elem.className = finalValue;
-            }
-          }
-        }
-      }
-      return this;
-    },
-    toggleClass: function(value, stateVal) {
-      var type = typeof value;
-      if (typeof stateVal === "boolean" && type === "string") {
-        return stateVal ? this.addClass(value) : this.removeClass(value);
-      }
-      if (jQuery.isFunction(value)) {
-        return this.each(function(i) {
-          jQuery(this).toggleClass(value.call(this, i, this.className, stateVal), stateVal);
-        });
-      }
-      return this.each(function() {
-        if (type === "string") {
-          var className,
-              i = 0,
-              self = jQuery(this),
-              classNames = value.match(rnotwhite) || [];
-          while ((className = classNames[i++])) {
-            if (self.hasClass(className)) {
-              self.removeClass(className);
-            } else {
-              self.addClass(className);
-            }
-          }
-        } else if (type === strundefined || type === "boolean") {
-          if (this.className) {
-            data_priv.set(this, "__className__", this.className);
-          }
-          this.className = this.className || value === false ? "" : data_priv.get(this, "__className__") || "";
-        }
-      });
-    },
-    hasClass: function(selector) {
-      var className = " " + selector + " ",
-          i = 0,
-          l = this.length;
-      for (; i < l; i++) {
-        if (this[i].nodeType === 1 && (" " + this[i].className + " ").replace(rclass, " ").indexOf(className) >= 0) {
-          return true;
-        }
-      }
-      return false;
-    }
-  });
-  var rreturn = /\r/g;
-  jQuery.fn.extend({val: function(value) {
-      var hooks,
-          ret,
-          isFunction,
-          elem = this[0];
-      if (!arguments.length) {
-        if (elem) {
-          hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()];
-          if (hooks && "get" in hooks && (ret = hooks.get(elem, "value")) !== undefined) {
-            return ret;
-          }
-          ret = elem.value;
-          return typeof ret === "string" ? ret.replace(rreturn, "") : ret == null ? "" : ret;
-        }
-        return ;
-      }
-      isFunction = jQuery.isFunction(value);
-      return this.each(function(i) {
-        var val;
-        if (this.nodeType !== 1) {
-          return ;
-        }
-        if (isFunction) {
-          val = value.call(this, i, jQuery(this).val());
-        } else {
-          val = value;
-        }
-        if (val == null) {
-          val = "";
-        } else if (typeof val === "number") {
-          val += "";
-        } else if (jQuery.isArray(val)) {
-          val = jQuery.map(val, function(value) {
-            return value == null ? "" : value + "";
-          });
-        }
-        hooks = jQuery.valHooks[this.type] || jQuery.valHooks[this.nodeName.toLowerCase()];
-        if (!hooks || !("set" in hooks) || hooks.set(this, val, "value") === undefined) {
-          this.value = val;
-        }
-      });
-    }});
-  jQuery.extend({valHooks: {
-      option: {get: function(elem) {
-          var val = jQuery.find.attr(elem, "value");
-          return val != null ? val : jQuery.trim(jQuery.text(elem));
-        }},
-      select: {
-        get: function(elem) {
-          var value,
-              option,
-              options = elem.options,
-              index = elem.selectedIndex,
-              one = elem.type === "select-one" || index < 0,
-              values = one ? null : [],
-              max = one ? index + 1 : options.length,
-              i = index < 0 ? max : one ? index : 0;
-          for (; i < max; i++) {
-            option = options[i];
-            if ((option.selected || i === index) && (support.optDisabled ? !option.disabled : option.getAttribute("disabled") === null) && (!option.parentNode.disabled || !jQuery.nodeName(option.parentNode, "optgroup"))) {
-              value = jQuery(option).val();
-              if (one) {
-                return value;
-              }
-              values.push(value);
-            }
-          }
-          return values;
-        },
-        set: function(elem, value) {
-          var optionSet,
-              option,
-              options = elem.options,
-              values = jQuery.makeArray(value),
-              i = options.length;
-          while (i--) {
-            option = options[i];
-            if ((option.selected = jQuery.inArray(option.value, values) >= 0)) {
-              optionSet = true;
-            }
-          }
-          if (!optionSet) {
-            elem.selectedIndex = -1;
-          }
-          return values;
-        }
-      }
-    }});
-  jQuery.each(["radio", "checkbox"], function() {
-    jQuery.valHooks[this] = {set: function(elem, value) {
-        if (jQuery.isArray(value)) {
-          return (elem.checked = jQuery.inArray(jQuery(elem).val(), value) >= 0);
-        }
-      }};
-    if (!support.checkOn) {
-      jQuery.valHooks[this].get = function(elem) {
-        return elem.getAttribute("value") === null ? "on" : elem.value;
-      };
-    }
-  });
-  jQuery.each(("blur focus focusin focusout load resize scroll unload click dblclick " + "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " + "change select submit keydown keypress keyup error contextmenu").split(" "), function(i, name) {
-    jQuery.fn[name] = function(data, fn) {
-      return arguments.length > 0 ? this.on(name, null, data, fn) : this.trigger(name);
-    };
-  });
-  jQuery.fn.extend({
-    hover: function(fnOver, fnOut) {
-      return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);
-    },
-    bind: function(types, data, fn) {
-      return this.on(types, null, data, fn);
-    },
-    unbind: function(types, fn) {
-      return this.off(types, null, fn);
-    },
-    delegate: function(selector, types, data, fn) {
-      return this.on(types, selector, data, fn);
-    },
-    undelegate: function(selector, types, fn) {
-      return arguments.length === 1 ? this.off(selector, "**") : this.off(types, selector || "**", fn);
-    }
-  });
-  var nonce = jQuery.now();
-  var rquery = (/\?/);
-  jQuery.parseJSON = function(data) {
-    return JSON.parse(data + "");
-  };
-  jQuery.parseXML = function(data) {
-    var xml,
-        tmp;
-    if (!data || typeof data !== "string") {
-      return null;
-    }
-    try {
-      tmp = new DOMParser();
-      xml = tmp.parseFromString(data, "text/xml");
-    } catch (e) {
-      xml = undefined;
-    }
-    if (!xml || xml.getElementsByTagName("parsererror").length) {
-      jQuery.error("Invalid XML: " + data);
-    }
-    return xml;
-  };
-  var rhash = /#.*$/,
-      rts = /([?&])_=[^&]*/,
-      rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg,
-      rlocalProtocol = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/,
-      rnoContent = /^(?:GET|HEAD)$/,
-      rprotocol = /^\/\//,
-      rurl = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/,
-      prefilters = {},
-      transports = {},
-      allTypes = "*/".concat("*"),
-      ajaxLocation = window.location.href,
-      ajaxLocParts = rurl.exec(ajaxLocation.toLowerCase()) || [];
-  function addToPrefiltersOrTransports(structure) {
-    return function(dataTypeExpression, func) {
-      if (typeof dataTypeExpression !== "string") {
-        func = dataTypeExpression;
-        dataTypeExpression = "*";
-      }
-      var dataType,
-          i = 0,
-          dataTypes = dataTypeExpression.toLowerCase().match(rnotwhite) || [];
-      if (jQuery.isFunction(func)) {
-        while ((dataType = dataTypes[i++])) {
-          if (dataType[0] === "+") {
-            dataType = dataType.slice(1) || "*";
-            (structure[dataType] = structure[dataType] || []).unshift(func);
-          } else {
-            (structure[dataType] = structure[dataType] || []).push(func);
-          }
-        }
-      }
-    };
-  }
-  function inspectPrefiltersOrTransports(structure, options, originalOptions, jqXHR) {
-    var inspected = {},
-        seekingTransport = (structure === transports);
-    function inspect(dataType) {
-      var selected;
-      inspected[dataType] = true;
-      jQuery.each(structure[dataType] || [], function(_, prefilterOrFactory) {
-        var dataTypeOrTransport = prefilterOrFactory(options, originalOptions, jqXHR);
-        if (typeof dataTypeOrTransport === "string" && !seekingTransport && !inspected[dataTypeOrTransport]) {
-          options.dataTypes.unshift(dataTypeOrTransport);
-          inspect(dataTypeOrTransport);
-          return false;
-        } else if (seekingTransport) {
-          return !(selected = dataTypeOrTransport);
-        }
-      });
-      return selected;
-    }
-    return inspect(options.dataTypes[0]) || !inspected["*"] && inspect("*");
-  }
-  function ajaxExtend(target, src) {
-    var key,
-        deep,
-        flatOptions = jQuery.ajaxSettings.flatOptions || {};
-    for (key in src) {
-      if (src[key] !== undefined) {
-        (flatOptions[key] ? target : (deep || (deep = {})))[key] = src[key];
-      }
-    }
-    if (deep) {
-      jQuery.extend(true, target, deep);
-    }
-    return target;
-  }
-  function ajaxHandleResponses(s, jqXHR, responses) {
-    var ct,
-        type,
-        finalDataType,
-        firstDataType,
-        contents = s.contents,
-        dataTypes = s.dataTypes;
-    while (dataTypes[0] === "*") {
-      dataTypes.shift();
-      if (ct === undefined) {
-        ct = s.mimeType || jqXHR.getResponseHeader("Content-Type");
-      }
-    }
-    if (ct) {
-      for (type in contents) {
-        if (contents[type] && contents[type].test(ct)) {
-          dataTypes.unshift(type);
-          break;
-        }
-      }
-    }
-    if (dataTypes[0] in responses) {
-      finalDataType = dataTypes[0];
-    } else {
-      for (type in responses) {
-        if (!dataTypes[0] || s.converters[type + " " + dataTypes[0]]) {
-          finalDataType = type;
-          break;
-        }
-        if (!firstDataType) {
-          firstDataType = type;
-        }
-      }
-      finalDataType = finalDataType || firstDataType;
-    }
-    if (finalDataType) {
-      if (finalDataType !== dataTypes[0]) {
-        dataTypes.unshift(finalDataType);
-      }
-      return responses[finalDataType];
-    }
-  }
-  function ajaxConvert(s, response, jqXHR, isSuccess) {
-    var conv2,
-        current,
-        conv,
-        tmp,
-        prev,
-        converters = {},
-        dataTypes = s.dataTypes.slice();
-    if (dataTypes[1]) {
-      for (conv in s.converters) {
-        converters[conv.toLowerCase()] = s.converters[conv];
-      }
-    }
-    current = dataTypes.shift();
-    while (current) {
-      if (s.responseFields[current]) {
-        jqXHR[s.responseFields[current]] = response;
-      }
-      if (!prev && isSuccess && s.dataFilter) {
-        response = s.dataFilter(response, s.dataType);
-      }
-      prev = current;
-      current = dataTypes.shift();
-      if (current) {
-        if (current === "*") {
-          current = prev;
-        } else if (prev !== "*" && prev !== current) {
-          conv = converters[prev + " " + current] || converters["* " + current];
-          if (!conv) {
-            for (conv2 in converters) {
-              tmp = conv2.split(" ");
-              if (tmp[1] === current) {
-                conv = converters[prev + " " + tmp[0]] || converters["* " + tmp[0]];
-                if (conv) {
-                  if (conv === true) {
-                    conv = converters[conv2];
-                  } else if (converters[conv2] !== true) {
-                    current = tmp[0];
-                    dataTypes.unshift(tmp[1]);
-                  }
-                  break;
-                }
-              }
-            }
-          }
-          if (conv !== true) {
-            if (conv && s["throws"]) {
-              response = conv(response);
-            } else {
-              try {
-                response = conv(response);
-              } catch (e) {
-                return {
-                  state: "parsererror",
-                  error: conv ? e : "No conversion from " + prev + " to " + current
-                };
-              }
-            }
-          }
-        }
-      }
-    }
-    return {
-      state: "success",
-      data: response
-    };
-  }
-  jQuery.extend({
-    active: 0,
-    lastModified: {},
-    etag: {},
-    ajaxSettings: {
-      url: ajaxLocation,
-      type: "GET",
-      isLocal: rlocalProtocol.test(ajaxLocParts[1]),
-      global: true,
-      processData: true,
-      async: true,
-      contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-      accepts: {
-        "*": allTypes,
-        text: "text/plain",
-        html: "text/html",
-        xml: "application/xml, text/xml",
-        json: "application/json, text/javascript"
-      },
-      contents: {
-        xml: /xml/,
-        html: /html/,
-        json: /json/
-      },
-      responseFields: {
-        xml: "responseXML",
-        text: "responseText",
-        json: "responseJSON"
-      },
-      converters: {
-        "* text": String,
-        "text html": true,
-        "text json": jQuery.parseJSON,
-        "text xml": jQuery.parseXML
-      },
-      flatOptions: {
-        url: true,
-        context: true
-      }
-    },
-    ajaxSetup: function(target, settings) {
-      return settings ? ajaxExtend(ajaxExtend(target, jQuery.ajaxSettings), settings) : ajaxExtend(jQuery.ajaxSettings, target);
-    },
-    ajaxPrefilter: addToPrefiltersOrTransports(prefilters),
-    ajaxTransport: addToPrefiltersOrTransports(transports),
-    ajax: function(url, options) {
-      if (typeof url === "object") {
-        options = url;
-        url = undefined;
-      }
-      options = options || {};
-      var transport,
-          cacheURL,
-          responseHeadersString,
-          responseHeaders,
-          timeoutTimer,
-          parts,
-          fireGlobals,
-          i,
-          s = jQuery.ajaxSetup({}, options),
-          callbackContext = s.context || s,
-          globalEventContext = s.context && (callbackContext.nodeType || callbackContext.jquery) ? jQuery(callbackContext) : jQuery.event,
-          deferred = jQuery.Deferred(),
-          completeDeferred = jQuery.Callbacks("once memory"),
-          statusCode = s.statusCode || {},
-          requestHeaders = {},
-          requestHeadersNames = {},
-          state = 0,
-          strAbort = "canceled",
-          jqXHR = {
-            readyState: 0,
-            getResponseHeader: function(key) {
-              var match;
-              if (state === 2) {
-                if (!responseHeaders) {
-                  responseHeaders = {};
-                  while ((match = rheaders.exec(responseHeadersString))) {
-                    responseHeaders[match[1].toLowerCase()] = match[2];
-                  }
-                }
-                match = responseHeaders[key.toLowerCase()];
-              }
-              return match == null ? null : match;
-            },
-            getAllResponseHeaders: function() {
-              return state === 2 ? responseHeadersString : null;
-            },
-            setRequestHeader: function(name, value) {
-              var lname = name.toLowerCase();
-              if (!state) {
-                name = requestHeadersNames[lname] = requestHeadersNames[lname] || name;
-                requestHeaders[name] = value;
-              }
-              return this;
-            },
-            overrideMimeType: function(type) {
-              if (!state) {
-                s.mimeType = type;
-              }
-              return this;
-            },
-            statusCode: function(map) {
-              var code;
-              if (map) {
-                if (state < 2) {
-                  for (code in map) {
-                    statusCode[code] = [statusCode[code], map[code]];
-                  }
-                } else {
-                  jqXHR.always(map[jqXHR.status]);
-                }
-              }
-              return this;
-            },
-            abort: function(statusText) {
-              var finalText = statusText || strAbort;
-              if (transport) {
-                transport.abort(finalText);
-              }
-              done(0, finalText);
-              return this;
-            }
-          };
-      deferred.promise(jqXHR).complete = completeDeferred.add;
-      jqXHR.success = jqXHR.done;
-      jqXHR.error = jqXHR.fail;
-      s.url = ((url || s.url || ajaxLocation) + "").replace(rhash, "").replace(rprotocol, ajaxLocParts[1] + "//");
-      s.type = options.method || options.type || s.method || s.type;
-      s.dataTypes = jQuery.trim(s.dataType || "*").toLowerCase().match(rnotwhite) || [""];
-      if (s.crossDomain == null) {
-        parts = rurl.exec(s.url.toLowerCase());
-        s.crossDomain = !!(parts && (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] || (parts[3] || (parts[1] === "http:" ? "80" : "443")) !== (ajaxLocParts[3] || (ajaxLocParts[1] === "http:" ? "80" : "443"))));
-      }
-      if (s.data && s.processData && typeof s.data !== "string") {
-        s.data = jQuery.param(s.data, s.traditional);
-      }
-      inspectPrefiltersOrTransports(prefilters, s, options, jqXHR);
-      if (state === 2) {
-        return jqXHR;
-      }
-      fireGlobals = jQuery.event && s.global;
-      if (fireGlobals && jQuery.active++ === 0) {
-        jQuery.event.trigger("ajaxStart");
-      }
-      s.type = s.type.toUpperCase();
-      s.hasContent = !rnoContent.test(s.type);
-      cacheURL = s.url;
-      if (!s.hasContent) {
-        if (s.data) {
-          cacheURL = (s.url += (rquery.test(cacheURL) ? "&" : "?") + s.data);
-          delete s.data;
-        }
-        if (s.cache === false) {
-          s.url = rts.test(cacheURL) ? cacheURL.replace(rts, "$1_=" + nonce++) : cacheURL + (rquery.test(cacheURL) ? "&" : "?") + "_=" + nonce++;
-        }
-      }
-      if (s.ifModified) {
-        if (jQuery.lastModified[cacheURL]) {
-          jqXHR.setRequestHeader("If-Modified-Since", jQuery.lastModified[cacheURL]);
-        }
-        if (jQuery.etag[cacheURL]) {
-          jqXHR.setRequestHeader("If-None-Match", jQuery.etag[cacheURL]);
-        }
-      }
-      if (s.data && s.hasContent && s.contentType !== false || options.contentType) {
-        jqXHR.setRequestHeader("Content-Type", s.contentType);
-      }
-      jqXHR.setRequestHeader("Accept", s.dataTypes[0] && s.accepts[s.dataTypes[0]] ? s.accepts[s.dataTypes[0]] + (s.dataTypes[0] !== "*" ? ", " + allTypes + "; q=0.01" : "") : s.accepts["*"]);
-      for (i in s.headers) {
-        jqXHR.setRequestHeader(i, s.headers[i]);
-      }
-      if (s.beforeSend && (s.beforeSend.call(callbackContext, jqXHR, s) === false || state === 2)) {
-        return jqXHR.abort();
-      }
-      strAbort = "abort";
-      for (i in {
-        success: 1,
-        error: 1,
-        complete: 1
-      }) {
-        jqXHR[i](s[i]);
-      }
-      transport = inspectPrefiltersOrTransports(transports, s, options, jqXHR);
-      if (!transport) {
-        done(-1, "No Transport");
-      } else {
-        jqXHR.readyState = 1;
-        if (fireGlobals) {
-          globalEventContext.trigger("ajaxSend", [jqXHR, s]);
-        }
-        if (s.async && s.timeout > 0) {
-          timeoutTimer = setTimeout(function() {
-            jqXHR.abort("timeout");
-          }, s.timeout);
-        }
-        try {
-          state = 1;
-          transport.send(requestHeaders, done);
-        } catch (e) {
-          if (state < 2) {
-            done(-1, e);
-          } else {
-            throw e;
-          }
-        }
-      }
-      function done(status, nativeStatusText, responses, headers) {
-        var isSuccess,
-            success,
-            error,
-            response,
-            modified,
-            statusText = nativeStatusText;
-        if (state === 2) {
-          return ;
-        }
-        state = 2;
-        if (timeoutTimer) {
-          clearTimeout(timeoutTimer);
-        }
-        transport = undefined;
-        responseHeadersString = headers || "";
-        jqXHR.readyState = status > 0 ? 4 : 0;
-        isSuccess = status >= 200 && status < 300 || status === 304;
-        if (responses) {
-          response = ajaxHandleResponses(s, jqXHR, responses);
-        }
-        response = ajaxConvert(s, response, jqXHR, isSuccess);
-        if (isSuccess) {
-          if (s.ifModified) {
-            modified = jqXHR.getResponseHeader("Last-Modified");
-            if (modified) {
-              jQuery.lastModified[cacheURL] = modified;
-            }
-            modified = jqXHR.getResponseHeader("etag");
-            if (modified) {
-              jQuery.etag[cacheURL] = modified;
-            }
-          }
-          if (status === 204 || s.type === "HEAD") {
-            statusText = "nocontent";
-          } else if (status === 304) {
-            statusText = "notmodified";
-          } else {
-            statusText = response.state;
-            success = response.data;
-            error = response.error;
-            isSuccess = !error;
-          }
-        } else {
-          error = statusText;
-          if (status || !statusText) {
-            statusText = "error";
-            if (status < 0) {
-              status = 0;
-            }
-          }
-        }
-        jqXHR.status = status;
-        jqXHR.statusText = (nativeStatusText || statusText) + "";
-        if (isSuccess) {
-          deferred.resolveWith(callbackContext, [success, statusText, jqXHR]);
-        } else {
-          deferred.rejectWith(callbackContext, [jqXHR, statusText, error]);
-        }
-        jqXHR.statusCode(statusCode);
-        statusCode = undefined;
-        if (fireGlobals) {
-          globalEventContext.trigger(isSuccess ? "ajaxSuccess" : "ajaxError", [jqXHR, s, isSuccess ? success : error]);
-        }
-        completeDeferred.fireWith(callbackContext, [jqXHR, statusText]);
-        if (fireGlobals) {
-          globalEventContext.trigger("ajaxComplete", [jqXHR, s]);
-          if (!(--jQuery.active)) {
-            jQuery.event.trigger("ajaxStop");
-          }
-        }
-      }
-      return jqXHR;
-    },
-    getJSON: function(url, data, callback) {
-      return jQuery.get(url, data, callback, "json");
-    },
-    getScript: function(url, callback) {
-      return jQuery.get(url, undefined, callback, "script");
-    }
-  });
-  jQuery.each(["get", "post"], function(i, method) {
-    jQuery[method] = function(url, data, callback, type) {
-      if (jQuery.isFunction(data)) {
-        type = type || callback;
-        callback = data;
-        data = undefined;
-      }
-      return jQuery.ajax({
-        url: url,
-        type: method,
-        dataType: type,
-        data: data,
-        success: callback
-      });
-    };
-  });
-  jQuery._evalUrl = function(url) {
-    return jQuery.ajax({
-      url: url,
-      type: "GET",
-      dataType: "script",
-      async: false,
-      global: false,
-      "throws": true
-    });
-  };
-  jQuery.fn.extend({
-    wrapAll: function(html) {
-      var wrap;
-      if (jQuery.isFunction(html)) {
-        return this.each(function(i) {
-          jQuery(this).wrapAll(html.call(this, i));
-        });
-      }
-      if (this[0]) {
-        wrap = jQuery(html, this[0].ownerDocument).eq(0).clone(true);
-        if (this[0].parentNode) {
-          wrap.insertBefore(this[0]);
-        }
-        wrap.map(function() {
-          var elem = this;
-          while (elem.firstElementChild) {
-            elem = elem.firstElementChild;
-          }
-          return elem;
-        }).append(this);
-      }
-      return this;
-    },
-    wrapInner: function(html) {
-      if (jQuery.isFunction(html)) {
-        return this.each(function(i) {
-          jQuery(this).wrapInner(html.call(this, i));
-        });
-      }
-      return this.each(function() {
-        var self = jQuery(this),
-            contents = self.contents();
-        if (contents.length) {
-          contents.wrapAll(html);
-        } else {
-          self.append(html);
-        }
-      });
-    },
-    wrap: function(html) {
-      var isFunction = jQuery.isFunction(html);
-      return this.each(function(i) {
-        jQuery(this).wrapAll(isFunction ? html.call(this, i) : html);
-      });
-    },
-    unwrap: function() {
-      return this.parent().each(function() {
-        if (!jQuery.nodeName(this, "body")) {
-          jQuery(this).replaceWith(this.childNodes);
-        }
-      }).end();
-    }
-  });
-  jQuery.expr.filters.hidden = function(elem) {
-    return elem.offsetWidth <= 0 && elem.offsetHeight <= 0;
-  };
-  jQuery.expr.filters.visible = function(elem) {
-    return !jQuery.expr.filters.hidden(elem);
-  };
-  var r20 = /%20/g,
-      rbracket = /\[\]$/,
-      rCRLF = /\r?\n/g,
-      rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i,
-      rsubmittable = /^(?:input|select|textarea|keygen)/i;
-  function buildParams(prefix, obj, traditional, add) {
-    var name;
-    if (jQuery.isArray(obj)) {
-      jQuery.each(obj, function(i, v) {
-        if (traditional || rbracket.test(prefix)) {
-          add(prefix, v);
-        } else {
-          buildParams(prefix + "[" + (typeof v === "object" ? i : "") + "]", v, traditional, add);
-        }
-      });
-    } else if (!traditional && jQuery.type(obj) === "object") {
-      for (name in obj) {
-        buildParams(prefix + "[" + name + "]", obj[name], traditional, add);
-      }
-    } else {
-      add(prefix, obj);
-    }
-  }
-  jQuery.param = function(a, traditional) {
-    var prefix,
-        s = [],
-        add = function(key, value) {
-          value = jQuery.isFunction(value) ? value() : (value == null ? "" : value);
-          s[s.length] = encodeURIComponent(key) + "=" + encodeURIComponent(value);
-        };
-    if (traditional === undefined) {
-      traditional = jQuery.ajaxSettings && jQuery.ajaxSettings.traditional;
-    }
-    if (jQuery.isArray(a) || (a.jquery && !jQuery.isPlainObject(a))) {
-      jQuery.each(a, function() {
-        add(this.name, this.value);
-      });
-    } else {
-      for (prefix in a) {
-        buildParams(prefix, a[prefix], traditional, add);
-      }
-    }
-    return s.join("&").replace(r20, "+");
-  };
-  jQuery.fn.extend({
-    serialize: function() {
-      return jQuery.param(this.serializeArray());
-    },
-    serializeArray: function() {
-      return this.map(function() {
-        var elements = jQuery.prop(this, "elements");
-        return elements ? jQuery.makeArray(elements) : this;
-      }).filter(function() {
-        var type = this.type;
-        return this.name && !jQuery(this).is(":disabled") && rsubmittable.test(this.nodeName) && !rsubmitterTypes.test(type) && (this.checked || !rcheckableType.test(type));
-      }).map(function(i, elem) {
-        var val = jQuery(this).val();
-        return val == null ? null : jQuery.isArray(val) ? jQuery.map(val, function(val) {
-          return {
-            name: elem.name,
-            value: val.replace(rCRLF, "\r\n")
-          };
-        }) : {
-          name: elem.name,
-          value: val.replace(rCRLF, "\r\n")
-        };
-      }).get();
-    }
-  });
-  jQuery.ajaxSettings.xhr = function() {
-    try {
-      return new XMLHttpRequest();
-    } catch (e) {}
-  };
-  var xhrId = 0,
-      xhrCallbacks = {},
-      xhrSuccessStatus = {
-        0: 200,
-        1223: 204
-      },
-      xhrSupported = jQuery.ajaxSettings.xhr();
-  if (window.attachEvent) {
-    window.attachEvent("onunload", function() {
-      for (var key in xhrCallbacks) {
-        xhrCallbacks[key]();
-      }
-    });
-  }
-  support.cors = !!xhrSupported && ("withCredentials" in xhrSupported);
-  support.ajax = xhrSupported = !!xhrSupported;
-  jQuery.ajaxTransport(function(options) {
-    var callback;
-    if (support.cors || xhrSupported && !options.crossDomain) {
-      return {
-        send: function(headers, complete) {
-          var i,
-              xhr = options.xhr(),
-              id = ++xhrId;
-          xhr.open(options.type, options.url, options.async, options.username, options.password);
-          if (options.xhrFields) {
-            for (i in options.xhrFields) {
-              xhr[i] = options.xhrFields[i];
-            }
-          }
-          if (options.mimeType && xhr.overrideMimeType) {
-            xhr.overrideMimeType(options.mimeType);
-          }
-          if (!options.crossDomain && !headers["X-Requested-With"]) {
-            headers["X-Requested-With"] = "XMLHttpRequest";
-          }
-          for (i in headers) {
-            xhr.setRequestHeader(i, headers[i]);
-          }
-          callback = function(type) {
-            return function() {
-              if (callback) {
-                delete xhrCallbacks[id];
-                callback = xhr.onload = xhr.onerror = null;
-                if (type === "abort") {
-                  xhr.abort();
-                } else if (type === "error") {
-                  complete(xhr.status, xhr.statusText);
-                } else {
-                  complete(xhrSuccessStatus[xhr.status] || xhr.status, xhr.statusText, typeof xhr.responseText === "string" ? {text: xhr.responseText} : undefined, xhr.getAllResponseHeaders());
-                }
-              }
-            };
-          };
-          xhr.onload = callback();
-          xhr.onerror = callback("error");
-          callback = xhrCallbacks[id] = callback("abort");
-          try {
-            xhr.send(options.hasContent && options.data || null);
-          } catch (e) {
-            if (callback) {
-              throw e;
-            }
-          }
-        },
-        abort: function() {
-          if (callback) {
-            callback();
-          }
-        }
-      };
-    }
-  });
-  jQuery.ajaxSetup({
-    accepts: {script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"},
-    contents: {script: /(?:java|ecma)script/},
-    converters: {"text script": function(text) {
-        jQuery.globalEval(text);
-        return text;
-      }}
-  });
-  jQuery.ajaxPrefilter("script", function(s) {
-    if (s.cache === undefined) {
-      s.cache = false;
-    }
-    if (s.crossDomain) {
-      s.type = "GET";
-    }
-  });
-  jQuery.ajaxTransport("script", function(s) {
-    if (s.crossDomain) {
-      var script,
-          callback;
-      return {
-        send: function(_, complete) {
-          script = jQuery("<script>").prop({
-            async: true,
-            charset: s.scriptCharset,
-            src: s.url
-          }).on("load error", callback = function(evt) {
-            script.remove();
-            callback = null;
-            if (evt) {
-              complete(evt.type === "error" ? 404 : 200, evt.type);
-            }
-          });
-          document.head.appendChild(script[0]);
-        },
-        abort: function() {
-          if (callback) {
-            callback();
-          }
-        }
-      };
-    }
-  });
-  var oldCallbacks = [],
-      rjsonp = /(=)\?(?=&|$)|\?\?/;
-  jQuery.ajaxSetup({
-    jsonp: "callback",
-    jsonpCallback: function() {
-      var callback = oldCallbacks.pop() || (jQuery.expando + "_" + (nonce++));
-      this[callback] = true;
-      return callback;
-    }
-  });
-  jQuery.ajaxPrefilter("json jsonp", function(s, originalSettings, jqXHR) {
-    var callbackName,
-        overwritten,
-        responseContainer,
-        jsonProp = s.jsonp !== false && (rjsonp.test(s.url) ? "url" : typeof s.data === "string" && !(s.contentType || "").indexOf("application/x-www-form-urlencoded") && rjsonp.test(s.data) && "data");
-    if (jsonProp || s.dataTypes[0] === "jsonp") {
-      callbackName = s.jsonpCallback = jQuery.isFunction(s.jsonpCallback) ? s.jsonpCallback() : s.jsonpCallback;
-      if (jsonProp) {
-        s[jsonProp] = s[jsonProp].replace(rjsonp, "$1" + callbackName);
-      } else if (s.jsonp !== false) {
-        s.url += (rquery.test(s.url) ? "&" : "?") + s.jsonp + "=" + callbackName;
-      }
-      s.converters["script json"] = function() {
-        if (!responseContainer) {
-          jQuery.error(callbackName + " was not called");
-        }
-        return responseContainer[0];
-      };
-      s.dataTypes[0] = "json";
-      overwritten = window[callbackName];
-      window[callbackName] = function() {
-        responseContainer = arguments;
-      };
-      jqXHR.always(function() {
-        window[callbackName] = overwritten;
-        if (s[callbackName]) {
-          s.jsonpCallback = originalSettings.jsonpCallback;
-          oldCallbacks.push(callbackName);
-        }
-        if (responseContainer && jQuery.isFunction(overwritten)) {
-          overwritten(responseContainer[0]);
-        }
-        responseContainer = overwritten = undefined;
-      });
-      return "script";
-    }
-  });
-  jQuery.parseHTML = function(data, context, keepScripts) {
-    if (!data || typeof data !== "string") {
-      return null;
-    }
-    if (typeof context === "boolean") {
-      keepScripts = context;
-      context = false;
-    }
-    context = context || document;
-    var parsed = rsingleTag.exec(data),
-        scripts = !keepScripts && [];
-    if (parsed) {
-      return [context.createElement(parsed[1])];
-    }
-    parsed = jQuery.buildFragment([data], context, scripts);
-    if (scripts && scripts.length) {
-      jQuery(scripts).remove();
-    }
-    return jQuery.merge([], parsed.childNodes);
-  };
-  var _load = jQuery.fn.load;
-  jQuery.fn.load = function(url, params, callback) {
-    if (typeof url !== "string" && _load) {
-      return _load.apply(this, arguments);
-    }
-    var selector,
-        type,
-        response,
-        self = this,
-        off = url.indexOf(" ");
-    if (off >= 0) {
-      selector = jQuery.trim(url.slice(off));
-      url = url.slice(0, off);
-    }
-    if (jQuery.isFunction(params)) {
-      callback = params;
-      params = undefined;
-    } else if (params && typeof params === "object") {
-      type = "POST";
-    }
-    if (self.length > 0) {
-      jQuery.ajax({
-        url: url,
-        type: type,
-        dataType: "html",
-        data: params
-      }).done(function(responseText) {
-        response = arguments;
-        self.html(selector ? jQuery("<div>").append(jQuery.parseHTML(responseText)).find(selector) : responseText);
-      }).complete(callback && function(jqXHR, status) {
-        self.each(callback, response || [jqXHR.responseText, status, jqXHR]);
-      });
-    }
-    return this;
-  };
-  jQuery.each(["ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend"], function(i, type) {
-    jQuery.fn[type] = function(fn) {
-      return this.on(type, fn);
-    };
-  });
-  jQuery.expr.filters.animated = function(elem) {
-    return jQuery.grep(jQuery.timers, function(fn) {
-      return elem === fn.elem;
-    }).length;
-  };
-  var docElem = window.document.documentElement;
-  function getWindow(elem) {
-    return jQuery.isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-  }
-  jQuery.offset = {setOffset: function(elem, options, i) {
-      var curPosition,
-          curLeft,
-          curCSSTop,
-          curTop,
-          curOffset,
-          curCSSLeft,
-          calculatePosition,
-          position = jQuery.css(elem, "position"),
-          curElem = jQuery(elem),
-          props = {};
-      if (position === "static") {
-        elem.style.position = "relative";
-      }
-      curOffset = curElem.offset();
-      curCSSTop = jQuery.css(elem, "top");
-      curCSSLeft = jQuery.css(elem, "left");
-      calculatePosition = (position === "absolute" || position === "fixed") && (curCSSTop + curCSSLeft).indexOf("auto") > -1;
-      if (calculatePosition) {
-        curPosition = curElem.position();
-        curTop = curPosition.top;
-        curLeft = curPosition.left;
-      } else {
-        curTop = parseFloat(curCSSTop) || 0;
-        curLeft = parseFloat(curCSSLeft) || 0;
-      }
-      if (jQuery.isFunction(options)) {
-        options = options.call(elem, i, curOffset);
-      }
-      if (options.top != null) {
-        props.top = (options.top - curOffset.top) + curTop;
-      }
-      if (options.left != null) {
-        props.left = (options.left - curOffset.left) + curLeft;
-      }
-      if ("using" in options) {
-        options.using.call(elem, props);
-      } else {
-        curElem.css(props);
-      }
-    }};
-  jQuery.fn.extend({
-    offset: function(options) {
-      if (arguments.length) {
-        return options === undefined ? this : this.each(function(i) {
-          jQuery.offset.setOffset(this, options, i);
-        });
-      }
-      var docElem,
-          win,
-          elem = this[0],
-          box = {
-            top: 0,
-            left: 0
-          },
-          doc = elem && elem.ownerDocument;
-      if (!doc) {
-        return ;
-      }
-      docElem = doc.documentElement;
-      if (!jQuery.contains(docElem, elem)) {
-        return box;
-      }
-      if (typeof elem.getBoundingClientRect !== strundefined) {
-        box = elem.getBoundingClientRect();
-      }
-      win = getWindow(doc);
-      return {
-        top: box.top + win.pageYOffset - docElem.clientTop,
-        left: box.left + win.pageXOffset - docElem.clientLeft
-      };
-    },
-    position: function() {
-      if (!this[0]) {
-        return ;
-      }
-      var offsetParent,
-          offset,
-          elem = this[0],
-          parentOffset = {
-            top: 0,
-            left: 0
-          };
-      if (jQuery.css(elem, "position") === "fixed") {
-        offset = elem.getBoundingClientRect();
-      } else {
-        offsetParent = this.offsetParent();
-        offset = this.offset();
-        if (!jQuery.nodeName(offsetParent[0], "html")) {
-          parentOffset = offsetParent.offset();
-        }
-        parentOffset.top += jQuery.css(offsetParent[0], "borderTopWidth", true);
-        parentOffset.left += jQuery.css(offsetParent[0], "borderLeftWidth", true);
-      }
-      return {
-        top: offset.top - parentOffset.top - jQuery.css(elem, "marginTop", true),
-        left: offset.left - parentOffset.left - jQuery.css(elem, "marginLeft", true)
-      };
-    },
-    offsetParent: function() {
-      return this.map(function() {
-        var offsetParent = this.offsetParent || docElem;
-        while (offsetParent && (!jQuery.nodeName(offsetParent, "html") && jQuery.css(offsetParent, "position") === "static")) {
-          offsetParent = offsetParent.offsetParent;
-        }
-        return offsetParent || docElem;
-      });
-    }
-  });
-  jQuery.each({
-    scrollLeft: "pageXOffset",
-    scrollTop: "pageYOffset"
-  }, function(method, prop) {
-    var top = "pageYOffset" === prop;
-    jQuery.fn[method] = function(val) {
-      return access(this, function(elem, method, val) {
-        var win = getWindow(elem);
-        if (val === undefined) {
-          return win ? win[prop] : elem[method];
-        }
-        if (win) {
-          win.scrollTo(!top ? val : window.pageXOffset, top ? val : window.pageYOffset);
-        } else {
-          elem[method] = val;
-        }
-      }, method, val, arguments.length, null);
-    };
-  });
-  jQuery.each(["top", "left"], function(i, prop) {
-    jQuery.cssHooks[prop] = addGetHookIf(support.pixelPosition, function(elem, computed) {
-      if (computed) {
-        computed = curCSS(elem, prop);
-        return rnumnonpx.test(computed) ? jQuery(elem).position()[prop] + "px" : computed;
-      }
-    });
-  });
-  jQuery.each({
-    Height: "height",
-    Width: "width"
-  }, function(name, type) {
-    jQuery.each({
-      padding: "inner" + name,
-      content: type,
-      "": "outer" + name
-    }, function(defaultExtra, funcName) {
-      jQuery.fn[funcName] = function(margin, value) {
-        var chainable = arguments.length && (defaultExtra || typeof margin !== "boolean"),
-            extra = defaultExtra || (margin === true || value === true ? "margin" : "border");
-        return access(this, function(elem, type, value) {
-          var doc;
-          if (jQuery.isWindow(elem)) {
-            return elem.document.documentElement["client" + name];
-          }
-          if (elem.nodeType === 9) {
-            doc = elem.documentElement;
-            return Math.max(elem.body["scroll" + name], doc["scroll" + name], elem.body["offset" + name], doc["offset" + name], doc["client" + name]);
-          }
-          return value === undefined ? jQuery.css(elem, type, extra) : jQuery.style(elem, type, value, extra);
-        }, type, chainable ? margin : undefined, chainable, null);
-      };
-    });
-  });
-  jQuery.fn.size = function() {
-    return this.length;
-  };
-  jQuery.fn.andSelf = jQuery.fn.addBack;
-  if (typeof define === "function" && define.amd) {
-    System.register("github:components/jquery@2.1.3/jquery", [], false, function(__require, __exports, __module) {
-      return (function() {
-        return jQuery;
-      }).call(this);
-    });
-  }
-  var _jQuery = window.jQuery,
-      _$ = window.$;
-  jQuery.noConflict = function(deep) {
-    if (window.$ === jQuery) {
-      window.$ = _$;
-    }
-    if (deep && window.jQuery === jQuery) {
-      window.jQuery = _jQuery;
-    }
-    return jQuery;
-  };
-  if (typeof noGlobal === strundefined) {
-    window.jQuery = window.$ = jQuery;
-  }
-  return jQuery;
-}));
-})();
-System.register("npm:core-js@0.9.6/library/modules/es6.array.from", ["npm:core-js@0.9.6/library/modules/$", "npm:core-js@0.9.6/library/modules/$.ctx", "npm:core-js@0.9.6/library/modules/$.def", "npm:core-js@0.9.6/library/modules/$.iter", "npm:core-js@0.9.6/library/modules/$.iter-call", "npm:core-js@0.9.6/library/modules/$.iter-detect"], true, function(require, exports, module) {
+System.register("npm:core-js@0.9.6/library/modules/$.enum-keys", ["npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
-  var $ = require("npm:core-js@0.9.6/library/modules/$"),
-      ctx = require("npm:core-js@0.9.6/library/modules/$.ctx"),
-      $def = require("npm:core-js@0.9.6/library/modules/$.def"),
-      $iter = require("npm:core-js@0.9.6/library/modules/$.iter"),
-      call = require("npm:core-js@0.9.6/library/modules/$.iter-call");
-  $def($def.S + $def.F * !require("npm:core-js@0.9.6/library/modules/$.iter-detect")(function(iter) {
-    Array.from(iter);
-  }), 'Array', {from: function from(arrayLike) {
-      var O = Object($.assertDefined(arrayLike)),
-          mapfn = arguments[1],
-          mapping = mapfn !== undefined,
-          f = mapping ? ctx(mapfn, arguments[2], 2) : undefined,
-          index = 0,
-          length,
-          result,
-          step,
-          iterator;
-      if ($iter.is(O)) {
-        iterator = $iter.get(O);
-        result = new (typeof this == 'function' ? this : Array);
-        for (; !(step = iterator.next()).done; index++) {
-          result[index] = mapping ? call(iterator, f, [step.value, index], true) : step.value;
-        }
-      } else {
-        result = new (typeof this == 'function' ? this : Array)(length = $.toLength(O.length));
-        for (; length > index; index++) {
-          result[index] = mapping ? f(O[index], index) : O[index];
-        }
-      }
-      result.length = index;
-      return result;
-    }});
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:core-js@0.9.6/library/modules/es6.set", ["npm:core-js@0.9.6/library/modules/$.collection-strong", "npm:core-js@0.9.6/library/modules/$.collection"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  'use strict';
-  var strong = require("npm:core-js@0.9.6/library/modules/$.collection-strong");
-  require("npm:core-js@0.9.6/library/modules/$.collection")('Set', {add: function add(value) {
-      return strong.def(this, value = value === 0 ? 0 : value, value);
-    }}, strong);
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:core-js@0.9.6/library/modules/es7.set.to-json", ["npm:core-js@0.9.6/library/modules/$.collection-to-json"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  require("npm:core-js@0.9.6/library/modules/$.collection-to-json")('Set');
+  var $ = require("npm:core-js@0.9.6/library/modules/$");
+  module.exports = function(it) {
+    var keys = $.getKeys(it),
+        getDesc = $.getDesc,
+        getSymbols = $.getSymbols;
+    if (getSymbols)
+      $.each.call(getSymbols(it), function(key) {
+        if (getDesc(it, key).enumerable)
+          keys.push(key);
+      });
+    return keys;
+  };
   global.define = __define;
   return module.exports;
 });
@@ -10110,6 +4144,1962 @@ System.register("github:jspm/nodelibs-fs@0.1.2/index", [], true, function(requir
   return module.exports;
 });
 
+System.register("npm:core-js@0.9.6/modules/$.fw", [], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function($) {
+    $.FW = true;
+    $.path = $.g;
+    return $;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.dom-create", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      document = $.g.document,
+      isObject = $.isObject,
+      is = isObject(document) && isObject(document.createElement);
+  module.exports = function(it) {
+    return is ? document.createElement(it) : {};
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.uid", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var sid = 0;
+  function uid(key) {
+    return 'Symbol(' + key + ')_' + (++sid + Math.random()).toString(36);
+  }
+  uid.safe = require("npm:core-js@0.9.6/modules/$").g.Symbol || uid;
+  module.exports = uid;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.def", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      global = $.g,
+      core = $.core,
+      isFunction = $.isFunction;
+  function ctx(fn, that) {
+    return function() {
+      return fn.apply(that, arguments);
+    };
+  }
+  global.core = core;
+  $def.F = 1;
+  $def.G = 2;
+  $def.S = 4;
+  $def.P = 8;
+  $def.B = 16;
+  $def.W = 32;
+  function $def(type, name, source) {
+    var key,
+        own,
+        out,
+        exp,
+        isGlobal = type & $def.G,
+        target = isGlobal ? global : type & $def.S ? global[name] : (global[name] || {}).prototype,
+        exports = isGlobal ? core : core[name] || (core[name] = {});
+    if (isGlobal)
+      source = name;
+    for (key in source) {
+      own = !(type & $def.F) && target && key in target;
+      out = (own ? target : source)[key];
+      if (type & $def.B && own)
+        exp = ctx(out, global);
+      else
+        exp = type & $def.P && isFunction(out) ? ctx(Function.call, out) : out;
+      if (target && !own) {
+        if (isGlobal)
+          target[key] = out;
+        else
+          delete target[key] && $.hide(target, key, out);
+      }
+      if (exports[key] != out)
+        $.hide(exports, key, exp);
+    }
+  }
+  module.exports = $def;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.invoke", [], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function(fn, args, that) {
+    var un = that === undefined;
+    switch (args.length) {
+      case 0:
+        return un ? fn() : fn.call(that);
+      case 1:
+        return un ? fn(args[0]) : fn.call(that, args[0]);
+      case 2:
+        return un ? fn(args[0], args[1]) : fn.call(that, args[0], args[1]);
+      case 3:
+        return un ? fn(args[0], args[1], args[2]) : fn.call(that, args[0], args[1], args[2]);
+      case 4:
+        return un ? fn(args[0], args[1], args[2], args[3]) : fn.call(that, args[0], args[1], args[2], args[3]);
+      case 5:
+        return un ? fn(args[0], args[1], args[2], args[3], args[4]) : fn.call(that, args[0], args[1], args[2], args[3], args[4]);
+    }
+    return fn.apply(that, args);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.assert", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$");
+  function assert(condition, msg1, msg2) {
+    if (!condition)
+      throw TypeError(msg2 ? msg1 + msg2 : msg1);
+  }
+  assert.def = $.assertDefined;
+  assert.fn = function(it) {
+    if (!$.isFunction(it))
+      throw TypeError(it + ' is not a function!');
+    return it;
+  };
+  assert.obj = function(it) {
+    if (!$.isObject(it))
+      throw TypeError(it + ' is not an object!');
+    return it;
+  };
+  assert.inst = function(it, Constructor, name) {
+    if (!(it instanceof Constructor))
+      throw TypeError(name + ": use the 'new' operator!");
+    return it;
+  };
+  module.exports = assert;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.array-includes", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$");
+  module.exports = function(IS_INCLUDES) {
+    return function($this, el, fromIndex) {
+      var O = $.toObject($this),
+          length = $.toLength(O.length),
+          index = $.toIndex(fromIndex, length),
+          value;
+      if (IS_INCLUDES && el != el)
+        while (length > index) {
+          value = O[index++];
+          if (value != value)
+            return true;
+        }
+      else
+        for (; length > index; index++)
+          if (IS_INCLUDES || index in O) {
+            if (O[index] === el)
+              return IS_INCLUDES || index;
+          }
+      return !IS_INCLUDES && -1;
+    };
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.replacer", [], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  module.exports = function(regExp, replace, isStatic) {
+    var replacer = replace === Object(replace) ? function(part) {
+      return replace[part];
+    } : replace;
+    return function(it) {
+      return String(isStatic ? it : this).replace(regExp, replacer);
+    };
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.throws", [], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = function(exec) {
+    try {
+      exec();
+      return false;
+    } catch (e) {
+      return true;
+    }
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.keyof", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$");
+  module.exports = function(object, el) {
+    var O = $.toObject(object),
+        keys = $.getKeys(O),
+        length = keys.length,
+        index = 0,
+        key;
+    while (length > index)
+      if (O[key = keys[index++]] === el)
+        return key;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.enum-keys", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$");
+  module.exports = function(it) {
+    var keys = $.getKeys(it),
+        getDesc = $.getDesc,
+        getSymbols = $.getSymbols;
+    if (getSymbols)
+      $.each.call(getSymbols(it), function(key) {
+        if (getDesc(it, key).enumerable)
+          keys.push(key);
+      });
+    return keys;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.assign", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.enum-keys"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      enumKeys = require("npm:core-js@0.9.6/modules/$.enum-keys");
+  module.exports = Object.assign || function assign(target, source) {
+    var T = Object($.assertDefined(target)),
+        l = arguments.length,
+        i = 1;
+    while (l > i) {
+      var S = $.ES5Object(arguments[i++]),
+          keys = enumKeys(S),
+          length = keys.length,
+          j = 0,
+          key;
+      while (length > j)
+        T[key = keys[j++]] = S[key];
+    }
+    return T;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.object.is", ["npm:core-js@0.9.6/modules/$.def"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def");
+  $def($def.S, 'Object', {is: function is(x, y) {
+      return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.set-proto", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.assert", "npm:core-js@0.9.6/modules/$.ctx"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      assert = require("npm:core-js@0.9.6/modules/$.assert");
+  function check(O, proto) {
+    assert.obj(O);
+    assert(proto === null || $.isObject(proto), proto, ": can't set as prototype!");
+  }
+  module.exports = {
+    set: Object.setPrototypeOf || ('__proto__' in {} ? function(buggy, set) {
+      try {
+        set = require("npm:core-js@0.9.6/modules/$.ctx")(Function.call, $.getDesc(Object.prototype, '__proto__').set, 2);
+        set({}, []);
+      } catch (e) {
+        buggy = true;
+      }
+      return function setPrototypeOf(O, proto) {
+        check(O, proto);
+        if (buggy)
+          O.__proto__ = proto;
+        else
+          set(O, proto);
+        return O;
+      };
+    }() : undefined),
+    check: check
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.object.to-string", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      cof = require("npm:core-js@0.9.6/modules/$.cof"),
+      tmp = {};
+  tmp[require("npm:core-js@0.9.6/modules/$.wks")('toStringTag')] = 'z';
+  if ($.FW && cof(tmp) != 'z')
+    $.hide(Object.prototype, 'toString', function toString() {
+      return '[object ' + cof.classof(this) + ']';
+    });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.object.statics-accept-primitives", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      isObject = $.isObject,
+      toObject = $.toObject;
+  function wrapObjectMethod(METHOD, MODE) {
+    var fn = ($.core.Object || {})[METHOD] || Object[METHOD],
+        f = 0,
+        o = {};
+    o[METHOD] = MODE == 1 ? function(it) {
+      return isObject(it) ? fn(it) : it;
+    } : MODE == 2 ? function(it) {
+      return isObject(it) ? fn(it) : true;
+    } : MODE == 3 ? function(it) {
+      return isObject(it) ? fn(it) : false;
+    } : MODE == 4 ? function getOwnPropertyDescriptor(it, key) {
+      return fn(toObject(it), key);
+    } : MODE == 5 ? function getPrototypeOf(it) {
+      return fn(Object($.assertDefined(it)));
+    } : function(it) {
+      return fn(toObject(it));
+    };
+    try {
+      fn('z');
+    } catch (e) {
+      f = 1;
+    }
+    $def($def.S + $def.F * f, 'Object', o);
+  }
+  wrapObjectMethod('freeze', 1);
+  wrapObjectMethod('seal', 1);
+  wrapObjectMethod('preventExtensions', 1);
+  wrapObjectMethod('isFrozen', 2);
+  wrapObjectMethod('isSealed', 2);
+  wrapObjectMethod('isExtensible', 3);
+  wrapObjectMethod('getOwnPropertyDescriptor', 4);
+  wrapObjectMethod('getPrototypeOf', 5);
+  wrapObjectMethod('keys');
+  wrapObjectMethod('getOwnPropertyNames');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.function.name", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      NAME = 'name',
+      setDesc = $.setDesc,
+      FunctionProto = Function.prototype;
+  NAME in FunctionProto || $.FW && $.DESC && setDesc(FunctionProto, NAME, {
+    configurable: true,
+    get: function() {
+      var match = String(this).match(/^\s*function ([^ (]*)/),
+          name = match ? match[1] : '';
+      $.has(this, NAME) || setDesc(this, NAME, $.desc(5, name));
+      return name;
+    },
+    set: function(value) {
+      $.has(this, NAME) || setDesc(this, NAME, $.desc(0, value));
+    }
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.function.has-instance", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      HAS_INSTANCE = require("npm:core-js@0.9.6/modules/$.wks")('hasInstance'),
+      FunctionProto = Function.prototype;
+  if (!(HAS_INSTANCE in FunctionProto))
+    $.setDesc(FunctionProto, HAS_INSTANCE, {value: function(O) {
+        if (!$.isFunction(this) || !$.isObject(O))
+          return false;
+        if (!$.isObject(this.prototype))
+          return O instanceof this;
+        while (O = $.getProto(O))
+          if (this.prototype === O)
+            return true;
+        return false;
+      }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.number.constructor", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      isObject = $.isObject,
+      isFunction = $.isFunction,
+      NUMBER = 'Number',
+      $Number = $.g[NUMBER],
+      Base = $Number,
+      proto = $Number.prototype;
+  function toPrimitive(it) {
+    var fn,
+        val;
+    if (isFunction(fn = it.valueOf) && !isObject(val = fn.call(it)))
+      return val;
+    if (isFunction(fn = it.toString) && !isObject(val = fn.call(it)))
+      return val;
+    throw TypeError("Can't convert object to number");
+  }
+  function toNumber(it) {
+    if (isObject(it))
+      it = toPrimitive(it);
+    if (typeof it == 'string' && it.length > 2 && it.charCodeAt(0) == 48) {
+      var binary = false;
+      switch (it.charCodeAt(1)) {
+        case 66:
+        case 98:
+          binary = true;
+        case 79:
+        case 111:
+          return parseInt(it.slice(2), binary ? 2 : 8);
+      }
+    }
+    return +it;
+  }
+  if ($.FW && !($Number('0o1') && $Number('0b1'))) {
+    $Number = function Number(it) {
+      return this instanceof $Number ? new Base(toNumber(it)) : toNumber(it);
+    };
+    $.each.call($.DESC ? $.getNames(Base) : ('MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' + 'EPSILON,isFinite,isInteger,isNaN,isSafeInteger,MAX_SAFE_INTEGER,' + 'MIN_SAFE_INTEGER,parseFloat,parseInt,isInteger').split(','), function(key) {
+      if ($.has(Base, key) && !$.has($Number, key)) {
+        $.setDesc($Number, key, $.getDesc(Base, key));
+      }
+    });
+    $Number.prototype = proto;
+    proto.constructor = $Number;
+    $.hide($.g, NUMBER, $Number);
+  }
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.number.statics", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      abs = Math.abs,
+      floor = Math.floor,
+      _isFinite = $.g.isFinite,
+      MAX_SAFE_INTEGER = 0x1fffffffffffff;
+  function isInteger(it) {
+    return !$.isObject(it) && _isFinite(it) && floor(it) === it;
+  }
+  $def($def.S, 'Number', {
+    EPSILON: Math.pow(2, -52),
+    isFinite: function isFinite(it) {
+      return typeof it == 'number' && _isFinite(it);
+    },
+    isInteger: isInteger,
+    isNaN: function isNaN(number) {
+      return number != number;
+    },
+    isSafeInteger: function isSafeInteger(number) {
+      return isInteger(number) && abs(number) <= MAX_SAFE_INTEGER;
+    },
+    MAX_SAFE_INTEGER: MAX_SAFE_INTEGER,
+    MIN_SAFE_INTEGER: -MAX_SAFE_INTEGER,
+    parseFloat: parseFloat,
+    parseInt: parseInt
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.math", ["npm:core-js@0.9.6/modules/$.def"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var Infinity = 1 / 0,
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      E = Math.E,
+      pow = Math.pow,
+      abs = Math.abs,
+      exp = Math.exp,
+      log = Math.log,
+      sqrt = Math.sqrt,
+      ceil = Math.ceil,
+      floor = Math.floor,
+      EPSILON = pow(2, -52),
+      EPSILON32 = pow(2, -23),
+      MAX32 = pow(2, 127) * (2 - EPSILON32),
+      MIN32 = pow(2, -126);
+  function roundTiesToEven(n) {
+    return n + 1 / EPSILON - 1 / EPSILON;
+  }
+  function sign(x) {
+    return (x = +x) == 0 || x != x ? x : x < 0 ? -1 : 1;
+  }
+  function asinh(x) {
+    return !isFinite(x = +x) || x == 0 ? x : x < 0 ? -asinh(-x) : log(x + sqrt(x * x + 1));
+  }
+  function expm1(x) {
+    return (x = +x) == 0 ? x : x > -1e-6 && x < 1e-6 ? x + x * x / 2 : exp(x) - 1;
+  }
+  $def($def.S, 'Math', {
+    acosh: function acosh(x) {
+      return (x = +x) < 1 ? NaN : isFinite(x) ? log(x / E + sqrt(x + 1) * sqrt(x - 1) / E) + 1 : x;
+    },
+    asinh: asinh,
+    atanh: function atanh(x) {
+      return (x = +x) == 0 ? x : log((1 + x) / (1 - x)) / 2;
+    },
+    cbrt: function cbrt(x) {
+      return sign(x = +x) * pow(abs(x), 1 / 3);
+    },
+    clz32: function clz32(x) {
+      return (x >>>= 0) ? 31 - floor(log(x + 0.5) * Math.LOG2E) : 32;
+    },
+    cosh: function cosh(x) {
+      return (exp(x = +x) + exp(-x)) / 2;
+    },
+    expm1: expm1,
+    fround: function fround(x) {
+      var $abs = abs(x),
+          $sign = sign(x),
+          a,
+          result;
+      if ($abs < MIN32)
+        return $sign * roundTiesToEven($abs / MIN32 / EPSILON32) * MIN32 * EPSILON32;
+      a = (1 + EPSILON32 / EPSILON) * $abs;
+      result = a - (a - $abs);
+      if (result > MAX32 || result != result)
+        return $sign * Infinity;
+      return $sign * result;
+    },
+    hypot: function hypot(value1, value2) {
+      var sum = 0,
+          len1 = arguments.length,
+          len2 = len1,
+          args = Array(len1),
+          larg = -Infinity,
+          arg;
+      while (len1--) {
+        arg = args[len1] = +arguments[len1];
+        if (arg == Infinity || arg == -Infinity)
+          return Infinity;
+        if (arg > larg)
+          larg = arg;
+      }
+      larg = arg || 1;
+      while (len2--)
+        sum += pow(args[len2] / larg, 2);
+      return larg * sqrt(sum);
+    },
+    imul: function imul(x, y) {
+      var UInt16 = 0xffff,
+          xn = +x,
+          yn = +y,
+          xl = UInt16 & xn,
+          yl = UInt16 & yn;
+      return 0 | xl * yl + ((UInt16 & xn >>> 16) * yl + xl * (UInt16 & yn >>> 16) << 16 >>> 0);
+    },
+    log1p: function log1p(x) {
+      return (x = +x) > -1e-8 && x < 1e-8 ? x - x * x / 2 : log(1 + x);
+    },
+    log10: function log10(x) {
+      return log(x) / Math.LN10;
+    },
+    log2: function log2(x) {
+      return log(x) / Math.LN2;
+    },
+    sign: sign,
+    sinh: function sinh(x) {
+      return abs(x = +x) < 1 ? (expm1(x) - expm1(-x)) / 2 : (exp(x - 1) - exp(-x - 1)) * (E / 2);
+    },
+    tanh: function tanh(x) {
+      var a = expm1(x = +x),
+          b = expm1(-x);
+      return a == Infinity ? 1 : b == Infinity ? -1 : (a - b) / (exp(x) + exp(-x));
+    },
+    trunc: function trunc(it) {
+      return (it > 0 ? floor : ceil)(it);
+    }
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.string.from-code-point", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def"),
+      toIndex = require("npm:core-js@0.9.6/modules/$").toIndex,
+      fromCharCode = String.fromCharCode,
+      $fromCodePoint = String.fromCodePoint;
+  $def($def.S + $def.F * (!!$fromCodePoint && $fromCodePoint.length != 1), 'String', {fromCodePoint: function fromCodePoint(x) {
+      var res = [],
+          len = arguments.length,
+          i = 0,
+          code;
+      while (len > i) {
+        code = +arguments[i++];
+        if (toIndex(code, 0x10ffff) !== code)
+          throw RangeError(code + ' is not a valid code point');
+        res.push(code < 0x10000 ? fromCharCode(code) : fromCharCode(((code -= 0x10000) >> 10) + 0xd800, code % 0x400 + 0xdc00));
+      }
+      return res.join('');
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.string.raw", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def");
+  $def($def.S, 'String', {raw: function raw(callSite) {
+      var tpl = $.toObject(callSite.raw),
+          len = $.toLength(tpl.length),
+          sln = arguments.length,
+          res = [],
+          i = 0;
+      while (len > i) {
+        res.push(String(tpl[i++]));
+        if (i < sln)
+          res.push(String(arguments[i]));
+      }
+      return res.join('');
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.string-at", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$");
+  module.exports = function(TO_STRING) {
+    return function(that, pos) {
+      var s = String($.assertDefined(that)),
+          i = $.toInteger(pos),
+          l = s.length,
+          a,
+          b;
+      if (i < 0 || i >= l)
+        return TO_STRING ? '' : undefined;
+      a = s.charCodeAt(i);
+      return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff ? TO_STRING ? s.charAt(i) : a : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+    };
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.iter", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.assert", "npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      cof = require("npm:core-js@0.9.6/modules/$.cof"),
+      assertObject = require("npm:core-js@0.9.6/modules/$.assert").obj,
+      SYMBOL_ITERATOR = require("npm:core-js@0.9.6/modules/$.wks")('iterator'),
+      FF_ITERATOR = '@@iterator',
+      Iterators = {},
+      IteratorPrototype = {};
+  setIterator(IteratorPrototype, $.that);
+  function setIterator(O, value) {
+    $.hide(O, SYMBOL_ITERATOR, value);
+    if (FF_ITERATOR in [])
+      $.hide(O, FF_ITERATOR, value);
+  }
+  module.exports = {
+    BUGGY: 'keys' in [] && !('next' in [].keys()),
+    Iterators: Iterators,
+    step: function(done, value) {
+      return {
+        value: value,
+        done: !!done
+      };
+    },
+    is: function(it) {
+      var O = Object(it),
+          Symbol = $.g.Symbol,
+          SYM = Symbol && Symbol.iterator || FF_ITERATOR;
+      return SYM in O || SYMBOL_ITERATOR in O || $.has(Iterators, cof.classof(O));
+    },
+    get: function(it) {
+      var Symbol = $.g.Symbol,
+          ext = it[Symbol && Symbol.iterator || FF_ITERATOR],
+          getIter = ext || it[SYMBOL_ITERATOR] || Iterators[cof.classof(it)];
+      return assertObject(getIter.call(it));
+    },
+    set: setIterator,
+    create: function(Constructor, NAME, next, proto) {
+      Constructor.prototype = $.create(proto || IteratorPrototype, {next: $.desc(1, next)});
+      cof.set(Constructor, NAME + ' Iterator');
+    }
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.iter-define", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.iter", "npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def"),
+      $ = require("npm:core-js@0.9.6/modules/$"),
+      cof = require("npm:core-js@0.9.6/modules/$.cof"),
+      $iter = require("npm:core-js@0.9.6/modules/$.iter"),
+      SYMBOL_ITERATOR = require("npm:core-js@0.9.6/modules/$.wks")('iterator'),
+      FF_ITERATOR = '@@iterator',
+      KEYS = 'keys',
+      VALUES = 'values',
+      Iterators = $iter.Iterators;
+  module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE) {
+    $iter.create(Constructor, NAME, next);
+    function createMethod(kind) {
+      function $$(that) {
+        return new Constructor(that, kind);
+      }
+      switch (kind) {
+        case KEYS:
+          return function keys() {
+            return $$(this);
+          };
+        case VALUES:
+          return function values() {
+            return $$(this);
+          };
+      }
+      return function entries() {
+        return $$(this);
+      };
+    }
+    var TAG = NAME + ' Iterator',
+        proto = Base.prototype,
+        _native = proto[SYMBOL_ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT],
+        _default = _native || createMethod(DEFAULT),
+        methods,
+        key;
+    if (_native) {
+      var IteratorPrototype = $.getProto(_default.call(new Base));
+      cof.set(IteratorPrototype, TAG, true);
+      if ($.FW && $.has(proto, FF_ITERATOR))
+        $iter.set(IteratorPrototype, $.that);
+    }
+    if ($.FW)
+      $iter.set(proto, _default);
+    Iterators[NAME] = _default;
+    Iterators[TAG] = $.that;
+    if (DEFAULT) {
+      methods = {
+        keys: IS_SET ? _default : createMethod(KEYS),
+        values: DEFAULT == VALUES ? _default : createMethod(VALUES),
+        entries: DEFAULT != VALUES ? _default : createMethod('entries')
+      };
+      if (FORCE)
+        for (key in methods) {
+          if (!(key in proto))
+            $.hide(proto, key, methods[key]);
+        }
+      else
+        $def($def.P + $def.F * $iter.BUGGY, NAME, methods);
+    }
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.string.code-point-at", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.string-at"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $def = require("npm:core-js@0.9.6/modules/$.def"),
+      $at = require("npm:core-js@0.9.6/modules/$.string-at")(false);
+  $def($def.P, 'String', {codePointAt: function codePointAt(pos) {
+      return $at(this, pos);
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.string.ends-with", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.throws"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      cof = require("npm:core-js@0.9.6/modules/$.cof"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      toLength = $.toLength;
+  $def($def.P + $def.F * !require("npm:core-js@0.9.6/modules/$.throws")(function() {
+    'q'.endsWith(/./);
+  }), 'String', {endsWith: function endsWith(searchString) {
+      if (cof(searchString) == 'RegExp')
+        throw TypeError();
+      var that = String($.assertDefined(this)),
+          endPosition = arguments[1],
+          len = toLength(that.length),
+          end = endPosition === undefined ? len : Math.min(toLength(endPosition), len);
+      searchString += '';
+      return that.slice(end - searchString.length, end) === searchString;
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.string.includes", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.def"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      cof = require("npm:core-js@0.9.6/modules/$.cof"),
+      $def = require("npm:core-js@0.9.6/modules/$.def");
+  $def($def.P, 'String', {includes: function includes(searchString) {
+      if (cof(searchString) == 'RegExp')
+        throw TypeError();
+      return !!~String($.assertDefined(this)).indexOf(searchString, arguments[1]);
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.string-repeat", ["npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$");
+  module.exports = function repeat(count) {
+    var str = String($.assertDefined(this)),
+        res = '',
+        n = $.toInteger(count);
+    if (n < 0 || n == Infinity)
+      throw RangeError("Count can't be negative");
+    for (; n > 0; (n >>>= 1) && (str += str))
+      if (n & 1)
+        res += str;
+    return res;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.string.starts-with", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.throws"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      cof = require("npm:core-js@0.9.6/modules/$.cof"),
+      $def = require("npm:core-js@0.9.6/modules/$.def");
+  $def($def.P + $def.F * !require("npm:core-js@0.9.6/modules/$.throws")(function() {
+    'q'.startsWith(/./);
+  }), 'String', {startsWith: function startsWith(searchString) {
+      if (cof(searchString) == 'RegExp')
+        throw TypeError();
+      var that = String($.assertDefined(this)),
+          index = $.toLength(Math.min(arguments[1], that.length));
+      searchString += '';
+      return that.slice(index, index + searchString.length) === searchString;
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.iter-call", ["npm:core-js@0.9.6/modules/$.assert"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var assertObject = require("npm:core-js@0.9.6/modules/$.assert").obj;
+  function close(iterator) {
+    var ret = iterator['return'];
+    if (ret !== undefined)
+      assertObject(ret.call(iterator));
+  }
+  function call(iterator, fn, value, entries) {
+    try {
+      return entries ? fn(assertObject(value)[0], value[1]) : fn(value);
+    } catch (e) {
+      close(iterator);
+      throw e;
+    }
+  }
+  call.close = close;
+  module.exports = call;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.iter-detect", ["npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var SYMBOL_ITERATOR = require("npm:core-js@0.9.6/modules/$.wks")('iterator'),
+      SAFE_CLOSING = false;
+  try {
+    var riter = [7][SYMBOL_ITERATOR]();
+    riter['return'] = function() {
+      SAFE_CLOSING = true;
+    };
+    Array.from(riter, function() {
+      throw 2;
+    });
+  } catch (e) {}
+  module.exports = function(exec) {
+    if (!SAFE_CLOSING)
+      return false;
+    var safe = false;
+    try {
+      var arr = [7],
+          iter = arr[SYMBOL_ITERATOR]();
+      iter.next = function() {
+        safe = true;
+      };
+      arr[SYMBOL_ITERATOR] = function() {
+        return iter;
+      };
+      exec(arr);
+    } catch (e) {}
+    return safe;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.array.of", ["npm:core-js@0.9.6/modules/$.def"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def");
+  $def($def.S, 'Array', {of: function of() {
+      var index = 0,
+          length = arguments.length,
+          result = new (typeof this == 'function' ? this : Array)(length);
+      while (length > index)
+        result[index] = arguments[index++];
+      result.length = length;
+      return result;
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.unscope", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      UNSCOPABLES = require("npm:core-js@0.9.6/modules/$.wks")('unscopables');
+  if ($.FW && !(UNSCOPABLES in []))
+    $.hide(Array.prototype, UNSCOPABLES, {});
+  module.exports = function(key) {
+    if ($.FW)
+      [][UNSCOPABLES][key] = true;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.species", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      SPECIES = require("npm:core-js@0.9.6/modules/$.wks")('species');
+  module.exports = function(C) {
+    if ($.DESC && !(SPECIES in C))
+      $.setDesc(C, SPECIES, {
+        configurable: true,
+        get: $.that
+      });
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.array.copy-within", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.unscope"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      toIndex = $.toIndex;
+  $def($def.P, 'Array', {copyWithin: function copyWithin(target, start) {
+      var O = Object($.assertDefined(this)),
+          len = $.toLength(O.length),
+          to = toIndex(target, len),
+          from = toIndex(start, len),
+          end = arguments[2],
+          fin = end === undefined ? len : toIndex(end, len),
+          count = Math.min(fin - from, len - to),
+          inc = 1;
+      if (from < to && to < from + count) {
+        inc = -1;
+        from = from + count - 1;
+        to = to + count - 1;
+      }
+      while (count-- > 0) {
+        if (from in O)
+          O[to] = O[from];
+        else
+          delete O[to];
+        to += inc;
+        from += inc;
+      }
+      return O;
+    }});
+  require("npm:core-js@0.9.6/modules/$.unscope")('copyWithin');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.array.fill", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.unscope"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      toIndex = $.toIndex;
+  $def($def.P, 'Array', {fill: function fill(value) {
+      var O = Object($.assertDefined(this)),
+          length = $.toLength(O.length),
+          index = toIndex(arguments[1], length),
+          end = arguments[2],
+          endPos = end === undefined ? length : toIndex(end, length);
+      while (endPos > index)
+        O[index++] = value;
+      return O;
+    }});
+  require("npm:core-js@0.9.6/modules/$.unscope")('fill');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.array.find", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.array-methods", "npm:core-js@0.9.6/modules/$.unscope"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var KEY = 'find',
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      forced = true,
+      $find = require("npm:core-js@0.9.6/modules/$.array-methods")(5);
+  if (KEY in [])
+    Array(1)[KEY](function() {
+      forced = false;
+    });
+  $def($def.P + $def.F * forced, 'Array', {find: function find(callbackfn) {
+      return $find(this, callbackfn, arguments[1]);
+    }});
+  require("npm:core-js@0.9.6/modules/$.unscope")(KEY);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.array.find-index", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.array-methods", "npm:core-js@0.9.6/modules/$.unscope"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var KEY = 'findIndex',
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      forced = true,
+      $find = require("npm:core-js@0.9.6/modules/$.array-methods")(6);
+  if (KEY in [])
+    Array(1)[KEY](function() {
+      forced = false;
+    });
+  $def($def.P + $def.F * forced, 'Array', {findIndex: function findIndex(callbackfn) {
+      return $find(this, callbackfn, arguments[1]);
+    }});
+  require("npm:core-js@0.9.6/modules/$.unscope")(KEY);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.regexp", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.replacer", "npm:core-js@0.9.6/modules/$.species"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      cof = require("npm:core-js@0.9.6/modules/$.cof"),
+      $RegExp = $.g.RegExp,
+      Base = $RegExp,
+      proto = $RegExp.prototype,
+      re = /a/g,
+      CORRECT_NEW = new $RegExp(re) !== re,
+      ALLOWS_RE_WITH_FLAGS = function() {
+        try {
+          return $RegExp(re, 'i') == '/a/i';
+        } catch (e) {}
+      }();
+  if ($.FW && $.DESC) {
+    if (!CORRECT_NEW || !ALLOWS_RE_WITH_FLAGS) {
+      $RegExp = function RegExp(pattern, flags) {
+        var patternIsRegExp = cof(pattern) == 'RegExp',
+            flagsIsUndefined = flags === undefined;
+        if (!(this instanceof $RegExp) && patternIsRegExp && flagsIsUndefined)
+          return pattern;
+        return CORRECT_NEW ? new Base(patternIsRegExp && !flagsIsUndefined ? pattern.source : pattern, flags) : new Base(patternIsRegExp ? pattern.source : pattern, patternIsRegExp && flagsIsUndefined ? pattern.flags : flags);
+      };
+      $.each.call($.getNames(Base), function(key) {
+        key in $RegExp || $.setDesc($RegExp, key, {
+          configurable: true,
+          get: function() {
+            return Base[key];
+          },
+          set: function(it) {
+            Base[key] = it;
+          }
+        });
+      });
+      proto.constructor = $RegExp;
+      $RegExp.prototype = proto;
+      $.hide($.g, 'RegExp', $RegExp);
+    }
+    if (/./g.flags != 'g')
+      $.setDesc(proto, 'flags', {
+        configurable: true,
+        get: require("npm:core-js@0.9.6/modules/$.replacer")(/^.*\/(\w*)$/, '$1')
+      });
+  }
+  require("npm:core-js@0.9.6/modules/$.species")($RegExp);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.for-of", ["npm:core-js@0.9.6/modules/$.ctx", "npm:core-js@0.9.6/modules/$.iter", "npm:core-js@0.9.6/modules/$.iter-call"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var ctx = require("npm:core-js@0.9.6/modules/$.ctx"),
+      get = require("npm:core-js@0.9.6/modules/$.iter").get,
+      call = require("npm:core-js@0.9.6/modules/$.iter-call");
+  module.exports = function(iterable, entries, fn, that) {
+    var iterator = get(iterable),
+        f = ctx(fn, that, entries ? 2 : 1),
+        step;
+    while (!(step = iterator.next()).done) {
+      if (call(iterator, f, step.value, entries) === false) {
+        return call.close(iterator);
+      }
+    }
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.task", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.ctx", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.invoke", "npm:core-js@0.9.6/modules/$.dom-create", "github:jspm/nodelibs-process@0.1.1"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var $ = require("npm:core-js@0.9.6/modules/$"),
+        ctx = require("npm:core-js@0.9.6/modules/$.ctx"),
+        cof = require("npm:core-js@0.9.6/modules/$.cof"),
+        invoke = require("npm:core-js@0.9.6/modules/$.invoke"),
+        cel = require("npm:core-js@0.9.6/modules/$.dom-create"),
+        global = $.g,
+        isFunction = $.isFunction,
+        html = $.html,
+        process = global.process,
+        setTask = global.setImmediate,
+        clearTask = global.clearImmediate,
+        postMessage = global.postMessage,
+        addEventListener = global.addEventListener,
+        MessageChannel = global.MessageChannel,
+        counter = 0,
+        queue = {},
+        ONREADYSTATECHANGE = 'onreadystatechange',
+        defer,
+        channel,
+        port;
+    function run() {
+      var id = +this;
+      if ($.has(queue, id)) {
+        var fn = queue[id];
+        delete queue[id];
+        fn();
+      }
+    }
+    function listner(event) {
+      run.call(event.data);
+    }
+    if (!isFunction(setTask) || !isFunction(clearTask)) {
+      setTask = function(fn) {
+        var args = [],
+            i = 1;
+        while (arguments.length > i)
+          args.push(arguments[i++]);
+        queue[++counter] = function() {
+          invoke(isFunction(fn) ? fn : Function(fn), args);
+        };
+        defer(counter);
+        return counter;
+      };
+      clearTask = function(id) {
+        delete queue[id];
+      };
+      if (cof(process) == 'process') {
+        defer = function(id) {
+          process.nextTick(ctx(run, id, 1));
+        };
+      } else if (addEventListener && isFunction(postMessage) && !global.importScripts) {
+        defer = function(id) {
+          postMessage(id, '*');
+        };
+        addEventListener('message', listner, false);
+      } else if (isFunction(MessageChannel)) {
+        channel = new MessageChannel;
+        port = channel.port2;
+        channel.port1.onmessage = listner;
+        defer = ctx(port.postMessage, port, 1);
+      } else if (ONREADYSTATECHANGE in cel('script')) {
+        defer = function(id) {
+          html.appendChild(cel('script'))[ONREADYSTATECHANGE] = function() {
+            html.removeChild(this);
+            run.call(id);
+          };
+        };
+      } else {
+        defer = function(id) {
+          setTimeout(ctx(run, id, 1), 0);
+        };
+      }
+    }
+    module.exports = {
+      set: setTask,
+      clear: clearTask
+    };
+  })(require("github:jspm/nodelibs-process@0.1.1"));
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.collection-strong", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.ctx", "npm:core-js@0.9.6/modules/$.uid", "npm:core-js@0.9.6/modules/$.assert", "npm:core-js@0.9.6/modules/$.for-of", "npm:core-js@0.9.6/modules/$.iter", "npm:core-js@0.9.6/modules/$.iter-define"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      ctx = require("npm:core-js@0.9.6/modules/$.ctx"),
+      safe = require("npm:core-js@0.9.6/modules/$.uid").safe,
+      assert = require("npm:core-js@0.9.6/modules/$.assert"),
+      forOf = require("npm:core-js@0.9.6/modules/$.for-of"),
+      step = require("npm:core-js@0.9.6/modules/$.iter").step,
+      has = $.has,
+      set = $.set,
+      isObject = $.isObject,
+      hide = $.hide,
+      isFrozen = Object.isFrozen || $.core.Object.isFrozen,
+      ID = safe('id'),
+      O1 = safe('O1'),
+      LAST = safe('last'),
+      FIRST = safe('first'),
+      ITER = safe('iter'),
+      SIZE = $.DESC ? safe('size') : 'size',
+      id = 0;
+  function fastKey(it, create) {
+    if (!isObject(it))
+      return (typeof it == 'string' ? 'S' : 'P') + it;
+    if (isFrozen(it))
+      return 'F';
+    if (!has(it, ID)) {
+      if (!create)
+        return 'E';
+      hide(it, ID, ++id);
+    }
+    return 'O' + it[ID];
+  }
+  function getEntry(that, key) {
+    var index = fastKey(key),
+        entry;
+    if (index != 'F')
+      return that[O1][index];
+    for (entry = that[FIRST]; entry; entry = entry.n) {
+      if (entry.k == key)
+        return entry;
+    }
+  }
+  module.exports = {
+    getConstructor: function(NAME, IS_MAP, ADDER) {
+      function C() {
+        var that = assert.inst(this, C, NAME),
+            iterable = arguments[0];
+        set(that, O1, $.create(null));
+        set(that, SIZE, 0);
+        set(that, LAST, undefined);
+        set(that, FIRST, undefined);
+        if (iterable != undefined)
+          forOf(iterable, IS_MAP, that[ADDER], that);
+      }
+      $.mix(C.prototype, {
+        clear: function clear() {
+          for (var that = this,
+              data = that[O1],
+              entry = that[FIRST]; entry; entry = entry.n) {
+            entry.r = true;
+            if (entry.p)
+              entry.p = entry.p.n = undefined;
+            delete data[entry.i];
+          }
+          that[FIRST] = that[LAST] = undefined;
+          that[SIZE] = 0;
+        },
+        'delete': function(key) {
+          var that = this,
+              entry = getEntry(that, key);
+          if (entry) {
+            var next = entry.n,
+                prev = entry.p;
+            delete that[O1][entry.i];
+            entry.r = true;
+            if (prev)
+              prev.n = next;
+            if (next)
+              next.p = prev;
+            if (that[FIRST] == entry)
+              that[FIRST] = next;
+            if (that[LAST] == entry)
+              that[LAST] = prev;
+            that[SIZE]--;
+          }
+          return !!entry;
+        },
+        forEach: function forEach(callbackfn) {
+          var f = ctx(callbackfn, arguments[1], 3),
+              entry;
+          while (entry = entry ? entry.n : this[FIRST]) {
+            f(entry.v, entry.k, this);
+            while (entry && entry.r)
+              entry = entry.p;
+          }
+        },
+        has: function has(key) {
+          return !!getEntry(this, key);
+        }
+      });
+      if ($.DESC)
+        $.setDesc(C.prototype, 'size', {get: function() {
+            return assert.def(this[SIZE]);
+          }});
+      return C;
+    },
+    def: function(that, key, value) {
+      var entry = getEntry(that, key),
+          prev,
+          index;
+      if (entry) {
+        entry.v = value;
+      } else {
+        that[LAST] = entry = {
+          i: index = fastKey(key, true),
+          k: key,
+          v: value,
+          p: prev = that[LAST],
+          n: undefined,
+          r: false
+        };
+        if (!that[FIRST])
+          that[FIRST] = entry;
+        if (prev)
+          prev.n = entry;
+        that[SIZE]++;
+        if (index != 'F')
+          that[O1][index] = entry;
+      }
+      return that;
+    },
+    getEntry: getEntry,
+    setIter: function(C, NAME, IS_MAP) {
+      require("npm:core-js@0.9.6/modules/$.iter-define")(C, NAME, function(iterated, kind) {
+        set(this, ITER, {
+          o: iterated,
+          k: kind
+        });
+      }, function() {
+        var iter = this[ITER],
+            kind = iter.k,
+            entry = iter.l;
+        while (entry && entry.r)
+          entry = entry.p;
+        if (!iter.o || !(iter.l = entry = entry ? entry.n : iter.o[FIRST])) {
+          iter.o = undefined;
+          return step(1);
+        }
+        if (kind == 'keys')
+          return step(0, entry.k);
+        if (kind == 'values')
+          return step(0, entry.v);
+        return step(0, [entry.k, entry.v]);
+      }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
+    }
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.collection", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.iter", "npm:core-js@0.9.6/modules/$.for-of", "npm:core-js@0.9.6/modules/$.species", "npm:core-js@0.9.6/modules/$.assert", "npm:core-js@0.9.6/modules/$.iter-detect", "npm:core-js@0.9.6/modules/$.cof"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      BUGGY = require("npm:core-js@0.9.6/modules/$.iter").BUGGY,
+      forOf = require("npm:core-js@0.9.6/modules/$.for-of"),
+      species = require("npm:core-js@0.9.6/modules/$.species"),
+      assertInstance = require("npm:core-js@0.9.6/modules/$.assert").inst;
+  module.exports = function(NAME, methods, common, IS_MAP, IS_WEAK) {
+    var Base = $.g[NAME],
+        C = Base,
+        ADDER = IS_MAP ? 'set' : 'add',
+        proto = C && C.prototype,
+        O = {};
+    function fixMethod(KEY, CHAIN) {
+      var method = proto[KEY];
+      if ($.FW)
+        proto[KEY] = function(a, b) {
+          var result = method.call(this, a === 0 ? 0 : a, b);
+          return CHAIN ? this : result;
+        };
+    }
+    if (!$.isFunction(C) || !(IS_WEAK || !BUGGY && proto.forEach && proto.entries)) {
+      C = common.getConstructor(NAME, IS_MAP, ADDER);
+      $.mix(C.prototype, methods);
+    } else {
+      var inst = new C,
+          chain = inst[ADDER](IS_WEAK ? {} : -0, 1),
+          buggyZero;
+      if (!require("npm:core-js@0.9.6/modules/$.iter-detect")(function(iter) {
+        new C(iter);
+      })) {
+        C = function() {
+          assertInstance(this, C, NAME);
+          var that = new Base,
+              iterable = arguments[0];
+          if (iterable != undefined)
+            forOf(iterable, IS_MAP, that[ADDER], that);
+          return that;
+        };
+        C.prototype = proto;
+        if ($.FW)
+          proto.constructor = C;
+      }
+      IS_WEAK || inst.forEach(function(val, key) {
+        buggyZero = 1 / key === -Infinity;
+      });
+      if (buggyZero) {
+        fixMethod('delete');
+        fixMethod('has');
+        IS_MAP && fixMethod('get');
+      }
+      if (buggyZero || chain !== inst)
+        fixMethod(ADDER, true);
+    }
+    require("npm:core-js@0.9.6/modules/$.cof").set(C, NAME);
+    O[NAME] = C;
+    $def($def.G + $def.W + $def.F * (C != Base), O);
+    species(C);
+    species($.core[NAME]);
+    if (!IS_WEAK)
+      common.setIter(C, NAME, IS_MAP);
+    return C;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.set", ["npm:core-js@0.9.6/modules/$.collection-strong", "npm:core-js@0.9.6/modules/$.collection"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var strong = require("npm:core-js@0.9.6/modules/$.collection-strong");
+  require("npm:core-js@0.9.6/modules/$.collection")('Set', {add: function add(value) {
+      return strong.def(this, value = value === 0 ? 0 : value, value);
+    }}, strong);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.collection-weak", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.uid", "npm:core-js@0.9.6/modules/$.assert", "npm:core-js@0.9.6/modules/$.for-of", "npm:core-js@0.9.6/modules/$.array-methods"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      safe = require("npm:core-js@0.9.6/modules/$.uid").safe,
+      assert = require("npm:core-js@0.9.6/modules/$.assert"),
+      forOf = require("npm:core-js@0.9.6/modules/$.for-of"),
+      _has = $.has,
+      isObject = $.isObject,
+      hide = $.hide,
+      isFrozen = Object.isFrozen || $.core.Object.isFrozen,
+      id = 0,
+      ID = safe('id'),
+      WEAK = safe('weak'),
+      LEAK = safe('leak'),
+      method = require("npm:core-js@0.9.6/modules/$.array-methods"),
+      find = method(5),
+      findIndex = method(6);
+  function findFrozen(store, key) {
+    return find(store.array, function(it) {
+      return it[0] === key;
+    });
+  }
+  function leakStore(that) {
+    return that[LEAK] || hide(that, LEAK, {
+      array: [],
+      get: function(key) {
+        var entry = findFrozen(this, key);
+        if (entry)
+          return entry[1];
+      },
+      has: function(key) {
+        return !!findFrozen(this, key);
+      },
+      set: function(key, value) {
+        var entry = findFrozen(this, key);
+        if (entry)
+          entry[1] = value;
+        else
+          this.array.push([key, value]);
+      },
+      'delete': function(key) {
+        var index = findIndex(this.array, function(it) {
+          return it[0] === key;
+        });
+        if (~index)
+          this.array.splice(index, 1);
+        return !!~index;
+      }
+    })[LEAK];
+  }
+  module.exports = {
+    getConstructor: function(NAME, IS_MAP, ADDER) {
+      function C() {
+        $.set(assert.inst(this, C, NAME), ID, id++);
+        var iterable = arguments[0];
+        if (iterable != undefined)
+          forOf(iterable, IS_MAP, this[ADDER], this);
+      }
+      $.mix(C.prototype, {
+        'delete': function(key) {
+          if (!isObject(key))
+            return false;
+          if (isFrozen(key))
+            return leakStore(this)['delete'](key);
+          return _has(key, WEAK) && _has(key[WEAK], this[ID]) && delete key[WEAK][this[ID]];
+        },
+        has: function has(key) {
+          if (!isObject(key))
+            return false;
+          if (isFrozen(key))
+            return leakStore(this).has(key);
+          return _has(key, WEAK) && _has(key[WEAK], this[ID]);
+        }
+      });
+      return C;
+    },
+    def: function(that, key, value) {
+      if (isFrozen(assert.obj(key))) {
+        leakStore(that).set(key, value);
+      } else {
+        _has(key, WEAK) || hide(key, WEAK, {});
+        key[WEAK][that[ID]] = value;
+      }
+      return that;
+    },
+    leakStore: leakStore,
+    WEAK: WEAK,
+    ID: ID
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.weak-set", ["npm:core-js@0.9.6/modules/$.collection-weak", "npm:core-js@0.9.6/modules/$.collection"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var weak = require("npm:core-js@0.9.6/modules/$.collection-weak");
+  require("npm:core-js@0.9.6/modules/$.collection")('WeakSet', {add: function add(value) {
+      return weak.def(this, value, true);
+    }}, weak, false, true);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.own-keys", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.assert"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      assertObject = require("npm:core-js@0.9.6/modules/$.assert").obj;
+  module.exports = function ownKeys(it) {
+    assertObject(it);
+    var keys = $.getNames(it),
+        getSymbols = $.getSymbols;
+    return getSymbols ? keys.concat(getSymbols(it)) : keys;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es7.array.includes", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.array-includes", "npm:core-js@0.9.6/modules/$.unscope"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def"),
+      $includes = require("npm:core-js@0.9.6/modules/$.array-includes")(true);
+  $def($def.P, 'Array', {includes: function includes(el) {
+      return $includes(this, el, arguments[1]);
+    }});
+  require("npm:core-js@0.9.6/modules/$.unscope")('includes');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es7.string.at", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.string-at"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $def = require("npm:core-js@0.9.6/modules/$.def"),
+      $at = require("npm:core-js@0.9.6/modules/$.string-at")(true);
+  $def($def.P, 'String', {at: function at(pos) {
+      return $at(this, pos);
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.string-pad", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.string-repeat"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      repeat = require("npm:core-js@0.9.6/modules/$.string-repeat");
+  module.exports = function(that, minLength, fillChar, left) {
+    var S = String($.assertDefined(that));
+    if (minLength === undefined)
+      return S;
+    var intMinLength = $.toInteger(minLength);
+    var fillLen = intMinLength - S.length;
+    if (fillLen < 0 || fillLen === Infinity) {
+      throw new RangeError('Cannot satisfy string length ' + minLength + ' for string: ' + S);
+    }
+    var sFillStr = fillChar === undefined ? ' ' : String(fillChar);
+    var sFillVal = repeat.call(sFillStr, Math.ceil(fillLen / sFillStr.length));
+    if (sFillVal.length > fillLen)
+      sFillVal = left ? sFillVal.slice(sFillVal.length - fillLen) : sFillVal.slice(0, fillLen);
+    return left ? sFillVal.concat(S) : S.concat(sFillVal);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es7.string.rpad", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.string-pad"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $def = require("npm:core-js@0.9.6/modules/$.def"),
+      $pad = require("npm:core-js@0.9.6/modules/$.string-pad");
+  $def($def.P, 'String', {rpad: function rpad(n) {
+      return $pad(this, n, arguments[1], false);
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es7.regexp.escape", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.replacer"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def");
+  $def($def.S, 'RegExp', {escape: require("npm:core-js@0.9.6/modules/$.replacer")(/([\\\-[\]{}()*+?.,^$|])/g, '\\$1', true)});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es7.object.get-own-property-descriptors", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.own-keys"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      ownKeys = require("npm:core-js@0.9.6/modules/$.own-keys");
+  $def($def.S, 'Object', {getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
+      var O = $.toObject(object),
+          result = {};
+      $.each.call(ownKeys(O), function(key) {
+        $.setDesc(result, key, $.desc(0, $.getDesc(O, key)));
+      });
+      return result;
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es7.object.to-array", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def");
+  function createObjectToArray(isEntries) {
+    return function(object) {
+      var O = $.toObject(object),
+          keys = $.getKeys(O),
+          length = keys.length,
+          i = 0,
+          result = Array(length),
+          key;
+      if (isEntries)
+        while (length > i)
+          result[i] = [key = keys[i++], O[key]];
+      else
+        while (length > i)
+          result[i] = O[keys[i++]];
+      return result;
+    };
+  }
+  $def($def.S, 'Object', {
+    values: createObjectToArray(false),
+    entries: createObjectToArray(true)
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.collection-to-json", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.for-of"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def"),
+      forOf = require("npm:core-js@0.9.6/modules/$.for-of");
+  module.exports = function(NAME) {
+    $def($def.P, NAME, {toJSON: function toJSON() {
+        var arr = [];
+        forOf(this, false, arr.push, arr);
+        return arr;
+      }});
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es7.set.to-json", ["npm:core-js@0.9.6/modules/$.collection-to-json"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.6/modules/$.collection-to-json")('Set');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/js.array.statics", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.ctx"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      $Array = $.core.Array || Array,
+      statics = {};
+  function setStatics(keys, length) {
+    $.each.call(keys.split(','), function(key) {
+      if (length == undefined && key in $Array)
+        statics[key] = $Array[key];
+      else if (key in [])
+        statics[key] = require("npm:core-js@0.9.6/modules/$.ctx")(Function.call, [][key], length);
+    });
+  }
+  setStatics('pop,reverse,shift,keys,values,entries', 1);
+  setStatics('indexOf,every,some,forEach,map,filter,find,findIndex,includes', 3);
+  setStatics('join,slice,concat,push,splice,unshift,sort,lastIndexOf,' + 'reduce,reduceRight,copyWithin,fill,turn');
+  $def($def.S, 'Array', statics);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.partial", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.invoke", "npm:core-js@0.9.6/modules/$.assert"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      invoke = require("npm:core-js@0.9.6/modules/$.invoke"),
+      assertFunction = require("npm:core-js@0.9.6/modules/$.assert").fn;
+  module.exports = function() {
+    var fn = assertFunction(this),
+        length = arguments.length,
+        pargs = Array(length),
+        i = 0,
+        _ = $.path._,
+        holder = false;
+    while (length > i)
+      if ((pargs[i] = arguments[i++]) === _)
+        holder = true;
+    return function() {
+      var that = this,
+          _length = arguments.length,
+          j = 0,
+          k = 0,
+          args;
+      if (!holder && !_length)
+        return invoke(fn, pargs, that);
+      args = pargs.slice();
+      if (holder)
+        for (; length > j; j++)
+          if (args[j] === _)
+            args[j] = arguments[k++];
+      while (_length > k)
+        args.push(arguments[k++]);
+      return invoke(fn, args, that);
+    };
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/web.immediate", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.task"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def"),
+      $task = require("npm:core-js@0.9.6/modules/$.task");
+  $def($def.G + $def.B, {
+    setImmediate: $task.set,
+    clearImmediate: $task.clear
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/web.dom.iterable", ["npm:core-js@0.9.6/modules/es6.array.iterator", "npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.iter", "npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.6/modules/es6.array.iterator");
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      Iterators = require("npm:core-js@0.9.6/modules/$.iter").Iterators,
+      ITERATOR = require("npm:core-js@0.9.6/modules/$.wks")('iterator'),
+      ArrayValues = Iterators.Array,
+      NodeList = $.g.NodeList;
+  if ($.FW && NodeList && !(ITERATOR in NodeList.prototype)) {
+    $.hide(NodeList.prototype, ITERATOR, ArrayValues);
+  }
+  Iterators.NodeList = ArrayValues;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/library/modules/$.keyof", ["npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/library/modules/$");
+  module.exports = function(object, el) {
+    var O = $.toObject(object),
+        keys = $.getKeys(O),
+        length = keys.length,
+        index = 0,
+        key;
+    while (length > index)
+      if (O[key = keys[index++]] === el)
+        return key;
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/library/fn/symbol/iterator", ["npm:core-js@0.9.6/library/modules/es6.string.iterator", "npm:core-js@0.9.6/library/modules/web.dom.iterable", "npm:core-js@0.9.6/library/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.6/library/modules/es6.string.iterator");
+  require("npm:core-js@0.9.6/library/modules/web.dom.iterable");
+  module.exports = require("npm:core-js@0.9.6/library/modules/$.wks")('iterator');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/library/fn/object/create", ["npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/library/modules/$");
+  module.exports = function create(P, D) {
+    return $.create(P, D);
+  };
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:core-js@0.9.6/library/modules/$", ["npm:core-js@0.9.6/library/modules/$.fw"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -10445,35 +6435,27 @@ System.register("npm:core-js@0.9.6/library/modules/es7.map.to-json", ["npm:core-
   return module.exports;
 });
 
-(function() {
-function define(){};  define.amd = {};
-System.register("github:components/jquery@2.1.3", ["github:components/jquery@2.1.3/jquery"], false, function(__require, __exports, __module) {
-  return (function(main) {
-    return main;
-  }).call(this, __require('github:components/jquery@2.1.3/jquery'));
-});
-})();
-System.register("npm:core-js@0.9.6/library/fn/array/from", ["npm:core-js@0.9.6/library/modules/es6.string.iterator", "npm:core-js@0.9.6/library/modules/es6.array.from", "npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
+System.register("npm:core-js@0.9.6/library/modules/$.assign", ["npm:core-js@0.9.6/library/modules/$", "npm:core-js@0.9.6/library/modules/$.enum-keys"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
-  require("npm:core-js@0.9.6/library/modules/es6.string.iterator");
-  require("npm:core-js@0.9.6/library/modules/es6.array.from");
-  module.exports = require("npm:core-js@0.9.6/library/modules/$").core.Array.from;
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:core-js@0.9.6/library/fn/set", ["npm:core-js@0.9.6/library/modules/es6.object.to-string", "npm:core-js@0.9.6/library/modules/es6.string.iterator", "npm:core-js@0.9.6/library/modules/web.dom.iterable", "npm:core-js@0.9.6/library/modules/es6.set", "npm:core-js@0.9.6/library/modules/es7.set.to-json", "npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  require("npm:core-js@0.9.6/library/modules/es6.object.to-string");
-  require("npm:core-js@0.9.6/library/modules/es6.string.iterator");
-  require("npm:core-js@0.9.6/library/modules/web.dom.iterable");
-  require("npm:core-js@0.9.6/library/modules/es6.set");
-  require("npm:core-js@0.9.6/library/modules/es7.set.to-json");
-  module.exports = require("npm:core-js@0.9.6/library/modules/$").core.Set;
+  var $ = require("npm:core-js@0.9.6/library/modules/$"),
+      enumKeys = require("npm:core-js@0.9.6/library/modules/$.enum-keys");
+  module.exports = Object.assign || function assign(target, source) {
+    var T = Object($.assertDefined(target)),
+        l = arguments.length,
+        i = 1;
+    while (l > i) {
+      var S = $.ES5Object(arguments[i++]),
+          keys = enumKeys(S),
+          length = keys.length,
+          j = 0,
+          key;
+      while (length > j)
+        T[key = keys[j++]] = S[key];
+    }
+    return T;
+  };
   global.define = __define;
   return module.exports;
 });
@@ -10590,6 +6572,1105 @@ System.register("github:jspm/nodelibs-fs@0.1.2", ["github:jspm/nodelibs-fs@0.1.2
   return module.exports;
 });
 
+System.register("npm:core-js@0.9.6/modules/$", ["npm:core-js@0.9.6/modules/$.fw"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var global = typeof self != 'undefined' ? self : Function('return this')(),
+      core = {},
+      defineProperty = Object.defineProperty,
+      hasOwnProperty = {}.hasOwnProperty,
+      ceil = Math.ceil,
+      floor = Math.floor,
+      max = Math.max,
+      min = Math.min;
+  var DESC = !!function() {
+    try {
+      return defineProperty({}, 'a', {get: function() {
+          return 2;
+        }}).a == 2;
+    } catch (e) {}
+  }();
+  var hide = createDefiner(1);
+  function toInteger(it) {
+    return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+  }
+  function desc(bitmap, value) {
+    return {
+      enumerable: !(bitmap & 1),
+      configurable: !(bitmap & 2),
+      writable: !(bitmap & 4),
+      value: value
+    };
+  }
+  function simpleSet(object, key, value) {
+    object[key] = value;
+    return object;
+  }
+  function createDefiner(bitmap) {
+    return DESC ? function(object, key, value) {
+      return $.setDesc(object, key, desc(bitmap, value));
+    } : simpleSet;
+  }
+  function isObject(it) {
+    return it !== null && (typeof it == 'object' || typeof it == 'function');
+  }
+  function isFunction(it) {
+    return typeof it == 'function';
+  }
+  function assertDefined(it) {
+    if (it == undefined)
+      throw TypeError("Can't call method on  " + it);
+    return it;
+  }
+  var $ = module.exports = require("npm:core-js@0.9.6/modules/$.fw")({
+    g: global,
+    core: core,
+    html: global.document && document.documentElement,
+    isObject: isObject,
+    isFunction: isFunction,
+    it: function(it) {
+      return it;
+    },
+    that: function() {
+      return this;
+    },
+    toInteger: toInteger,
+    toLength: function(it) {
+      return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0;
+    },
+    toIndex: function(index, length) {
+      index = toInteger(index);
+      return index < 0 ? max(index + length, 0) : min(index, length);
+    },
+    has: function(it, key) {
+      return hasOwnProperty.call(it, key);
+    },
+    create: Object.create,
+    getProto: Object.getPrototypeOf,
+    DESC: DESC,
+    desc: desc,
+    getDesc: Object.getOwnPropertyDescriptor,
+    setDesc: defineProperty,
+    setDescs: Object.defineProperties,
+    getKeys: Object.keys,
+    getNames: Object.getOwnPropertyNames,
+    getSymbols: Object.getOwnPropertySymbols,
+    assertDefined: assertDefined,
+    ES5Object: Object,
+    toObject: function(it) {
+      return $.ES5Object(assertDefined(it));
+    },
+    hide: hide,
+    def: createDefiner(0),
+    set: global.Symbol ? simpleSet : hide,
+    mix: function(target, src) {
+      for (var key in src)
+        hide(target, key, src[key]);
+      return target;
+    },
+    each: [].forEach
+  });
+  if (typeof __e != 'undefined')
+    __e = core;
+  if (typeof __g != 'undefined')
+    __g = global;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.wks", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.uid"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var global = require("npm:core-js@0.9.6/modules/$").g,
+      store = {};
+  module.exports = function(name) {
+    return store[name] || (store[name] = global.Symbol && global.Symbol[name] || require("npm:core-js@0.9.6/modules/$.uid").safe('Symbol.' + name));
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.ctx", ["npm:core-js@0.9.6/modules/$.assert"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var assertFunction = require("npm:core-js@0.9.6/modules/$.assert").fn;
+  module.exports = function(fn, that, length) {
+    assertFunction(fn);
+    if (~length && that === undefined)
+      return fn;
+    switch (length) {
+      case 1:
+        return function(a) {
+          return fn.call(that, a);
+        };
+      case 2:
+        return function(a, b) {
+          return fn.call(that, a, b);
+        };
+      case 3:
+        return function(a, b, c) {
+          return fn.call(that, a, b, c);
+        };
+    }
+    return function() {
+      return fn.apply(that, arguments);
+    };
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.symbol", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.uid", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.keyof", "npm:core-js@0.9.6/modules/$.enum-keys", "npm:core-js@0.9.6/modules/$.assert", "npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      setTag = require("npm:core-js@0.9.6/modules/$.cof").set,
+      uid = require("npm:core-js@0.9.6/modules/$.uid"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      keyOf = require("npm:core-js@0.9.6/modules/$.keyof"),
+      enumKeys = require("npm:core-js@0.9.6/modules/$.enum-keys"),
+      assertObject = require("npm:core-js@0.9.6/modules/$.assert").obj,
+      has = $.has,
+      $create = $.create,
+      getDesc = $.getDesc,
+      setDesc = $.setDesc,
+      desc = $.desc,
+      getNames = $.getNames,
+      toObject = $.toObject,
+      $Symbol = $.g.Symbol,
+      setter = false,
+      TAG = uid('tag'),
+      HIDDEN = uid('hidden'),
+      SymbolRegistry = {},
+      AllSymbols = {},
+      useNative = $.isFunction($Symbol);
+  function wrap(tag) {
+    var sym = AllSymbols[tag] = $.set($create($Symbol.prototype), TAG, tag);
+    $.DESC && setter && setDesc(Object.prototype, tag, {
+      configurable: true,
+      set: function(value) {
+        if (has(this, HIDDEN) && has(this[HIDDEN], tag))
+          this[HIDDEN][tag] = false;
+        setDesc(this, tag, desc(1, value));
+      }
+    });
+    return sym;
+  }
+  function defineProperty(it, key, D) {
+    if (D && has(AllSymbols, key)) {
+      if (!D.enumerable) {
+        if (!has(it, HIDDEN))
+          setDesc(it, HIDDEN, desc(1, {}));
+        it[HIDDEN][key] = true;
+      } else {
+        if (has(it, HIDDEN) && it[HIDDEN][key])
+          it[HIDDEN][key] = false;
+        D.enumerable = false;
+      }
+    }
+    return setDesc(it, key, D);
+  }
+  function defineProperties(it, P) {
+    assertObject(it);
+    var keys = enumKeys(P = toObject(P)),
+        i = 0,
+        l = keys.length,
+        key;
+    while (l > i)
+      defineProperty(it, key = keys[i++], P[key]);
+    return it;
+  }
+  function create(it, P) {
+    return P === undefined ? $create(it) : defineProperties($create(it), P);
+  }
+  function getOwnPropertyDescriptor(it, key) {
+    var D = getDesc(it = toObject(it), key);
+    if (D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))
+      D.enumerable = true;
+    return D;
+  }
+  function getOwnPropertyNames(it) {
+    var names = getNames(toObject(it)),
+        result = [],
+        i = 0,
+        key;
+    while (names.length > i)
+      if (!has(AllSymbols, key = names[i++]) && key != HIDDEN)
+        result.push(key);
+    return result;
+  }
+  function getOwnPropertySymbols(it) {
+    var names = getNames(toObject(it)),
+        result = [],
+        i = 0,
+        key;
+    while (names.length > i)
+      if (has(AllSymbols, key = names[i++]))
+        result.push(AllSymbols[key]);
+    return result;
+  }
+  if (!useNative) {
+    $Symbol = function Symbol(description) {
+      if (this instanceof $Symbol)
+        throw TypeError('Symbol is not a constructor');
+      return wrap(uid(description));
+    };
+    $.hide($Symbol.prototype, 'toString', function() {
+      return this[TAG];
+    });
+    $.create = create;
+    $.setDesc = defineProperty;
+    $.getDesc = getOwnPropertyDescriptor;
+    $.setDescs = defineProperties;
+    $.getNames = getOwnPropertyNames;
+    $.getSymbols = getOwnPropertySymbols;
+  }
+  var symbolStatics = {
+    'for': function(key) {
+      return has(SymbolRegistry, key += '') ? SymbolRegistry[key] : SymbolRegistry[key] = $Symbol(key);
+    },
+    keyFor: function keyFor(key) {
+      return keyOf(SymbolRegistry, key);
+    },
+    useSetter: function() {
+      setter = true;
+    },
+    useSimple: function() {
+      setter = false;
+    }
+  };
+  $.each.call(('hasInstance,isConcatSpreadable,iterator,match,replace,search,' + 'species,split,toPrimitive,toStringTag,unscopables').split(','), function(it) {
+    var sym = require("npm:core-js@0.9.6/modules/$.wks")(it);
+    symbolStatics[it] = useNative ? sym : wrap(sym);
+  });
+  setter = true;
+  $def($def.G + $def.W, {Symbol: $Symbol});
+  $def($def.S, 'Symbol', symbolStatics);
+  $def($def.S + $def.F * !useNative, 'Object', {
+    create: create,
+    defineProperty: defineProperty,
+    defineProperties: defineProperties,
+    getOwnPropertyDescriptor: getOwnPropertyDescriptor,
+    getOwnPropertyNames: getOwnPropertyNames,
+    getOwnPropertySymbols: getOwnPropertySymbols
+  });
+  setTag($Symbol, 'Symbol');
+  setTag(Math, 'Math', true);
+  setTag($.g.JSON, 'JSON', true);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.object.assign", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.assign"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def");
+  $def($def.S, 'Object', {assign: require("npm:core-js@0.9.6/modules/$.assign")});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.object.set-prototype-of", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.set-proto"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def");
+  $def($def.S, 'Object', {setPrototypeOf: require("npm:core-js@0.9.6/modules/$.set-proto").set});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.string.iterator", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.string-at", "npm:core-js@0.9.6/modules/$.uid", "npm:core-js@0.9.6/modules/$.iter", "npm:core-js@0.9.6/modules/$.iter-define"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var set = require("npm:core-js@0.9.6/modules/$").set,
+      $at = require("npm:core-js@0.9.6/modules/$.string-at")(true),
+      ITER = require("npm:core-js@0.9.6/modules/$.uid").safe('iter'),
+      $iter = require("npm:core-js@0.9.6/modules/$.iter"),
+      step = $iter.step;
+  require("npm:core-js@0.9.6/modules/$.iter-define")(String, 'String', function(iterated) {
+    set(this, ITER, {
+      o: String(iterated),
+      i: 0
+    });
+  }, function() {
+    var iter = this[ITER],
+        O = iter.o,
+        index = iter.i,
+        point;
+    if (index >= O.length)
+      return step(1);
+    point = $at(O, index);
+    iter.i += point.length;
+    return step(0, point);
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.string.repeat", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.string-repeat"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $def = require("npm:core-js@0.9.6/modules/$.def");
+  $def($def.P, 'String', {repeat: require("npm:core-js@0.9.6/modules/$.string-repeat")});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.array.from", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.ctx", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.iter", "npm:core-js@0.9.6/modules/$.iter-call", "npm:core-js@0.9.6/modules/$.iter-detect"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      ctx = require("npm:core-js@0.9.6/modules/$.ctx"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      $iter = require("npm:core-js@0.9.6/modules/$.iter"),
+      call = require("npm:core-js@0.9.6/modules/$.iter-call");
+  $def($def.S + $def.F * !require("npm:core-js@0.9.6/modules/$.iter-detect")(function(iter) {
+    Array.from(iter);
+  }), 'Array', {from: function from(arrayLike) {
+      var O = Object($.assertDefined(arrayLike)),
+          mapfn = arguments[1],
+          mapping = mapfn !== undefined,
+          f = mapping ? ctx(mapfn, arguments[2], 2) : undefined,
+          index = 0,
+          length,
+          result,
+          step,
+          iterator;
+      if ($iter.is(O)) {
+        iterator = $iter.get(O);
+        result = new (typeof this == 'function' ? this : Array);
+        for (; !(step = iterator.next()).done; index++) {
+          result[index] = mapping ? call(iterator, f, [step.value, index], true) : step.value;
+        }
+      } else {
+        result = new (typeof this == 'function' ? this : Array)(length = $.toLength(O.length));
+        for (; length > index; index++) {
+          result[index] = mapping ? f(O[index], index) : O[index];
+        }
+      }
+      result.length = index;
+      return result;
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.array.iterator", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.unscope", "npm:core-js@0.9.6/modules/$.uid", "npm:core-js@0.9.6/modules/$.iter", "npm:core-js@0.9.6/modules/$.iter-define"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      setUnscope = require("npm:core-js@0.9.6/modules/$.unscope"),
+      ITER = require("npm:core-js@0.9.6/modules/$.uid").safe('iter'),
+      $iter = require("npm:core-js@0.9.6/modules/$.iter"),
+      step = $iter.step,
+      Iterators = $iter.Iterators;
+  require("npm:core-js@0.9.6/modules/$.iter-define")(Array, 'Array', function(iterated, kind) {
+    $.set(this, ITER, {
+      o: $.toObject(iterated),
+      i: 0,
+      k: kind
+    });
+  }, function() {
+    var iter = this[ITER],
+        O = iter.o,
+        kind = iter.k,
+        index = iter.i++;
+    if (!O || index >= O.length) {
+      iter.o = undefined;
+      return step(1);
+    }
+    if (kind == 'keys')
+      return step(0, index);
+    if (kind == 'values')
+      return step(0, O[index]);
+    return step(0, [index, O[index]]);
+  }, 'values');
+  Iterators.Arguments = Iterators.Array;
+  setUnscope('keys');
+  setUnscope('values');
+  setUnscope('entries');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.array.species", ["npm:core-js@0.9.6/modules/$.species"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.6/modules/$.species")(Array);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.promise", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.ctx", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.assert", "npm:core-js@0.9.6/modules/$.for-of", "npm:core-js@0.9.6/modules/$.set-proto", "npm:core-js@0.9.6/modules/$.species", "npm:core-js@0.9.6/modules/$.wks", "npm:core-js@0.9.6/modules/$.uid", "npm:core-js@0.9.6/modules/$.task", "npm:core-js@0.9.6/modules/$.iter-detect", "github:jspm/nodelibs-process@0.1.1"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  (function(process) {
+    'use strict';
+    var $ = require("npm:core-js@0.9.6/modules/$"),
+        ctx = require("npm:core-js@0.9.6/modules/$.ctx"),
+        cof = require("npm:core-js@0.9.6/modules/$.cof"),
+        $def = require("npm:core-js@0.9.6/modules/$.def"),
+        assert = require("npm:core-js@0.9.6/modules/$.assert"),
+        forOf = require("npm:core-js@0.9.6/modules/$.for-of"),
+        setProto = require("npm:core-js@0.9.6/modules/$.set-proto").set,
+        species = require("npm:core-js@0.9.6/modules/$.species"),
+        SPECIES = require("npm:core-js@0.9.6/modules/$.wks")('species'),
+        RECORD = require("npm:core-js@0.9.6/modules/$.uid").safe('record'),
+        PROMISE = 'Promise',
+        global = $.g,
+        process = global.process,
+        asap = process && process.nextTick || require("npm:core-js@0.9.6/modules/$.task").set,
+        P = global[PROMISE],
+        isFunction = $.isFunction,
+        isObject = $.isObject,
+        assertFunction = assert.fn,
+        assertObject = assert.obj;
+    var useNative = function() {
+      var test,
+          works = false;
+      function P2(x) {
+        var self = new P(x);
+        setProto(self, P2.prototype);
+        return self;
+      }
+      try {
+        works = isFunction(P) && isFunction(P.resolve) && P.resolve(test = new P(function() {})) == test;
+        setProto(P2, P);
+        P2.prototype = $.create(P.prototype, {constructor: {value: P2}});
+        if (!(P2.resolve(5).then(function() {}) instanceof P2)) {
+          works = false;
+        }
+      } catch (e) {
+        works = false;
+      }
+      return works;
+    }();
+    function getConstructor(C) {
+      var S = assertObject(C)[SPECIES];
+      return S != undefined ? S : C;
+    }
+    function isThenable(it) {
+      var then;
+      if (isObject(it))
+        then = it.then;
+      return isFunction(then) ? then : false;
+    }
+    function notify(record) {
+      var chain = record.c;
+      if (chain.length)
+        asap(function() {
+          var value = record.v,
+              ok = record.s == 1,
+              i = 0;
+          function run(react) {
+            var cb = ok ? react.ok : react.fail,
+                ret,
+                then;
+            try {
+              if (cb) {
+                if (!ok)
+                  record.h = true;
+                ret = cb === true ? value : cb(value);
+                if (ret === react.P) {
+                  react.rej(TypeError('Promise-chain cycle'));
+                } else if (then = isThenable(ret)) {
+                  then.call(ret, react.res, react.rej);
+                } else
+                  react.res(ret);
+              } else
+                react.rej(value);
+            } catch (err) {
+              react.rej(err);
+            }
+          }
+          while (chain.length > i)
+            run(chain[i++]);
+          chain.length = 0;
+        });
+    }
+    function isUnhandled(promise) {
+      var record = promise[RECORD],
+          chain = record.a || record.c,
+          i = 0,
+          react;
+      if (record.h)
+        return false;
+      while (chain.length > i) {
+        react = chain[i++];
+        if (react.fail || !isUnhandled(react.P))
+          return false;
+      }
+      return true;
+    }
+    function $reject(value) {
+      var record = this,
+          promise;
+      if (record.d)
+        return ;
+      record.d = true;
+      record = record.r || record;
+      record.v = value;
+      record.s = 2;
+      record.a = record.c.slice();
+      setTimeout(function() {
+        asap(function() {
+          if (isUnhandled(promise = record.p)) {
+            if (cof(process) == 'process') {
+              process.emit('unhandledRejection', value, promise);
+            } else if (global.console && isFunction(console.error)) {
+              console.error('Unhandled promise rejection', value);
+            }
+          }
+          record.a = undefined;
+        });
+      }, 1);
+      notify(record);
+    }
+    function $resolve(value) {
+      var record = this,
+          then,
+          wrapper;
+      if (record.d)
+        return ;
+      record.d = true;
+      record = record.r || record;
+      try {
+        if (then = isThenable(value)) {
+          wrapper = {
+            r: record,
+            d: false
+          };
+          then.call(value, ctx($resolve, wrapper, 1), ctx($reject, wrapper, 1));
+        } else {
+          record.v = value;
+          record.s = 1;
+          notify(record);
+        }
+      } catch (err) {
+        $reject.call(wrapper || {
+          r: record,
+          d: false
+        }, err);
+      }
+    }
+    if (!useNative) {
+      P = function Promise(executor) {
+        assertFunction(executor);
+        var record = {
+          p: assert.inst(this, P, PROMISE),
+          c: [],
+          a: undefined,
+          s: 0,
+          d: false,
+          v: undefined,
+          h: false
+        };
+        $.hide(this, RECORD, record);
+        try {
+          executor(ctx($resolve, record, 1), ctx($reject, record, 1));
+        } catch (err) {
+          $reject.call(record, err);
+        }
+      };
+      $.mix(P.prototype, {
+        then: function then(onFulfilled, onRejected) {
+          var S = assertObject(assertObject(this).constructor)[SPECIES];
+          var react = {
+            ok: isFunction(onFulfilled) ? onFulfilled : true,
+            fail: isFunction(onRejected) ? onRejected : false
+          };
+          var promise = react.P = new (S != undefined ? S : P)(function(res, rej) {
+            react.res = assertFunction(res);
+            react.rej = assertFunction(rej);
+          });
+          var record = this[RECORD];
+          record.c.push(react);
+          if (record.a)
+            record.a.push(react);
+          record.s && notify(record);
+          return promise;
+        },
+        'catch': function(onRejected) {
+          return this.then(undefined, onRejected);
+        }
+      });
+    }
+    $def($def.G + $def.W + $def.F * !useNative, {Promise: P});
+    cof.set(P, PROMISE);
+    species(P);
+    species($.core[PROMISE]);
+    $def($def.S + $def.F * !useNative, PROMISE, {
+      reject: function reject(r) {
+        return new (getConstructor(this))(function(res, rej) {
+          rej(r);
+        });
+      },
+      resolve: function resolve(x) {
+        return isObject(x) && RECORD in x && $.getProto(x) === this.prototype ? x : new (getConstructor(this))(function(res) {
+          res(x);
+        });
+      }
+    });
+    $def($def.S + $def.F * !(useNative && require("npm:core-js@0.9.6/modules/$.iter-detect")(function(iter) {
+      P.all(iter)['catch'](function() {});
+    })), PROMISE, {
+      all: function all(iterable) {
+        var C = getConstructor(this),
+            values = [];
+        return new C(function(res, rej) {
+          forOf(iterable, false, values.push, values);
+          var remaining = values.length,
+              results = Array(remaining);
+          if (remaining)
+            $.each.call(values, function(promise, index) {
+              C.resolve(promise).then(function(value) {
+                results[index] = value;
+                --remaining || res(results);
+              }, rej);
+            });
+          else
+            res(results);
+        });
+      },
+      race: function race(iterable) {
+        var C = getConstructor(this);
+        return new C(function(res, rej) {
+          forOf(iterable, false, function(promise) {
+            C.resolve(promise).then(res, rej);
+          });
+        });
+      }
+    });
+  })(require("github:jspm/nodelibs-process@0.1.1"));
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.map", ["npm:core-js@0.9.6/modules/$.collection-strong", "npm:core-js@0.9.6/modules/$.collection"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var strong = require("npm:core-js@0.9.6/modules/$.collection-strong");
+  require("npm:core-js@0.9.6/modules/$.collection")('Map', {
+    get: function get(key) {
+      var entry = strong.getEntry(this, key);
+      return entry && entry.v;
+    },
+    set: function set(key, value) {
+      return strong.def(this, key === 0 ? 0 : key, value);
+    }
+  }, strong, true);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.weak-map", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.collection-weak", "npm:core-js@0.9.6/modules/$.collection"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      weak = require("npm:core-js@0.9.6/modules/$.collection-weak"),
+      leakStore = weak.leakStore,
+      ID = weak.ID,
+      WEAK = weak.WEAK,
+      has = $.has,
+      isObject = $.isObject,
+      isFrozen = Object.isFrozen || $.core.Object.isFrozen,
+      tmp = {};
+  var WeakMap = require("npm:core-js@0.9.6/modules/$.collection")('WeakMap', {
+    get: function get(key) {
+      if (isObject(key)) {
+        if (isFrozen(key))
+          return leakStore(this).get(key);
+        if (has(key, WEAK))
+          return key[WEAK][this[ID]];
+      }
+    },
+    set: function set(key, value) {
+      return weak.def(this, key, value);
+    }
+  }, weak, true, true);
+  if ($.FW && new WeakMap().set((Object.freeze || Object)(tmp), 7).get(tmp) != 7) {
+    $.each.call(['delete', 'has', 'get', 'set'], function(key) {
+      var method = WeakMap.prototype[key];
+      WeakMap.prototype[key] = function(a, b) {
+        if (isObject(a) && isFrozen(a)) {
+          var result = leakStore(this)[key](a, b);
+          return key == 'set' ? this : result;
+        }
+        return method.call(this, a, b);
+      };
+    });
+  }
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es6.reflect", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.set-proto", "npm:core-js@0.9.6/modules/$.iter", "npm:core-js@0.9.6/modules/$.wks", "npm:core-js@0.9.6/modules/$.uid", "npm:core-js@0.9.6/modules/$.assert", "npm:core-js@0.9.6/modules/$.own-keys"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      setProto = require("npm:core-js@0.9.6/modules/$.set-proto"),
+      $iter = require("npm:core-js@0.9.6/modules/$.iter"),
+      ITERATOR = require("npm:core-js@0.9.6/modules/$.wks")('iterator'),
+      ITER = require("npm:core-js@0.9.6/modules/$.uid").safe('iter'),
+      step = $iter.step,
+      assert = require("npm:core-js@0.9.6/modules/$.assert"),
+      isObject = $.isObject,
+      getProto = $.getProto,
+      $Reflect = $.g.Reflect,
+      _apply = Function.apply,
+      assertObject = assert.obj,
+      _isExtensible = Object.isExtensible || $.isObject,
+      _preventExtensions = Object.preventExtensions || $.it,
+      buggyEnumerate = !($Reflect && $Reflect.enumerate && ITERATOR in $Reflect.enumerate({}));
+  function Enumerate(iterated) {
+    $.set(this, ITER, {
+      o: iterated,
+      k: undefined,
+      i: 0
+    });
+  }
+  $iter.create(Enumerate, 'Object', function() {
+    var iter = this[ITER],
+        keys = iter.k,
+        key;
+    if (keys == undefined) {
+      iter.k = keys = [];
+      for (key in iter.o)
+        keys.push(key);
+    }
+    do {
+      if (iter.i >= keys.length)
+        return step(1);
+    } while (!((key = keys[iter.i++]) in iter.o));
+    return step(0, key);
+  });
+  var reflect = {
+    apply: function apply(target, thisArgument, argumentsList) {
+      return _apply.call(target, thisArgument, argumentsList);
+    },
+    construct: function construct(target, argumentsList) {
+      var proto = assert.fn(arguments.length < 3 ? target : arguments[2]).prototype,
+          instance = $.create(isObject(proto) ? proto : Object.prototype),
+          result = _apply.call(target, instance, argumentsList);
+      return isObject(result) ? result : instance;
+    },
+    defineProperty: function defineProperty(target, propertyKey, attributes) {
+      assertObject(target);
+      try {
+        $.setDesc(target, propertyKey, attributes);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    },
+    deleteProperty: function deleteProperty(target, propertyKey) {
+      var desc = $.getDesc(assertObject(target), propertyKey);
+      return desc && !desc.configurable ? false : delete target[propertyKey];
+    },
+    get: function get(target, propertyKey) {
+      var receiver = arguments.length < 3 ? target : arguments[2],
+          desc = $.getDesc(assertObject(target), propertyKey),
+          proto;
+      if (desc)
+        return $.has(desc, 'value') ? desc.value : desc.get === undefined ? undefined : desc.get.call(receiver);
+      return isObject(proto = getProto(target)) ? get(proto, propertyKey, receiver) : undefined;
+    },
+    getOwnPropertyDescriptor: function getOwnPropertyDescriptor(target, propertyKey) {
+      return $.getDesc(assertObject(target), propertyKey);
+    },
+    getPrototypeOf: function getPrototypeOf(target) {
+      return getProto(assertObject(target));
+    },
+    has: function has(target, propertyKey) {
+      return propertyKey in target;
+    },
+    isExtensible: function isExtensible(target) {
+      return _isExtensible(assertObject(target));
+    },
+    ownKeys: require("npm:core-js@0.9.6/modules/$.own-keys"),
+    preventExtensions: function preventExtensions(target) {
+      assertObject(target);
+      try {
+        _preventExtensions(target);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    },
+    set: function set(target, propertyKey, V) {
+      var receiver = arguments.length < 4 ? target : arguments[3],
+          ownDesc = $.getDesc(assertObject(target), propertyKey),
+          existingDescriptor,
+          proto;
+      if (!ownDesc) {
+        if (isObject(proto = getProto(target))) {
+          return set(proto, propertyKey, V, receiver);
+        }
+        ownDesc = $.desc(0);
+      }
+      if ($.has(ownDesc, 'value')) {
+        if (ownDesc.writable === false || !isObject(receiver))
+          return false;
+        existingDescriptor = $.getDesc(receiver, propertyKey) || $.desc(0);
+        existingDescriptor.value = V;
+        $.setDesc(receiver, propertyKey, existingDescriptor);
+        return true;
+      }
+      return ownDesc.set === undefined ? false : (ownDesc.set.call(receiver, V), true);
+    }
+  };
+  if (setProto)
+    reflect.setPrototypeOf = function setPrototypeOf(target, proto) {
+      setProto.check(target, proto);
+      try {
+        setProto.set(target, proto);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    };
+  $def($def.G, {Reflect: {}});
+  $def($def.S + $def.F * buggyEnumerate, 'Reflect', {enumerate: function enumerate(target) {
+      return new Enumerate(assertObject(target));
+    }});
+  $def($def.S, 'Reflect', reflect);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es7.string.lpad", ["npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.string-pad"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $def = require("npm:core-js@0.9.6/modules/$.def"),
+      $pad = require("npm:core-js@0.9.6/modules/$.string-pad");
+  $def($def.P, 'String', {lpad: function lpad(n) {
+      return $pad(this, n, arguments[1], true);
+    }});
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es7.map.to-json", ["npm:core-js@0.9.6/modules/$.collection-to-json"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.6/modules/$.collection-to-json")('Map');
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/web.timers", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.invoke", "npm:core-js@0.9.6/modules/$.partial"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      invoke = require("npm:core-js@0.9.6/modules/$.invoke"),
+      partial = require("npm:core-js@0.9.6/modules/$.partial"),
+      navigator = $.g.navigator,
+      MSIE = !!navigator && /MSIE .\./.test(navigator.userAgent);
+  function wrap(set) {
+    return MSIE ? function(fn, time) {
+      return set(invoke(partial, [].slice.call(arguments, 2), $.isFunction(fn) ? fn : Function(fn)), time);
+    } : set;
+  }
+  $def($def.G + $def.B + $def.F * MSIE, {
+    setTimeout: wrap($.g.setTimeout),
+    setInterval: wrap($.g.setInterval)
+  });
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/library/modules/es6.symbol", ["npm:core-js@0.9.6/library/modules/$", "npm:core-js@0.9.6/library/modules/$.cof", "npm:core-js@0.9.6/library/modules/$.uid", "npm:core-js@0.9.6/library/modules/$.def", "npm:core-js@0.9.6/library/modules/$.keyof", "npm:core-js@0.9.6/library/modules/$.enum-keys", "npm:core-js@0.9.6/library/modules/$.assert", "npm:core-js@0.9.6/library/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  'use strict';
+  var $ = require("npm:core-js@0.9.6/library/modules/$"),
+      setTag = require("npm:core-js@0.9.6/library/modules/$.cof").set,
+      uid = require("npm:core-js@0.9.6/library/modules/$.uid"),
+      $def = require("npm:core-js@0.9.6/library/modules/$.def"),
+      keyOf = require("npm:core-js@0.9.6/library/modules/$.keyof"),
+      enumKeys = require("npm:core-js@0.9.6/library/modules/$.enum-keys"),
+      assertObject = require("npm:core-js@0.9.6/library/modules/$.assert").obj,
+      has = $.has,
+      $create = $.create,
+      getDesc = $.getDesc,
+      setDesc = $.setDesc,
+      desc = $.desc,
+      getNames = $.getNames,
+      toObject = $.toObject,
+      $Symbol = $.g.Symbol,
+      setter = false,
+      TAG = uid('tag'),
+      HIDDEN = uid('hidden'),
+      SymbolRegistry = {},
+      AllSymbols = {},
+      useNative = $.isFunction($Symbol);
+  function wrap(tag) {
+    var sym = AllSymbols[tag] = $.set($create($Symbol.prototype), TAG, tag);
+    $.DESC && setter && setDesc(Object.prototype, tag, {
+      configurable: true,
+      set: function(value) {
+        if (has(this, HIDDEN) && has(this[HIDDEN], tag))
+          this[HIDDEN][tag] = false;
+        setDesc(this, tag, desc(1, value));
+      }
+    });
+    return sym;
+  }
+  function defineProperty(it, key, D) {
+    if (D && has(AllSymbols, key)) {
+      if (!D.enumerable) {
+        if (!has(it, HIDDEN))
+          setDesc(it, HIDDEN, desc(1, {}));
+        it[HIDDEN][key] = true;
+      } else {
+        if (has(it, HIDDEN) && it[HIDDEN][key])
+          it[HIDDEN][key] = false;
+        D.enumerable = false;
+      }
+    }
+    return setDesc(it, key, D);
+  }
+  function defineProperties(it, P) {
+    assertObject(it);
+    var keys = enumKeys(P = toObject(P)),
+        i = 0,
+        l = keys.length,
+        key;
+    while (l > i)
+      defineProperty(it, key = keys[i++], P[key]);
+    return it;
+  }
+  function create(it, P) {
+    return P === undefined ? $create(it) : defineProperties($create(it), P);
+  }
+  function getOwnPropertyDescriptor(it, key) {
+    var D = getDesc(it = toObject(it), key);
+    if (D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))
+      D.enumerable = true;
+    return D;
+  }
+  function getOwnPropertyNames(it) {
+    var names = getNames(toObject(it)),
+        result = [],
+        i = 0,
+        key;
+    while (names.length > i)
+      if (!has(AllSymbols, key = names[i++]) && key != HIDDEN)
+        result.push(key);
+    return result;
+  }
+  function getOwnPropertySymbols(it) {
+    var names = getNames(toObject(it)),
+        result = [],
+        i = 0,
+        key;
+    while (names.length > i)
+      if (has(AllSymbols, key = names[i++]))
+        result.push(AllSymbols[key]);
+    return result;
+  }
+  if (!useNative) {
+    $Symbol = function Symbol(description) {
+      if (this instanceof $Symbol)
+        throw TypeError('Symbol is not a constructor');
+      return wrap(uid(description));
+    };
+    $.hide($Symbol.prototype, 'toString', function() {
+      return this[TAG];
+    });
+    $.create = create;
+    $.setDesc = defineProperty;
+    $.getDesc = getOwnPropertyDescriptor;
+    $.setDescs = defineProperties;
+    $.getNames = getOwnPropertyNames;
+    $.getSymbols = getOwnPropertySymbols;
+  }
+  var symbolStatics = {
+    'for': function(key) {
+      return has(SymbolRegistry, key += '') ? SymbolRegistry[key] : SymbolRegistry[key] = $Symbol(key);
+    },
+    keyFor: function keyFor(key) {
+      return keyOf(SymbolRegistry, key);
+    },
+    useSetter: function() {
+      setter = true;
+    },
+    useSimple: function() {
+      setter = false;
+    }
+  };
+  $.each.call(('hasInstance,isConcatSpreadable,iterator,match,replace,search,' + 'species,split,toPrimitive,toStringTag,unscopables').split(','), function(it) {
+    var sym = require("npm:core-js@0.9.6/library/modules/$.wks")(it);
+    symbolStatics[it] = useNative ? sym : wrap(sym);
+  });
+  setter = true;
+  $def($def.G + $def.W, {Symbol: $Symbol});
+  $def($def.S, 'Symbol', symbolStatics);
+  $def($def.S + $def.F * !useNative, 'Object', {
+    create: create,
+    defineProperty: defineProperty,
+    defineProperties: defineProperties,
+    getOwnPropertyDescriptor: getOwnPropertyDescriptor,
+    getOwnPropertyNames: getOwnPropertyNames,
+    getOwnPropertySymbols: getOwnPropertySymbols
+  });
+  setTag($Symbol, 'Symbol');
+  setTag(Math, 'Math', true);
+  setTag($.g.JSON, 'JSON', true);
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:babel-runtime@5.2.9/core-js/symbol/iterator", ["npm:core-js@0.9.6/library/fn/symbol/iterator"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.6/library/fn/symbol/iterator"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:babel-runtime@5.2.9/core-js/object/create", ["npm:core-js@0.9.6/library/fn/object/create"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.6/library/fn/object/create"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:core-js@0.9.6/library/fn/object/define-property", ["npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -10696,26 +7777,12 @@ System.register("npm:core-js@0.9.6/library/fn/map", ["npm:core-js@0.9.6/library/
   return module.exports;
 });
 
-System.register("npm:babel-runtime@5.2.9/core-js/array/from", ["npm:core-js@0.9.6/library/fn/array/from"], true, function(require, exports, module) {
+System.register("npm:core-js@0.9.6/library/modules/es6.object.assign", ["npm:core-js@0.9.6/library/modules/$.def", "npm:core-js@0.9.6/library/modules/$.assign"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
-  module.exports = {
-    "default": require("npm:core-js@0.9.6/library/fn/array/from"),
-    __esModule: true
-  };
-  global.define = __define;
-  return module.exports;
-});
-
-System.register("npm:babel-runtime@5.2.9/core-js/set", ["npm:core-js@0.9.6/library/fn/set"], true, function(require, exports, module) {
-  var global = System.global,
-      __define = global.define;
-  global.define = undefined;
-  module.exports = {
-    "default": require("npm:core-js@0.9.6/library/fn/set"),
-    __esModule: true
-  };
+  var $def = require("npm:core-js@0.9.6/library/modules/$.def");
+  $def($def.S, 'Object', {assign: require("npm:core-js@0.9.6/library/modules/$.assign")});
   global.define = __define;
   return module.exports;
 });
@@ -10940,6 +8007,91 @@ System.register("npm:handlebars@2.0.0/dist/cjs/handlebars/base", ["npm:handlebar
   return module.exports;
 });
 
+System.register("npm:core-js@0.9.6/modules/$.cof", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.wks"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      TAG = require("npm:core-js@0.9.6/modules/$.wks")('toStringTag'),
+      toString = {}.toString;
+  function cof(it) {
+    return toString.call(it).slice(8, -1);
+  }
+  cof.classof = function(it) {
+    var O,
+        T;
+    return it == undefined ? it === undefined ? 'Undefined' : 'Null' : typeof(T = (O = Object(it))[TAG]) == 'string' ? T : cof(O);
+  };
+  cof.set = function(it, tag, stat) {
+    if (it && !$.has(it = stat ? it : it.prototype, TAG))
+      $.hide(it, TAG, tag);
+  };
+  module.exports = cof;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/$.array-methods", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.ctx"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      ctx = require("npm:core-js@0.9.6/modules/$.ctx");
+  module.exports = function(TYPE) {
+    var IS_MAP = TYPE == 1,
+        IS_FILTER = TYPE == 2,
+        IS_SOME = TYPE == 3,
+        IS_EVERY = TYPE == 4,
+        IS_FIND_INDEX = TYPE == 6,
+        NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+    return function($this, callbackfn, that) {
+      var O = Object($.assertDefined($this)),
+          self = $.ES5Object(O),
+          f = ctx(callbackfn, that, 3),
+          length = $.toLength(self.length),
+          index = 0,
+          result = IS_MAP ? Array(length) : IS_FILTER ? [] : undefined,
+          val,
+          res;
+      for (; length > index; index++)
+        if (NO_HOLES || index in self) {
+          val = self[index];
+          res = f(val, index, O);
+          if (TYPE) {
+            if (IS_MAP)
+              result[index] = res;
+            else if (res)
+              switch (TYPE) {
+                case 3:
+                  return true;
+                case 5:
+                  return val;
+                case 6:
+                  return index;
+                case 2:
+                  result.push(val);
+              }
+            else if (IS_EVERY)
+              return false;
+          }
+        }
+      return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
+    };
+  };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/library/fn/symbol/index", ["npm:core-js@0.9.6/library/modules/es6.symbol", "npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.6/library/modules/es6.symbol");
+  module.exports = require("npm:core-js@0.9.6/library/modules/$").core.Symbol;
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:babel-runtime@5.2.9/core-js/object/define-property", ["npm:core-js@0.9.6/library/fn/object/define-property"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -10990,23 +8142,12 @@ System.register("npm:babel-runtime@5.2.9/core-js/map", ["npm:core-js@0.9.6/libra
   return module.exports;
 });
 
-System.register("npm:babel-runtime@5.2.9/helpers/to-consumable-array", ["npm:babel-runtime@5.2.9/core-js/array/from"], true, function(require, exports, module) {
+System.register("npm:core-js@0.9.6/library/fn/object/assign", ["npm:core-js@0.9.6/library/modules/es6.object.assign", "npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
   global.define = undefined;
-  "use strict";
-  var _Array$from = require("npm:babel-runtime@5.2.9/core-js/array/from")["default"];
-  exports["default"] = function(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0,
-          arr2 = Array(arr.length); i < arr.length; i++)
-        arr2[i] = arr[i];
-      return arr2;
-    } else {
-      return _Array$from(arr);
-    }
-  };
-  exports.__esModule = true;
+  require("npm:core-js@0.9.6/library/modules/es6.object.assign");
+  module.exports = require("npm:core-js@0.9.6/library/modules/$").core.Object.assign;
   global.define = __define;
   return module.exports;
 });
@@ -11038,6 +8179,277 @@ System.register("npm:handlebars@2.0.0/dist/cjs/handlebars.runtime", ["npm:handle
   Handlebars.create = create;
   Handlebars['default'] = Handlebars;
   exports["default"] = Handlebars;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/modules/es5", ["npm:core-js@0.9.6/modules/$", "npm:core-js@0.9.6/modules/$.dom-create", "npm:core-js@0.9.6/modules/$.cof", "npm:core-js@0.9.6/modules/$.def", "npm:core-js@0.9.6/modules/$.invoke", "npm:core-js@0.9.6/modules/$.array-methods", "npm:core-js@0.9.6/modules/$.uid", "npm:core-js@0.9.6/modules/$.assert", "npm:core-js@0.9.6/modules/$.array-includes", "npm:core-js@0.9.6/modules/$.replacer", "npm:core-js@0.9.6/modules/$.throws"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  var $ = require("npm:core-js@0.9.6/modules/$"),
+      cel = require("npm:core-js@0.9.6/modules/$.dom-create"),
+      cof = require("npm:core-js@0.9.6/modules/$.cof"),
+      $def = require("npm:core-js@0.9.6/modules/$.def"),
+      invoke = require("npm:core-js@0.9.6/modules/$.invoke"),
+      arrayMethod = require("npm:core-js@0.9.6/modules/$.array-methods"),
+      IE_PROTO = require("npm:core-js@0.9.6/modules/$.uid").safe('__proto__'),
+      assert = require("npm:core-js@0.9.6/modules/$.assert"),
+      assertObject = assert.obj,
+      ObjectProto = Object.prototype,
+      A = [],
+      slice = A.slice,
+      indexOf = A.indexOf,
+      classof = cof.classof,
+      has = $.has,
+      defineProperty = $.setDesc,
+      getOwnDescriptor = $.getDesc,
+      defineProperties = $.setDescs,
+      isFunction = $.isFunction,
+      toObject = $.toObject,
+      toLength = $.toLength,
+      IE8_DOM_DEFINE = false,
+      $indexOf = require("npm:core-js@0.9.6/modules/$.array-includes")(false),
+      $forEach = arrayMethod(0),
+      $map = arrayMethod(1),
+      $filter = arrayMethod(2),
+      $some = arrayMethod(3),
+      $every = arrayMethod(4);
+  if (!$.DESC) {
+    try {
+      IE8_DOM_DEFINE = defineProperty(cel('div'), 'x', {get: function() {
+          return 8;
+        }}).x == 8;
+    } catch (e) {}
+    $.setDesc = function(O, P, Attributes) {
+      if (IE8_DOM_DEFINE)
+        try {
+          return defineProperty(O, P, Attributes);
+        } catch (e) {}
+      if ('get' in Attributes || 'set' in Attributes)
+        throw TypeError('Accessors not supported!');
+      if ('value' in Attributes)
+        assertObject(O)[P] = Attributes.value;
+      return O;
+    };
+    $.getDesc = function(O, P) {
+      if (IE8_DOM_DEFINE)
+        try {
+          return getOwnDescriptor(O, P);
+        } catch (e) {}
+      if (has(O, P))
+        return $.desc(!ObjectProto.propertyIsEnumerable.call(O, P), O[P]);
+    };
+    $.setDescs = defineProperties = function(O, Properties) {
+      assertObject(O);
+      var keys = $.getKeys(Properties),
+          length = keys.length,
+          i = 0,
+          P;
+      while (length > i)
+        $.setDesc(O, P = keys[i++], Properties[P]);
+      return O;
+    };
+  }
+  $def($def.S + $def.F * !$.DESC, 'Object', {
+    getOwnPropertyDescriptor: $.getDesc,
+    defineProperty: $.setDesc,
+    defineProperties: defineProperties
+  });
+  var keys1 = ('constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,' + 'toLocaleString,toString,valueOf').split(','),
+      keys2 = keys1.concat('length', 'prototype'),
+      keysLen1 = keys1.length;
+  var createDict = function() {
+    var iframe = cel('iframe'),
+        i = keysLen1,
+        gt = '>',
+        iframeDocument;
+    iframe.style.display = 'none';
+    $.html.appendChild(iframe);
+    iframe.src = 'javascript:';
+    iframeDocument = iframe.contentWindow.document;
+    iframeDocument.open();
+    iframeDocument.write('<script>document.F=Object</script' + gt);
+    iframeDocument.close();
+    createDict = iframeDocument.F;
+    while (i--)
+      delete createDict.prototype[keys1[i]];
+    return createDict();
+  };
+  function createGetKeys(names, length) {
+    return function(object) {
+      var O = toObject(object),
+          i = 0,
+          result = [],
+          key;
+      for (key in O)
+        if (key != IE_PROTO)
+          has(O, key) && result.push(key);
+      while (length > i)
+        if (has(O, key = names[i++])) {
+          ~indexOf.call(result, key) || result.push(key);
+        }
+      return result;
+    };
+  }
+  function isPrimitive(it) {
+    return !$.isObject(it);
+  }
+  function Empty() {}
+  $def($def.S, 'Object', {
+    getPrototypeOf: $.getProto = $.getProto || function(O) {
+      O = Object(assert.def(O));
+      if (has(O, IE_PROTO))
+        return O[IE_PROTO];
+      if (isFunction(O.constructor) && O instanceof O.constructor) {
+        return O.constructor.prototype;
+      }
+      return O instanceof Object ? ObjectProto : null;
+    },
+    getOwnPropertyNames: $.getNames = $.getNames || createGetKeys(keys2, keys2.length, true),
+    create: $.create = $.create || function(O, Properties) {
+      var result;
+      if (O !== null) {
+        Empty.prototype = assertObject(O);
+        result = new Empty();
+        Empty.prototype = null;
+        result[IE_PROTO] = O;
+      } else
+        result = createDict();
+      return Properties === undefined ? result : defineProperties(result, Properties);
+    },
+    keys: $.getKeys = $.getKeys || createGetKeys(keys1, keysLen1, false),
+    seal: $.it,
+    freeze: $.it,
+    preventExtensions: $.it,
+    isSealed: isPrimitive,
+    isFrozen: isPrimitive,
+    isExtensible: $.isObject
+  });
+  $def($def.P, 'Function', {bind: function(that) {
+      var fn = assert.fn(this),
+          partArgs = slice.call(arguments, 1);
+      function bound() {
+        var args = partArgs.concat(slice.call(arguments));
+        return invoke(fn, args, this instanceof bound ? $.create(fn.prototype) : that);
+      }
+      if (fn.prototype)
+        bound.prototype = fn.prototype;
+      return bound;
+    }});
+  function arrayMethodFix(fn) {
+    return function() {
+      return fn.apply($.ES5Object(this), arguments);
+    };
+  }
+  if (!(0 in Object('z') && 'z'[0] == 'z')) {
+    $.ES5Object = function(it) {
+      return cof(it) == 'String' ? it.split('') : Object(it);
+    };
+  }
+  $def($def.P + $def.F * ($.ES5Object != Object), 'Array', {
+    slice: arrayMethodFix(slice),
+    join: arrayMethodFix(A.join)
+  });
+  $def($def.S, 'Array', {isArray: function(arg) {
+      return cof(arg) == 'Array';
+    }});
+  function createArrayReduce(isRight) {
+    return function(callbackfn, memo) {
+      assert.fn(callbackfn);
+      var O = toObject(this),
+          length = toLength(O.length),
+          index = isRight ? length - 1 : 0,
+          i = isRight ? -1 : 1;
+      if (arguments.length < 2)
+        for (; ; ) {
+          if (index in O) {
+            memo = O[index];
+            index += i;
+            break;
+          }
+          index += i;
+          assert(isRight ? index >= 0 : length > index, 'Reduce of empty array with no initial value');
+        }
+      for (; isRight ? index >= 0 : length > index; index += i)
+        if (index in O) {
+          memo = callbackfn(memo, O[index], index, this);
+        }
+      return memo;
+    };
+  }
+  $def($def.P, 'Array', {
+    forEach: $.each = $.each || function forEach(callbackfn) {
+      return $forEach(this, callbackfn, arguments[1]);
+    },
+    map: function map(callbackfn) {
+      return $map(this, callbackfn, arguments[1]);
+    },
+    filter: function filter(callbackfn) {
+      return $filter(this, callbackfn, arguments[1]);
+    },
+    some: function some(callbackfn) {
+      return $some(this, callbackfn, arguments[1]);
+    },
+    every: function every(callbackfn) {
+      return $every(this, callbackfn, arguments[1]);
+    },
+    reduce: createArrayReduce(false),
+    reduceRight: createArrayReduce(true),
+    indexOf: indexOf = indexOf || function indexOf(el) {
+      return $indexOf(this, el, arguments[1]);
+    },
+    lastIndexOf: function(el, fromIndex) {
+      var O = toObject(this),
+          length = toLength(O.length),
+          index = length - 1;
+      if (arguments.length > 1)
+        index = Math.min(index, $.toInteger(fromIndex));
+      if (index < 0)
+        index = toLength(length + index);
+      for (; index >= 0; index--)
+        if (index in O)
+          if (O[index] === el)
+            return index;
+      return -1;
+    }
+  });
+  $def($def.P, 'String', {trim: require("npm:core-js@0.9.6/modules/$.replacer")(/^\s*([\s\S]*\S)?\s*$/, '$1')});
+  $def($def.S, 'Date', {now: function() {
+      return +new Date;
+    }});
+  function lz(num) {
+    return num > 9 ? num : '0' + num;
+  }
+  var date = new Date(-5e13 - 1),
+      brokenDate = !(date.toISOString && date.toISOString() == '0385-07-25T07:06:39.999Z' && require("npm:core-js@0.9.6/modules/$.throws")(function() {
+        new Date(NaN).toISOString();
+      }));
+  $def($def.P + $def.F * brokenDate, 'Date', {toISOString: function() {
+      if (!isFinite(this))
+        throw RangeError('Invalid time value');
+      var d = this,
+          y = d.getUTCFullYear(),
+          m = d.getUTCMilliseconds(),
+          s = y < 0 ? '-' : y > 9999 ? '+' : '';
+      return s + ('00000' + Math.abs(y)).slice(s ? -6 : -4) + '-' + lz(d.getUTCMonth() + 1) + '-' + lz(d.getUTCDate()) + 'T' + lz(d.getUTCHours()) + ':' + lz(d.getUTCMinutes()) + ':' + lz(d.getUTCSeconds()) + '.' + (m > 99 ? m : '0' + lz(m)) + 'Z';
+    }});
+  if (classof(function() {
+    return arguments;
+  }()) == 'Object')
+    cof.classof = function(it) {
+      var tag = classof(it);
+      return tag == 'Object' && isFunction(it.callee) ? 'Arguments' : tag;
+    };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/library/fn/symbol", ["npm:core-js@0.9.6/library/fn/symbol/index"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = require("npm:core-js@0.9.6/library/fn/symbol/index");
   global.define = __define;
   return module.exports;
 });
@@ -11160,6 +8572,18 @@ System.register("npm:core-js@0.9.6/library/modules/$.task", ["npm:core-js@0.9.6/
   return module.exports;
 });
 
+System.register("npm:babel-runtime@5.2.9/core-js/object/assign", ["npm:core-js@0.9.6/library/fn/object/assign"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.6/library/fn/object/assign"),
+    __esModule: true
+  };
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:handlebars@2.0.0/dist/cjs/handlebars", ["npm:handlebars@2.0.0/dist/cjs/handlebars.runtime", "npm:handlebars@2.0.0/dist/cjs/handlebars/compiler/ast", "npm:handlebars@2.0.0/dist/cjs/handlebars/compiler/base", "npm:handlebars@2.0.0/dist/cjs/handlebars/compiler/base", "npm:handlebars@2.0.0/dist/cjs/handlebars/compiler/compiler", "npm:handlebars@2.0.0/dist/cjs/handlebars/compiler/compiler", "npm:handlebars@2.0.0/dist/cjs/handlebars/compiler/compiler", "npm:handlebars@2.0.0/dist/cjs/handlebars/compiler/javascript-compiler"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -11193,6 +8617,75 @@ System.register("npm:handlebars@2.0.0/dist/cjs/handlebars", ["npm:handlebars@2.0
   Handlebars.create = create;
   Handlebars['default'] = Handlebars;
   exports["default"] = Handlebars;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:core-js@0.9.6/shim", ["npm:core-js@0.9.6/modules/es5", "npm:core-js@0.9.6/modules/es6.symbol", "npm:core-js@0.9.6/modules/es6.object.assign", "npm:core-js@0.9.6/modules/es6.object.is", "npm:core-js@0.9.6/modules/es6.object.set-prototype-of", "npm:core-js@0.9.6/modules/es6.object.to-string", "npm:core-js@0.9.6/modules/es6.object.statics-accept-primitives", "npm:core-js@0.9.6/modules/es6.function.name", "npm:core-js@0.9.6/modules/es6.function.has-instance", "npm:core-js@0.9.6/modules/es6.number.constructor", "npm:core-js@0.9.6/modules/es6.number.statics", "npm:core-js@0.9.6/modules/es6.math", "npm:core-js@0.9.6/modules/es6.string.from-code-point", "npm:core-js@0.9.6/modules/es6.string.raw", "npm:core-js@0.9.6/modules/es6.string.iterator", "npm:core-js@0.9.6/modules/es6.string.code-point-at", "npm:core-js@0.9.6/modules/es6.string.ends-with", "npm:core-js@0.9.6/modules/es6.string.includes", "npm:core-js@0.9.6/modules/es6.string.repeat", "npm:core-js@0.9.6/modules/es6.string.starts-with", "npm:core-js@0.9.6/modules/es6.array.from", "npm:core-js@0.9.6/modules/es6.array.of", "npm:core-js@0.9.6/modules/es6.array.iterator", "npm:core-js@0.9.6/modules/es6.array.species", "npm:core-js@0.9.6/modules/es6.array.copy-within", "npm:core-js@0.9.6/modules/es6.array.fill", "npm:core-js@0.9.6/modules/es6.array.find", "npm:core-js@0.9.6/modules/es6.array.find-index", "npm:core-js@0.9.6/modules/es6.regexp", "npm:core-js@0.9.6/modules/es6.promise", "npm:core-js@0.9.6/modules/es6.map", "npm:core-js@0.9.6/modules/es6.set", "npm:core-js@0.9.6/modules/es6.weak-map", "npm:core-js@0.9.6/modules/es6.weak-set", "npm:core-js@0.9.6/modules/es6.reflect", "npm:core-js@0.9.6/modules/es7.array.includes", "npm:core-js@0.9.6/modules/es7.string.at", "npm:core-js@0.9.6/modules/es7.string.lpad", "npm:core-js@0.9.6/modules/es7.string.rpad", "npm:core-js@0.9.6/modules/es7.regexp.escape", "npm:core-js@0.9.6/modules/es7.object.get-own-property-descriptors", "npm:core-js@0.9.6/modules/es7.object.to-array", "npm:core-js@0.9.6/modules/es7.map.to-json", "npm:core-js@0.9.6/modules/es7.set.to-json", "npm:core-js@0.9.6/modules/js.array.statics", "npm:core-js@0.9.6/modules/web.timers", "npm:core-js@0.9.6/modules/web.immediate", "npm:core-js@0.9.6/modules/web.dom.iterable", "npm:core-js@0.9.6/modules/$"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  require("npm:core-js@0.9.6/modules/es5");
+  require("npm:core-js@0.9.6/modules/es6.symbol");
+  require("npm:core-js@0.9.6/modules/es6.object.assign");
+  require("npm:core-js@0.9.6/modules/es6.object.is");
+  require("npm:core-js@0.9.6/modules/es6.object.set-prototype-of");
+  require("npm:core-js@0.9.6/modules/es6.object.to-string");
+  require("npm:core-js@0.9.6/modules/es6.object.statics-accept-primitives");
+  require("npm:core-js@0.9.6/modules/es6.function.name");
+  require("npm:core-js@0.9.6/modules/es6.function.has-instance");
+  require("npm:core-js@0.9.6/modules/es6.number.constructor");
+  require("npm:core-js@0.9.6/modules/es6.number.statics");
+  require("npm:core-js@0.9.6/modules/es6.math");
+  require("npm:core-js@0.9.6/modules/es6.string.from-code-point");
+  require("npm:core-js@0.9.6/modules/es6.string.raw");
+  require("npm:core-js@0.9.6/modules/es6.string.iterator");
+  require("npm:core-js@0.9.6/modules/es6.string.code-point-at");
+  require("npm:core-js@0.9.6/modules/es6.string.ends-with");
+  require("npm:core-js@0.9.6/modules/es6.string.includes");
+  require("npm:core-js@0.9.6/modules/es6.string.repeat");
+  require("npm:core-js@0.9.6/modules/es6.string.starts-with");
+  require("npm:core-js@0.9.6/modules/es6.array.from");
+  require("npm:core-js@0.9.6/modules/es6.array.of");
+  require("npm:core-js@0.9.6/modules/es6.array.iterator");
+  require("npm:core-js@0.9.6/modules/es6.array.species");
+  require("npm:core-js@0.9.6/modules/es6.array.copy-within");
+  require("npm:core-js@0.9.6/modules/es6.array.fill");
+  require("npm:core-js@0.9.6/modules/es6.array.find");
+  require("npm:core-js@0.9.6/modules/es6.array.find-index");
+  require("npm:core-js@0.9.6/modules/es6.regexp");
+  require("npm:core-js@0.9.6/modules/es6.promise");
+  require("npm:core-js@0.9.6/modules/es6.map");
+  require("npm:core-js@0.9.6/modules/es6.set");
+  require("npm:core-js@0.9.6/modules/es6.weak-map");
+  require("npm:core-js@0.9.6/modules/es6.weak-set");
+  require("npm:core-js@0.9.6/modules/es6.reflect");
+  require("npm:core-js@0.9.6/modules/es7.array.includes");
+  require("npm:core-js@0.9.6/modules/es7.string.at");
+  require("npm:core-js@0.9.6/modules/es7.string.lpad");
+  require("npm:core-js@0.9.6/modules/es7.string.rpad");
+  require("npm:core-js@0.9.6/modules/es7.regexp.escape");
+  require("npm:core-js@0.9.6/modules/es7.object.get-own-property-descriptors");
+  require("npm:core-js@0.9.6/modules/es7.object.to-array");
+  require("npm:core-js@0.9.6/modules/es7.map.to-json");
+  require("npm:core-js@0.9.6/modules/es7.set.to-json");
+  require("npm:core-js@0.9.6/modules/js.array.statics");
+  require("npm:core-js@0.9.6/modules/web.timers");
+  require("npm:core-js@0.9.6/modules/web.immediate");
+  require("npm:core-js@0.9.6/modules/web.dom.iterable");
+  module.exports = require("npm:core-js@0.9.6/modules/$").core;
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:babel-runtime@5.2.9/core-js/symbol", ["npm:core-js@0.9.6/library/fn/symbol"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  module.exports = {
+    "default": require("npm:core-js@0.9.6/library/fn/symbol"),
+    __esModule: true
+  };
   global.define = __define;
   return module.exports;
 });
@@ -11466,6 +8959,401 @@ System.register("npm:handlebars@2.0.0/lib/index", ["npm:handlebars@2.0.0/dist/cj
   return module.exports;
 });
 
+System.register("npm:babel-runtime@5.2.9/regenerator/runtime", ["npm:babel-runtime@5.2.9/core-js/symbol", "npm:babel-runtime@5.2.9/core-js/symbol/iterator", "npm:babel-runtime@5.2.9/core-js/object/create", "npm:babel-runtime@5.2.9/core-js/promise"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "use strict";
+  var _Symbol = require("npm:babel-runtime@5.2.9/core-js/symbol")["default"];
+  var _Symbol$iterator = require("npm:babel-runtime@5.2.9/core-js/symbol/iterator")["default"];
+  var _Object$create = require("npm:babel-runtime@5.2.9/core-js/object/create")["default"];
+  var _Promise = require("npm:babel-runtime@5.2.9/core-js/promise")["default"];
+  !(function(global) {
+    "use strict";
+    var hasOwn = Object.prototype.hasOwnProperty;
+    var undefined;
+    var iteratorSymbol = typeof _Symbol === "function" && _Symbol$iterator || "@@iterator";
+    var inModule = typeof module === "object";
+    var runtime = global.regeneratorRuntime;
+    if (runtime) {
+      if (inModule) {
+        module.exports = runtime;
+      }
+      return ;
+    }
+    runtime = global.regeneratorRuntime = inModule ? module.exports : {};
+    function wrap(innerFn, outerFn, self, tryLocsList) {
+      var generator = _Object$create((outerFn || Generator).prototype);
+      generator._invoke = makeInvokeMethod(innerFn, self || null, new Context(tryLocsList || []));
+      return generator;
+    }
+    runtime.wrap = wrap;
+    function tryCatch(fn, obj, arg) {
+      try {
+        return {
+          type: "normal",
+          arg: fn.call(obj, arg)
+        };
+      } catch (err) {
+        return {
+          type: "throw",
+          arg: err
+        };
+      }
+    }
+    var GenStateSuspendedStart = "suspendedStart";
+    var GenStateSuspendedYield = "suspendedYield";
+    var GenStateExecuting = "executing";
+    var GenStateCompleted = "completed";
+    var ContinueSentinel = {};
+    function Generator() {}
+    function GeneratorFunction() {}
+    function GeneratorFunctionPrototype() {}
+    var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype;
+    GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+    GeneratorFunctionPrototype.constructor = GeneratorFunction;
+    GeneratorFunction.displayName = "GeneratorFunction";
+    runtime.isGeneratorFunction = function(genFun) {
+      var ctor = typeof genFun === "function" && genFun.constructor;
+      return ctor ? ctor === GeneratorFunction || (ctor.displayName || ctor.name) === "GeneratorFunction" : false;
+    };
+    runtime.mark = function(genFun) {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      genFun.prototype = _Object$create(Gp);
+      return genFun;
+    };
+    runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+      return new _Promise(function(resolve, reject) {
+        var generator = wrap(innerFn, outerFn, self, tryLocsList);
+        var callNext = step.bind(generator, "next");
+        var callThrow = step.bind(generator, "throw");
+        function step(method, arg) {
+          var record = tryCatch(generator[method], generator, arg);
+          if (record.type === "throw") {
+            reject(record.arg);
+            return ;
+          }
+          var info = record.arg;
+          if (info.done) {
+            resolve(info.value);
+          } else {
+            _Promise.resolve(info.value).then(callNext, callThrow);
+          }
+        }
+        callNext();
+      });
+    };
+    function makeInvokeMethod(innerFn, self, context) {
+      var state = GenStateSuspendedStart;
+      return function invoke(method, arg) {
+        if (state === GenStateExecuting) {
+          throw new Error("Generator is already running");
+        }
+        if (state === GenStateCompleted) {
+          return doneResult();
+        }
+        while (true) {
+          var delegate = context.delegate;
+          if (delegate) {
+            if (method === "return" || method === "throw" && delegate.iterator[method] === undefined) {
+              context.delegate = null;
+              var returnMethod = delegate.iterator["return"];
+              if (returnMethod) {
+                var record = tryCatch(returnMethod, delegate.iterator, arg);
+                if (record.type === "throw") {
+                  method = "throw";
+                  arg = record.arg;
+                  continue;
+                }
+              }
+              if (method === "return") {
+                continue;
+              }
+            }
+            var record = tryCatch(delegate.iterator[method], delegate.iterator, arg);
+            if (record.type === "throw") {
+              context.delegate = null;
+              method = "throw";
+              arg = record.arg;
+              continue;
+            }
+            method = "next";
+            arg = undefined;
+            var info = record.arg;
+            if (info.done) {
+              context[delegate.resultName] = info.value;
+              context.next = delegate.nextLoc;
+            } else {
+              state = GenStateSuspendedYield;
+              return info;
+            }
+            context.delegate = null;
+          }
+          if (method === "next") {
+            if (state === GenStateSuspendedYield) {
+              context.sent = arg;
+            } else {
+              delete context.sent;
+            }
+          } else if (method === "throw") {
+            if (state === GenStateSuspendedStart) {
+              state = GenStateCompleted;
+              throw arg;
+            }
+            if (context.dispatchException(arg)) {
+              method = "next";
+              arg = undefined;
+            }
+          } else if (method === "return") {
+            context.abrupt("return", arg);
+          }
+          state = GenStateExecuting;
+          var record = tryCatch(innerFn, self, context);
+          if (record.type === "normal") {
+            state = context.done ? GenStateCompleted : GenStateSuspendedYield;
+            var info = {
+              value: record.arg,
+              done: context.done
+            };
+            if (record.arg === ContinueSentinel) {
+              if (context.delegate && method === "next") {
+                arg = undefined;
+              }
+            } else {
+              return info;
+            }
+          } else if (record.type === "throw") {
+            state = GenStateCompleted;
+            method = "throw";
+            arg = record.arg;
+          }
+        }
+      };
+    }
+    function defineGeneratorMethod(method) {
+      Gp[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    }
+    defineGeneratorMethod("next");
+    defineGeneratorMethod("throw");
+    defineGeneratorMethod("return");
+    Gp[iteratorSymbol] = function() {
+      return this;
+    };
+    Gp.toString = function() {
+      return "[object Generator]";
+    };
+    function pushTryEntry(locs) {
+      var entry = {tryLoc: locs[0]};
+      if (1 in locs) {
+        entry.catchLoc = locs[1];
+      }
+      if (2 in locs) {
+        entry.finallyLoc = locs[2];
+        entry.afterLoc = locs[3];
+      }
+      this.tryEntries.push(entry);
+    }
+    function resetTryEntry(entry) {
+      var record = entry.completion || {};
+      record.type = "normal";
+      delete record.arg;
+      entry.completion = record;
+    }
+    function Context(tryLocsList) {
+      this.tryEntries = [{tryLoc: "root"}];
+      tryLocsList.forEach(pushTryEntry, this);
+      this.reset();
+    }
+    runtime.keys = function(object) {
+      var keys = [];
+      for (var key in object) {
+        keys.push(key);
+      }
+      keys.reverse();
+      return function next() {
+        while (keys.length) {
+          var key = keys.pop();
+          if (key in object) {
+            next.value = key;
+            next.done = false;
+            return next;
+          }
+        }
+        next.done = true;
+        return next;
+      };
+    };
+    function values(iterable) {
+      if (iterable) {
+        var iteratorMethod = iterable[iteratorSymbol];
+        if (iteratorMethod) {
+          return iteratorMethod.call(iterable);
+        }
+        if (typeof iterable.next === "function") {
+          return iterable;
+        }
+        if (!isNaN(iterable.length)) {
+          var i = -1,
+              next = function next() {
+                while (++i < iterable.length) {
+                  if (hasOwn.call(iterable, i)) {
+                    next.value = iterable[i];
+                    next.done = false;
+                    return next;
+                  }
+                }
+                next.value = undefined;
+                next.done = true;
+                return next;
+              };
+          return next.next = next;
+        }
+      }
+      return {next: doneResult};
+    }
+    runtime.values = values;
+    function doneResult() {
+      return {
+        value: undefined,
+        done: true
+      };
+    }
+    Context.prototype = {
+      constructor: Context,
+      reset: function reset() {
+        this.prev = 0;
+        this.next = 0;
+        this.sent = undefined;
+        this.done = false;
+        this.delegate = null;
+        this.tryEntries.forEach(resetTryEntry);
+        for (var tempIndex = 0,
+            tempName; hasOwn.call(this, tempName = "t" + tempIndex) || tempIndex < 20; ++tempIndex) {
+          this[tempName] = null;
+        }
+      },
+      stop: function stop() {
+        this.done = true;
+        var rootEntry = this.tryEntries[0];
+        var rootRecord = rootEntry.completion;
+        if (rootRecord.type === "throw") {
+          throw rootRecord.arg;
+        }
+        return this.rval;
+      },
+      dispatchException: function dispatchException(exception) {
+        if (this.done) {
+          throw exception;
+        }
+        var context = this;
+        function handle(loc, caught) {
+          record.type = "throw";
+          record.arg = exception;
+          context.next = loc;
+          return !!caught;
+        }
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          var record = entry.completion;
+          if (entry.tryLoc === "root") {
+            return handle("end");
+          }
+          if (entry.tryLoc <= this.prev) {
+            var hasCatch = hasOwn.call(entry, "catchLoc");
+            var hasFinally = hasOwn.call(entry, "finallyLoc");
+            if (hasCatch && hasFinally) {
+              if (this.prev < entry.catchLoc) {
+                return handle(entry.catchLoc, true);
+              } else if (this.prev < entry.finallyLoc) {
+                return handle(entry.finallyLoc);
+              }
+            } else if (hasCatch) {
+              if (this.prev < entry.catchLoc) {
+                return handle(entry.catchLoc, true);
+              }
+            } else if (hasFinally) {
+              if (this.prev < entry.finallyLoc) {
+                return handle(entry.finallyLoc);
+              }
+            } else {
+              throw new Error("try statement without catch or finally");
+            }
+          }
+        }
+      },
+      abrupt: function abrupt(type, arg) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
+            var finallyEntry = entry;
+            break;
+          }
+        }
+        if (finallyEntry && (type === "break" || type === "continue") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc) {
+          finallyEntry = null;
+        }
+        var record = finallyEntry ? finallyEntry.completion : {};
+        record.type = type;
+        record.arg = arg;
+        if (finallyEntry) {
+          this.next = finallyEntry.finallyLoc;
+        } else {
+          this.complete(record);
+        }
+        return ContinueSentinel;
+      },
+      complete: function complete(record, afterLoc) {
+        if (record.type === "throw") {
+          throw record.arg;
+        }
+        if (record.type === "break" || record.type === "continue") {
+          this.next = record.arg;
+        } else if (record.type === "return") {
+          this.rval = record.arg;
+          this.next = "end";
+        } else if (record.type === "normal" && afterLoc) {
+          this.next = afterLoc;
+        }
+        return ContinueSentinel;
+      },
+      finish: function finish(finallyLoc) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          if (entry.finallyLoc === finallyLoc) {
+            return this.complete(entry.completion, entry.afterLoc);
+          }
+        }
+      },
+      "catch": function _catch(tryLoc) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          if (entry.tryLoc === tryLoc) {
+            var record = entry.completion;
+            if (record.type === "throw") {
+              var thrown = record.arg;
+              resetTryEntry(entry);
+            }
+            return thrown;
+          }
+        }
+        throw new Error("illegal catch attempt");
+      },
+      delegateYield: function delegateYield(iterable, resultName, nextLoc) {
+        this.delegate = {
+          iterator: values(iterable),
+          resultName: resultName,
+          nextLoc: nextLoc
+        };
+        return ContinueSentinel;
+      }
+    };
+  })(typeof global === "object" ? global : typeof window === "object" ? window : typeof self === "object" ? self : undefined);
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:core-js@0.9.6/library/fn/promise", ["npm:core-js@0.9.6/library/modules/es6.object.to-string", "npm:core-js@0.9.6/library/modules/es6.string.iterator", "npm:core-js@0.9.6/library/modules/web.dom.iterable", "npm:core-js@0.9.6/library/modules/es6.promise", "npm:core-js@0.9.6/library/modules/$"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -11488,6 +9376,22 @@ System.register("npm:handlebars@2.0.0", ["npm:handlebars@2.0.0/lib/index"], true
   return module.exports;
 });
 
+System.register("npm:babel-core@5.2.9/lib/babel/polyfill", ["npm:core-js@0.9.6/shim", "npm:babel-runtime@5.2.9/regenerator/runtime"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "format cjs";
+  "use strict";
+  require("npm:core-js@0.9.6/shim");
+  require("npm:babel-runtime@5.2.9/regenerator/runtime");
+  if (global._babelPolyfill) {
+    throw new Error("only one instance of babel/polyfill is allowed");
+  }
+  global._babelPolyfill = true;
+  global.define = __define;
+  return module.exports;
+});
+
 System.register("npm:babel-runtime@5.2.9/core-js/promise", ["npm:core-js@0.9.6/library/fn/promise"], true, function(require, exports, module) {
   var global = System.global,
       __define = global.define;
@@ -11496,6 +9400,16 @@ System.register("npm:babel-runtime@5.2.9/core-js/promise", ["npm:core-js@0.9.6/l
     "default": require("npm:core-js@0.9.6/library/fn/promise"),
     __esModule: true
   };
+  global.define = __define;
+  return module.exports;
+});
+
+System.register("npm:babel-core@5.2.9/polyfill", ["npm:babel-core@5.2.9/lib/babel/polyfill"], true, function(require, exports, module) {
+  var global = System.global,
+      __define = global.define;
+  global.define = undefined;
+  "format cjs";
+  module.exports = require("npm:babel-core@5.2.9/lib/babel/polyfill");
   global.define = __define;
   return module.exports;
 });
@@ -11725,6 +9639,53 @@ System.register('src/esb-util', ['npm:babel-runtime@5.2.9/helpers/create-class',
 
             return svg_icon;
           }
+        }, {
+          key: 'is_json',
+          value: function is_json(str) {
+            try {
+              JSON.parse(str);
+            } catch (e) {
+              return false;
+            }
+            return true;
+          }
+        }, {
+          key: 'dom_contains_element',
+          value: function dom_contains_element(selector) {
+            return document.querySelectorAll(selector).length > 0;
+          }
+        }, {
+          key: 'head_comment_matches',
+          value: function head_comment_matches(value_to_match) {
+            var value_found = false,
+                comments = [],
+                head_nodes = document.head.childNodes,
+                i,
+                node;
+
+            for (i = 0; i < head_nodes.length; i++) {
+              node = head_nodes[i];
+              if (node.nodeType === 8) {
+                comments.push(node);
+              }
+            }
+
+            for (i = 0; i < comments.length; i++) {
+              if (comments[i].textContent.indexOf(value_to_match) > -1) {
+                value_found = true;
+              }
+            }
+            return value_found;
+          }
+        }, {
+          key: 'dom_ready',
+          value: function dom_ready(fn) {
+            if (document.readyState !== 'loading') {
+              fn();
+            } else {
+              document.addEventListener('DOMContentLoaded', fn);
+            }
+          }
         }]);
 
         return EsbUtil;
@@ -11773,7 +9734,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 					self.config_json_global_options = self.config.get('frames');
 					self.page_level_config_element = self.get_page_level_config_element();
 
-					self.is_component_frame = self.get_component_frame_status();
+					self.is_include_frame = self.get_include_frame_status();
 					self.default_options = self.get_default_options();
 
 					self.set_device_presets();
@@ -11799,8 +9760,8 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 					self.options = self.get_frame_options();
 					self.iframe_src = self.options.iframe_src;
 
-					if (self.is_component_frame) {
-						self.is_component_template_url_valid().then(function () {
+					if (self.is_include_frame) {
+						self.is_include_template_url_valid().then(function () {
 							self.placeholder_element = self.get_placeholder_element();
 							self.placeholder_created = true;
 						}, function () {
@@ -11916,19 +9877,19 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						return option_value;
 					}
 				}, {
-					key: 'get_component_frame_status',
-					value: function get_component_frame_status() {
+					key: 'get_include_frame_status',
+					value: function get_include_frame_status() {
 						var self = this,
-						    is_component_frame = false,
+						    is_include_frame = false,
 						    global_config_json_variation = self.get_global_config_option('variation'),
 						    page_level_config_variation = self.get_page_level_config_option('variation'),
 						    element_level_config_variation = self.get_element_level_config_option('variation');
 
 						if (element_level_config_variation !== undefined || page_level_config_variation !== undefined || global_config_json_variation !== undefined) {
-							is_component_frame = true;
+							is_include_frame = true;
 						}
 
-						return is_component_frame;
+						return is_include_frame;
 					}
 				}, {
 					key: 'get_default_options',
@@ -11956,21 +9917,24 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							'device-frame': false,
 							'show-browser-ui': false,
 							'variation': false,
-							'component-frame-template': 'component_frame_template.html',
-							'component-frame-template-target': 'body',
-							'component-source': '',
+							'include-frame-template': 'include_frame_template.html',
+							'include-frame-template-target': 'body',
+							'include-source': '',
 							'place': 'replace',
 							'crop': false,
 							'offset-x': false,
-							'offset-y': false
+							'offset-y': false,
+							'content': false,
+							'fit-frame-to-contents': false
 						};
 
-						if (self.is_component_frame) {
+						if (self.is_include_frame) {
 							options.width = false;
 							options.height = 'auto';
 							options.scale = 1;
 							options['viewport-width'] = false;
 							options['viewport-aspect-ratio'] = false;
+							options['fit-frame-to-contents'] = true;
 						}
 
 						return options;
@@ -12020,6 +9984,10 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 
 						//VIEWPORT-DEVICE and VIEWPORT-DEVICE-ORIENTATION
 						if (options['viewport-device']) {
+							if (options['viewport-device'] === 'desktop') {
+								options['viewport-device-orientation'] = 'landscape';
+							}
+
 							device_dimensions = self.get_device_dimensions(options['viewport-device'], options['viewport-device-orientation'], options['show-browser-ui']);
 							if (device_dimensions) {
 								options['viewport-width'] = device_dimensions.width;
@@ -12039,14 +10007,14 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						return options;
 					}
 				}, {
-					key: 'is_component_template_url_valid',
-					value: function is_component_template_url_valid() {
+					key: 'is_include_template_url_valid',
+					value: function is_include_template_url_valid() {
 						var self = this,
 						    request = new XMLHttpRequest();
 
 						return new _Promise(function (resolve, reject) {
 
-							request.open('HEAD', self.options['component-frame-template'], true);
+							request.open('HEAD', self.options['include-frame-template'], true);
 
 							request.onload = function () {
 								if (request.status >= 200 && request.status < 400) {
@@ -12054,7 +10022,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 								} else {
 									// We reached our target server, but it returned an error
 									self.has_loading_error = true;
-									self.loading_error_message = 'Could not load Component Frame, no component template found at: ' + self.options['component-frame-template'];
+									self.loading_error_message = 'Could not load Include in Frame, no include template found at: ' + self.options['include-frame-template'];
 									reject(self.loading_error_message);
 								}
 							};
@@ -12062,7 +10030,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							request.onerror = function () {
 								// There was a connection error of some sort
 								self.has_loading_error = true;
-								self.loading_error_message = 'Could not load Component Frame, a connection error occurred while attempting to load: ' + self.options['component-frame-template'];
+								self.loading_error_message = 'Could not load Include in Frame, a connection error occurred while attempting to load: ' + self.options['include-frame-template'];
 								reject(self.loading_error_message);
 							};
 
@@ -12075,9 +10043,9 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						var self = this,
 						    iframe_src;
 
-						// COMPONENT FRAME
-						if (self.is_component_frame) {
-							iframe_src = self.build_component_iframe_src(options);
+						// INCLUDE FRAME
+						if (self.is_include_frame) {
+							iframe_src = self.build_include_iframe_src(options);
 						}
 						// REGULAR FRAME
 						else {
@@ -12096,44 +10064,52 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						return iframe_src;
 					}
 				}, {
-					key: 'build_component_iframe_src',
+					key: 'build_include_iframe_src',
 
-					// COMPONENT FRAME ONLY
-					value: function build_component_iframe_src(options) {
+					// INCLUDE FRAME ONLY
+					value: function build_include_iframe_src(options) {
 						// Support legacy 'data-frame-component' syntax
 						var self = this,
-						    component_url = options['component-frame-template'],
-						    component_name = self.original_element.getAttribute('data-frame-component'),
-						    component_variation = self.original_element.getAttribute('data-variation'),
-						    component_source = self.original_element.getAttribute('data-source'),
-						    component_place = self.original_element.getAttribute('data-place');
+						    include_url = options['include-frame-template'],
+						    include_name = self.original_element.getAttribute('data-frame-component'),
+						    include_variation = self.original_element.getAttribute('data-variation'),
+						    include_source = self.original_element.getAttribute('data-source'),
+						    include_place = self.original_element.getAttribute('data-place'),
+						    include_content = self.original_element.getAttribute('data-content');
 
-						if (component_name === null) {
-							component_name = options.frame;
+						if (include_name === null) {
+							include_name = options.frame;
 						}
 
-						if (component_variation === null) {
-							component_variation = options.variation;
+						if (include_variation === null) {
+							include_variation = options.variation;
 						}
 
-						if (component_source === null) {
-							component_source = options['component-source'];
+						if (include_source === null) {
+							include_source = options['include-source'];
 						}
 
-						if (component_place === null) {
-							component_place = options.place;
+						if (include_place === null) {
+							include_place = options.place;
 						}
 
-						if (component_url.indexOf('?') !== -1) {
+						if (include_content === null) {
+							include_content = options.content;
+						}
+
+						if (include_url.indexOf('?') !== -1) {
 							// already has query params
-							component_url += '&';
+							include_url += '&';
 						} else {
-							component_url += '?';
+							include_url += '?';
 						}
 
-						component_url += 'data-esb-component=' + component_name + '&data-esb-variation=' + component_variation + '&data-esb-source=' + component_source + '&data-esb-place=' + component_place + '&data-esb-target=' + options['component-frame-template-target'];
+						include_url += 'data-esb-include=' + include_name + '&data-esb-variation=' + include_variation + '&data-esb-source=' + include_source + '&data-esb-place=' + include_place + '&data-esb-target=' + options['include-frame-template-target'];
+						if (include_content) {
+							include_url += '&data-esb-content=' + include_content;
+						}
 
-						return encodeURI(component_url).replace(/#/, '%23');
+						return encodeURI(include_url).replace(/#/, '%23');
 					}
 				}, {
 					key: 'is_option_overridden',
@@ -12248,8 +10224,8 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						if (self.options.overlay) {
 							EsbUtil.addClass(outer_wrap, 'esb-frame-has-overlay');
 						}
-						if (self.is_component_frame) {
-							EsbUtil.addClass(outer_wrap, ' esb-frame--is-framed-component');
+						if (self.is_include_frame) {
+							EsbUtil.addClass(outer_wrap, ' esb-frame--is-framed-include');
 						}
 						if (self.has_loading_error) {
 							EsbUtil.addClass(outer_wrap, 'esb-frame--has-loading-error');
@@ -12320,7 +10296,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						if (self.options['viewport-device'] && self.options['device-annotation']) {
 							device_annotation = document.createElement('p');
 							annotation_text = self.device_presets[self.options['viewport-device']]['annotation-name'];
-							if (self.options['viewport-device-orientation'] === 'landscape') {
+							if (self.options['viewport-device-orientation'] === 'landscape' && self.options['viewport-device'] !== 'desktop') {
 								annotation_text += ', Landscape';
 							}
 							device_annotation.textContent = annotation_text;
@@ -12467,7 +10443,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 
 						if (self.options.height) {
 							height = self.options.height;
-						} else if (self.is_component_frame) {
+						} else if (self.is_include_frame) {
 							height = 180; //Set a nice default height so the loading animation displays
 						} else if (width && self.options['viewport-aspect-ratio']) {
 							height = width * self.options['viewport-aspect-ratio'];
@@ -12483,7 +10459,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 							width = self.options.width;
 						}
 
-						if (!self.options.crop && self.is_component_frame) {
+						if (!self.options.crop && self.is_include_frame) {
 							width = 100;
 							height = 100;
 						}
@@ -12521,6 +10497,9 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 
 						if (self.options['offset-y']) {
 							dimensions.top = self.options['offset-y'] + 'px';
+							if (self.options['offset-y'] < 0) {
+								dimensions.height = dimensions.height.replace(/px/, '') * 1 + Math.abs(self.options['offset-y']) + 'px';
+							}
 						}
 
 						return dimensions;
@@ -12708,21 +10687,12 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 								self.stop_monitoring_scrollable_ancestors();
 							}
 
-							if (self.is_component_frame) {
-								self.component_loaded_in_iframe_behavior();
+							if (self.options['fit-frame-to-contents']) {
+								self.fit_frame_to_contents();
 							} else {
 								self.set_dimensions_annotation_status('updated');
 							}
 						}
-					}
-				}, {
-					key: 'component_loaded_in_iframe_behavior',
-
-					// COMPONENT FRAME ONLY - REFACTOR
-					value: function component_loaded_in_iframe_behavior() {
-						var self = this;
-
-						self.fit_frame_to_contents();
 					}
 				}, {
 					key: 'is_visible',
@@ -12872,9 +10842,14 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 						var self = this,
 						    inner_wrap = self.viewer_element.querySelector('.esb-frame-iframe-inner-wrap'),
 						    scale = self.options.scale,
-						    wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap');
+						    wrap = self.viewer_element.querySelector('.esb-frame-iframe-wrap'),
+						    offset_height_adjust = 0;
 
-						inner_wrap.style.height = height + 'px';
+						if (self.options['offset-y'] < 0) {
+							offset_height_adjust = Math.abs(self.options['offset-y']);
+						}
+
+						inner_wrap.style.height = height + offset_height_adjust + 'px';
 
 						if (!self.options.crop) {
 							if (!scale) {
@@ -12909,7 +10884,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 				}, {
 					key: 'fit_frame_to_contents',
 
-					// COMPONENT FRAME ONLY
+					// INCLUDE FRAME ONLY
 					value: function fit_frame_to_contents() {
 						var self = this,
 						    content,
@@ -12940,23 +10915,28 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 								blocks_done_interval = setInterval(function () {
 									// Make sure blocks has finished doing its thing
 									if (self.iframe_element.contentWindow.blocks_done) {
+										window.console.log('BLOCKS DONE');
 										clearInterval(blocks_done_interval);
 
-										assets_done_loading_interval = setInterval(function () {
-											content = self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML;
-											wrapper_element.innerHTML = content;
-											// Wrap contents with a display: inline-block; element to get an accurate height and width
-											self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = '';
-											self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).appendChild(wrapper_element);
+										content = self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML;
+										window.console.log(content);
+										wrapper_element.innerHTML = content;
+										// Wrap contents with a display: inline-block; element to get an accurate height and width
+										self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML = '';
+										self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).appendChild(wrapper_element);
 
+										// Take a pause before assessing height since the appendChild causes the DOM to reload
+										// content_height = EsbUtil.outerHeight(wrapper_element);
+										// content_width = EsbUtil.outerWidth(wrapper_element);
+
+										assets_done_loading_interval = setInterval(function () {
 											content_height = EsbUtil.outerHeight(wrapper_element);
 											content_width = EsbUtil.outerWidth(wrapper_element);
 
-											// Unwrap contents
-											content = wrapper_element.innerHTML;
-											self.iframe_element.contentWindow.document.querySelector(self.options['component-frame-template-target']).innerHTML = content;
-
 											if (content_height === previous_height && content_width === previous_width) {
+												// Unwrap contents
+												content = wrapper_element.innerHTML;
+												self.iframe_element.contentWindow.document.querySelector(self.options['include-frame-template-target']).innerHTML = content;
 												clearInterval(assets_done_loading_interval);
 												// Add a slight delay so the dom can re-render correctly and we get accurate width and height calculations
 												setTimeout(function () {
@@ -12969,7 +10949,7 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 												previous_height = content_height;
 												previous_width = content_width;
 											}
-										}, 50);
+										}, 250);
 									}
 								}, 10);
 							}
@@ -13215,6 +11195,18 @@ System.register('src/esb-frame', ['npm:babel-runtime@5.2.9/helpers/create-class'
 								'svg-landscape': '<svg class="esb-frame-device" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 335 163" enable-background="new 0 0 335 163" xml:space="preserve"> <g> <path fill="#FFFFFF" stroke="#808285" d="M308.5,0.5c14.359,0,26,11.641,26,26v110c0,14.359-11.641,26-26,26h-282 c-14.359,0-26-11.641-26-26v-110c0-14.359,11.641-26,26-26H308.5z"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M316.5,62.166c4.418,0,8,3.582,8,8v22.667c0,4.418-3.582,8-8,8 l0,0c-4.418,0-8-3.582-8-8V70.166C308.5,65.748,312.083,62.166,316.5,62.166L316.5,62.166z"/> <path fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" d="M13.042,65.508c1.381,0,2.5,1.119,2.5,2.5v26.984 c0,1.381-1.119,2.5-2.5,2.5l0,0c-1.381,0-2.5-1.119-2.5-2.5V68.008C10.542,66.627,11.661,65.508,13.042,65.508L13.042,65.508z"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.354" cy="112.635" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.354" cy="105.01" r="2.438"/> <circle fill="#FFFFFF" stroke="#808285" stroke-miterlimit="10" cx="12.229" cy="42.572" r="4.125"/> </g> </svg>',
 								'frame-width-multiplier': '1.098',
 								'frame-height-multiplier': '1.268'
+							},
+							'desktop': {
+								'annotation-name': 'Desktop',
+								'width': 788,
+								'height': 1400,
+								'browser-ui-top-portrait': 20,
+								'browser-ui-bottom-portrait': 0,
+								'browser-ui-top-landscape': 20,
+								'browser-ui-bottom-landscape': 0,
+								'svg-landscape': '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="2.084 2 550.917 428.055" enable-background="new 2.084 2 550.917 428.055" xml:space="preserve"><g id="IPAD" transform="translate(681.000000, 55.000000)"><path id="bezel-2" fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M-136.749,324.034h-533.417c-4.28,0-7.75-3.469-7.75-7.748V-44.253c0-4.278,3.469-7.747,7.75-7.747h533.417c4.28,0,7.75,3.469,7.75,7.747v360.539C-128.999,320.565-132.468,324.034-136.749,324.034z"/></g><path fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M336.246,380.968v25.508c0,8.906-7.221,16.127-16.127,16.127h-85.152c-8.906,0-16.127-7.221-16.127-16.127v-25.508H336.246z"/><path fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M277.542,420.668"/><path fill="#FFFFFF" stroke="#7F89A3" stroke-width="2" d="M367.533,419.055c0,5.522-4.477,9.999-9.999,9.999H197.552\tc-5.523,0-10-4.477-10-9.999l0,0c0-5.522,4.477-9.999,10-9.999h159.981C363.056,409.056,367.533,413.533,367.533,419.055L367.533,419.055z"/></svg>',
+								'frame-width-multiplier': '1.518',
+								'frame-height-multiplier': '1.1'
 							}
 						};
 					}
@@ -13263,6 +11255,7 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 					key: 'set_mark_options',
 					value: function set_mark_options() {
 						var self = this,
+						    visible_on_load_marks,
 						    options = {
 							'mark': null,
 							'id': null,
@@ -13271,7 +11264,9 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 							'outline': true,
 							'group': null,
 							'visible-on-load': true,
-							'href': false
+							'href': false,
+							'show-label': true,
+							'mark-id': false
 						},
 						    option = null,
 						    value = null,
@@ -13329,6 +11324,16 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 							}
 						}
 
+						if (typeof options['visible-on-load'] === 'string') {
+							visible_on_load_marks = options['visible-on-load'].split(',');
+
+							if (visible_on_load_marks.length > 0 && visible_on_load_marks.indexOf(options['mark-id']) !== -1) {
+								options['visible-on-load'] = true;
+							} else {
+								options['visible-on-load'] = false;
+							}
+						}
+
 						self.options = options;
 					}
 				}, {
@@ -13357,6 +11362,10 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 
 						if (self.options.outline) {
 							EsbUtil.addClass(mark_wrapper, 'esb-mark--has-outline');
+						}
+
+						if (self.options['show-label']) {
+							EsbUtil.addClass(mark_wrapper, 'esb-mark--has-label');
 						}
 
 						if (self.options.group !== null) {
@@ -13496,784 +11505,8 @@ System.register('src/esb-mark', ['npm:babel-runtime@5.2.9/helpers/create-class',
 		}
 	};
 });
-System.register('src/esb-component', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/helpers/to-consumable-array', 'npm:babel-runtime@5.2.9/core-js/map', 'npm:babel-runtime@5.2.9/core-js/array/from', 'npm:babel-runtime@5.2.9/core-js/set', 'github:components/jquery@2.1.3', 'npm:handlebars@2.0.0', 'src/esb-config', 'src/esb-util'], function (_export) {
-  var _createClass, _classCallCheck, _toConsumableArray, _Map, _Array$from, _Set, $, handlebars, EsbConfig, EsbUtil, EsbComponent;
-
-  return {
-    setters: [function (_npmBabelRuntime529HelpersCreateClass) {
-      _createClass = _npmBabelRuntime529HelpersCreateClass['default'];
-    }, function (_npmBabelRuntime529HelpersClassCallCheck) {
-      _classCallCheck = _npmBabelRuntime529HelpersClassCallCheck['default'];
-    }, function (_npmBabelRuntime529HelpersToConsumableArray) {
-      _toConsumableArray = _npmBabelRuntime529HelpersToConsumableArray['default'];
-    }, function (_npmBabelRuntime529CoreJsMap) {
-      _Map = _npmBabelRuntime529CoreJsMap['default'];
-    }, function (_npmBabelRuntime529CoreJsArrayFrom) {
-      _Array$from = _npmBabelRuntime529CoreJsArrayFrom['default'];
-    }, function (_npmBabelRuntime529CoreJsSet) {
-      _Set = _npmBabelRuntime529CoreJsSet['default'];
-    }, function (_githubComponentsJquery213) {
-      $ = _githubComponentsJquery213['default'];
-    }, function (_npmHandlebars200) {
-      handlebars = _npmHandlebars200['default'];
-    }, function (_srcEsbConfig) {
-      EsbConfig = _srcEsbConfig['default'];
-    }, function (_srcEsbUtil) {
-      EsbUtil = _srcEsbUtil['default'];
-    }],
-    execute: function () {
-      'use strict';
-
-      EsbComponent = (function () {
-        function EsbComponent(opts) {
-          _classCallCheck(this, EsbComponent);
-
-          var self = this;
-
-          self.logger = EsbUtil.logger;
-
-          self.has_nested = false;
-          self.classes = [];
-          self.attributes = {};
-          self.has_nested = false;
-
-          // Kids!
-          self.children = new _Map();
-
-          // This is irritating but, we need to track the header classes for
-          // nested components for when it comes time to render
-          self.child_classes = {};
-          self.child_attributes = {};
-
-          // Keep count of child dependencies (nested components)
-          self.child_count = 0;
-          self.children_loaded = 0;
-          self.children_rendered = 0;
-          // For components with no children we can skip ahead
-          self.no_children = false;
-
-          self.init(opts);
-        }
-
-        _createClass(EsbComponent, [{
-          key: 'init',
-          value: function init(opts) {
-            var self = this,
-                $component = opts.component;
-
-            self.config = EsbConfig.getConfig();
-            self.parent = opts.parent;
-            self.page = opts.page;
-
-            self._setID($component);
-            self.$el = $component;
-            self.name = $component.attr('data-component') === undefined ? $component.attr('data-esb-component') : $component.attr('data-component');
-            self.source = $component.attr('data-source') === undefined ? $component.attr('data-esb-source') : $component.attr('data-source');
-
-            self._setComponentPath();
-            self._setVariationName($component);
-            self._setTemplateData($component);
-            self._setWrappingMarkup($component);
-
-            // Rendering configuration
-            self._setRenderingConfig();
-
-            self.is_nested = self.parent.type === undefined || self.parent.type === 'component';
-            self.classes.push($component.attr('class'));
-          }
-        }, {
-          key: 'load',
-          value: function load() {
-            var self = this;
-
-            $.when(self.fetch()).then(function (data) {
-              self.parse(data).done(function () {
-                self.parent.childDoneLoading(self);
-              });
-            });
-          }
-        }, {
-          key: 'addTemplate',
-          value: function addTemplate(variation) {
-            var self = this,
-                variation_html = variation.html(),
-                tmpl;
-
-            if (variation_html !== undefined && variation_html.length > 0) {
-              tmpl = $.trim(variation_html).replace(/\n\s*/g, '');
-
-              if (!self.template) {
-                self.template = handlebars.compile(tmpl);
-                self.logger('debug', 'Added fetched template: ' + self.template_name());
-              }
-            } else {
-              self.logger('error', 'FAILED TO FIND VARIATION: ' + self.variation_name + ' in ' + self.name);
-            }
-          }
-        }, {
-          key: 'fetch',
-          value: function fetch() {
-            var self = this,
-                uri = self.template_uri(),
-                fetch_opts = {
-              type: 'GET',
-              url: uri,
-              dataType: 'html',
-              cache: false,
-              timeout: 15000
-            },
-                promise;
-
-            // TODO: This cache key name needs to handle library conflicts
-            promise = self.page.cache[self.name];
-
-            if (promise === undefined) {
-              promise = $.ajax(fetch_opts);
-              self.page.cache[self.name] = promise;
-              self.logger('debug', 'Queued component template: ' + self.name);
-
-              self._injectCSS();
-            }
-
-            promise.done(function (results) {
-              if (results !== undefined && results !== '') {
-                self.fetched_data = results;
-
-                // Collects a unique list of page components fetched
-                // Used to inject JS once all page components are fully loaded
-                self.page.components[self.name] = self;
-
-                self.logger('debug', 'Returned component template: ' + self.name);
-              }
-            });
-
-            promise.fail(function () {
-              // Returns: jqXHR, textStatus, error
-              // var error_message = document.createElement('div');
-              var body = document.querySelectorAll('body')[0],
-                  el = document.createElement('div');
-              el.textContent = 'Blocks Error - Component template not found: ' + self.name;
-              el.classList.add('esb-component-loading-error');
-              body.insertBefore(el, body.firstChild);
-              self.logger('error', 'FAILED TO FETCH TEMPLATE: ' + self.name);
-            });
-
-            return promise;
-          }
-        }, {
-          key: 'parse',
-          value: function parse(results) {
-            var self = this,
-                $component_html,
-                $header,
-                $documentation,
-                $nested_components,
-                queued_components = [];
-
-            self.parse_deferred = new $.Deferred();
-
-            self.logger('debug', 'PARSING ' + self.template_uri());
-
-            // Yes, it needs to be wrapped.
-            results = '<div>' + results + '</div>';
-
-            // Split the file by variation
-            $component_html = $($(results).children('#variations'));
-
-            $header = $($(results).children('header'));
-            self.$header = $header;
-
-            $documentation = $($(results).children('#documentation'));
-            self.$documentation = $documentation;
-
-            // Collect header classes for component
-            self.classes.push($header.attr('class'));
-
-            // The not() here is to avoid finding nested component varations
-            self.$variation = $component_html.find('[data-variation="' + self.variation_name + '"], [data-esb-variation="' + self.variation_name + '"]').not('[data-component], [data-esb-component]');
-
-            // Collect variation classes for component
-            self.classes.push(self.$variation.attr('class'));
-
-            // Collect variation data attributes for component
-            _Array$from(self.$variation.prop('attributes')).forEach(function (attr) {
-              if (attr.name === 'class') {
-                return true;
-              }
-              self.attributes[attr.name] = attr.value;
-            });
-
-            // Nested components need to put their classes in a special place
-            if (self.is_nested) {
-              self.parent.child_classes[self.template_name()] = self.classes;
-              self.parent.child_attributes[self.template_name()] = self.attributes;
-            }
-
-            // Update img src path for library components
-            if (self.source === 'library') {
-              self.updateImgSrcPath();
-            }
-
-            $nested_components = self.$variation.find('*[data-component], *[data-esb-component]');
-
-            if ($nested_components !== undefined && $nested_components.length > 0) {
-              $nested_components.each(function (idx, nested_component) {
-                var $nested_component = $(nested_component),
-                    nested_component_id = EsbUtil.generateUUID();
-
-                self.logger('debug', 'FOUND nested component: ' + $nested_component.attr('data-component') === undefined ? $nested_component.attr('data-esb-component') : $nested_component.attr('data-component'));
-                self.child_count++;
-
-                // Assign a UUID to find the component in the DOM later
-                $nested_component.attr('data-blocks-uuid', nested_component_id);
-
-                // MUST queue the components to get an accurate child count
-                // Otherwise a race condition is created where the child count doesn't
-                // fully increment (never gets beyond 1) before child fetches start returning
-                // (especially for a cached component)
-                queued_components.push({ parent: self, component: $nested_component });
-              });
-            } else {
-              self.no_children = true;
-            }
-
-            // Render our template now that the UUIDs have been set on the nested components
-            self.addTemplate(self.$variation);
-
-            // If we've got no children then we can resolve the parsing promise
-            if (self.no_children === true) {
-              self.parse_deferred.resolve();
-            }
-
-            if (self.child_count > 0) {
-              self.logger('debug', 'TMPL ' + self.template_name() + ' has ' + self.child_count + ' children');
-
-              _Array$from(queued_components).forEach(function (queued_component) {
-                var component;
-
-                component = new EsbComponent({
-                  parent: queued_component.parent,
-                  component: queued_component.component,
-                  page: queued_component.parent.page
-                });
-
-                // This is new and probably not the desired behavior. The EsbPage.display() loads each
-                // page-level component whereas before we just autoloaded each component.
-                // But now we would need to rip apart load and rely on EsbPage to do all of that.
-                // Circumnavigating this for now.
-                component.load();
-              });
-            }
-
-            return self.parse_deferred;
-          }
-        }, {
-          key: 'childDoneLoading',
-          value: function childDoneLoading(child) {
-            var self = this;
-
-            self.logger('debug', 'CHILD LOADED: ' + child.template_name());
-            self.children_loaded++;
-
-            self.children.set(child.uuid, child);
-
-            if (self.child_count === self.children_loaded) {
-              if (self.parent !== undefined) {
-                self.parent.childDoneLoading(self);
-              }
-            }
-          }
-        }, {
-          key: 'childDoneRendering',
-          value: function childDoneRendering(child) {
-            var self = this,
-                child_components,
-                replaceWithChild = function replaceWithChild(nested_component) {
-              var $nested_component = $(nested_component),
-                  uuid = self._getIDFromVariation($nested_component),
-                  target_child = self.children.get(uuid);
-
-              self.$el = target_child.$el;
-            },
-                returnChildElement = function returnChildElement(nested_component) {
-              var $nested_component = $(nested_component),
-                  uuid = self._getIDFromVariation($nested_component),
-                  target_child = self.children.get(uuid);
-
-              return target_child.$el[0];
-            },
-                updateChild = function updateChild(nested_component) {
-              var $nested_component = $(nested_component),
-                  uuid = self._getIDFromVariation($nested_component),
-                  target_child = self.children.get(uuid);
-
-              $(nested_component).replaceWith(target_child.$el);
-            };
-
-            self.children_rendered++;
-
-            if (self.child_count === self.children_rendered) {
-              self.renderTemplate();
-              self.logger('debug', 'CHILD RENDERED: ' + child.template_name());
-
-              // Update your DOM with your kids' rendered templates
-              child_components = self.$el.find('[data-component], [data-esb-component]');
-
-              if (child_components !== undefined && child_components.length > 0) {
-                child_components.each(function (idx, nested_component) {
-                  updateChild(nested_component);
-                });
-              } else {
-                // If we didn't find any child components we might be a
-                // parent that should be replaced by a single child
-                if (self.$el.length === 1) {
-                  if (self.$el[0].hasAttribute('data-component') || self.$el[0].hasAttribute('data-esb-component')) {
-                    if (self.replace_reference) {
-                      replaceWithChild(self.$el[0]);
-                    } else {
-                      updateChild(self.$el[0]);
-                    }
-                  }
-                } else if (self.$el.length > 1) {
-                  // Our child is replaced and thus has no wrapper around the elements therein.
-                  // Therefore this an array of elements
-                  $.each(self.$el, function (idx, el) {
-                    if ($(el)[0].hasAttribute('data-component') || $(el)[0].hasAttribute('data-esb-component')) {
-                      self.$el[idx] = returnChildElement($(el));
-                    }
-                  });
-                }
-              }
-
-              self.parent.childDoneRendering(self);
-            }
-          }
-        }, {
-          key: 'render',
-          value: function render() {
-            var self = this;
-
-            if (self.no_children === true || self.children_rendered === self.children_loaded) {
-
-              self.renderTemplate();
-
-              if (self.parent) {
-                self.parent.childDoneRendering(self);
-              }
-            } else {
-              // Render each child down the tree
-              self.children.forEach(function (child) {
-                child.render();
-              });
-            }
-          }
-        }, {
-          key: 'renderTemplate',
-          value: function renderTemplate() {
-            var self = this,
-                rendered_tmpl = self.template(self.template_data),
-                addClasses = function addClasses() {
-              // Sets must have unique keys thus this can replace _.uniq()
-              self.$el.attr('class', [].concat(_toConsumableArray(new _Set(self.classes))).join(' '));
-            },
-                setAttributes = function setAttributes() {
-              for (var attribute in self.attributes) {
-                self.$el.attr(attribute, self.attributes[attribute]);
-              }
-            },
-                wrapWithComments = function wrapWithComments() {
-              self.$el.prepend(self.comment_start);
-              self.$el.append(self.comment_end);
-            },
-                wrapWithDocFrame = function wrapWithDocFrame() {
-              var $doc_frame = self.documentationFrame(),
-                  $component = self.$el.clone();
-
-              if ($doc_frame !== undefined) {
-                $doc_frame.find('*').contents().filter(function () {
-                  return this.nodeType === 8;
-                }).replaceWith($component);
-
-                self.$el.replaceWith($doc_frame.children());
-              }
-            };
-
-            if (self.replace_reference === true) {
-              if (self.enclose !== undefined && self.enclose.length > 0) {
-                self.$el = self.enclose;
-
-                if (self.$el.children().length === 0) {
-                  self.$el.append(rendered_tmpl);
-                } else {
-                  self.$el.children().last().append(rendered_tmpl);
-                }
-              } else {
-                self.$el.replaceWith($(rendered_tmpl));
-              }
-
-              if (self.config.get('components').has('wrap_with_comments') && self.config.get('components').get('wrap_with_comments') === true) {
-                wrapWithComments();
-              }
-            } else {
-              if (self.enclose !== undefined && self.enclose.length > 0) {
-                self.$el = self.enclose;
-
-                if (self.$el.children().length === 0) {
-                  self.$el.append(rendered_tmpl);
-                  addClasses();
-                  setAttributes();
-                } else {
-                  self.$el.children().last().append(rendered_tmpl);
-                }
-              } else {
-                self.$el.append(rendered_tmpl);
-                addClasses();
-                setAttributes();
-              }
-            }
-
-            if (self.hasDocumentation() && self.hasDocumentationFrame()) {
-              wrapWithDocFrame();
-              // Signal to the Page to replace the componet with the doc frame
-              self.frame_with_documentation = true;
-            }
-          }
-        }, {
-          key: 'css_uri',
-          value: function css_uri() {
-            return this.component_path + 'css/' + this.name + '.css';
-          }
-        }, {
-          key: 'documentationFrame',
-          value: function documentationFrame() {
-            var self = this,
-                variation_name = self.$el.attr('data-frame-variation'),
-                $variation;
-
-            if (self.hasDocumentation() && self.hasDocumentationFrame()) {
-              $variation = self.$documentation.find('*[data-variation="' + variation_name + '"]');
-
-              if (variation_name !== undefined && $variation !== undefined && (variation_name.length > 0 && $variation.length > 0)) {
-                return $variation;
-              }
-            }
-          }
-        }, {
-          key: 'hasDocumentation',
-          value: function hasDocumentation() {
-            var self = this;
-            return self.$documentation !== undefined && self.$documentation.length > 0;
-          }
-        }, {
-          key: 'hasDocumentationFrame',
-          value: function hasDocumentationFrame() {
-            var self = this,
-                variation_name = self.$el.attr('data-frame-variation');
-
-            return variation_name !== undefined && variation_name.length > 0;
-          }
-        }, {
-          key: 'injectJS',
-          value: function injectJS(page) {
-            var self = this,
-                uri = self.js_uri(),
-                event_name = self.template_name(),
-                triggerCallback = function triggerCallback() {
-              self.logger('debug', 'Triggering ' + event_name);
-              $(document).trigger(event_name);
-            },
-                notifyParent = function notifyParent() {
-              page.childDoneInjectingJS();
-            },
-                fetch_config = {
-              type: 'HEAD',
-              url: uri,
-              dataType: 'html', // DO NOT set to 'script'. jQuery will use $.getScript() which automatically inserts the JS into the DOM thus all component JS will execute twice
-              cache: false
-            },
-                promise;
-
-            promise = $.ajax(fetch_config);
-
-            promise.done(function () {
-              // Note: Content-Length isn't present when Blocks is loaded via file://
-              // and responseText isn't present when Blocks is loaded via http://.
-
-              // The Content-Encoding check should not be needed, however some servers are not
-              // reliably sending the Content-Length header when serving our prototype's css files as of 1/10/14
-              if (promise.getResponseHeader('Content-Length') > 0 || promise.responseText.length > 0 || promise.getResponseHeader('Content-Encoding') === 'gzip') {
-                if (self.config.get('wrap_injected_js_with_comments')) {
-                  $('head').append('<!--<script data-blocks-injected-js="true" src="' + uri + '"></script>-->'); //config option will wrap injected scripts inside a comment preventing them from executing. Useful when using blocks with other processing tools that can later uncomment the scripts
-                } else {
-                  $('head').append('<script src="' + uri + '"></script>');
-                  triggerCallback();
-                }
-              } else {
-                self.logger('debug', 'JS resource is empty: ' + uri);
-              }
-
-              notifyParent();
-            });
-
-            promise.fail(function () {
-              // Returns: jqXHR, textStatus, error
-              self.logger('debug', 'JS resource is missing: ' + uri);
-              notifyParent();
-            });
-          }
-        }, {
-          key: 'js_uri',
-          value: function js_uri() {
-            return this.component_path + 'js/' + this.name + '.js';
-          }
-        }, {
-          key: 'template_name',
-
-          /**
-           * @method: template_name
-           *
-           * This is the sanitized and unique compound of the component and variation name
-           * The template system requires this.
-           */
-          value: function template_name() {
-            return [this.name, this.sanitized_variation_name].join('_');
-          }
-        }, {
-          key: 'template_uri',
-          value: function template_uri() {
-            return this.component_path + this.name + '.html';
-          }
-        }, {
-          key: '_constructVariationName',
-
-          // "PRIVATE" methods
-          value: function _constructVariationName(name) {
-            return name !== undefined ? name : 'default';
-          }
-        }, {
-          key: '_getIDFromVariation',
-          value: function _getIDFromVariation($component) {
-            return $component.attr('data-blocks-uuid');
-          }
-        }, {
-          key: '_isJSON',
-
-          /**
-           * @method: _isJSON
-           *
-           * Wraps a call to parseJSON
-           */
-          value: function _isJSON(str) {
-            try {
-              $.parseJSON(str);
-            } catch (e) {
-              return false;
-            }
-            return true;
-          }
-        }, {
-          key: '_injectCSS',
-
-          /**
-           * @method: _injectCSS
-           *
-           * Performs a HEAD request so that we only append links to CSS files that
-           * actually exist.
-           * Note: Content-Length isn't present when Blocks is loaded via file://
-           * and responseText isn't present when Blocks is loaded via http://.
-           *
-           * The Content-Encoding check should not be needed, however some servers
-           * are not reliably sending the Content-Length header when serving our prototype's css files
-           * as of 1/10/14.
-           */
-          value: function _injectCSS() {
-            var self = this,
-                uri = self.css_uri(),
-                $head = $('head'),
-                fetch_config = {
-              type: 'HEAD',
-              url: uri,
-              dataType: 'html',
-              cache: false
-            },
-                promise;
-
-            promise = $.ajax(fetch_config);
-
-            promise.done(function () {
-              if (promise.getResponseHeader('Content-Length') > 0 || promise.responseText.length > 0 || promise.getResponseHeader('Content-Encoding') === 'gzip') {
-                $head.append('<link rel="stylesheet" href="' + uri + '" />');
-              } else {
-                self.logger('warn', 'CSS resource is empty: ' + uri);
-              }
-            });
-
-            promise.fail(function () {
-              // Returns: jqXHR, textStatus, error
-              self.logger('debug', 'CSS resource is missing: ' + uri);
-            });
-          }
-        }, {
-          key: '_sanitizeVariationName',
-          value: function _sanitizeVariationName(name) {
-            return name.replace(/-/g, '_');
-          }
-        }, {
-          key: '_setComponentPath',
-
-          /*
-           * @method: _setComponentPath
-           *
-           * Uses the data-source attribute or components.source from
-           * the config to obtain the path to the component template files.
-           * If your parent is in the library then, you are too.
-           */
-          value: function _setComponentPath() {
-            var self = this,
-                source = self.source,
-                path = 'components/';
-
-            if (source !== undefined && source.length > 0) {
-              path = source;
-            } else if (self.config.get('components') !== undefined) {
-              if (self.config.get('components').get('source') !== undefined) {
-                path = self.config.get('components').get('source');
-              }
-            } else {
-              self.logger('error', 'Could not determine path to components.');
-            }
-
-            if (self.parent !== undefined && self.parent.type !== 'page') {
-              if (self.parent.source === 'library') {
-                path = 'library';
-              }
-            }
-
-            if (path === 'library') {
-              self.source = path;
-              path = 'library/components/';
-            }
-
-            self.component_path = path;
-          }
-        }, {
-          key: '_setID',
-          value: function _setID($el) {
-            var self = this;
-            self.uuid = $el.attr('data-blocks-uuid');
-          }
-        }, {
-          key: '_setRenderingConfig',
-
-          /*
-           * @method: setRenderingConfig
-           *
-           * If either the data-place attribute or components.replace_reference
-           * is set to true then the element, a component, will be replaced
-           * rather than appended to.
-           *
-           */
-          value: function _setRenderingConfig() {
-            var self = this;
-
-            if (self.config.has('components')) {
-              if (self.config.get('components').get('replace_reference') === true) {
-                self.replace_reference = true;
-              }
-            }
-
-            if (self.$el.attr('data-place') !== undefined || self.$el.attr('data-esb-place') !== undefined) {
-              if (self.$el.attr('data-place') === 'replace' || self.$el.attr('data-esb-place') === 'replace') {
-                self.replace_reference = true;
-              } else if (self.$el.attr('data-place') === 'inner' || self.$el.attr('data-esb-place') === 'inner') {
-                self.replace_reference = false;
-              }
-            }
-
-            if (self.replace_reference === true) {
-              self.comment_start = '<!-- #block data-esb-component="' + self.name + '" data-esb-variation="' + self.variation_name + '" -->';
-              self.comment_end = '<!-- /block data-esb-component="' + self.name + '" data-esb-variation="' + self.variation_name + '" -->';
-            }
-          }
-        }, {
-          key: '_setTemplateData',
-          value: function _setTemplateData($el) {
-            var self = this,
-                content = $el.attr('data-content') === undefined ? $el.attr('data-esb-content') : $el.attr('data-content'),
-                tmpl_data,
-                getTemplateData = function getTemplateData(key_string, config_data) {
-              var obj = config_data,
-                  data = false,
-                  keys = key_string.split('.'),
-                  key,
-                  key_exists = function key_exists(obj, key) {
-                return obj.hasOwnProperty(key);
-              };
-
-              for (var i = 0; i < keys.length; i++) {
-                key = keys[i];
-
-                if (key_exists(obj, key)) {
-                  obj = obj[key];
-
-                  if (i === keys.length - 1) {
-                    data = obj;
-                  }
-                } else {
-                  break;
-                }
-              }
-              return data;
-            };
-
-            if (content !== undefined && self._isJSON(content)) {
-              // Raw JSON passed in as the data-content-param
-              tmpl_data = $.parseJSON(content);
-              self.content = content;
-            } else if (self.config.has('template_data')) {
-              if (content !== undefined) {
-                tmpl_data = getTemplateData(content, self.config.get('template_data'));
-                self.content = content;
-              }
-            }
-
-            self.template_data = tmpl_data;
-          }
-        }, {
-          key: '_setVariationName',
-
-          // Sets two variation names: the original and the sanitized version
-          value: function _setVariationName($el) {
-            var name = $el.attr('data-variation') === undefined ? $el.attr('data-esb-variation') : $el.attr('data-variation'),
-                tmpl_name = this._constructVariationName(name);
-
-            this.variation_name = tmpl_name;
-            this.sanitized_variation_name = this._sanitizeVariationName(tmpl_name);
-          }
-        }, {
-          key: '_setWrappingMarkup',
-
-          /*
-           * @method: setWrappingMarkup
-           *
-           * If a component has a data-enclose attribute the value will be used
-           * to generate markup that will wrap the component.
-           *
-           */
-          value: function _setWrappingMarkup() {}
-        }]);
-
-        return EsbComponent;
-      })();
-
-      _export('EsbComponent', EsbComponent);
-    }
-  };
-});
-
-// This is just a no-op for now. Pretty sure no one uses this functionality.
-System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/promise', 'npm:babel-runtime@5.2.9/core-js/map', 'github:components/jquery@2.1.3', 'src/esb-util'], function (_export) {
-  var _createClass, _classCallCheck, _Promise, _Map, $, EsbUtil, EsbConfig;
+System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/promise', 'npm:babel-runtime@5.2.9/core-js/map'], function (_export) {
+  var _createClass, _classCallCheck, _Promise, _Map, EsbConfig;
 
   return {
     setters: [function (_npmBabelRuntime529HelpersCreateClass) {
@@ -14284,10 +11517,6 @@ System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class
       _Promise = _npmBabelRuntime529CoreJsPromise['default'];
     }, function (_npmBabelRuntime529CoreJsMap) {
       _Map = _npmBabelRuntime529CoreJsMap['default'];
-    }, function (_githubComponentsJquery213) {
-      $ = _githubComponentsJquery213['default'];
-    }, function (_srcEsbUtil) {
-      EsbUtil = _srcEsbUtil['default'];
     }],
     execute: function () {
       'use strict';
@@ -14298,7 +11527,6 @@ System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class
 
           this.url = 'config.json';
           this.setDefaults();
-          this.logger = EsbUtil.logger;
         }
 
         _createClass(EsbConfig, [{
@@ -14331,18 +11559,21 @@ System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class
                     data = JSON.parse(req.response);
                   } catch (e) {
                     //If no valid JSON Config is found, set config to an empty object and log the message
-                    self.logger('info', 'No valid JSON config found at: ' + uri + ', setting config to be an empty {}');
+                    window.console.log('info', 'No valid JSON config found at: ' + uri + ', setting config to be an empty {}');
                     data = {};
                   }
 
                   self.merge(data);
                   self.setLoggingLevel();
-                  self.makeAvailable(data);
-                  $(document).trigger('blocks-config_loaded');
+                  if (window.$ !== undefined) {
+                    window.$(document).trigger('blocks-config_loaded');
+                  }
                   resolve(data);
                 } else {
                   window.console.error('FAILED TO FETCH CONFIG: ' + uri + ' returned ' + JSON.stringify(req.statusText));
-                  $(document).trigger('blocks-config_loaded'); // We continue on with default options
+                  if (window.$ !== undefined) {
+                    window.$(document).trigger('blocks-config_loaded'); // We continue on with default options
+                  }
                   resolve(Error(req.statusText)); // Resolve the promise so Blocks can function without a config.json
                 }
               };
@@ -14353,11 +11584,6 @@ System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class
 
               req.send();
             });
-          }
-        }, {
-          key: 'makeAvailable',
-          value: function makeAvailable(data) {
-            $.data(document.body, 'config', data);
           }
         }, {
           key: 'merge',
@@ -14382,14 +11608,14 @@ System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class
             var self = this;
 
             var defaults = new _Map();
-            var components = new _Map();
+            var includes = new _Map();
 
-            components.set('source', 'components/');
+            includes.set('source', 'includes/');
 
             // Defaults
             defaults.set('backward_compatible', false);
             defaults.set('path', '');
-            defaults.set('components', components);
+            defaults.set('includes', includes);
 
             self.config = defaults;
           }
@@ -14423,8 +11649,550 @@ System.register('src/esb-config', ['npm:babel-runtime@5.2.9/helpers/create-class
     }
   };
 });
-System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/promise', 'github:components/jquery@2.1.3', 'src/esb-util', 'src/esb-component', 'src/esb-frame', 'src/esb-mark'], function (_export) {
-  var _createClass, _classCallCheck, _Promise, $, EsbUtil, EsbComponent, EsbFrame, EsbMark, EsbPage;
+System.register('src/esb-include', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/object/assign', 'npm:babel-runtime@5.2.9/core-js/promise', 'npm:handlebars@2.0.0', 'src/esb-config', 'src/esb-util', 'npm:babel-core@5.2.9/polyfill'], function (_export) {
+	var _createClass, _classCallCheck, _Object$assign, _Promise, handlebars, EsbConfig, EsbUtil, EsbInclude;
+
+	return {
+		setters: [function (_npmBabelRuntime529HelpersCreateClass) {
+			_createClass = _npmBabelRuntime529HelpersCreateClass['default'];
+		}, function (_npmBabelRuntime529HelpersClassCallCheck) {
+			_classCallCheck = _npmBabelRuntime529HelpersClassCallCheck['default'];
+		}, function (_npmBabelRuntime529CoreJsObjectAssign) {
+			_Object$assign = _npmBabelRuntime529CoreJsObjectAssign['default'];
+		}, function (_npmBabelRuntime529CoreJsPromise) {
+			_Promise = _npmBabelRuntime529CoreJsPromise['default'];
+		}, function (_npmHandlebars200) {
+			handlebars = _npmHandlebars200['default'];
+		}, function (_srcEsbConfig) {
+			EsbConfig = _srcEsbConfig['default'];
+		}, function (_srcEsbUtil) {
+			EsbUtil = _srcEsbUtil['default'];
+		}, function (_npmBabelCore529Polyfill) {}],
+		execute: function () {
+			'use strict';
+
+			//Without explicitly importing this module, CodeShip tests fail on 'Object.assign()'
+
+			EsbInclude = (function () {
+				// SETUP
+
+				function EsbInclude(opts) {
+					_classCallCheck(this, EsbInclude);
+
+					var self = this;
+					self.config = EsbConfig.getConfig();
+					self.logger = EsbUtil.logger;
+
+					self.include_snippet = opts.include_snippet;
+					self.uuid = opts.uuid;
+					self.parent_include = opts.parent_include === undefined ? false : opts.parent_include;
+					self.child_include_snippets = false;
+					self.compiled_html = false;
+					self.rendered = false;
+
+					self.overridden_options = [];
+					self.options = self.get_include_options();
+					self.base_file_path = undefined;
+					self.include_name = undefined;
+					self.include_file_path = self.get_include_file_path();
+					self.stylesheet_file_path = self.get_stylesheet_file_path();
+					self.script_file_path = self.get_script_file_path();
+					// These arrays are used with "parent" includes that may have "child" includes with their own styles and scripts,
+					// The recursive part of rendering adds child styles and scripts to these arrays along with these "parent" style and script paths,
+					// Then when the parent is rendered, all the child assets are rendered as well
+					self.stylesheet_file_paths = [self.stylesheet_file_path];
+					self.script_file_paths = [self.script_file_path];
+					self.content_object = self.get_content_object();
+				}
+
+				_createClass(EsbInclude, [{
+					key: 'get_default_options',
+					value: function get_default_options() {
+						var options = {
+							variation: 'default',
+							source: 'includes/',
+							replace_snippet: true,
+							include: false,
+							component: false,
+							content: false,
+							'content-overrides': false,
+							inject_asset_tags: true
+						};
+
+						return options;
+					}
+				}, {
+					key: 'get_global_config_option',
+					value: function get_global_config_option(option_name) {
+						var self = this,
+						    option_value,
+						    config_json_global_options = self.config.get('includes');
+
+						// Backward compatibility with config.json 'components'
+						if (config_json_global_options === undefined && self.config.get('components') !== undefined) {
+							config_json_global_options = self.config.get('components');
+						}
+
+						if (config_json_global_options !== undefined) {
+							option_value = config_json_global_options.get(option_name);
+							if (option_value !== undefined && option_value.toString().length > 0) {
+								option_value = EsbUtil.booleanXorValue(option_value);
+							}
+						}
+
+						return option_value;
+					}
+				}, {
+					key: 'get_page_level_config_element',
+					value: function get_page_level_config_element() {
+						var self = this,
+						    el = self.include_snippet,
+						    page_level_config_element = false;
+
+						while (el.parentNode) {
+							el = el.parentNode;
+							if (el.tagName !== undefined && el.getAttribute('data-esb-include-config') !== null) {
+								page_level_config_element = el;
+								break;
+							}
+						}
+
+						return page_level_config_element;
+					}
+				}, {
+					key: 'get_page_level_config_option',
+					value: function get_page_level_config_option(option_name) {
+						var self = this,
+						    option_value,
+						    page_level_config_element = self.get_page_level_config_element();
+
+						if (page_level_config_element) {
+							option_value = page_level_config_element.getAttribute('data-esb-' + option_name);
+							if (option_value !== null && option_value.length > 0) {
+								option_value = EsbUtil.booleanXorValue(option_value);
+							} else {
+								option_value = undefined;
+							}
+						}
+
+						return option_value;
+					}
+				}, {
+					key: 'get_element_level_config_option',
+					value: function get_element_level_config_option(option_name) {
+						var self = this,
+						    option_value;
+
+						option_value = self.include_snippet.getAttribute('data-esb-' + option_name);
+						if (option_value !== null && option_value.length > 0) {
+							option_value = EsbUtil.booleanXorValue(option_value);
+						} else {
+							option_value = undefined;
+						}
+
+						return option_value;
+					}
+				}, {
+					key: 'get_include_options',
+					value: function get_include_options() {
+						var self = this,
+						    options = self.get_default_options(),
+						    option = null,
+						    value = null;
+
+						// Check each tier of options to see if any overrides exist
+						for (option in options) {
+							// Instance Level
+							value = self.get_element_level_config_option(option);
+							if (value === undefined) {
+								// Page Level
+								value = self.get_page_level_config_option(option);
+
+								// Global Level
+								if (value === undefined) {
+									value = self.get_global_config_option(option);
+								}
+							}
+
+							if (value !== undefined) {
+								options[option] = value;
+								self.overridden_options.push(option);
+							}
+						}
+
+						// Support legacy data-component syntax
+						if (!options.include && !options.component) {
+							if (self.include_snippet.getAttribute('data-component') !== undefined) {
+								options.component = self.include_snippet.getAttribute('data-component');
+							} else {
+								self.logger('error', 'Include was instantiated but none of the following attributes were found: data-esb-include, data-esb-component, or data-component');
+							}
+						}
+
+						return options;
+					}
+				}, {
+					key: 'get_base_file_path',
+					value: function get_base_file_path() {
+						var self = this,
+						    base_file_path;
+
+						if (self.base_file_path === undefined) {
+							base_file_path = self.options.source;
+
+							if (!base_file_path.match(/\/$/)) {
+								base_file_path += '/';
+							}
+							self.base_file_path = base_file_path;
+						}
+
+						return self.base_file_path;
+					}
+				}, {
+					key: 'get_include_name',
+					value: function get_include_name() {
+						var self = this,
+						    include_name;
+
+						if (self.include_name === undefined) {
+							include_name = self.options.include;
+
+							if (!include_name) {
+								include_name = self.options.component;
+							}
+
+							self.include_name = include_name;
+						}
+
+						return self.include_name;
+					}
+				}, {
+					key: 'get_include_file_path',
+					value: function get_include_file_path() {
+						var self = this,
+						    base_file_path = self.get_base_file_path(),
+						    include_name = self.get_include_name(),
+						    file_path;
+
+						file_path = base_file_path + include_name;
+
+						if (!file_path.match(/.html$/)) {
+							file_path += '.html';
+						}
+
+						return file_path;
+					}
+				}, {
+					key: 'get_stylesheet_file_path',
+					value: function get_stylesheet_file_path() {
+						var self = this,
+						    base_file_path = self.get_base_file_path(),
+						    include_name = self.get_include_name(),
+						    stylesheet_path;
+
+						stylesheet_path = base_file_path + 'css/' + include_name;
+
+						if (!stylesheet_path.match(/.css$/)) {
+							stylesheet_path += '.css';
+						}
+
+						return stylesheet_path;
+					}
+				}, {
+					key: 'get_script_file_path',
+					value: function get_script_file_path() {
+						var self = this,
+						    base_file_path = self.get_base_file_path(),
+						    include_name = self.get_include_name(),
+						    script_path;
+
+						script_path = base_file_path + 'js/' + include_name;
+
+						if (!script_path.match(/.js$/)) {
+							script_path += '.js';
+						}
+
+						return script_path;
+					}
+				}, {
+					key: 'get_content_object',
+					value: function get_content_object() {
+						var self = this,
+						    content_object = {},
+						    final_content_object = {},
+						    data_keys,
+						    content_data,
+						    content_overrides = false,
+						    i;
+
+						if (self.options.content) {
+							if (EsbUtil.is_json(self.options.content)) {
+								content_object = JSON.parse(self.options.content);
+							} else {
+								data_keys = self.options.content.split('.');
+								content_data = self.config.get('template_data');
+
+								if (content_data !== undefined) {
+									content_object = content_data;
+									for (i = 0; i < data_keys.length; i++) {
+										content_object = content_object[data_keys[i]];
+									}
+								}
+							}
+
+							content_object = JSON.parse(JSON.stringify(content_object)); //Convert to JSON and then back to an object to hack our way to a "deep" object clone
+						}
+
+						if (self.options['content-overrides']) {
+							if (EsbUtil.is_json(self.options['content-overrides'])) {
+								content_overrides = JSON.parse(self.options['content-overrides']);
+							} else {
+								data_keys = self.options['content-overrides'].split('.');
+								content_data = self.config.get('template_data');
+
+								if (content_data !== undefined) {
+									content_overrides = content_data;
+									for (i = 0; i < data_keys.length; i++) {
+										content_overrides = content_overrides[data_keys[i]];
+									}
+								}
+							}
+
+							content_overrides = JSON.parse(JSON.stringify(content_overrides)); //Convert to JSON and then back to an object to hack our way to a "deep" object clone
+						}
+
+						if (content_overrides) {
+							final_content_object = _Object$assign(content_object, content_overrides);
+						} else {
+							final_content_object = content_object;
+						}
+
+						return final_content_object;
+					}
+				}, {
+					key: 'render_asset_tags',
+
+					// RENDERING
+					value: function render_asset_tags() {
+						var self = this,
+						    link,
+						    script,
+						    comment,
+						    head = document.getElementsByTagName('head'),
+						    i;
+
+						return new _Promise(function (resolve, reject) {
+							// If inject_asset_tags is true and this either is a parent include, or the parent include also has inject_asset_tags set to true
+							if (self.options.inject_asset_tags && (!self.parent_include || self.parent_include.options.inject_asset_tags)) {
+								if (head.length !== 1) {
+									self.logger('error', 'Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
+									reject('Could not find <head> element to inject script and style for ' + self.include_name + ', ' + self.options.variation);
+								} else {
+									for (i = 0; i < self.stylesheet_file_paths.length; i++) {
+										link = document.createElement('link');
+										link.href = self.stylesheet_file_paths[i];
+										link.rel = 'stylesheet';
+										if (!EsbUtil.dom_contains_element('link[href="' + self.stylesheet_file_paths[i] + '"]')) {
+											head[0].appendChild(link);
+										}
+									}
+
+									for (i = 0; i < self.script_file_paths.length; i++) {
+										script = document.createElement('script');
+										script.src = self.script_file_paths[i];
+										// Ensure the the script doesn't already exist in the DOM, either as a <script> tag or wrapped in a <!--comment-->
+										if (!EsbUtil.dom_contains_element('script[src="' + self.script_file_paths[i] + '"]') && !EsbUtil.head_comment_matches(self.script_file_paths[i])) {
+											if (self.config.get('wrap_injected_js_with_comments') === true) {
+												script.setAttribute('data-blocks-injected-js', 'true');
+												comment = document.createComment(script.outerHTML);
+												head[0].appendChild(comment);
+											} else {
+												head[0].appendChild(script);
+											}
+										}
+									}
+									resolve(true);
+								}
+							} else {
+								self.logger('info', 'inject_asset_tags set to false for ' + self.include_name + ', ' + self.options.variation);
+								resolve(true);
+							}
+						});
+					}
+				}, {
+					key: 'retrieve_html',
+					value: function retrieve_html() {
+						var self = this,
+						    uri,
+						    req;
+
+						return new _Promise(function (resolve, reject) {
+							uri = self.include_file_path;
+							req = new XMLHttpRequest();
+
+							req.open('GET', uri);
+
+							req.onload = function () {
+								if (req.status === 200 || req.readyState === 4) {
+									resolve(req.response);
+								} else {
+									self.logger('error', 'FAILED TO FETCH INCLUDE FILE: ' + uri + ' returned ' + req.statusText);
+									resolve(Error(req.statusText));
+								}
+							};
+
+							req.onerror = function () {
+								reject(Error('Network Error'));
+							};
+
+							req.send();
+						});
+					}
+				}, {
+					key: 'parse_variation',
+					value: function parse_variation(full_include_html) {
+						// Given the raw HTML out of an include file, find just the variation we're looking for
+						var self = this,
+						    temp_dom = document.createElement('html'),
+						    variation_html;
+
+						temp_dom.innerHTML = full_include_html;
+						variation_html = temp_dom.querySelectorAll('section[data-esb-variation="' + self.options.variation + '"], section[data-variation="' + self.options.variation + '"]');
+						if (variation_html.length > 1) {
+							self.logger('error', 'Multiple matches found in ' + self.include_file_path + ' for ' + 'data-esb-variation="' + self.options.variation + '", desired variation is ambiguous');
+						} else if (variation_html.length === 0) {
+							self.logger('error', 'No variation found in ' + self.include_file_path + ' matching ' + 'data-esb-variation="' + self.options.variation + '"');
+						} else {
+							variation_html = variation_html[0].innerHTML;
+						}
+						return variation_html;
+					}
+				}, {
+					key: 'compile_html_with_content',
+					value: function compile_html_with_content(variation_html) {
+						var self = this;
+						handlebars.registerHelper('json', function (obj) {
+							return JSON.stringify(obj);
+						});
+						return handlebars.compile(variation_html)(self.content_object);
+					}
+				}, {
+					key: 'find_include_snippets',
+					value: function find_include_snippets() {
+						var self = this,
+						    temp_dom = document.createElement('html'),
+						    include_snippets,
+						    uuid,
+						    i;
+
+						temp_dom.innerHTML = self.compiled_html;
+						include_snippets = temp_dom.querySelectorAll('*[data-esb-component], *[data-component], *[data-esb-include]');
+						if (include_snippets === undefined) {
+							include_snippets = [];
+						} else {
+							for (i = 0; i < include_snippets.length; i++) {
+								uuid = EsbUtil.generateUUID();
+								include_snippets[i].setAttribute('data-esb-uuid', uuid);
+							}
+							// write compiled_html back after adding uuids to all child includes
+							self.compiled_html = temp_dom.getElementsByTagName('body')[0].innerHTML;
+						}
+						return include_snippets;
+					}
+				}, {
+					key: 'render_child_includes',
+					value: function render_child_includes() {
+						var self = this,
+						    i,
+						    child_include_promises = [],
+						    include_snippet,
+						    include,
+						    uuid;
+
+						for (i = 0; i < self.child_include_snippets.length; i++) {
+							include_snippet = self.child_include_snippets[i];
+							uuid = include_snippet.getAttribute('data-esb-uuid');
+							include = new EsbInclude({ include_snippet: include_snippet, uuid: uuid, parent_include: self });
+							child_include_promises.push(include.render_include());
+						}
+
+						return _Promise.all(child_include_promises);
+					}
+				}, {
+					key: 'render_include',
+					value: function render_include() {
+						var self = this,
+						    variation_html,
+						    rendered_include,
+						    child_include,
+						    temp_dom,
+						    i;
+
+						return new _Promise(function (resolve, reject) {
+							self.retrieve_html().then(function (html) {
+								variation_html = self.parse_variation(html);
+								self.compiled_html = self.compile_html_with_content(variation_html);
+								self.child_include_snippets = self.find_include_snippets();
+								if (self.child_include_snippets.length === 0) {
+									rendered_include = self.compiled_html;
+									resolve(self);
+								} else {
+									// Recursion here somehow
+									self.render_child_includes().then(function (rendered_include_array) {
+										temp_dom = document.createElement('html');
+										temp_dom.innerHTML = self.compiled_html;
+										for (i = 0; i < rendered_include_array.length; i++) {
+											child_include = rendered_include_array[i];
+											// Find the location of each child snippet within the parent and replace it with the compiled html
+											temp_dom.querySelector('[data-esb-uuid="' + child_include.uuid + '"]').outerHTML = child_include.compiled_html;
+											self.stylesheet_file_paths.push(child_include.stylesheet_file_path);
+											self.script_file_paths.push(child_include.script_file_path);
+										}
+										self.compiled_html = temp_dom.getElementsByTagName('body')[0].innerHTML;
+										resolve(self);
+									}, function (error) {
+										reject(error);
+									});
+								}
+							}, function (error) {
+								reject(error);
+							});
+						});
+					}
+				}, {
+					key: 'render',
+					value: function render() {
+						var self = this;
+						return new _Promise(function (resolve, reject) {
+							self.render_include().then(function () {
+								// All children have been rendered at this point, actually render the parent include to the dom
+								// Outer HTML is a "replace", TODO: Add innerHTML for insert inside behavior
+								document.querySelector('[data-esb-uuid="' + self.uuid + '"]').outerHTML = self.compiled_html;
+								self.rendered = true;
+								return self.render_asset_tags();
+							}, function (err) {
+								self.logger('error', err);
+								reject(err);
+							}).then(function () {
+								// render_asset_tags succeeded, resolve the render() promise
+								resolve(self);
+							}, function (err) {
+								// error occurred while loading assets
+								self.logger('error', err);
+							});
+						});
+					}
+				}]);
+
+				return EsbInclude;
+			})();
+
+			_export('EsbInclude', EsbInclude);
+		}
+	};
+});
+System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class', 'npm:babel-runtime@5.2.9/helpers/class-call-check', 'npm:babel-runtime@5.2.9/core-js/promise', 'src/esb-util', 'src/esb-include', 'src/esb-frame', 'src/esb-mark'], function (_export) {
+  var _createClass, _classCallCheck, _Promise, EsbUtil, EsbInclude, EsbFrame, EsbMark, EsbPage;
 
   return {
     setters: [function (_npmBabelRuntime529HelpersCreateClass) {
@@ -14433,12 +12201,10 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
       _classCallCheck = _npmBabelRuntime529HelpersClassCallCheck['default'];
     }, function (_npmBabelRuntime529CoreJsPromise) {
       _Promise = _npmBabelRuntime529CoreJsPromise['default'];
-    }, function (_githubComponentsJquery213) {
-      $ = _githubComponentsJquery213['default'];
     }, function (_srcEsbUtil) {
       EsbUtil = _srcEsbUtil['default'];
-    }, function (_srcEsbComponent) {
-      EsbComponent = _srcEsbComponent.EsbComponent;
+    }, function (_srcEsbInclude) {
+      EsbInclude = _srcEsbInclude.EsbInclude;
     }, function (_srcEsbFrame) {
       EsbFrame = _srcEsbFrame.EsbFrame;
     }, function (_srcEsbMark) {
@@ -14454,33 +12220,14 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
           var self = this;
 
           self.logger = EsbUtil.logger;
-          self.timer = EsbUtil.timer();
           self.blocks_done = false;
           self.blocks_done_timeout_ms = 15000;
 
-          self.parsed_esb_components = [];
+          self.parsed_esb_includes = [];
           self.parsed_esb_frames = [];
           self.parsed_esb_marks = [];
           self.esb_mark_auto_id = 1;
 
-          // page cache of components
-          self.components = {};
-          self.component_variations = {};
-          self.cache = {};
-          self.time_start = self.timer();
-          self.time_duration = null;
-
-          // Keep track of kids purely to know when the page is finished rendering
-          // in order to fire off JS at the end and trigger a page done event
-          self.child_count = 0;
-          self.children_loaded = 0;
-          self.children_rendered = 0;
-          self.child_count_js = 0;
-          self.child_js_injected = 0;
-
-          // A flag for children to know that there are no more parents to notify
-          // The 'page' type is the root
-          self.type = 'page';
           self.setEventListeners();
         }
 
@@ -14494,14 +12241,22 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
            */
           value: function display() {
             var self = this,
-                parsed_esb_components = self.getParsedEsbComponents();
+                parsed_esb_includes = self.get_parsed_esb_includes(),
+                rendered_includes = [],
+                all_includes_rendered;
 
-            if (parsed_esb_components.length > 0) {
-              for (var idx in parsed_esb_components) {
-                var page_component = self.parsed_esb_components[idx];
-
-                page_component.load();
+            if (parsed_esb_includes.length > 0) {
+              for (var idx in parsed_esb_includes) {
+                var include = self.parsed_esb_includes[idx];
+                rendered_includes.push(include.render());
               }
+
+              all_includes_rendered = _Promise.all(rendered_includes);
+              all_includes_rendered.then(function () {
+                self.setBlocksDone();
+              }, function (err) {
+                self.logger('error', err);
+              });
             } else {
               self.setBlocksDone();
             }
@@ -14590,10 +12345,10 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
             return self.parsed_esb_marks;
           }
         }, {
-          key: 'getParsedEsbComponents',
-          value: function getParsedEsbComponents() {
+          key: 'get_parsed_esb_includes',
+          value: function get_parsed_esb_includes() {
             var self = this;
-            return self.parsed_esb_components;
+            return self.parsed_esb_includes;
           }
         }, {
           key: 'getEsbMarkAutoId',
@@ -14609,38 +12364,29 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
           key: 'parse',
           value: function parse() {
             var self = this;
-            self.parseEsbComponents();
+            self.parse_esb_includes();
             self.parseEsbFrames();
           }
         }, {
-          key: 'parseEsbComponents',
-          value: function parseEsbComponents() {
+          key: 'parse_esb_includes',
+          value: function parse_esb_includes() {
             var self = this,
-                queued_components = [];
+                includes = [],
+                i;
 
             self.name = self.retrievePageTitle();
-            self.$root = self.retrieveRootElement();
 
-            self.$root.find('*[data-component], *[data-esb-component]').each(function () {
-              self.child_count++;
-
-              $(this).attr('data-blocks-uuid', EsbUtil.generateUUID());
-
-              // MUST queue the components to get an accurate child count
-              queued_components.push({ page: self, component: $(this) });
-            });
-
-            self.logger('info', 'PAGE ' + self.name + ' has ' + self.child_count + ' children');
-
-            queued_components.forEach(function (queued_component) {
-              var component = new EsbComponent({
-                page: queued_component.page,
-                parent: queued_component.page, // This component's parent is this page
-                component: queued_component.component
+            includes = document.querySelectorAll('*[data-component], *[data-esb-component], *[data-esb-include]');
+            for (i = 0; i < includes.length; i++) {
+              var uuid = EsbUtil.generateUUID();
+              includes[i].setAttribute('data-esb-uuid', uuid);
+              var include = new EsbInclude({
+                include_snippet: includes[i],
+                uuid: uuid
               });
 
-              self.parsed_esb_components.push(component);
-            });
+              self.parsed_esb_includes.push(include);
+            }
           }
         }, {
           key: 'parseEsbFrames',
@@ -14650,9 +12396,8 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
                 i = 0;
 
             self.name = self.retrievePageTitle();
-            self.$root = self.retrieveRootElement();
 
-            frames = self.$root[0].querySelectorAll('*[data-esb-frame]:not([data-esb-frame-config]), *[data-frame-component]');
+            frames = document.querySelectorAll('*[data-esb-frame]:not([data-esb-frame-config]), *[data-frame-component]');
 
             for (i = 0; i < frames.length; i++) {
               var uuid = EsbUtil.generateUUID();
@@ -14676,9 +12421,8 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
                 i = 0;
 
             self.name = self.retrievePageTitle();
-            self.$root = self.retrieveRootElement();
 
-            marks = self.$root[0].querySelectorAll('*[data-esb-mark]:not([data-esb-mark-config])');
+            marks = document.querySelectorAll('*[data-esb-mark]:not([data-esb-mark-config])');
 
             for (i = 0; i < marks.length; i++) {
               var uuid = EsbUtil.generateUUID();
@@ -14696,165 +12440,42 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
         }, {
           key: 'retrievePageTitle',
           value: function retrievePageTitle() {
-            return $(document).find('head title').text();
+            return document.title;
           }
         }, {
-          key: 'retrieveRootElement',
-          value: function retrieveRootElement() {
-            return $('body');
-          }
-        }, {
-          key: 'renderComponentFromQueryStringParams',
-          value: function renderComponentFromQueryStringParams() {
+          key: 'renderIncludeSnippetFromQueryStringParams',
+          value: function renderIncludeSnippetFromQueryStringParams() {
             var self = this,
                 query_string = EsbUtil.getUrlQueryString(),
                 query_params = EsbUtil.convertQueryStringToJson(query_string),
-                component = self.generateComponentElement(query_params),
+                include_snippet = self.generateIncludeSnippet(query_params),
                 target;
 
-            if (component && query_params['data-esb-target'] !== undefined) {
+            if (include_snippet && query_params['data-esb-target'] !== undefined) {
               target = document.querySelector(query_params['data-esb-target']);
-              EsbUtil.addClass(target, 'component-frame-template-wrapper');
-              target.appendChild(component);
+              if (target !== null) {
+                EsbUtil.addClass(target, 'include-frame-template-wrapper');
+                target.appendChild(include_snippet);
+              }
             }
           }
         }, {
-          key: 'generateComponentElement',
-          value: function generateComponentElement(component_params) {
+          key: 'generateIncludeSnippet',
+          value: function generateIncludeSnippet(query_params) {
             var i,
-                component = false,
-                params = ['component', 'variation', 'place', 'source'];
+                include_snippet = false,
+                params = ['include', 'variation', 'place', 'source', 'content'];
 
-            if (component_params['data-esb-component'] !== undefined) {
-              component = document.createElement('div');
+            if (query_params['data-esb-include'] !== undefined) {
+              include_snippet = document.createElement('div');
               for (i = 0; i < params.length; i++) {
-                if (component_params['data-esb-' + params[i]] !== undefined) {
-                  component.setAttribute('data-' + params[i], component_params['data-esb-' + params[i]]);
+                if (query_params['data-esb-' + params[i]] !== undefined) {
+                  include_snippet.setAttribute('data-esb-' + params[i], query_params['data-esb-' + params[i]]);
                 }
               }
             }
 
-            return component;
-          }
-        }, {
-          key: 'childDoneLoading',
-
-          /**
-           * @method: childDoneLoading
-           * @params: child
-           *
-           * Takes a EsbComponent object, tracks that it is finished loading,
-           * and calls render on that object.
-           *
-           * This function is recursive in that it will render children
-           * nested inside this child.
-           */
-          value: function childDoneLoading(child) {
-            var self = this;
-
-            self.children_loaded++;
-
-            self.logger('debug', 'READY TO RENDER PAGE LEVEL CHILDREN: ' + child.template_name());
-
-            child.render();
-          }
-        }, {
-          key: 'childDoneRendering',
-
-          /**
-           * @method: childDoneRendering
-           * @params: child
-           *
-           * Takes a EsbComponent object, tracks that it has finished rendering
-           * itself.
-           * Replaces components on the page with their child's rendered elements.
-           * Then injects the component Javascript.
-           */
-          value: function childDoneRendering(child) {
-            var self = this,
-                $page_component;
-
-            if (child.content !== undefined) {
-              $page_component = self.$root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"][data-content=\'' + child.content + '\']');
-            } else {
-              $page_component = self.$root.find('[data-component="' + child.name + '"][data-variation="' + child.variation_name + '"]').not('[data-content]');
-            }
-
-            self.children_rendered++;
-
-            self.logger('debug', 'READY TO RENDER PAGE LEVEL Component: ' + child.template_name());
-
-            if (child.replace_reference || child.frame_with_documentation) {
-              $page_component.replaceWith(child.$el);
-            } else {
-              $page_component.append(child.$el);
-            }
-
-            // Once all of the kids are done we'll spawn all JS
-            if (self.child_count === self.children_rendered) {
-              self.injectComponentJS();
-            }
-
-            // Exposing just the page level component variations
-            // to pages using Blocks
-            self.component_variations[child.template_name()] = child;
-          }
-        }, {
-          key: 'getIDFromVariation',
-          value: function getIDFromVariation($component) {
-            return $component.attr('data-blocks-uuid');
-          }
-        }, {
-          key: 'injectComponentJS',
-          value: function injectComponentJS() {
-            var self = this;
-
-            for (var name in self.components) {
-              var component = self.components[name];
-              component.injectJS(self);
-              self.child_count_js++;
-            }
-          }
-        }, {
-          key: 'childDoneInjectingJS',
-          value: function childDoneInjectingJS() {
-            var self = this,
-                event;
-
-            self.child_js_injected++;
-
-            if (self.child_count_js === self.child_js_injected) {
-              if (window.self !== window.top) {
-                // If blocks is being run inside an iFrame (Blocks Viewer)
-                self.logger('debug', 'TRIGGERING blocks-done on parent body from within iFrame');
-                parent.$('body').trigger('blocks-done');
-
-                self.logger('debug', 'TRIGGERING blocks-done-inside-viewer on parent body from within iFrame');
-                parent.$('body').trigger('blocks-done-inside-viewer', { 'iframe_id': window.frameElement.id });
-
-                // This triggers blocks-done within the iFrame itself. BlocksViewer has a listener for this event so the height and width of the iframe can be dynamically set after BlocksLoader has finished
-                $('body').trigger('blocks-done');
-              } else {
-                // Blocks loader is being used without BlocksViewer
-                self.logger('info', 'TRIGGERING blocks-done');
-                $(document).trigger('blocks-done');
-              }
-
-              // Trigger non-jQuery version of the blocks-done event
-              if (window.CustomEvent) {
-                event = new CustomEvent('blocks-done');
-              } else {
-                event = document.createEvent('CustomEvent');
-                event.initCustomEvent('blocks-done', true, true);
-              }
-
-              document.dispatchEvent(event);
-
-              self.setBlocksDone();
-
-              self.time_duration = self.timer() - self.time_start;
-              self.logger('info', 'TOTAL DURATION: ' + self.time_duration);
-            }
+            return include_snippet;
           }
         }, {
           key: 'setBlocksDone',
@@ -14911,7 +12532,7 @@ System.register('src/esb-page', ['npm:babel-runtime@5.2.9/helpers/create-class',
   };
 });
 System.register('src/esb', ['src/esb-config', 'src/esb-page', 'src/esb-util'], function (_export) {
-  var EsbConfig, EsbPage, EsbUtil;
+  var EsbConfig, EsbPage, EsbUtil, blocks_execute;
   return {
     setters: [function (_srcEsbConfig) {
       EsbConfig = _srcEsbConfig['default'];
@@ -14924,8 +12545,14 @@ System.register('src/esb', ['src/esb-config', 'src/esb-page', 'src/esb-util'], f
       'use strict';
 
       EsbConfig.load().then(function () {
-        EsbPage.renderComponentFromQueryStringParams(); //Used by Frame to generate a component snippet from query string params
-        EsbPage.parse(); //Finds all blocks components, viewers, etc. and preps them for loading/display
+        EsbUtil.dom_ready(blocks_execute);
+      }, function (err) {
+        window.console.log('Couldn\'t load EsbConfig: ' + err);
+      });
+
+      blocks_execute = function blocks_execute() {
+        EsbPage.renderIncludeSnippetFromQueryStringParams(); //Used by Frame to generate a include snippet from query string params
+        EsbPage.parse(); //Finds all blocks includes, viewers, etc. and preps them for loading/display
         EsbPage.display();
         EsbPage.blocksDone().then(function () {
           EsbPage.parseEsbMarks();
@@ -14933,9 +12560,7 @@ System.register('src/esb', ['src/esb-config', 'src/esb-page', 'src/esb-util'], f
         }, function () {
           EsbUtil.logger('error', 'BlocksDone did not fire.');
         });
-      }, function (err) {
-        window.console.log('Couldn\'t load EsbConfig: ' + err);
-      });
+      };
 
       _export('default', {});
     }

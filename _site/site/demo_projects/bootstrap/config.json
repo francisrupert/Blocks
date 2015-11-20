@@ -1,0 +1,6 @@
+{
+  "logging": "none",
+  "components": {
+    "replace_reference": true
+  }
+}

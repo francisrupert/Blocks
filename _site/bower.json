@@ -1,0 +1,29 @@
+{
+  "name": "Blocks",
+  "version": "2.8.0",
+  "homepage": "https://github.com/EightShapes/Blocks",
+  "authors": [
+    "[\"Nathan Curtis <nathan@eightshapes.com>\"",
+    "\"Kevin Powell <kevin@eightshapes.com>\"",
+    "\"Matthew Dingee\"]"
+  ],
+  "description": "EightShapes Blocks is a toolkit to organize, annotate, and modularize HTML prototypes created by EightShapes, LLC (http://www.eightshapes.com).",
+  "main": "[\"dist/esb.min.js\", \"dist/esb.min.css\"]",
+  "moduleType": [
+    "es6",
+    "globals"
+  ],
+  "keywords": [
+    "prototyping",
+    "html",
+    "iframe"
+  ],
+  "license": "GNU",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

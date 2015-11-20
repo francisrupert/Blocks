@@ -1,11 +1,12 @@
 {
   "name": "Blocks",
-  "version": "2.7.11",
+  "version": "2.8.4",
   "description": "EightShapes Blocks is a toolkit to organize, annotate, and modularize HTML prototypes created by EightShapes, LLC (http://www.eightshapes.com).",
   "repository": {
     "type": "git",
     "url": "https://github.com/EightShapes/Blocks.git"
   },
+  "license": "GPL-3.0",
   "engine": "node >= 0.12.2",
   "scripts": {
     "lint": "jshint src/*.js",
@@ -29,6 +30,7 @@
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-exec": "^0.4.6",
+    "grunt-jekyll": "^0.4.2",
     "grunt-karma": "^0.10.1",
     "grunt-sass": "^1.0.0",
     "jasmine": "^2.3.1",
@@ -36,12 +38,14 @@
     "jshint": "latest",
     "jspm": "0.15.5",
     "karma": "^0.12.31",
+    "karma-babel-preprocessor": "^5.2.2",
     "karma-chrome-launcher": "^0.1.8",
+    "karma-coverage": "^0.5.1",
     "karma-firefox-launcher": "^0.1.4",
     "karma-jasmine": "^0.3.6",
     "karma-jasmine-jquery": "^0.1.1",
     "karma-jshint": "^0.1.0",
-    "karma-jshint-preprocessor": "0.0.5",
+    "karma-jshint-preprocessor": "^0.0.5",
     "karma-jspm": "^1.1.4",
     "karma-mocha-reporter": "^1.0.2",
     "karma-notify-reporter": "^0.1.1",
@@ -65,11 +69,5 @@
       "babel-runtime": "npm:babel-runtime@^5.1.13",
       "core-js": "npm:core-js@^0.9.4"
     }
-  },
-  "licenses": [
-    {
-      "type": "GNU",
-      "url": "http://unify.eightshapes.com/about-the-system/terms-of-use/"
-    }
-  ]
+  }
 }
